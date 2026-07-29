@@ -43,6 +43,32 @@ Running end to end on **207 relevant feature requests carrying 1,853 votes**:
 
 ---
 
+## The dashboard
+
+One page, five sections, understandable in about two minutes.
+
+![Executive summary](docs/screenshots/01-executive-summary.png)
+
+*Five KPIs, then three findings — each stating its own sample size.*
+
+![Main feedback themes](docs/screenshots/02-themes.png)
+
+*Themes ordered by how often they are raised, with votes alongside — the two do not always agree.*
+
+![Action Configuration journey](docs/screenshots/03-journey.png)
+
+*Vote-weighted demand across the seven stages of setting up an action, in journey order.*
+
+![Product priorities](docs/screenshots/04-priorities.png)
+
+*Ranked themes with the scoring formula stated in one sentence. Computed numbers and analyst judgment are visually separated.*
+
+![Supporting evidence](docs/screenshots/05-evidence.png)
+
+*Every insight traces to these records. Filterable, with a verbatim quote and a clickable link to the original request on Port's portal.*
+
+---
+
 ## Architecture
 
 ```

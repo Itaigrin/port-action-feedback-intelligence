@@ -151,7 +151,8 @@ st.divider()
 st.subheader("Main feedback themes")
 st.caption(
     f"How the {kpi['relevant_posts']} relevant posts distribute across problem areas. "
-    "Bar length is the number of posts; the label shows total votes."
+    "Bars are ordered by how many posts raised each theme; votes are shown alongside "
+    "because the two do not always agree."
 )
 
 theme_chart = themes.sort_values("posts")
@@ -160,7 +161,10 @@ fig = px.bar(
     x="posts",
     y="primary_theme",
     orientation="h",
-    text=theme_chart["total_votes"].map(lambda v: f"{v} votes"),
+    # Label carries both numbers: bar length is posts, so a votes-only label
+    # makes a shorter bar with more votes look like a rendering error.
+    text=[f"{p} posts · {v} votes"
+          for p, v in zip(theme_chart["posts"], theme_chart["total_votes"])],
     labels={"posts": "Number of feedback posts", "primary_theme": ""},
 )
 fig.update_traces(marker_color="#5B4EE8", textposition="outside", cliponaxis=False)
