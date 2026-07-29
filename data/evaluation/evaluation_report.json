@@ -1,0 +1,26 @@
+{
+  "sample_size": 15,
+  "fields": {
+    "relevance": {
+      "status": "Not yet evaluated",
+      "labelled": 0
+    },
+    "theme": {
+      "status": "Not yet evaluated",
+      "labelled": 0
+    },
+    "journey_stage": {
+      "status": "Not yet evaluated",
+      "labelled": 0
+    },
+    "feedback_type": {
+      "status": "Not yet evaluated",
+      "labelled": 0
+    }
+  },
+  "disagreements": [],
+  "severity": {
+    "status": "Not yet evaluated",
+    "labelled": 0
+  }
+}

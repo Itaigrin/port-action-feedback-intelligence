@@ -1,0 +1,43 @@
+# ---------------------------------------------------------------------------
+# Secrets — never commit. The bare `.env` rule plus the wildcard below is
+# deliberate belt-and-braces: `.env.local`, `.env.production` etc. are also
+# blocked, while `.env.example` is explicitly re-allowed.
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.toml
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# ---------------------------------------------------------------------------
+# Data policy — READ BEFORE EDITING
+#
+# data/raw/ and data/processed/ are COMMITTED on purpose. They are what make
+# the app open with no API key and no network access, which the live demo
+# depends on. Do not add them here.
+#
+# The only data excluded is the local LLM response cache (a working artifact,
+# regenerable, and potentially large).
+# ---------------------------------------------------------------------------
+data/cache/
+*.tmp

@@ -1,0 +1,68 @@
+feedback_id,title,description,source_url,model_is_relevant,model_theme,model_journey_stage,model_feedback_type,model_severity,model_confidence,human_is_relevant,human_theme,human_journey_stage,human_feedback_type,human_severity,notes
+663767aaaa732863041977e3,receive the relation objects in the payload instead of just the related object identifier,"Right now when you query an entity using API you will get the identifiers of the related entities. 
+
+It could be helpful to receive the relation objects in the payload instead of just the related object identifier",https://roadmap.port.io/ideas/p/receive-the-relation-objects-in-the-payload-instead-of-just-the-related-object-i,False,Backend & invocation configuration,Backend and invocation setup,Feature request,2,0.9,,,,,,
+65cb2a1d8c99793a14bf35b8,Specific Resync,Add option to specifically resync a predefined list of resources & do a scheduled resync only for a selected list of resources,https://roadmap.port.io/ideas/p/specific-resync,False,Backend & invocation configuration,Backend and invocation setup,Feature request,2,0.95,,,,,,
+6a428d9c292f2041042ba04e,Expose Action Form Trigger in Custom Widget/Plugin SDK,"Add support for opening a self-service action form directly from a custom widget/plugin, without navigating to the Self-Service Actions tab",https://roadmap.port.io/ideas/p/expose-action-form-trigger-in-custom-widget-plugin-sdk,True,Action discovery & organization,Discovering and organizing actions,Feature request,2,0.75,,,,,,
+66d94baa3c9acf656ff773fa,Prisma Cloud Ocean integration,"Ingest vulnerabilities from Prisma Cloud for open source, containers and other sources",https://roadmap.port.io/ideas/p/prisma-cloud-ocean-integration,False,Backend & invocation configuration,Backend and invocation setup,Feature request,1,0.95,,,,,,
+65b62b199794d2cfb2ae1c65,Support code or file upload in self-service action form,"Allow developers to upload or insert various configuration file types (e.g., .py, .conf, .txt) directly into the self service action form for ""creating a microservice"", for example. This feature should support a range of file formats beyond the current YAML, JSON, and Protobuf, and offer the option of markdown/free text input for added flexibility.
+
+Here is an example of a microservice file structure:
+
+Microservice/
+
+│
+
+│── MS-code/
+
+│── values-files/
+
+│   │   ├── production.yaml
+
+|   |   ├── staging.yaml     
+
+│   │   └── testing.yaml    
+
+│   │
+
+│   └── configmaps/           
+
+│       ├── pr",https://roadmap.port.io/ideas/p/support-code-or-file-upload-in-self-service-action-form,True,Input types & controls,Configuring forms and inputs,Feature request,3,0.85,,,,,,
+6a42936d80bbb7363013edcf,"Teams, roles and dynamic policy in Port Workflows Input node","Right now the Input node supports only a static list of users. Adding teams, roles, and dynamic policies will enable more advanced human-in-the-loop use cases. For example: requesting approval from the on-call engineer before deployment outside business hours.",https://roadmap.port.io/ideas/p/teams-roles-and-dynamic-policy-in-port-workflows-input-node,True,Permissions & access control,Configuring forms and inputs,Feature request,3,0.75,,,,,,
+65f03ef6cb7414bcffae7545,Create/update entity invocation type,"The new ""Create/update entity"" invocation type for self-service actions and automations will allow updating catalog entities as part of a self-service action form/automation execution
+
+For example, creating a specific self-service form for updating the Service team and Tier directly in the catalog.",https://roadmap.port.io/ideas/p/create-update-entity-invocation-type,True,Backend & invocation configuration,Backend and invocation setup,Feature request,2,0.75,,,,,,
+697b9fddcfbf975300198439,Expose Approver Context in Runs,"Currently, SSA execution context only includes the run creator, not the actual approver. There’s no way to display the approver’s name or email in entity today. This would be a nice improvement to add",https://roadmap.port.io/ideas/p/expose-approver-context-in-runs,True,Approval workflows,Execution and monitoring,Feature request,2,0.8,,,,,,
+6967774a6dfee8ee8e4ce896,RBAC for Port Usage Dashboard,"Current behavior
+
+The Usage Dashboard is automatically visible to all Org Admins in Pro & Enterprise orgs. [Usage dashboard announcement]
+
+This access cannot be changed or restricted today; all Org Admins always see it.
+
+Problem
+
+Usage and billing‑related data is sensitive. Organizations want least‑privilege access and the ability to limit visibility to a small group (e.g., platform owners, FinOps, auditors), not all Org Admins. 
+
+Requested change
+
+Add RBAC controls for the Usage Dashboard
+
+Configure who can view it by:
+
+Roles
+
+Specific users
+
+Teams
+
+This should be similar in spirit to existin",https://roadmap.port.io/ideas/p/rbac-for-port-usage-dashboard,False,Permissions & access control,Permissions and approvals,Feature request,2,0.9,,,,,,
+6481fb245cf5a50d549f4fdb,Runs - displaying the payload,The payload of a specific run is now displayed in Port’s specific run page and audit log under the “Payload” property.,https://roadmap.port.io/ideas/p/runs-displaying-the-payload,True,Execution visibility & logs,Execution and monitoring,Feature request,2,0.75,,,,,,
+657042ba954a046b2cfa8ab1,Microsoft teams notification,"Currently, the message sender only supports slack.
+
+Some organizations use Microsoft teams, which means they cannot create notifications for their teams.",https://roadmap.port.io/ideas/p/microsoft-teams-notification,True,Notifications & alerting,Permissions and approvals,Feature request,3,0.6,,,,,,
+678ad59d8b818be882975a08,ADO SaaS Integration : support for multiple organizations,,https://roadmap.port.io/ideas/p/ado-saas-integration-support-for-multiple-organizations,False,Backend & invocation configuration,Backend and invocation setup,Feature request,1,0.9,,,,,,
+660d4069156ca7bcee9b5457,Running JQ manipulation on dynamic filters,"Currently you can't  run JQ manipulation on dynamic filters. If we could, we could connect to entities using jq filtering (like getting name from email)",https://roadmap.port.io/ideas/p/running-jq-manipulation-on-dynamic-filters,False,Dynamic & dependent inputs,Configuring forms and inputs,Feature request,2,0.9,,,,,,
+6a3c68a73959e847601ffa6f,Entity and user/team pickers should allow dynamic filters and defaults,"I've been trying to set self-service action input defaults on team, array, and string inputs based on properties of the current user or the action's triggering entity. I went through a lot of AI-suggested attempts, but nothing worked.
+
+For instance, I have a self-service action that triggers a GitHub Actions workflow to create a git repo. There's an input to choose the team that should be added to the repo with admin privileges, but there's no way to default the team input to, say, the first team in the user's team list. I tried using `default` as shown below, but it doesn't do anything (I als",https://roadmap.port.io/ideas/p/entity-and-user-team-pickers-should-allow-dynamic-filters-and-defaults,True,Dynamic & dependent inputs,Configuring forms and inputs,Feature request,4,0.85,,,,,,
+689c4e5eda725fecc3d241bf,Multi-step workflows,"Chain multiple inputs, approvals, conditions, and actions via automatic triggers or self-service",https://roadmap.port.io/ideas/p/multi-step-workflows,True,Multi-step & orchestration,Configuring forms and inputs,Feature request,3,0.6,,,,,,

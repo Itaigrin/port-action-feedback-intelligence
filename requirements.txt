@@ -1,0 +1,24 @@
+# Port Action Feedback Intelligence -- Python 3.12
+#
+# Exact pins, verified working end to end. All 17 tests pass against these.
+
+# --- Dashboard (the only packages needed to RUN the app) ------------------
+streamlit==1.60.0
+pandas==3.0.5
+plotly==6.9.0
+
+# --- Collection -----------------------------------------------------------
+# No HTML parser needed: portal pages embed a `window.__data` JSON blob, so
+# collection is an HTTP GET plus a JSON parse.
+requests==2.34.2
+tenacity==9.1.4
+
+# --- LLM classification (only needed to RE-RUN the pipeline) --------------
+# The Anthropic SDK enforces the Pydantic schema during generation via
+# client.messages.parse(), so `instructor` is not a dependency.
+anthropic==0.120.2
+pydantic==2.13.4
+python-dotenv==1.2.2
+
+# --- Tests ----------------------------------------------------------------
+pytest==9.1.1

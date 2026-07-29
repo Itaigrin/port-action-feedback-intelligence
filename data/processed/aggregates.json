@@ -1,0 +1,553 @@
+{
+  "kpis": {
+    "records_collected": 327,
+    "relevant_posts": 207,
+    "total_votes": 1853,
+    "high_severity_posts": 28,
+    "most_common_theme": "Backend & invocation configuration",
+    "highest_priority_theme": "Backend & invocation configuration",
+    "low_confidence_posts": 13,
+    "unverified_evidence": 1
+  },
+  "scoring": {
+    "vote_scale": "linear",
+    "vote_skew_ratio": 2.03,
+    "threshold": 10.0,
+    "weights": {
+      "demand": 0.45,
+      "frequency": 0.3,
+      "severity": 0.25
+    },
+    "explanation": "Priority = 45% vote demand + 30% how often the theme appears + 25% average severity. Each part is scaled so the highest-scoring theme = 1.0. Votes use a linear scale because the top theme has 2.0x the votes of the median theme (log applies above 10x)."
+  },
+  "themes": [
+    {
+      "primary_theme": "Backend & invocation configuration",
+      "posts": 40,
+      "total_votes": 283,
+      "avg_severity": 3.0,
+      "avg_confidence": 0.79875,
+      "demand_score": 1.0,
+      "frequency_score": 1.0,
+      "severity_score": 0.9545454545454546,
+      "priority_score": 0.9886363636363636,
+      "recommended_action": "Reduce setup steps for common backends; surface clearer errors when a payload or credential is wrong.",
+      "rank": 1
+    },
+    {
+      "primary_theme": "Permissions & access control",
+      "posts": 26,
+      "total_votes": 253,
+      "avg_severity": 3.0384615384615383,
+      "avg_confidence": 0.8076923076923077,
+      "demand_score": 0.8939929328621908,
+      "frequency_score": 0.65,
+      "severity_score": 0.9667832167832168,
+      "priority_score": 0.83899262398379,
+      "recommended_action": "Make dynamic permission rules easier to author, preview and debug.",
+      "rank": 2
+    },
+    {
+      "primary_theme": "Execution visibility & logs",
+      "posts": 32,
+      "total_votes": 198,
+      "avg_severity": 2.6875,
+      "avg_confidence": 0.8375,
+      "demand_score": 0.6996466431095406,
+      "frequency_score": 0.8,
+      "severity_score": 0.8551136363636364,
+      "priority_score": 0.7686193984902023,
+      "recommended_action": "Show run state, progress and failure reason without leaving Port.",
+      "rank": 3
+    },
+    {
+      "primary_theme": "Approval workflows",
+      "posts": 25,
+      "total_votes": 164,
+      "avg_severity": 2.96,
+      "avg_confidence": 0.8640000000000001,
+      "demand_score": 0.5795053003533569,
+      "frequency_score": 0.625,
+      "severity_score": 0.9418181818181818,
+      "priority_score": 0.6837319306135561,
+      "recommended_action": "Support flexible approver rules and notify approvers automatically.",
+      "rank": 4
+    },
+    {
+      "primary_theme": "Action discovery & organization",
+      "posts": 13,
+      "total_votes": 194,
+      "avg_severity": 2.3846153846153846,
+      "avg_confidence": 0.8,
+      "demand_score": 0.6855123674911661,
+      "frequency_score": 0.325,
+      "severity_score": 0.7587412587412588,
+      "priority_score": 0.5956658800563395,
+      "recommended_action": "Let builders group and categorise actions so users can find the right one.",
+      "rank": 5
+    },
+    {
+      "primary_theme": "Validation & conditional logic",
+      "posts": 14,
+      "total_votes": 135,
+      "avg_severity": 3.142857142857143,
+      "avg_confidence": 0.7999999999999999,
+      "demand_score": 0.47703180212014135,
+      "frequency_score": 0.35,
+      "severity_score": 1.0,
+      "priority_score": 0.5696643109540636,
+      "recommended_action": "Allow form-level validation rules without backend code.",
+      "rank": 6
+    },
+    {
+      "primary_theme": "Multi-step & orchestration",
+      "posts": 6,
+      "total_votes": 144,
+      "avg_severity": 3.0,
+      "avg_confidence": 0.7533333333333333,
+      "demand_score": 0.508833922261484,
+      "frequency_score": 0.15,
+      "severity_score": 0.9545454545454546,
+      "priority_score": 0.5126116286540314,
+      "recommended_action": "Support multi-step action flows as a first-class concept.",
+      "rank": 7
+    },
+    {
+      "primary_theme": "Run control & retries",
+      "posts": 12,
+      "total_votes": 113,
+      "avg_severity": 3.0,
+      "avg_confidence": 0.8083333333333332,
+      "demand_score": 0.3992932862190813,
+      "frequency_score": 0.3,
+      "severity_score": 0.9545454545454546,
+      "priority_score": 0.5083183424349502,
+      "recommended_action": "Allow retry, cancel and re-run directly from the run view.",
+      "rank": 8
+    },
+    {
+      "primary_theme": "Input types & controls",
+      "posts": 17,
+      "total_votes": 99,
+      "avg_severity": 2.2941176470588234,
+      "avg_confidence": 0.8735294117647059,
+      "demand_score": 0.3498233215547703,
+      "frequency_score": 0.425,
+      "severity_score": 0.729946524064171,
+      "priority_score": 0.46740712571568943,
+      "recommended_action": "Broaden the input control set so common form patterns need no workaround.",
+      "rank": 9
+    },
+    {
+      "primary_theme": "Dynamic & dependent inputs",
+      "posts": 10,
+      "total_votes": 109,
+      "avg_severity": 2.7,
+      "avg_confidence": 0.82,
+      "demand_score": 0.38515901060070673,
+      "frequency_score": 0.25,
+      "severity_score": 0.8590909090909091,
+      "priority_score": 0.4630942820430453,
+      "recommended_action": "Improve inputs that depend on other inputs or external data.",
+      "rank": 10
+    },
+    {
+      "primary_theme": "Notifications & alerting",
+      "posts": 7,
+      "total_votes": 114,
+      "avg_severity": 2.5714285714285716,
+      "avg_confidence": 0.7714285714285715,
+      "demand_score": 0.4028268551236749,
+      "frequency_score": 0.175,
+      "severity_score": 0.8181818181818182,
+      "priority_score": 0.4383175393511083,
+      "recommended_action": "Notify the right people on the channels they already use.",
+      "rank": 11
+    },
+    {
+      "primary_theme": "Testing & editing experience",
+      "posts": 5,
+      "total_votes": 47,
+      "avg_severity": 2.4,
+      "avg_confidence": 0.79,
+      "demand_score": 0.16607773851590105,
+      "frequency_score": 0.125,
+      "severity_score": 0.7636363636363637,
+      "priority_score": 0.30314407324124637,
+      "recommended_action": "Let builders trial an action safely before exposing it.",
+      "rank": 12
+    }
+  ],
+  "stages": [
+    {
+      "journey_stage": "Discovering and organizing actions",
+      "posts": 13,
+      "total_votes": 194,
+      "avg_severity": 2.3846153846153846,
+      "stage_order": 0,
+      "votes_per_post": 14.923076923076923
+    },
+    {
+      "journey_stage": "Configuring forms and inputs",
+      "posts": 36,
+      "total_votes": 382,
+      "avg_severity": 2.5833333333333335,
+      "stage_order": 1,
+      "votes_per_post": 10.61111111111111
+    },
+    {
+      "journey_stage": "Validations and conditional logic",
+      "posts": 12,
+      "total_votes": 112,
+      "avg_severity": 3.1666666666666665,
+      "stage_order": 2,
+      "votes_per_post": 9.333333333333334
+    },
+    {
+      "journey_stage": "Backend and invocation setup",
+      "posts": 42,
+      "total_votes": 311,
+      "avg_severity": 2.9761904761904763,
+      "stage_order": 3,
+      "votes_per_post": 7.404761904761905
+    },
+    {
+      "journey_stage": "Permissions and approvals",
+      "posts": 49,
+      "total_votes": 459,
+      "avg_severity": 2.979591836734694,
+      "stage_order": 4,
+      "votes_per_post": 9.36734693877551
+    },
+    {
+      "journey_stage": "Testing and editing",
+      "posts": 5,
+      "total_votes": 47,
+      "avg_severity": 2.4,
+      "stage_order": 5,
+      "votes_per_post": 9.4
+    },
+    {
+      "journey_stage": "Execution and monitoring",
+      "posts": 50,
+      "total_votes": 348,
+      "avg_severity": 2.78,
+      "stage_order": 6,
+      "votes_per_post": 6.96
+    }
+  ],
+  "evidence": {
+    "Backend & invocation configuration": [
+      {
+        "title": "Self-service actions - controlling the payload",
+        "votes": 26,
+        "severity": 3,
+        "evidence_excerpt": "Use JQ to manipulate the payload before sending it to the relevant workflow",
+        "source_url": "https://roadmap.port.io/ideas/p/self-service-actions-controlling-the-payload",
+        "journey_stage": "Backend and invocation setup"
+      },
+      {
+        "title": "Automation",
+        "votes": 26,
+        "severity": 3,
+        "evidence_excerpt": "only one trigger per blueprint can be defined, and each trigger is executed for any change in the catalog, without the ability to define rules for a specific trigger",
+        "source_url": "https://roadmap.port.io/ideas/p/automation",
+        "journey_stage": "Backend and invocation setup"
+      },
+      {
+        "title": "Support multiple event triggers in Automations",
+        "votes": 24,
+        "severity": 3,
+        "evidence_excerpt": "it's only possible to configure an automation to be triggered on one specific event",
+        "source_url": "https://roadmap.port.io/ideas/p/support-multiple-event-triggers-in-automations",
+        "journey_stage": "Backend and invocation setup"
+      }
+    ],
+    "Permissions & access control": [
+      {
+        "title": "Improved UI for managing dynamic permissions",
+        "votes": 41,
+        "severity": 3,
+        "evidence_excerpt": "Managing dynamic permissions requires specific skills and is more challenging to debug and verify.",
+        "source_url": "https://roadmap.port.io/ideas/p/improved-ui-for-managing-dynamic-permissions",
+        "journey_stage": "Permissions and approvals"
+      },
+      {
+        "title": "More RBAC for admin permissions",
+        "votes": 37,
+        "severity": 3,
+        "evidence_excerpt": "some admins can only edit automations, and webhooks, some admins can only edit the data model, or no admins can generate a new org token.",
+        "source_url": "https://roadmap.port.io/ideas/p/more-rbac-for-admin-permissions",
+        "journey_stage": "Permissions and approvals"
+      },
+      {
+        "title": "Better Error Messages for Denied Dynamic Permissions",
+        "votes": 29,
+        "severity": 4,
+        "evidence_excerpt": "the error message logged provides no context about what specific part of the dynamic permission caused the action to be denied",
+        "source_url": "https://roadmap.port.io/ideas/p/better-error-messages-for-denied-dynamic-permissions",
+        "journey_stage": "Permissions and approvals"
+      }
+    ],
+    "Execution visibility & logs": [
+      {
+        "title": "Audit log filter beyond the last 1,000 records",
+        "votes": 46,
+        "severity": 3,
+        "evidence_excerpt": "the audit log only shows the latest 1000 records, and filtering applies only within those 1000",
+        "source_url": "https://roadmap.port.io/ideas/p/audit-log-filter-beyond-the-last-1-000-records",
+        "journey_stage": "Execution and monitoring"
+      },
+      {
+        "title": "Action runs as blueprint",
+        "votes": 21,
+        "severity": 2,
+        "evidence_excerpt": "As an administrator, I would like to view the success rate of my action runs over time or in a pie chart.",
+        "source_url": "https://roadmap.port.io/ideas/p/action-runs-as-blueprint",
+        "journey_stage": "Execution and monitoring"
+      },
+      {
+        "title": "Actions Run widget | Ability to see all actions runs",
+        "votes": 16,
+        "severity": 2,
+        "evidence_excerpt": "Today you have to choose one action when creating the action runs",
+        "source_url": "https://roadmap.port.io/ideas/p/actions-run-widget-ability-to-see-all-actions-runs",
+        "journey_stage": "Execution and monitoring"
+      }
+    ],
+    "Approval workflows": [
+      {
+        "title": "Support Input Secrets with Approvals in Self Service Actions",
+        "votes": 22,
+        "severity": 4,
+        "evidence_excerpt": "Currently defining an input as a secret does not work in cases where there is an approver on the",
+        "source_url": "https://roadmap.port.io/ideas/p/support-input-secrets-with-approvals-in-self-service-actions",
+        "journey_stage": "Permissions and approvals"
+      },
+      {
+        "title": "Conditional Manual approval based on specific input",
+        "votes": 19,
+        "severity": 3,
+        "evidence_excerpt": "the ability to decide if a certain input in the action form is a certain value, enforce manual approval",
+        "source_url": "https://roadmap.port.io/ideas/p/conditional-manual-approval-based-on-specific-input",
+        "journey_stage": "Permissions and approvals"
+      },
+      {
+        "title": "Request to Increase Dynamic Approval Policy Query Threshold",
+        "votes": 17,
+        "severity": 4,
+        "evidence_excerpt": "the policy cannot return the full set of eligible approvers, as some users fall beyond the 1,000-entity threshold and are therefore excluded from the",
+        "source_url": "https://roadmap.port.io/ideas/p/request-to-increase-dynamic-approval-policy-query-threshold",
+        "journey_stage": "Permissions and approvals"
+      }
+    ],
+    "Action discovery & organization": [
+      {
+        "title": "Categorizing Self Service actions",
+        "votes": 106,
+        "severity": 2,
+        "evidence_excerpt": "Allow categorizing self service actions for ease of finding appropriate actions for your needs.",
+        "source_url": "https://roadmap.port.io/ideas/p/categorizing-self-service-actions",
+        "journey_stage": "Discovering and organizing actions"
+      },
+      {
+        "title": "Associate action with multiple blueprints",
+        "votes": 22,
+        "severity": 3,
+        "evidence_excerpt": "an action if associated with service overview entity cant be associated with the service blueprint entity - which means a new actions should be created",
+        "source_url": "https://roadmap.port.io/ideas/p/associate-action-with-multiple-blueprints",
+        "journey_stage": "Discovering and organizing actions"
+      },
+      {
+        "title": "Bulk self-service actions on entities",
+        "votes": 16,
+        "severity": 3,
+        "evidence_excerpt": "It would be great to have an option to do bulk actions(day2 and DELETE) on entities",
+        "source_url": "https://roadmap.port.io/ideas/p/bulk-self-service-actions-on-entities",
+        "journey_stage": "Discovering and organizing actions"
+      }
+    ],
+    "Validation & conditional logic": [
+      {
+        "title": "Improved customizations of user inputs validations",
+        "votes": 44,
+        "severity": 3,
+        "evidence_excerpt": "conditional logic like \"replica count must be at least 3 when deploying to production\", cross-field rules like email confirmation, and meaningful error messages that actually tell users what to fix",
+        "source_url": "https://roadmap.port.io/ideas/p/improved-customizations-of-user-inputs-validations",
+        "journey_stage": "Validations and conditional logic"
+      },
+      {
+        "title": "Enable dynamic user properties for actions conditions",
+        "votes": 20,
+        "severity": 3,
+        "evidence_excerpt": "using dynamic properties (getUserEmail, getUserTeams) is not available in day-2 action conditions, so that we will be able to have advanced filtering based on user relations",
+        "source_url": "https://roadmap.port.io/ideas/p/enable-dynamic-user-properties-for-actions-conditions",
+        "journey_stage": "Validations and conditional logic"
+      },
+      {
+        "title": "Conditional step in Self-service form",
+        "votes": 19,
+        "severity": 3,
+        "evidence_excerpt": "I would like a step for selecting an entity if it exist, or display a step to create it if it is not exists already.",
+        "source_url": "https://roadmap.port.io/ideas/p/conditional-step-in-self-service-form",
+        "journey_stage": "Configuring forms and inputs"
+      }
+    ],
+    "Multi-step & orchestration": [
+      {
+        "title": "Multi-step workflows",
+        "votes": 69,
+        "severity": 3,
+        "evidence_excerpt": "Chain multiple inputs, approvals, conditions, and actions via automatic triggers or self-service",
+        "source_url": "https://roadmap.port.io/ideas/p/multi-step-workflows",
+        "journey_stage": "Configuring forms and inputs"
+      },
+      {
+        "title": "Steps in Port Self-Service Action Form",
+        "votes": 44,
+        "severity": 2,
+        "evidence_excerpt": "I want the ability to collapse the form into distinct sections such as network configuration, security configuration, and IAM role,",
+        "source_url": "https://roadmap.port.io/ideas/p/steps-in-port-self-service-action-form",
+        "journey_stage": "Configuring forms and inputs"
+      },
+      {
+        "title": "Self Service Action Workflow",
+        "votes": 22,
+        "severity": 3,
+        "evidence_excerpt": "Based on that first trigger result, prompt an approval request and based on the approval, invoke another trigger.",
+        "source_url": "https://roadmap.port.io/ideas/p/self-service-action-workflow",
+        "journey_stage": "Configuring forms and inputs"
+      }
+    ],
+    "Run control & retries": [
+      {
+        "title": "Ability to retry the action from the run page",
+        "votes": 47,
+        "severity": 2,
+        "evidence_excerpt": "In some cases an operation failed and a retry will solve it.",
+        "source_url": "https://roadmap.port.io/ideas/p/ability-to-retry-the-action-from-the-run-page",
+        "journey_stage": "Execution and monitoring"
+      },
+      {
+        "title": "Cancellation Logic For Self Service Actions",
+        "votes": 17,
+        "severity": 3,
+        "evidence_excerpt": "Add a cancel button to self service actions and allow configuration for the cancel button to invoke external communication.",
+        "source_url": "https://roadmap.port.io/ideas/p/cancellation-logic-for-self-service-actions",
+        "journey_stage": "Execution and monitoring"
+      },
+      {
+        "title": "\"Cancel\" button for action run",
+        "votes": 9,
+        "severity": 3,
+        "evidence_excerpt": "Ability to cancel the execution of an action after triggering it",
+        "source_url": "https://roadmap.port.io/ideas/p/cancel-button-for-action-run",
+        "journey_stage": "Execution and monitoring"
+      }
+    ],
+    "Input types & controls": [
+      {
+        "title": "Support code or file upload in self-service action form",
+        "votes": 18,
+        "severity": 3,
+        "evidence_excerpt": "Allow developers to upload or insert various configuration file types (e.g., .py, .conf, .txt) directly into the self service action form",
+        "source_url": "https://roadmap.port.io/ideas/p/support-code-or-file-upload-in-self-service-action-form",
+        "journey_stage": "Configuring forms and inputs"
+      },
+      {
+        "title": "Default on Form Load, Should be able to Clear when needed",
+        "votes": 17,
+        "severity": 3,
+        "evidence_excerpt": "Currently default is being recalculated, whenever we clear it out.",
+        "source_url": "https://roadmap.port.io/ideas/p/default-on-form-load-should-be-able-to-clear-when-needed",
+        "journey_stage": "Configuring forms and inputs"
+      },
+      {
+        "title": "Filters UI as an input inside a self‑service action form",
+        "votes": 10,
+        "severity": 2,
+        "evidence_excerpt": "use the Filters UI as an input inside a self‑service action form, and on submission, pass the resulting filter JSON",
+        "source_url": "https://roadmap.port.io/ideas/p/filters-ui-as-an-input-inside-a-selfservice-action-form",
+        "journey_stage": "Configuring forms and inputs"
+      }
+    ],
+    "Dynamic & dependent inputs": [
+      {
+        "title": "Dropdown input based on API",
+        "votes": 36,
+        "severity": 3,
+        "evidence_excerpt": "there is no way to offer input selection based on API",
+        "source_url": "https://roadmap.port.io/ideas/p/dropdown-input-based-on-api",
+        "journey_stage": "Configuring forms and inputs"
+      },
+      {
+        "title": "Support Calculated Properties in Self-Service Dataset Conditions",
+        "votes": 20,
+        "severity": 3,
+        "evidence_excerpt": "search conditions cannot be applied to calculated properties in self-service actions",
+        "source_url": "https://roadmap.port.io/ideas/p/support-calculated-properties-in-self-service-dataset-conditions",
+        "journey_stage": "Configuring forms and inputs"
+      },
+      {
+        "title": "Allow form field default values to have complex patterns based on user selection",
+        "votes": 20,
+        "severity": 3,
+        "evidence_excerpt": "we may want to create a certain default value for a field based on previous selection made by the user. This can include literals and even multiple fields references.",
+        "source_url": "https://roadmap.port.io/ideas/p/allow-form-field-default-values-to-have-complex-patterns-based-on-user-selection",
+        "journey_stage": "Configuring forms and inputs"
+      }
+    ],
+    "Notifications & alerting": [
+      {
+        "title": "Microsoft teams notification",
+        "votes": 44,
+        "severity": 3,
+        "evidence_excerpt": "Currently, the message sender only supports slack.  Some organizations use Microsoft teams, which means they cannot create notifications for their teams.",
+        "source_url": "https://roadmap.port.io/ideas/p/microsoft-teams-notification",
+        "journey_stage": "Permissions and approvals"
+      },
+      {
+        "title": "Self-Service Action Approval Notifications",
+        "votes": 29,
+        "severity": 2,
+        "evidence_excerpt": "There is no option to automatically notify users when their requested actions have been",
+        "source_url": "https://roadmap.port.io/ideas/p/self-service-action-approval-notifications",
+        "journey_stage": "Permissions and approvals"
+      },
+      {
+        "title": "Send Email to Approvers when Dynamic Permissions are Used",
+        "votes": 21,
+        "severity": 3,
+        "evidence_excerpt": "emails are not sent to the array of approvers which is generated via dynamic permissions. The behavior for dynamic permission's approvers needs to match that of static permission's approvers where emails are",
+        "source_url": "https://roadmap.port.io/ideas/p/send-email-to-approvers-when-dynamic-permissions-are-used",
+        "journey_stage": "Permissions and approvals"
+      }
+    ],
+    "Testing & editing experience": [
+      {
+        "title": "Confirmation Window for Unsaved Changes in Self-service actions GUI Mode",
+        "votes": 20,
+        "severity": 3,
+        "evidence_excerpt": "users may accidentally navigate away without saving their changes. A confirmation prompt will help prevent this, ensuring users have the chance to save their work before leaving the page.",
+        "source_url": "https://roadmap.port.io/ideas/p/confirmation-window-for-unsaved-changes-in-self-service-actions-gui-mode",
+        "journey_stage": "Testing and editing"
+      },
+      {
+        "title": "Improve automation interface",
+        "votes": 15,
+        "severity": 2,
+        "evidence_excerpt": "We will improve our interface for Automation (to match with one of Actions) to simplify the creation of new automation.",
+        "source_url": "https://roadmap.port.io/ideas/p/improve-automation-interface",
+        "journey_stage": "Testing and editing"
+      },
+      {
+        "title": "Port GitHub action | Support dry run for the Port action for tests",
+        "votes": 7,
+        "severity": 2,
+        "evidence_excerpt": "we want to run Github workflows for tests purposes to see no error is raised. So we would want to have a flag for the port-github-action",
+        "source_url": "https://roadmap.port.io/ideas/p/port-github-action-support-dry-run-for-the-port-action-for-tests",
+        "journey_stage": "Testing and editing"
+      }
+    ]
+  }
+}
