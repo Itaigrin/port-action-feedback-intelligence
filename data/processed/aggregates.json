@@ -1,521 +1,422 @@
 {
+  "meta": {
+    "analysis_run_id": "20260730T171643Z-v3.0-v2.0",
+    "model_name": "claude-sonnet-5",
+    "prompt_version": "v3.0",
+    "taxonomy_version": "v2.0",
+    "schema_version": "v2.0",
+    "generated_at": "2026-07-30T17:17:57.355854+00:00"
+  },
+  "ranking": {
+    "keys": [
+      {
+        "key": "severity_band",
+        "explanation": "Severity band (average severity, rounded) -- how much the problem hurts when it happens."
+      },
+      {
+        "key": "open_records",
+        "explanation": "Number of distinct open feedback records asking for this change."
+      },
+      {
+        "key": "max_severity",
+        "explanation": "The single worst record in the group."
+      },
+      {
+        "key": "source_diversity",
+        "explanation": "How many different source systems raised it."
+      },
+      {
+        "key": "avg_confidence",
+        "explanation": "Average classifier confidence, as a data-quality tie-breaker only."
+      },
+      {
+        "key": "latest_created",
+        "explanation": "Recency of the newest supporting record."
+      }
+    ],
+    "explanation": "Product actions are ranked lexicographically, not by a weighted score. Only open records count towards a ranking; completed and closed work is excluded so shipped features cannot argue for themselves again. Each key below is applied in order, and the first one that differs decides the position.",
+    "open_statuses": [
+      "In progress",
+      "Open",
+      "Planned"
+    ]
+  },
   "kpis": {
-    "records_collected": 327,
-    "relevant_posts": 208,
-    "total_votes": 1842,
-    "high_severity_posts": 25,
-    "most_common_theme": "Execution visibility, notifications & run control",
-    "highest_priority_theme": "Execution visibility, notifications & run control",
-    "low_confidence_posts": 26,
-    "unverified_evidence": 2
+    "feedback_records_analyzed": 3,
+    "in_scope_records": 2,
+    "out_of_scope_records": 1,
+    "open_records": 2,
+    "resolved_records": 0,
+    "recommended_product_actions": 2,
+    "high_severity_open_records": 0,
+    "top_product_action": "Enable multi-step action workflows that chain inputs, conditions and approvals in a single self-service action.",
+    "top_product_action_category": "Orchestration",
+    "subcategories_covered": 2,
+    "records_needing_review": 1,
+    "low_confidence_records": 0,
+    "unverified_evidence": 0,
+    "source_systems": [
+      "Port portal"
+    ]
   },
-  "scoring": {
-    "vote_scale": "linear",
-    "vote_skew_ratio": 2.18,
-    "threshold": 10.0,
-    "weights": {
-      "demand": 0.45,
-      "frequency": 0.3,
-      "severity": 0.25
-    },
-    "explanation": "Priority = 45% vote demand + 30% how often the theme appears + 25% average severity. Each part is scaled so the highest-scoring theme = 1.0. Votes use a linear scale because the top theme has 2.2x the votes of the median theme (log applies above 10x)."
-  },
-  "themes": [
+  "product_actions": [
     {
-      "primary_theme": "Execution visibility, notifications & run control",
-      "posts": 42,
-      "total_votes": 345,
-      "avg_severity": 2.619047619047619,
-      "avg_confidence": 0.8142857142857144,
-      "demand_score": 1.0,
-      "frequency_score": 1.0,
-      "severity_score": 0.8002645502645502,
-      "priority_score": 0.9500661375661376,
-      "recommended_action": "Centralize run status, logs, notifications, retries and controls in the execution experience.",
+      "category": "Orchestration",
+      "subcategory": "Multi-step workflows",
+      "product_action": "Enable multi-step action workflows that chain inputs, conditions and approvals in a single self-service action.",
+      "product_action_source_id": "689c4e5eda725fecc3d241bf",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.7,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-08-13T08:35:42.274000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 1,
+      "record_ids": [
+        "689c4e5eda725fecc3d241bf"
+      ],
       "rank": 1
     },
     {
-      "primary_theme": "Backend & invocation configuration",
-      "posts": 38,
-      "total_votes": 275,
-      "avg_severity": 3.0,
-      "avg_confidence": 0.7842105263157895,
-      "demand_score": 0.7971014492753623,
-      "frequency_score": 0.9047619047619048,
-      "severity_score": 0.9166666666666666,
-      "priority_score": 0.8592908902691511,
-      "recommended_action": "Make backend connections, payload mapping, credentials and invocation settings easier to configure.",
+      "category": "Discovery, Organization & Reuse",
+      "subcategory": "Action discovery, grouping & ordering",
+      "product_action": "Add support for categorizing and grouping self-service actions to improve discoverability",
+      "product_action_source_id": "64a512f97525ac09ce7a21c4",
+      "open_records": 1,
+      "avg_severity": 2.0,
+      "max_severity": 2,
+      "severity_band": 2,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2023-07-05T06:51:37.632000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Action discovery & organization",
+      "needs_review": 0,
+      "record_ids": [
+        "64a512f97525ac09ce7a21c4"
+      ],
       "rank": 2
+    }
+  ],
+  "categories": [
+    {
+      "primary_taxonomy_category": "Discovery, Organization & Reuse",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 2.0,
+      "high_severity": 0,
+      "avg_confidence": 0.85,
+      "subcategories_seen": 1
     },
     {
-      "primary_theme": "Permissions, eligibility & action visibility",
-      "posts": 29,
-      "total_votes": 267,
-      "avg_severity": 2.896551724137931,
-      "avg_confidence": 0.7644827586206897,
-      "demand_score": 0.7739130434782608,
-      "frequency_score": 0.6904761904761905,
-      "severity_score": 0.8850574712643677,
-      "priority_score": 0.7766680945241664,
-      "recommended_action": "Evaluate eligibility earlier and clearly control which users can see and run each action.",
-      "rank": 3
+      "primary_taxonomy_category": "Orchestration",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "high_severity": 0,
+      "avg_confidence": 0.7,
+      "subcategories_seen": 1
     },
     {
-      "primary_theme": "Approval workflows & governance",
-      "posts": 26,
-      "total_votes": 173,
-      "avg_severity": 2.923076923076923,
-      "avg_confidence": 0.8519230769230769,
-      "demand_score": 0.5014492753623189,
-      "frequency_score": 0.6190476190476191,
-      "severity_score": 0.8931623931623931,
-      "priority_score": 0.6346570579179275,
-      "recommended_action": "Support flexible approval routing and governance rules based on risk, environment, team and action type.",
-      "rank": 4
+      "primary_taxonomy_category": "Authoring, Testing & Management",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
     },
     {
-      "primary_theme": "Multi-step & orchestration",
-      "posts": 11,
-      "total_votes": 162,
-      "avg_severity": 3.272727272727273,
-      "avg_confidence": 0.759090909090909,
-      "demand_score": 0.46956521739130436,
-      "frequency_score": 0.2619047619047619,
-      "severity_score": 1.0,
-      "priority_score": 0.5398757763975155,
-      "recommended_action": "Support reliable multi-step execution, branching, data transfer and coordination across systems.",
-      "rank": 5
+      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
     },
     {
-      "primary_theme": "Form structure, input types & controls",
-      "posts": 21,
-      "total_votes": 156,
-      "avg_severity": 2.2857142857142856,
-      "avg_confidence": 0.8023809523809524,
-      "demand_score": 0.45217391304347826,
-      "frequency_score": 0.5,
-      "severity_score": 0.6984126984126984,
-      "priority_score": 0.5280814354727399,
-      "recommended_action": "Expand form controls and make long or complex forms easier to structure and complete.",
-      "rank": 6
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
     },
     {
-      "primary_theme": "Dynamic & dependent inputs",
-      "posts": 14,
-      "total_votes": 158,
-      "avg_severity": 2.5714285714285716,
-      "avg_confidence": 0.7571428571428571,
-      "demand_score": 0.4579710144927536,
-      "frequency_score": 0.3333333333333333,
-      "severity_score": 0.7857142857142857,
-      "priority_score": 0.5025155279503105,
-      "recommended_action": "Allow form fields, options and defaults to adapt dynamically to previous selections and context.",
-      "rank": 7
+      "primary_taxonomy_category": "Form Configuration",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
     },
     {
-      "primary_theme": "Validation & error guidance",
-      "posts": 9,
-      "total_votes": 79,
-      "avg_severity": 3.2222222222222223,
-      "avg_confidence": 0.8,
-      "demand_score": 0.2289855072463768,
-      "frequency_score": 0.21428571428571427,
-      "severity_score": 0.9845679012345678,
-      "priority_score": 0.4134711678552258,
-      "recommended_action": "Provide flexible validation rules and clear, actionable explanations before submission.",
-      "rank": 8
+      "primary_taxonomy_category": "Identity, Secrets & Security",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
     },
     {
-      "primary_theme": "Action discovery & organization",
-      "posts": 6,
-      "total_votes": 136,
-      "avg_severity": 2.1666666666666665,
-      "avg_confidence": 0.8583333333333334,
-      "demand_score": 0.39420289855072466,
-      "frequency_score": 0.14285714285714285,
-      "severity_score": 0.662037037037037,
-      "priority_score": 0.3857577064642282,
-      "recommended_action": "Improve action search, categories, naming and catalog organization so users can quickly find the correct action.",
-      "rank": 9
+      "primary_taxonomy_category": "Invocation & Integrations",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
     },
     {
-      "primary_theme": "Context, targeting & pre-fill",
-      "posts": 4,
-      "total_votes": 44,
-      "avg_severity": 3.25,
-      "avg_confidence": 0.7125,
-      "demand_score": 0.12753623188405797,
-      "frequency_score": 0.09523809523809523,
-      "severity_score": 0.9930555555555555,
-      "priority_score": 0.33422662180814355,
-      "recommended_action": "Use the originating page and entity context to pre-select known targets and reduce repeated input.",
-      "rank": 10
+      "primary_taxonomy_category": "Observability & Debugging",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
     },
     {
-      "primary_theme": "Testing, editing & drafts",
-      "posts": 8,
-      "total_votes": 47,
-      "avg_severity": 2.5,
-      "avg_confidence": 0.78125,
-      "demand_score": 0.13623188405797101,
-      "frequency_score": 0.19047619047619047,
-      "severity_score": 0.7638888888888888,
-      "priority_score": 0.30941942719116633,
-      "recommended_action": "Improve safe action creation with previews, test runs, drafts, versioning and unsaved-change protection.",
-      "rank": 11
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
+    },
+    {
+      "primary_taxonomy_category": "Validation & Rules",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "avg_confidence": 0.0,
+      "subcategories_seen": 0
+    }
+  ],
+  "subcategories": [
+    {
+      "primary_taxonomy_category": "Discovery, Organization & Reuse",
+      "primary_taxonomy_subcategory": "Action discovery, grouping & ordering",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 2.0
+    },
+    {
+      "primary_taxonomy_category": "Orchestration",
+      "primary_taxonomy_subcategory": "Multi-step workflows",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
     }
   ],
   "stages": [
     {
       "journey_stage": "Action discovery & organization",
-      "posts": 6,
-      "total_votes": 136,
-      "avg_severity": 2.1666666666666665,
-      "stage_order": 0,
-      "votes_per_post": 22.666666666666668
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 2.0,
+      "high_severity": 0,
+      "stage_order": 0
     },
     {
       "journey_stage": "Contextual entry, targeting & pre-fill",
-      "posts": 4,
-      "total_votes": 44,
-      "avg_severity": 3.25,
-      "stage_order": 1,
-      "votes_per_post": 11.0
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "stage_order": 1
     },
     {
       "journey_stage": "Form & input configuration",
-      "posts": 21,
-      "total_votes": 156,
-      "avg_severity": 2.2857142857142856,
-      "stage_order": 2,
-      "votes_per_post": 7.428571428571429
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "stage_order": 2
     },
     {
       "journey_stage": "Validation, dependencies & conditional logic",
-      "posts": 23,
-      "total_votes": 237,
-      "avg_severity": 2.8260869565217392,
-      "stage_order": 3,
-      "votes_per_post": 10.304347826086957
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "stage_order": 3
     },
     {
       "journey_stage": "Backend & invocation setup",
-      "posts": 48,
-      "total_votes": 435,
-      "avg_severity": 3.0625,
-      "stage_order": 4,
-      "votes_per_post": 9.0625
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "high_severity": 0,
+      "stage_order": 4
     },
     {
       "journey_stage": "Permissions & approvals",
-      "posts": 57,
-      "total_votes": 494,
-      "avg_severity": 2.8771929824561404,
-      "stage_order": 5,
-      "votes_per_post": 8.666666666666666
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "stage_order": 5
     },
     {
       "journey_stage": "Testing, editing & publishing",
-      "posts": 8,
-      "total_votes": 47,
-      "avg_severity": 2.5,
-      "stage_order": 6,
-      "votes_per_post": 5.875
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "stage_order": 6
     },
     {
       "journey_stage": "Execution, monitoring & run control",
-      "posts": 41,
-      "total_votes": 293,
-      "avg_severity": 2.658536585365854,
-      "stage_order": 7,
-      "votes_per_post": 7.146341463414634
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0,
+      "high_severity": 0,
+      "stage_order": 7
+    }
+  ],
+  "problem_types": [
+    {
+      "problem_type": "Feature gap",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 2.5
+    },
+    {
+      "problem_type": "Bug / defect",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Configuration complexity",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Documentation or discoverability gap",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Integration or API gap",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Observability or debugging gap",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Performance or scalability limitation",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Poor error message",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Positive / completed feedback",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Reliability issue",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Reusability or maintainability issue",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Security or privacy concern",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Usability friction",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Validation gap",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    }
+  ],
+  "lifecycle": [
+    {
+      "lifecycle_status": "In progress",
+      "records": 1,
+      "avg_severity": 2.0
+    },
+    {
+      "lifecycle_status": "Planned",
+      "records": 1,
+      "avg_severity": 3.0
     }
   ],
   "evidence": {
-    "Execution visibility, notifications & run control": [
+    "Orchestration||Multi-step workflows": [
       {
-        "title": "Ability to retry the action from the run page",
-        "votes": 47,
-        "severity": 2,
-        "evidence_excerpt": "In some cases an operation failed and a retry will solve it.  Adding a retry action for a run can be nice addition",
-        "source_url": "https://roadmap.port.io/ideas/p/ability-to-retry-the-action-from-the-run-page",
-        "journey_stage": "Execution, monitoring & run control"
-      },
-      {
-        "title": "Microsoft teams notification",
-        "votes": 44,
-        "severity": 3,
-        "evidence_excerpt": "Currently, the message sender only supports slack.  Some organizations use Microsoft teams, which means they cannot create notifications for their teams.",
-        "source_url": "https://roadmap.port.io/ideas/p/microsoft-teams-notification",
-        "journey_stage": "Execution, monitoring & run control"
-      },
-      {
-        "title": "Self-Service Action Approval Notifications",
-        "votes": 29,
-        "severity": 3,
-        "evidence_excerpt": "There is no option to automatically notify users when their requested actions have been approved.",
-        "source_url": "https://roadmap.port.io/ideas/p/self-service-action-approval-notifications",
-        "journey_stage": "Permissions & approvals"
-      }
-    ],
-    "Backend & invocation configuration": [
-      {
-        "title": "Self-service actions - controlling the payload",
-        "votes": 26,
-        "severity": 3,
-        "evidence_excerpt": "Use JQ to manipulate the payload before sending it to the relevant workflow",
-        "source_url": "https://roadmap.port.io/ideas/p/self-service-actions-controlling-the-payload",
-        "journey_stage": "Backend & invocation setup"
-      },
-      {
-        "title": "Support multiple event triggers in Automations",
-        "votes": 24,
-        "severity": 3,
-        "evidence_excerpt": "it's only possible to configure an automation to be triggered on one specific event. For example, when an entity is created or when it gets",
-        "source_url": "https://roadmap.port.io/ideas/p/support-multiple-event-triggers-in-automations",
-        "journey_stage": "Backend & invocation setup"
-      },
-      {
-        "title": "Use current user's session to interact with internal systems",
-        "votes": 21,
-        "severity": 3,
-        "evidence_excerpt": "the action should be performed on behalf of that user, inheriting their identity, role-based access controls (RBAC), and authorized privileges from the same Identity and Access Management (IAM) provider used by Port, which is Okta",
-        "source_url": "https://roadmap.port.io/ideas/p/use-current-users-session-to-interact-with-internal-systems",
-        "journey_stage": "Backend & invocation setup"
-      }
-    ],
-    "Permissions, eligibility & action visibility": [
-      {
-        "title": "Improved UI for managing dynamic permissions",
-        "votes": 41,
-        "severity": 3,
-        "evidence_excerpt": "Managing dynamic permissions requires specific skills and is more challenging to debug and",
-        "source_url": "https://roadmap.port.io/ideas/p/improved-ui-for-managing-dynamic-permissions",
-        "journey_stage": "Permissions & approvals"
-      },
-      {
-        "title": "More RBAC for admin permissions",
-        "votes": 37,
-        "severity": 3,
-        "evidence_excerpt": "some admins can only edit automations, and webhooks, some admins can only edit the data model, or no admins can generate a new org token",
-        "source_url": "https://roadmap.port.io/ideas/p/more-rbac-for-admin-permissions",
-        "journey_stage": "Permissions & approvals"
-      },
-      {
-        "title": "Better Error Messages for Denied Dynamic Permissions",
-        "votes": 29,
-        "severity": 4,
-        "evidence_excerpt": "provides no context about what specific part of the dynamic permission caused the action to be denied. This makes troubleshooting and building permissions incredibly difficult",
-        "source_url": "https://roadmap.port.io/ideas/p/better-error-messages-for-denied-dynamic-permissions",
-        "journey_stage": "Permissions & approvals"
-      }
-    ],
-    "Approval workflows & governance": [
-      {
-        "title": "Support Input Secrets with Approvals in Self Service Actions",
-        "votes": 22,
-        "severity": 4,
-        "evidence_excerpt": "Currently defining an input as a secret does not work in cases where there is an approver on the action.",
-        "source_url": "https://roadmap.port.io/ideas/p/support-input-secrets-with-approvals-in-self-service-actions",
-        "journey_stage": "Permissions & approvals"
-      },
-      {
-        "title": "Conditional Manual approval based on specific input",
-        "votes": 19,
-        "severity": 3,
-        "evidence_excerpt": "decide if a certain input in the action form is a certain value, enforce manual approval",
-        "source_url": "https://roadmap.port.io/ideas/p/conditional-manual-approval-based-on-specific-input",
-        "journey_stage": "Permissions & approvals"
-      },
-      {
-        "title": "Request to Increase Dynamic Approval Policy Query Threshold",
-        "votes": 17,
-        "severity": 4,
-        "evidence_excerpt": "the dynamic approval policy returns a maximum of 1,000 entities per query. This creates a limitation for organizations with more than 1,000 users.",
-        "source_url": "https://roadmap.port.io/ideas/p/request-to-increase-dynamic-approval-policy-query-threshold",
-        "journey_stage": "Permissions & approvals"
-      }
-    ],
-    "Multi-step & orchestration": [
-      {
+        "feedback_id": "689c4e5eda725fecc3d241bf",
         "title": "Multi-step workflows",
-        "votes": 69,
-        "severity": 2,
+        "severity": 3,
+        "confidence": 0.7,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Planned",
+        "source_system": "Port portal",
         "evidence_excerpt": "Chain multiple inputs, approvals, conditions, and actions via automatic triggers or self-service",
-        "source_url": "https://roadmap.port.io/ideas/p/multi-step-workflows",
-        "journey_stage": "Backend & invocation setup"
-      },
-      {
-        "title": "Automation",
-        "votes": 26,
-        "severity": 3,
-        "evidence_excerpt": "only one trigger per blueprint can be defined, and each trigger is executed for any change in the catalog, without the ability to define rules for a specific trigger",
-        "source_url": "https://roadmap.port.io/ideas/p/automation",
-        "journey_stage": "Backend & invocation setup"
-      },
-      {
-        "title": "Self Service Action Workflow",
-        "votes": 22,
-        "severity": 3,
-        "evidence_excerpt": "Based on that first trigger result, prompt an approval request and based on the approval, invoke another trigger.",
-        "source_url": "https://roadmap.port.io/ideas/p/self-service-action-workflow",
-        "journey_stage": "Backend & invocation setup"
+        "short_summary": "Users want to combine multiple steps, approvals and conditions into a single automated action workflow.",
+        "source_url": "https://roadmap.port.io/ideas/p/multi-step-workflows"
       }
     ],
-    "Form structure, input types & controls": [
+    "Discovery, Organization & Reuse||Action discovery, grouping & ordering": [
       {
-        "title": "Steps in Port Self-Service Action Form",
-        "votes": 44,
-        "severity": 2,
-        "evidence_excerpt": "I want the ability to collapse the form into distinct sections such as network configuration, security configuration, and IAM role",
-        "source_url": "https://roadmap.port.io/ideas/p/steps-in-port-self-service-action-form",
-        "journey_stage": "Form & input configuration"
-      },
-      {
-        "title": "Support code or file upload in self-service action form",
-        "votes": 18,
-        "severity": 3,
-        "evidence_excerpt": "This feature should support a range of file formats beyond the current YAML, JSON, and Protobuf, and offer the option of markdown/free text input for added",
-        "source_url": "https://roadmap.port.io/ideas/p/support-code-or-file-upload-in-self-service-action-form",
-        "journey_stage": "Form & input configuration"
-      },
-      {
-        "title": "Improve automation interface",
-        "votes": 15,
-        "severity": 2,
-        "evidence_excerpt": "We will improve our interface for Automation (to match with one of Actions) to simplify the creation of new automation.",
-        "source_url": "https://roadmap.port.io/ideas/p/improve-automation-interface",
-        "journey_stage": "Form & input configuration"
-      }
-    ],
-    "Dynamic & dependent inputs": [
-      {
-        "title": "Dropdown input based on API",
-        "votes": 36,
-        "severity": 3,
-        "evidence_excerpt": "there is no way to offer input selection based on API",
-        "source_url": "https://roadmap.port.io/ideas/p/dropdown-input-based-on-api",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      },
-      {
-        "title": "Support Calculated Properties in Self-Service Dataset Conditions",
-        "votes": 20,
-        "severity": 3,
-        "evidence_excerpt": "search conditions cannot be applied to calculated properties in self-service actions. Adding support for this is required",
-        "source_url": "https://roadmap.port.io/ideas/p/support-calculated-properties-in-self-service-dataset-conditions",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      },
-      {
-        "title": "Allow form field default values to have complex patterns based on user selection",
-        "votes": 20,
-        "severity": 2,
-        "evidence_excerpt": "create a certain default value for a field based on previous selection made by the user. This can include literals and even multiple fields",
-        "source_url": "https://roadmap.port.io/ideas/p/allow-form-field-default-values-to-have-complex-patterns-based-on-user-selection",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      }
-    ],
-    "Validation & error guidance": [
-      {
-        "title": "Improved customizations of user inputs validations",
-        "votes": 44,
-        "severity": 3,
-        "evidence_excerpt": "conditional logic like \"replica count must be at least 3 when deploying to production\", cross-field rules like email confirmation, and meaningful error messages that actually tell users what to fix",
-        "source_url": "https://roadmap.port.io/ideas/p/improved-customizations-of-user-inputs-validations",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      },
-      {
-        "title": "Dynamic user input validation",
-        "votes": 15,
-        "severity": 3,
-        "evidence_excerpt": "validate the user input for corectness against custom business logic, and display an error returned from the backend under the text field, without actually submitting the form",
-        "source_url": "https://roadmap.port.io/ideas/p/dynamic-user-input-validation",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      },
-      {
-        "title": "MCP should enforce frontend-only input validations when executing SSAs",
-        "votes": 6,
-        "severity": 4,
-        "evidence_excerpt": "the Port MCP bypasses frontend-only input validations (like dataset filters) when self service actions are triggered, allowing LLMs to select any value",
-        "source_url": "https://roadmap.port.io/ideas/p/mcp-should-enforce-frontend-only-input-validations-when-executing-ssas",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      }
-    ],
-    "Action discovery & organization": [
-      {
+        "feedback_id": "64a512f97525ac09ce7a21c4",
         "title": "Categorizing Self Service actions",
-        "votes": 106,
         "severity": 2,
-        "evidence_excerpt": "Allow categorizing self service actions for ease of finding appropriate actions for your",
-        "source_url": "https://roadmap.port.io/ideas/p/categorizing-self-service-actions",
-        "journey_stage": "Action discovery & organization"
-      },
-      {
-        "title": "Ordering of action widgets",
-        "votes": 14,
-        "severity": 2,
-        "evidence_excerpt": "The ability to order how the self serve action widgets appear on the hub",
-        "source_url": "https://roadmap.port.io/ideas/p/ordering-of-action-widgets",
-        "journey_stage": "Action discovery & organization"
-      },
-      {
-        "title": "Abilty to add a filter so only certain Self Service Actions appear on a Catalog Page.",
-        "votes": 8,
-        "severity": 3,
-        "evidence_excerpt": "there is a requirement to filter Self Service Actions on custom catalogue",
-        "source_url": "https://roadmap.port.io/ideas/p/abilty-to-add-a-filter-so-only-certain-self-service-actions-appear-on-a-catalog",
-        "journey_stage": "Action discovery & organization"
-      }
-    ],
-    "Context, targeting & pre-fill": [
-      {
-        "title": "Associate action with multiple blueprints",
-        "votes": 22,
-        "severity": 4,
-        "evidence_excerpt": "an action if associated with service overview entity cant be associated with the service blueprint entity - which means a new actions should be created which can be associated with the service",
-        "source_url": "https://roadmap.port.io/ideas/p/associate-action-with-multiple-blueprints",
-        "journey_stage": "Contextual entry, targeting & pre-fill"
-      },
-      {
-        "title": "Bulk self-service actions on entities",
-        "votes": 16,
-        "severity": 3,
-        "evidence_excerpt": "It would be great to have an option to do bulk actions(day2 and DELETE) on",
-        "source_url": "https://roadmap.port.io/ideas/p/bulk-self-service-actions-on-entities",
-        "journey_stage": "Contextual entry, targeting & pre-fill"
-      },
-      {
-        "title": "Triggering a self-service action from somewhere other than the self-service page",
-        "votes": 4,
-        "severity": 3,
-        "evidence_excerpt": "it would be nice to have a way to trigger the display of the appropriate self-service action form as a modal over the page that the user is currently",
-        "source_url": "https://roadmap.port.io/ideas/p/triggering-a-self-service-action-from-somewhere-other-than-the-self-service-page",
-        "journey_stage": "Contextual entry, targeting & pre-fill"
-      }
-    ],
-    "Testing, editing & drafts": [
-      {
-        "title": "Confirmation Window for Unsaved Changes in Self-service actions GUI Mode",
-        "votes": 20,
-        "severity": 3,
-        "evidence_excerpt": "users may accidentally navigate away without saving their changes. A confirmation prompt will help prevent this, ensuring users have the chance to save their work before leaving the page.",
-        "source_url": "https://roadmap.port.io/ideas/p/confirmation-window-for-unsaved-changes-in-self-service-actions-gui-mode",
-        "journey_stage": "Testing, editing & publishing"
-      },
-      {
-        "title": "Re-run capability for Workflow runs",
-        "votes": 8,
-        "severity": 3,
-        "evidence_excerpt": "we have to create a new event every time we want to test a workflow change. Being able to re-run a previous workflow run would significantly speed up the iteration",
-        "source_url": "https://roadmap.port.io/ideas/p/re-run-capability-for-workflow-runs",
-        "journey_stage": "Testing, editing & publishing"
-      },
-      {
-        "title": "True Change Detection for Self-service Actions like Data Sources has",
-        "votes": 4,
-        "severity": 2,
-        "evidence_excerpt": "it will ask you if you want to continue editing or discard changes whether you made changes or not, this can be",
-        "source_url": "https://roadmap.port.io/ideas/p/true-change-detection-for-self-service-actions-like-data-sources-has",
-        "journey_stage": "Testing, editing & publishing"
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "In progress",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Allow categorizing self service actions for ease of finding appropriate actions for your needs.",
+        "short_summary": "Users cannot categorize self-service actions, making it harder to find the right action among many.",
+        "source_url": "https://roadmap.port.io/ideas/p/categorizing-self-service-actions"
       }
     ]
   }
