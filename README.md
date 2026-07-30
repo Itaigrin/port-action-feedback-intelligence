@@ -100,10 +100,6 @@ Two tabs. **Dashboard** — the analysis, five sections, understandable in about
 
 *Four worked classification examples, plus the side-by-side pairs that are most commonly confused.*
 
-![Glossary](docs/screenshots/10-guide-glossary.png)
-
-*Every technical term used anywhere in the app, defined in one or two sentences.*
-
 ---
 
 ## Architecture

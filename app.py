@@ -30,13 +30,11 @@ from src.models.taxonomy import (
     CONFUSION_PAIRS,
     DEFAULT_STAGE_FOR_THEME,
     FEEDBACK_TYPES,
-    GLOSSARY,
     SEVERITY_SCALE,
     STAGE_GUIDE,
     STAGE_NAMES,
     THEME_GUIDE,
     THEME_NAMES,
-    THEMES,
     WORKED_EXAMPLES,
 )
 
@@ -324,6 +322,15 @@ def render_dashboard() -> None:
         f_status = st.multiselect("Status", sorted(rel["status"].dropna().unique()))
         f_sev = st.slider("Minimum severity", 1, 5, 1)
         verified_only = st.toggle("Verified quotes only", value=True)
+        # Count computed, not hardcoded, so this caption cannot go stale.
+        n_unverified = int((~rel["evidence_verified"]).sum())
+        st.caption(
+            f"Every quote is checked in Python against the original post, "
+            f"word for word. **{n_unverified} of {len(rel)}** could not be matched "
+            f"— the model paraphrased instead of copying. Leave this on to hide "
+            f"them. Their theme, stage and severity still count everywhere else; "
+            f"only the quote is withheld."
+        )
 
         st.divider()
         st.caption(
@@ -667,20 +674,6 @@ def render_guide() -> None:
             )
             for k in sorted(SEVERITY_SCALE, reverse=True):
                 st.markdown(f"**{k}** — {SEVERITY_SCALE[k]}")
-
-    st.divider()
-
-    # --------------------------------------------------------- F. Glossary
-    st.header("Beginner glossary")
-    st.caption("Every technical term used anywhere in this app, in one or two sentences.")
-
-    terms = list(GLOSSARY.items())
-    half = (len(terms) + 1) // 2
-    g1, g2 = st.columns(2)
-    for col, chunk in ((g1, terms[:half]), (g2, terms[half:])):
-        with col:
-            for term, definition in chunk:
-                st.markdown(f"**{term}** — {definition}")
 
 
 # ==========================================================================

@@ -105,7 +105,7 @@ app.py                  Streamlit app -- Dashboard tab (5 sections) + Guide tab
 src/
   collectors/           portal fetch + parse
   models/               Pydantic schema + taxonomy (single source of truth for
-                        themes, stages, guide metadata and glossary)
+                        themes, stages and guide metadata)
   analysis/             clean, dedupe, classify, aggregate, score, evaluate
 data/
   raw/                  immutable snapshots — write once

@@ -445,36 +445,6 @@ STAGE_GUIDE: dict[str, dict] = {
     },
 }
 
-GLOSSARY: dict[str, str] = {
-    "Action": "A form that lets someone request or trigger a task, such as deploying "
-              "a service or requesting access.",
-    "Entity": "An item stored in Port, such as a service, application, environment "
-              "or resource.",
-    "Pre-fill": "Automatically placing known information into a field so the user "
-                "does not have to enter it again.",
-    "Input": "A field in a form where the user enters or selects information.",
-    "Validation": "A check that confirms whether the information entered in a form "
-                  "is acceptable.",
-    "Payload": "The package of information sent from the form to the system that "
-               "performs the task.",
-    "Webhook": "A way for one system to automatically send information to another "
-               "system when something happens.",
-    "API": "A structured way for software systems to communicate with each other.",
-    "Credential": "Information used to prove that a system or user is allowed to "
-                  "connect.",
-    "Secret": "Sensitive information, such as a password or access token, that "
-              "should be stored securely.",
-    "Permission": "A rule that determines who is allowed to see or perform something.",
-    "Approval": "A decision another person must make before an action is allowed to "
-                "continue.",
-    "Execution": "The period when the requested task is actually being performed.",
-    "Run": "One specific attempt to execute an action.",
-    "Log": "A record of events and messages produced while an action is running.",
-    "Retry": "Trying to run a failed action again.",
-    "Orchestration": "Coordinating several connected tasks or systems as one process.",
-    "Draft": "A saved version of an action that is not yet ready or published.",
-}
-
 # Commonly confused pairs, rendered side by side in the guide.
 CONFUSION_PAIRS: list[dict[str, str]] = [
     {"left": "Action discovery & organization", "right": "Permissions, eligibility & action visibility",

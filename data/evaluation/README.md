@@ -51,7 +51,7 @@ Testing, editing & drafts · Execution visibility, notifications & run control �
 Multi-step & orchestration
 
 > The in-app **Themes & Journey Stages Guide** tab explains all of these in plain
-> language, with examples and a glossary. It is the easiest way to label
+> language, with examples for every category. It is the easiest way to label
 > consistently — keep it open in another tab while you review.
 
 **Feedback types:** Feature request · Usability friction · Bug ·

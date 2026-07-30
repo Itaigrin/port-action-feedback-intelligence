@@ -153,4 +153,4 @@ The model cannot attribute a complaint to a customer who never made it, because 
 
 ## In-app guide
 
-The dashboard's second tab, **Themes & Journey Stages Guide**, renders this taxonomy for readers with no software or DevOps background: plain-language explanations, use-when and do-not-use-when criteria, two examples per theme, a numbered stage timeline, worked classification examples, side-by-side confusion pairs, and an 18-term glossary. It reads from the same `taxonomy.py` metadata (`THEME_GUIDE`, `STAGE_GUIDE`, `GLOSSARY`, `CONFUSION_PAIRS`, `WORKED_EXAMPLES`), so the guide can never describe a taxonomy the classifier isn't using.
+The dashboard's second tab, **Themes & Journey Stages Guide**, renders this taxonomy for readers with no software or DevOps background: plain-language explanations, use-when and do-not-use-when criteria, two examples per theme, a numbered stage timeline, worked classification examples, and side-by-side confusion pairs. It reads from the same `taxonomy.py` metadata (`THEME_GUIDE`, `STAGE_GUIDE`, `CONFUSION_PAIRS`, `WORKED_EXAMPLES`), so the guide can never describe a taxonomy the classifier isn't using.

@@ -256,7 +256,7 @@ def test_default_stage_mapping_is_complete_and_valid():
 def test_guide_metadata_is_complete():
     """The guide tab renders straight from this metadata, so gaps become blanks."""
     from src.models.taxonomy import (
-        GLOSSARY, STAGE_GUIDE, STAGE_NAMES, THEME_GUIDE, THEME_NAMES,
+        STAGE_GUIDE, STAGE_NAMES, THEME_GUIDE, THEME_NAMES,
     )
 
     for theme in THEME_NAMES:
@@ -272,9 +272,15 @@ def test_guide_metadata_is_complete():
         for field in ("plain", "user_goal", "example"):
             assert field in g and g[field], f"{stage} guide missing {field}"
 
-    assert len(GLOSSARY) >= 18
-    for term, definition in GLOSSARY.items():
-        assert definition.strip(), f"empty glossary definition for {term}"
+
+def test_glossary_is_fully_removed():
+    """The glossary section was dropped from the guide -- leave no dead metadata."""
+    from src.models import taxonomy
+
+    assert not hasattr(taxonomy, "GLOSSARY"), "GLOSSARY should have been removed"
+    app_source = (ROOT / "app.py").read_text(encoding="utf-8")
+    assert "GLOSSARY" not in app_source
+    assert "Beginner glossary" not in app_source
 
 
 def test_guide_supporting_content_present():
@@ -321,7 +327,7 @@ def test_guide_renders_without_api_key():
         "import os, sys;"
         "assert 'ANTHROPIC_API_KEY' not in os.environ;"
         f"sys.path.insert(0, r'{ROOT}');"
-        "from src.models.taxonomy import THEME_GUIDE, STAGE_GUIDE, GLOSSARY, "
+        "from src.models.taxonomy import THEME_GUIDE, STAGE_GUIDE, "
         "CONFUSION_PAIRS, WORKED_EXAMPLES, DEFAULT_STAGE_FOR_THEME;"
         "assert len(THEME_GUIDE) == 11 and len(STAGE_GUIDE) == 8;"
         "print('GUIDE OK')"
