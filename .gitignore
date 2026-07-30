@@ -37,6 +37,9 @@ desktop.ini
 *.pptx
 ~$*
 
+# Private interview preparation -- kept locally, never published.
+INTERVIEW_GUIDE.md
+
 # ---------------------------------------------------------------------------
 # Data policy — READ BEFORE EDITING
 #
