@@ -53,3 +53,6 @@ docs/PRESENTATION_OUTLINE.md
 # ---------------------------------------------------------------------------
 data/cache/
 *.tmp
+
+# Removed from the public repo by request; kept locally only.
+docs/DESIGN_ANSWERS.md

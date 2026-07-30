@@ -5,7 +5,7 @@
 > An independent take-home project for Port's Product Analyst challenge (Part 2: AI-Augmented Qualitative Analysis).
 > **Not an official Port product.** Not affiliated with or endorsed by Port. Built entirely from publicly available data.
 >
-> The assignment asks two design questions before asking for the POC: *"Explain how you would design such a system?"* and *"Explain how you would use GenAI (LLMs) to categorize this unstructured data?"* Direct answers to both: [`docs/DESIGN_ANSWERS.md`](docs/DESIGN_ANSWERS.md).
+> The assignment asks two design questions before asking for the POC: *"Explain how you would design such a system?"* and *"Explain how you would use GenAI (LLMs) to categorize this unstructured data?"* Both are answered here: the system design in [`ARCHITECTURE.md`](ARCHITECTURE.md), and the categorisation approach under [How the LLM categorised it](#how-the-llm-categorised-it) below, with the full taxonomy in [`TAXONOMY.md`](TAXONOMY.md).
 
 ---
 
