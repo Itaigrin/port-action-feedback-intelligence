@@ -256,6 +256,11 @@ REMOVED_NAMES = (
     "Context, targeting & pre-fill",         # differs in case from the stage
 )
 
+# A few retired theme names were demoted to subcategories, where they are now
+# valid and narrower. Only the ones with no place at all in the new taxonomy
+# may be asserted absent everywhere; the rest are checked as categories only.
+DEMOTED_TO_SUBCATEGORY = ("Dynamic & dependent inputs",)
+
 
 def test_exactly_eleven_categories_in_order():
     from src.models.taxonomy import CATEGORY_NAMES
@@ -306,8 +311,9 @@ def test_removed_taxonomy_names_are_rejected():
     from src.models.taxonomy import ALL_SUBCATEGORY_NAMES, CATEGORY_NAMES
 
     for name in REMOVED_NAMES:
-        assert name not in CATEGORY_NAMES, f"{name} should be retired"
-        assert name not in ALL_SUBCATEGORY_NAMES, f"{name} should be retired"
+        assert name not in CATEGORY_NAMES, f"{name} should be retired as a category"
+        if name not in DEMOTED_TO_SUBCATEGORY:
+            assert name not in ALL_SUBCATEGORY_NAMES, f"{name} should be retired"
 
     base = dict(
         is_relevant=True,
