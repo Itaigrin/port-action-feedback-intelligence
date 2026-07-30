@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29T12:26:18.510203+00:00",
+  "generated_at": "2026-07-30T17:16:10.084987+00:00",
   "source_snapshot": "portal_snapshot_20260729T112109Z.json",
   "counts": {
     "fetched": 327,
@@ -10,11 +10,15 @@
   },
   "gate_drops": [],
   "duplicate_drops": [],
-  "sanitisation": {},
+  "sanitisation": {
+    "lifecycle_status_derived": 327
+  },
   "null_counts": {
     "feedback_id": 0,
     "title": 0,
     "description": 8,
+    "source_system": 0,
+    "lifecycle_status": 0,
     "votes": 0,
     "comments_count": 0,
     "status": 0,
@@ -53,6 +57,16 @@
     "in progress": 19,
     "planned": 13,
     "closed": 5
+  },
+  "lifecycle_status_distribution": {
+    "Open": 240,
+    "In progress": 38,
+    "Completed": 31,
+    "Planned": 13,
+    "Closed": 5
+  },
+  "source_system_distribution": {
+    "Port portal": 327
   },
   "vote_stats": {
     "min": 1,

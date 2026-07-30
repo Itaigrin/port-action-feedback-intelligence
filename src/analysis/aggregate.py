@@ -1,9 +1,25 @@
-"""Deterministic aggregation and priority scoring.
+"""Deterministic aggregation and product-action ranking.
 
 Every number the dashboard shows is computed here, in plain Python, from the
 classified records. No LLM is involved at this stage -- the model read and
 categorised the feedback; pandas does the arithmetic. That split is the point:
 counts and rankings must be reproducible and auditable, and an LLM is neither.
+
+TWO THINGS DELIBERATELY ABSENT
+------------------------------
+**Votes.** The previous version ranked on portal vote counts. A vote total is
+meaningful inside one portal and meaningless across Slack, Zendesk and Gong --
+there is nothing to vote with in a support ticket or a sales call. Ranking on a
+signal that only one of four sources can produce would systematically bury
+every problem that arrives through the other three. Votes are still collected
+and preserved as evidence; nothing is ranked by them.
+
+**A weighted score.** There is no `0.45 x demand + 0.30 x frequency` formula
+here. Multiplying unlike signals by invented weights produces a number that
+looks precise and cannot be defended when a stakeholder asks why 0.45. Ranking
+is lexicographic instead: an explicit list of tie-breakers applied in a stated
+order, where every position in the ranking can be explained by naming the key
+that decided it.
 
     python -m src.analysis.aggregate
 """
@@ -11,66 +27,43 @@ counts and rankings must be reproducible and auditable, and an LLM is neither.
 from __future__ import annotations
 
 import json
-import math
 from pathlib import Path
 
 import pandas as pd
 
+from ..models.taxonomy import (
+    CATEGORY_NAMES,
+    OPEN_STATUSES,
+    PROBLEM_TYPE_NAMES,
+    STAGE_NAMES,
+)
+
 ROOT = Path(__file__).resolve().parents[2]
 PROC_DIR = ROOT / "data" / "processed"
 
-# Priority weights. Deliberately few, deliberately explainable.
-W_DEMAND, W_FREQUENCY, W_SEVERITY = 0.45, 0.30, 0.25
-
-# Skew threshold from DATA_PLAN.md, fixed in advance so the choice of scale is
-# made by the data rather than by whoever wants a nicer-looking chart.
-LOG_SCALE_THRESHOLD = 10.0
-
 HIGH_SEVERITY = 4
+LOW_CONFIDENCE = 0.7
 
-# Analyst recommendations. These are JUDGMENT, not data -- labelled as such in
-# the UI so a reader can always tell which is which.
-RECOMMENDED_ACTIONS: dict[str, str] = {
-    "Action discovery & organization":
-        "Improve action search, categories, naming and catalog organization so "
-        "users can quickly find the correct action.",
-    "Context, targeting & pre-fill":
-        "Use the originating page and entity context to pre-select known targets "
-        "and reduce repeated input.",
-    "Form structure, input types & controls":
-        "Expand form controls and make long or complex forms easier to structure "
-        "and complete.",
-    "Dynamic & dependent inputs":
-        "Allow form fields, options and defaults to adapt dynamically to "
-        "previous selections and context.",
-    "Validation & error guidance":
-        "Provide flexible validation rules and clear, actionable explanations "
-        "before submission.",
-    "Backend & invocation configuration":
-        "Make backend connections, payload mapping, credentials and invocation "
-        "settings easier to configure.",
-    "Permissions, eligibility & action visibility":
-        "Evaluate eligibility earlier and clearly control which users can see "
-        "and run each action.",
-    "Approval workflows & governance":
-        "Support flexible approval routing and governance rules based on risk, "
-        "environment, team and action type.",
-    "Testing, editing & drafts":
-        "Improve safe action creation with previews, test runs, drafts, "
-        "versioning and unsaved-change protection.",
-    "Execution visibility, notifications & run control":
-        "Centralize run status, logs, notifications, retries and controls in the "
-        "execution experience.",
-    "Multi-step & orchestration":
-        "Support reliable multi-step execution, branching, data transfer and "
-        "coordination across systems.",
-}
+# The ranking keys, applied in this order, all descending. Stated as data so
+# the dashboard can display the exact list that produced the ranking rather
+# than a prose paraphrase of it that could drift out of sync.
+RANK_KEYS: tuple[tuple[str, str], ...] = (
+    ("open_records", "Number of distinct open feedback records asking for this "
+                     "change -- independent voices converging on one problem."),
+    ("severity_band", "Severity band (average severity, rounded) -- how much "
+                      "the problem hurts when it happens."),
+    ("max_severity", "The single worst record in the group."),
+    ("source_diversity", "How many different source systems raised it."),
+    ("avg_confidence", "Average classifier confidence, as a data-quality "
+                       "tie-breaker only."),
+    ("latest_created", "Recency of the newest supporting record."),
+)
 
 
 def load_records() -> pd.DataFrame:
     data = json.loads((PROC_DIR / "analyzed.json").read_text(encoding="utf-8"))
     df = pd.DataFrame(data["records"])
-    df["votes"] = pd.to_numeric(df["votes"], errors="coerce").fillna(0).astype(int)
+    df.attrs["meta"] = data.get("meta", {})
     return df
 
 
@@ -78,122 +71,273 @@ def relevant_only(df: pd.DataFrame) -> pd.DataFrame:
     return df[df["is_relevant"]].copy()
 
 
-def _share_of_max(series: pd.Series) -> pd.Series:
-    """Scale so the leading theme is 1.0 and everything else is its share.
+def open_only(rel: pd.DataFrame) -> pd.DataFrame:
+    """Live demand only.
 
-    Chosen over min-max because min-max forces the lowest theme to exactly 0
-    on every axis, which manufactures spread that is not in the data --
-    especially for severity, which clusters tightly in this dataset.
+    Completed and Closed records are excluded from ranking because shipped work
+    must never inflate the case for building something again. They stay in the
+    dataset and remain visible in the evidence explorer -- "we already did this"
+    is itself a finding.
     """
-    top = series.max()
-    return series / top if top else series * 0.0
+    return rel[rel["lifecycle_status"].isin(OPEN_STATUSES)].copy()
 
 
-def choose_vote_scale(theme_votes: pd.Series) -> tuple[str, float]:
-    """Pick linear or log scaling from the data, using a threshold set in advance."""
-    median = theme_votes.median()
-    ratio = (theme_votes.max() / median) if median else float("inf")
-    return ("log" if ratio > LOG_SCALE_THRESHOLD else "linear"), float(ratio)
+# --- product actions -------------------------------------------------------
+def _representative(group: pd.DataFrame) -> pd.Series:
+    """Pick the record whose wording labels the group.
+
+    Deterministic and traceable: highest severity, then highest confidence,
+    then lowest feedback_id. Because it is one real record rather than a
+    synthesised sentence, the label on the dashboard can always be traced to
+    the specific piece of feedback it was taken from.
+    """
+    ordered = group.sort_values(
+        ["severity", "confidence", "feedback_id"],
+        ascending=[False, False, True],
+    )
+    return ordered.iloc[0]
 
 
-def theme_table(rel: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
-    """Rank themes by the transparent priority score."""
-    g = rel.groupby("primary_theme").agg(
-        posts=("feedback_id", "count"),
-        total_votes=("votes", "sum"),
-        avg_severity=("severity", "mean"),
-        avg_confidence=("confidence", "mean"),
-    ).reset_index()
+def product_actions(rel: pd.DataFrame) -> pd.DataFrame:
+    """Group open feedback into ranked, recommended product actions.
 
-    scale, ratio = choose_vote_scale(g["total_votes"])
-    votes_basis = g["total_votes"].apply(math.log1p) if scale == "log" else g["total_votes"]
+    Grouping is by taxonomy subcategory, not by the text of
+    suggested_product_action. Two records asking for the same thing rarely
+    phrase it identically, so text grouping would fragment real demand into
+    singletons; the subcategory is the closed, stable key the model was
+    constrained to and is therefore the only grouping that counts reliably.
+    """
+    live = open_only(rel)
+    if live.empty:
+        return pd.DataFrame()
 
-    g["demand_score"] = _share_of_max(votes_basis)
-    g["frequency_score"] = _share_of_max(g["posts"])
-    g["severity_score"] = _share_of_max(g["avg_severity"])
-    g["priority_score"] = (
-        W_DEMAND * g["demand_score"]
-        + W_FREQUENCY * g["frequency_score"]
-        + W_SEVERITY * g["severity_score"]
+    rows: list[dict] = []
+    for (category, subcategory), group in live.groupby(
+        ["primary_taxonomy_category", "primary_taxonomy_subcategory"], sort=True
+    ):
+        rep = _representative(group)
+        created = pd.to_datetime(group["created_at"], errors="coerce", utc=True)
+        rows.append({
+            "category": category,
+            "subcategory": subcategory,
+            "product_action": rep["suggested_product_action"],
+            "product_action_source_id": rep["feedback_id"],
+            "open_records": int(len(group)),
+            "avg_severity": round(float(group["severity"].mean()), 2),
+            "max_severity": int(group["severity"].max()),
+            "severity_band": int(round(float(group["severity"].mean()))),
+            "avg_confidence": round(float(group["confidence"].mean()), 3),
+            "source_diversity": int(group["source_system"].nunique()),
+            "source_systems": sorted(group["source_system"].unique().tolist()),
+            "latest_created": (created.max().isoformat()
+                               if created.notna().any() else ""),
+            "top_problem_type": (group["problem_type"].mode().iloc[0]
+                                 if not group["problem_type"].mode().empty else ""),
+            "top_journey_stage": (group["journey_stage"].mode().iloc[0]
+                                  if not group["journey_stage"].mode().empty else ""),
+            "needs_review": int(group["needs_human_review"].sum()),
+            "record_ids": group["feedback_id"].tolist(),
+        })
+
+    actions = pd.DataFrame(rows)
+    # Lexicographic ranking. The final subcategory key makes the order total,
+    # so the same input always produces the same ranking -- no ties broken by
+    # dict or row order.
+    actions = actions.sort_values(
+        [key for key, _ in RANK_KEYS] + ["subcategory"],
+        ascending=[False] * len(RANK_KEYS) + [True],
+    ).reset_index(drop=True)
+    actions["rank"] = actions.index + 1
+    return actions
+
+
+# --- distribution tables ---------------------------------------------------
+def _pad(g: pd.DataFrame, column: str, names: tuple[str, ...]) -> pd.DataFrame:
+    """Add rows for values with no records.
+
+    An empty category is a finding, not a gap in the chart: it says the
+    taxonomy covers a product area this feedback never mentions.
+    """
+    missing = [n for n in names if n not in set(g[column])]
+    if not missing:
+        return g
+    blank = {c: 0 for c in g.columns if c != column}
+    return pd.concat(
+        [g, pd.DataFrame([{column: n, **blank} for n in missing])],
+        ignore_index=True,
     )
 
-    g["recommended_action"] = g["primary_theme"].map(RECOMMENDED_ACTIONS).fillna("")
-    g = g.sort_values("priority_score", ascending=False).reset_index(drop=True)
-    g["rank"] = g.index + 1
 
-    meta = {
-        "vote_scale": scale,
-        "vote_skew_ratio": round(ratio, 2),
-        "threshold": LOG_SCALE_THRESHOLD,
-        "weights": {"demand": W_DEMAND, "frequency": W_FREQUENCY, "severity": W_SEVERITY},
-        "explanation": (
-            f"Priority = {W_DEMAND:.0%} vote demand + {W_FREQUENCY:.0%} how often the "
-            f"theme appears + {W_SEVERITY:.0%} average severity. Each part is scaled "
-            f"so the highest-scoring theme = 1.0. Votes use a {scale} scale because "
-            f"the top theme has {ratio:.1f}x the votes of the median theme "
-            f"(log applies above {LOG_SCALE_THRESHOLD:.0f}x)."
-        ),
-    }
-    return g, meta
+def category_table(rel: pd.DataFrame) -> pd.DataFrame:
+    g = rel.groupby("primary_taxonomy_category").agg(
+        records=("feedback_id", "count"),
+        open_records=("is_open", "sum"),
+        avg_severity=("severity", "mean"),
+        high_severity=("is_high_severity", "sum"),
+        avg_confidence=("confidence", "mean"),
+        subcategories_seen=("primary_taxonomy_subcategory", "nunique"),
+    ).reset_index()
+    g = _pad(g, "primary_taxonomy_category", CATEGORY_NAMES)
+    g["avg_severity"] = g["avg_severity"].round(2)
+    g["avg_confidence"] = g["avg_confidence"].round(3)
+    return g.sort_values(["records", "primary_taxonomy_category"],
+                         ascending=[False, True]).reset_index(drop=True)
+
+
+def subcategory_table(rel: pd.DataFrame) -> pd.DataFrame:
+    """Every subcategory that actually occurs, with its parent category.
+
+    Not padded to all 63: an all-zero drill-down chart would be unreadable,
+    and the coverage figure in the KPIs already reports how many of the 63
+    the dataset reaches.
+    """
+    g = rel.groupby(
+        ["primary_taxonomy_category", "primary_taxonomy_subcategory"]
+    ).agg(
+        records=("feedback_id", "count"),
+        open_records=("is_open", "sum"),
+        avg_severity=("severity", "mean"),
+    ).reset_index()
+    g["avg_severity"] = g["avg_severity"].round(2)
+    return g.sort_values(
+        ["primary_taxonomy_category", "records", "primary_taxonomy_subcategory"],
+        ascending=[True, False, True],
+    ).reset_index(drop=True)
 
 
 def stage_table(rel: pd.DataFrame) -> pd.DataFrame:
-    """Where friction sits across the Action Configuration journey."""
-    from ..models.taxonomy import STAGE_NAMES
-
+    """Where friction sits across the Action journey, in lifecycle order."""
     g = rel.groupby("journey_stage").agg(
-        posts=("feedback_id", "count"),
-        total_votes=("votes", "sum"),
+        records=("feedback_id", "count"),
+        open_records=("is_open", "sum"),
         avg_severity=("severity", "mean"),
+        high_severity=("is_high_severity", "sum"),
     ).reset_index()
-
-    # Keep the journey in its real order, and show stages with no feedback
-    # rather than silently dropping them -- an empty stage is a finding.
+    g = _pad(g, "journey_stage", STAGE_NAMES)
+    g["avg_severity"] = g["avg_severity"].round(2)
     order = {name: i for i, name in enumerate(STAGE_NAMES)}
-    missing = [s for s in STAGE_NAMES if s not in set(g["journey_stage"])]
-    if missing:
-        g = pd.concat([g, pd.DataFrame(
-            {"journey_stage": missing, "posts": 0, "total_votes": 0, "avg_severity": 0.0}
-        )], ignore_index=True)
-
     g["stage_order"] = g["journey_stage"].map(order)
-    g["votes_per_post"] = (g["total_votes"] / g["posts"]).replace([float("inf")], 0).fillna(0)
     return g.sort_values("stage_order").reset_index(drop=True)
 
 
-def evidence_for_theme(rel: pd.DataFrame, theme: str, n: int = 3) -> list[dict]:
-    """Highest-demand records for a theme that carry a verified quote."""
-    subset = rel[(rel["primary_theme"] == theme) & (rel["evidence_verified"])]
-    subset = subset.sort_values("votes", ascending=False).head(n)
-    return subset[["title", "votes", "severity", "evidence_excerpt",
-                   "source_url", "journey_stage"]].to_dict("records")
+def problem_type_table(rel: pd.DataFrame) -> pd.DataFrame:
+    g = rel.groupby("problem_type").agg(
+        records=("feedback_id", "count"),
+        open_records=("is_open", "sum"),
+        avg_severity=("severity", "mean"),
+    ).reset_index()
+    g = _pad(g, "problem_type", PROBLEM_TYPE_NAMES)
+    g["avg_severity"] = g["avg_severity"].round(2)
+    return g.sort_values(["records", "problem_type"],
+                         ascending=[False, True]).reset_index(drop=True)
 
 
-def kpis(df: pd.DataFrame, rel: pd.DataFrame, themes: pd.DataFrame) -> dict:
+def lifecycle_table(rel: pd.DataFrame) -> pd.DataFrame:
+    g = rel.groupby("lifecycle_status").agg(
+        records=("feedback_id", "count"),
+        avg_severity=("severity", "mean"),
+    ).reset_index()
+    g["avg_severity"] = g["avg_severity"].round(2)
+    return g.sort_values("records", ascending=False).reset_index(drop=True)
+
+
+# --- evidence --------------------------------------------------------------
+def evidence_for(rel: pd.DataFrame, category: str, subcategory: str,
+                 n: int = 3) -> list[dict]:
+    """Supporting records for one product action that carry a verified quote.
+
+    Unverified quotes are excluded here, not merely flagged: a quote the code
+    could not find in the source is never shown as evidence for anything.
+    """
+    subset = rel[
+        (rel["primary_taxonomy_category"] == category)
+        & (rel["primary_taxonomy_subcategory"] == subcategory)
+        & (rel["evidence_verified"])
+    ]
+    subset = subset.sort_values(
+        ["severity", "confidence", "feedback_id"], ascending=[False, False, True]
+    ).head(n)
+    columns = ["feedback_id", "title", "severity", "confidence", "problem_type",
+               "journey_stage", "lifecycle_status", "source_system",
+               "evidence_excerpt", "short_summary", "source_url"]
+    return subset[columns].to_dict("records")
+
+
+# --- headline figures ------------------------------------------------------
+def kpis(df: pd.DataFrame, rel: pd.DataFrame, actions: pd.DataFrame) -> dict:
+    live = open_only(rel)
+    subcats_seen = rel["primary_taxonomy_subcategory"].nunique()
     return {
-        "records_collected": int(len(df)),
-        "relevant_posts": int(len(rel)),
-        "total_votes": int(rel["votes"].sum()),
-        "high_severity_posts": int((rel["severity"] >= HIGH_SEVERITY).sum()),
-        "most_common_theme": themes.sort_values("posts", ascending=False)
-                                   .iloc[0]["primary_theme"],
-        "highest_priority_theme": themes.iloc[0]["primary_theme"],
-        "low_confidence_posts": int((rel["confidence"] < 0.7).sum()),
+        "feedback_records_analyzed": int(len(df)),
+        "in_scope_records": int(len(rel)),
+        "out_of_scope_records": int(len(df) - len(rel)),
+        "open_records": int(len(live)),
+        "resolved_records": int(len(rel) - len(live)),
+        "recommended_product_actions": int(len(actions)),
+        "high_severity_open_records": int((live["severity"] >= HIGH_SEVERITY).sum()),
+        "top_product_action": (actions.iloc[0]["product_action"]
+                               if len(actions) else ""),
+        "top_product_action_category": (actions.iloc[0]["category"]
+                                        if len(actions) else ""),
+        "subcategories_covered": int(subcats_seen),
+        "records_needing_review": int(rel["needs_human_review"].sum()),
+        "low_confidence_records": int((rel["confidence"] < LOW_CONFIDENCE).sum()),
         "unverified_evidence": int((~rel["evidence_verified"]).sum()),
+        "source_systems": sorted(df["source_system"].unique().tolist()),
     }
 
 
 def build_all() -> dict:
     df = load_records()
+    meta = df.attrs.get("meta", {})
     rel = relevant_only(df)
-    themes, scoring_meta = theme_table(rel)
-    stages = stage_table(rel)
+
+    # Derived flags computed once, so every table below counts them the same way.
+    rel["is_open"] = rel["lifecycle_status"].isin(OPEN_STATUSES)
+    rel["is_high_severity"] = rel["severity"] >= HIGH_SEVERITY
+
+    actions = product_actions(rel)
+
     return {
-        "kpis": kpis(df, rel, themes),
-        "scoring": scoring_meta,
-        "themes": themes.to_dict("records"),
-        "stages": stages.to_dict("records"),
-        "evidence": {t: evidence_for_theme(rel, t) for t in themes["primary_theme"]},
+        "meta": {
+            "analysis_run_id": meta.get("analysis_run_id", ""),
+            "model_name": meta.get("model_name", ""),
+            "prompt_version": meta.get("prompt_version", ""),
+            "taxonomy_version": meta.get("taxonomy_version", ""),
+            "schema_version": meta.get("schema_version", ""),
+            "generated_at": meta.get("generated_at", ""),
+        },
+        "ranking": {
+            "keys": [{"key": k, "explanation": e} for k, e in RANK_KEYS],
+            "explanation": (
+                "Product actions are ranked lexicographically, not by a weighted "
+                "score. Only open records count towards a ranking; completed and "
+                "closed work is excluded so shipped features cannot argue for "
+                "themselves again. Each key below is applied in order, and the "
+                "first one that differs decides the position.\n\n"
+                "**Evidence volume leads, severity follows.** Severity is one "
+                "model's reading of one piece of text, so a lone severity-4 "
+                "record is a far weaker signal than several independent records "
+                "converging on the same problem. Ranking severity first put "
+                "single-record requests above problems eight people reported. "
+                "High severity is surfaced instead as its own KPI and filter, "
+                "where a small number of severe records stays visible without "
+                "displacing widely-reported ones."
+            ),
+            "open_statuses": sorted(OPEN_STATUSES),
+        },
+        "kpis": kpis(df, rel, actions),
+        "product_actions": actions.to_dict("records") if len(actions) else [],
+        "categories": category_table(rel).to_dict("records"),
+        "subcategories": subcategory_table(rel).to_dict("records"),
+        "stages": stage_table(rel).to_dict("records"),
+        "problem_types": problem_type_table(rel).to_dict("records"),
+        "lifecycle": lifecycle_table(rel).to_dict("records"),
+        "evidence": {
+            f"{r['category']}||{r['subcategory']}":
+                evidence_for(rel, r["category"], r["subcategory"])
+            for r in (actions.to_dict("records") if len(actions) else [])
+        },
     }
 
 
@@ -202,22 +346,25 @@ def main() -> None:
     (PROC_DIR / "aggregates.json").write_text(
         json.dumps(out, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
 
-    k = out["kpis"]
     print("KPIs")
-    for key, val in k.items():
-        print(f"  {key:24s}: {val}")
-    print()
-    print(out["scoring"]["explanation"])
-    print()
-    print(f"{'#':>2}  {'theme':34s} {'posts':>5} {'votes':>6} {'sev':>4} {'score':>6}")
-    for r in out["themes"]:
-        print(f"{r['rank']:>2}  {r['primary_theme'][:34]:34s} {r['posts']:>5} "
-              f"{r['total_votes']:>6} {r['avg_severity']:>4.1f} {r['priority_score']:>6.3f}")
-    print()
-    print(f"{'stage':38s} {'posts':>5} {'votes':>6} {'v/post':>7}")
+    for key, val in out["kpis"].items():
+        print(f"  {key:30s}: {val}")
+
+    print("\nTop product actions")
+    print(f"{'#':>2}  {'open':>4} {'sev':>4}  {'subcategory':38s} action")
+    for r in out["product_actions"][:12]:
+        print(f"{r['rank']:>2}  {r['open_records']:>4} {r['avg_severity']:>4.1f}  "
+              f"{r['subcategory'][:38]:38s} {r['product_action'][:60]}")
+
+    print("\nCategories")
+    for r in out["categories"]:
+        print(f"  {r['primary_taxonomy_category'][:40]:40s} "
+              f"{r['records']:>4} records  {r['open_records']:>4} open")
+
+    print("\nJourney stages")
     for r in out["stages"]:
-        print(f"{r['journey_stage'][:38]:38s} {r['posts']:>5} {r['total_votes']:>6} "
-              f"{r['votes_per_post']:>7.1f}")
+        print(f"  {r['journey_stage'][:42]:42s} {r['records']:>4} records")
+
     print(f"\nWrote {(PROC_DIR / 'aggregates.json').relative_to(ROOT)}")
 
 

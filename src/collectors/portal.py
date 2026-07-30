@@ -23,8 +23,13 @@ from typing import Any, Iterable
 
 import requests
 
+from ..models.taxonomy import PORTAL_STATUS_MAP
+
 BASE = "https://roadmap.port.io"
 POST_URL = BASE + "/ideas/p/{slug}"
+
+# This collector reads exactly one system; the constant makes that explicit.
+SOURCE_SYSTEM = "Port portal"
 
 # Politeness. Do not lower.
 DELAY_SECONDS = 2.0
@@ -102,9 +107,16 @@ class FeedbackRecord:
     feedback_id: str
     title: str
     description: str | None
+    # Normalised at collection time. One public portal is the only source this
+    # POC can lawfully collect from, so every record is "Port portal" -- the
+    # field exists because production ingests Slack, Zendesk and Gong through
+    # the same schema, and it is never fabricated to look otherwise.
+    source_system: str
     votes: int | None
     comments_count: int | None
     status: str | None
+    # status normalised onto the shared lifecycle vocabulary
+    lifecycle_status: str
     category: str | None
     created_at: str | None
     source_url: str
@@ -114,6 +126,18 @@ class FeedbackRecord:
     merged_titles: list[str]
     payload_hash: str
     redactions: int
+
+
+def normalize_status(raw: Any) -> str:
+    """Map a portal status onto the shared lifecycle vocabulary.
+
+    Unrecognised values become "Unknown" rather than being passed through, so
+    a portal-specific string can never appear in a lifecycle filter as if it
+    were a normalised value.
+    """
+    if not isinstance(raw, str) or not raw.strip():
+        return "Unknown"
+    return PORTAL_STATUS_MAP.get(raw.strip().lower(), "Unknown")
 
 
 def _category_name(raw: Any) -> str | None:
@@ -159,9 +183,11 @@ def parse_post(html: str, slug: str) -> FeedbackRecord:
         feedback_id=str(post.get("_id") or slug),
         title=title,
         description=description or None,
+        source_system=SOURCE_SYSTEM,
         votes=post.get("score"),
         comments_count=post.get("commentCount"),
         status=post.get("status"),
+        lifecycle_status=normalize_status(post.get("status")),
         category=_category_name(post.get("category")),
         created_at=post.get("created"),
         source_url=POST_URL.format(slug=post.get("urlName") or slug),

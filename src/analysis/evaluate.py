@@ -28,24 +28,31 @@ SAMPLE_FILE = EVAL_DIR / "review_sample.csv"
 SEED = 42
 SAMPLE_SIZE = 15
 
-MODEL_COLS = ["model_is_relevant", "model_theme", "model_journey_stage",
-              "model_feedback_type", "model_severity", "model_confidence"]
-HUMAN_COLS = ["human_is_relevant", "human_theme", "human_journey_stage",
-              "human_feedback_type", "human_severity"]
+MODEL_COLS = ["model_is_relevant", "model_category", "model_subcategory",
+              "model_problem_type", "model_journey_stage", "model_severity",
+              "model_confidence"]
+HUMAN_COLS = ["human_is_relevant", "human_category", "human_subcategory",
+              "human_problem_type", "human_journey_stage", "human_severity"]
 
 # Fields compared. Severity is deliberately excluded from "agreement" headline
 # numbers -- it is an ordinal judgment where a 3-vs-4 disagreement is not the
-# same kind of error as a wrong theme. It is reported separately.
+# same kind of error as a wrong category. It is reported separately.
+#
+# Category and subcategory are scored separately on purpose: agreeing on the
+# product area while disagreeing on which part of it is a much smaller error
+# than landing in the wrong area entirely, and one combined number would hide
+# that distinction.
 COMPARED = [
     ("relevance", "model_is_relevant", "human_is_relevant"),
-    ("theme", "model_theme", "human_theme"),
+    ("category", "model_category", "human_category"),
+    ("subcategory", "model_subcategory", "human_subcategory"),
+    ("problem_type", "model_problem_type", "human_problem_type"),
     ("journey_stage", "model_journey_stage", "human_journey_stage"),
-    ("feedback_type", "model_feedback_type", "human_feedback_type"),
 ]
 
 
 def build_sample() -> pd.DataFrame:
-    """Stratified, reproducible sample across relevance and theme."""
+    """Stratified, reproducible sample across relevance and category."""
     records = json.loads((PROC / "analyzed.json").read_text(encoding="utf-8"))["records"]
     df = pd.DataFrame(records)
 
@@ -56,13 +63,13 @@ def build_sample() -> pd.DataFrame:
     n_rel = round(SAMPLE_SIZE * len(relevant) / len(df))
     n_irr = SAMPLE_SIZE - n_rel
 
-    # Spread the relevant half across themes rather than letting the biggest
-    # theme dominate: one per theme first, then fill at random.
+    # Spread the relevant half across categories rather than letting the
+    # biggest one dominate: one per category first, then fill at random.
     # Select by index rather than groupby.apply -- the latter drops the
-    # grouping column in pandas 3, which silently blanks primary_theme.
+    # grouping column in pandas 3, which silently blanks the category.
     picked: list = []
-    for theme in sorted(relevant["primary_theme"].dropna().unique()):
-        pool = relevant[relevant["primary_theme"] == theme]
+    for category in sorted(relevant["primary_taxonomy_category"].dropna().unique()):
+        pool = relevant[relevant["primary_taxonomy_category"] == category]
         picked.append(pool.sample(1, random_state=SEED).index[0])
     picked = picked[:n_rel]
 
@@ -83,9 +90,10 @@ def build_sample() -> pd.DataFrame:
         "description": sample["description"].fillna("").str.slice(0, 600),
         "source_url": sample["source_url"],
         "model_is_relevant": sample["is_relevant"],
-        "model_theme": sample["primary_theme"],
+        "model_category": sample["primary_taxonomy_category"],
+        "model_subcategory": sample["primary_taxonomy_subcategory"],
+        "model_problem_type": sample["problem_type"],
         "model_journey_stage": sample["journey_stage"],
-        "model_feedback_type": sample["feedback_type"],
         "model_severity": sample["severity"],
         "model_confidence": sample["confidence"],
     })

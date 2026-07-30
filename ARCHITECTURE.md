@@ -43,7 +43,7 @@ Four steps, each writing a file, each re-runnable from the previous step's outpu
 | Concern | Owner |
 |---|---|
 | Reading, summarizing, categorizing feedback | LLM |
-| Counts, totals, averages, rankings, priority scores, charts | Plain Python |
+| Counts, totals, averages, rankings, charts | Plain Python |
 
 An LLM is never asked to produce a number that appears in the dashboard. Every figure comes from pandas over the classified records. This is the single most important thing to be able to explain in an interview: **the AI reads, Python counts.**
 
@@ -81,18 +81,36 @@ Every classification carries an `evidence_excerpt`. Before a record is accepted,
 
 This is the strongest anti-fabrication control in the system: the model cannot attribute a complaint to a customer who never made it, because it cannot produce a quote that isn't in the source.
 
-### D-6 — Confidence never affects priority
-`confidence` measures *the model's certainty*, not *how much the problem matters*. Letting it raise a score would mean well-phrased feedback outranks urgent-but-ambiguous feedback. It is excluded from the priority formula entirely and shown separately as a quality indicator.
+### D-6 — Confidence is a quality signal, never a ranking input
+`confidence` measures *the model's certainty*, not *how much the problem matters*. Letting it lift a position would mean well-phrased feedback outranks urgent-but-ambiguous feedback. It appears only as the fifth tie-breaker — used when four earlier keys are already identical — and is shown separately as a data-quality indicator.
+
+### D-7 — No weighted score, and no vote-based ranking
+An earlier version ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 × severity`. Both halves of that were wrong.
+
+**The weights were indefensible.** Multiplying unlike signals by invented coefficients produces a number that looks precise and collapses the moment someone asks why 0.45 rather than 0.4. Ranking is now **lexicographic**: an explicit ordered list of tie-breakers, where every position can be explained by naming the single key that decided it.
+
+**Votes do not generalise.** A vote total is meaningful inside one feedback portal and meaningless across Slack, Zendesk and Gong — there is nothing to vote with in a support ticket or a sales call. Ranking on a signal only one of four sources can produce would systematically bury every problem arriving through the other three. Votes are still collected and preserved as evidence; nothing is ranked by them.
 
 ---
 
-## Priority score
+## Ranking product actions
 
-```
-priority = 0.45 × normalized_votes + 0.30 × normalized_frequency + 0.25 × normalized_severity
-```
+Open feedback is grouped by taxonomy subcategory, and each group becomes one candidate product action. Groups are ordered by applying these keys in sequence; the first that differs decides the position.
 
-45% demand, 30% how often it comes up, 25% how badly it hurts. All three components are normalized to 0–1 so they are comparable, then combined. Computed in plain Python, fully inspectable.
+1. **Open records** — how many distinct open records ask for this change.
+2. **Severity band** — average severity, rounded. How much it hurts when it happens.
+3. **Max severity** — the single worst record in the group.
+4. **Source diversity** — how many different source systems raised it.
+5. **Average confidence** — a data-quality tie-breaker only.
+6. **Recency** — the newest supporting record.
+
+A final alphabetical key makes the order **total**, so the same input always produces the same ranking rather than one that depends on row order.
+
+**Why volume leads and severity follows.** The first version of this ranking put severity first, matching the "rank by severity, break ties by count" sketch in the design write-up. Run against the full dataset it produced an indefensible list: a single severity-4 request for Vault integration outranked a problem eight independent records reported. Severity is one model's reading of one piece of text, so a lone high-severity record is a far weaker signal than several records converging. High severity is surfaced instead as its own KPI and sidebar filter, where a small number of severe records stays visible without displacing widely-reported ones.
+
+**Only open records count.** `Completed` and `Closed` are excluded via `OPEN_STATUSES`, so shipped work cannot argue for itself again. Those records stay visible in the evidence explorer, where "we already built this" is itself a finding.
+
+**Grouping is by subcategory, not by the text of `suggested_product_action`.** Two records asking for the same change rarely phrase it identically, so text grouping would shatter real demand into singletons. The subcategory is the closed key the model was constrained to, and is therefore the only grouping that counts reliably. Each group's displayed label is one real record's wording, chosen deterministically and stored alongside that record's id — so a label on the dashboard always traces to the feedback it came from.
 
 **Explicitly a POC method.** Real prioritization would also weigh customer segment, revenue impact, churn risk, strategic alignment, and engineering effort. Stated on the dashboard, not buried.
 
@@ -101,11 +119,12 @@ priority = 0.45 × normalized_votes + 0.30 × normalized_frequency + 0.25 × nor
 ## Layout
 
 ```
-app.py                  Streamlit app -- Dashboard tab (5 sections) + Guide tab
+app.py                  Streamlit app -- Dashboard tab + Taxonomy & Journey Guide tab
 src/
   collectors/           portal fetch + parse
   models/               Pydantic schema + taxonomy (single source of truth for
-                        themes, stages and guide metadata)
+                        categories, subcategories, stages, problem types,
+                        lifecycle statuses and guide metadata)
   analysis/             clean, dedupe, classify, aggregate, score, evaluate
 data/
   raw/                  immutable snapshots — write once
@@ -128,20 +147,24 @@ Nothing under `src/` imports Streamlit, so all analysis logic is testable withou
 | LLM timeout / malformed response | SDK retry, then re-validate; persistent failure → record marked failed, run continues |
 | Excerpt not found in source | `evidence_verified = False`; excerpt withheld from display |
 | Run interrupted | Cached results let the next run resume where it stopped |
-| Missing votes / description / date | Nullable in the schema; charts handle nulls explicitly |
+| Missing description / date | Nullable in the schema; charts handle nulls explicitly |
+| Unrecognised portal status | Normalised to `Unknown`, never passed through as if mapped |
+| Model returns a subcategory from the wrong category | Rejected by a Pydantic model validator before the record is stored |
 | Zero relevant records | Explicit empty state, no crash |
 
 ---
 
-## Testing — 7 checks only
+## Testing
 
-1. ≥50 unique real feedback posts exist
-2. No duplicate IDs or source URLs
-3. Required fields populated
-4. Evidence excerpts appear in the source text
-5. Priority score calculates correctly
-6. The Streamlit app starts
-7. The app works from cached results with no API key
+1. ≥50 unique real feedback posts exist, all pointing at real portal URLs
+2. No duplicate IDs or source URLs, and dedup is verified against *planted* duplicates — a dedup step that silently does nothing produces the same "0 duplicates" result as one that works
+3. Required fields populated; every label falls inside a closed vocabulary
+4. Category/subcategory pairs are internally consistent; retired names are **rejected by the schema**, not merely undocumented
+5. Out-of-scope records carry no taxonomy at all, so they cannot reach a total
+6. Evidence excerpts appear in the source text, and fabricated quotes are rejected
+7. The ranking is recomputed by hand from raw records, and asserted to be lexicographic and total
+8. No record claims a source system it did not come from
+9. The Streamlit app starts, and works from cached results with no API key
 
 All offline. No test makes a network or API call.
 
@@ -152,12 +175,12 @@ All offline. No test makes a network or API call.
 | POC | Production |
 |---|---|
 | One public portal | Connectors per source (Slack, Zendesk, Gong), each with its own auth and schema |
-| Fixed taxonomy, per-record LLM call | Embedding-based clustering to *discover* themes; LLM to label them |
+| Fixed taxonomy, per-record LLM call | Embedding-based clustering to *discover* categories; LLM to label them |
 | Files | Warehouse table + object storage |
 | Manual run | Scheduled ingestion with monitoring |
-| Votes as demand signal | Customer segment, ARR, churn risk, effort |
+| Open-record count, severity, source diversity | Plus customer segment, ARR, churn risk, engineering effort |
 | Public feedback only | Joined to internal telemetry — the Part 1 funnel |
 
-**Why a fixed taxonomy is right here and wrong at scale:** with ~60 records, a taxonomy drawn from Port's own documentation produces findings that point at pages the team already owns, and every record can be inspected by hand. Clustering 60 records produces unstable, hard-to-interpret groups. At thousands of records the trade reverses — a fixed taxonomy cannot discover a theme nobody thought to name, and per-record LLM calls stop being economic.
+**Why a fixed taxonomy is right here and wrong at scale:** with ~60 records, a taxonomy drawn from Port's own documentation produces findings that point at pages the team already owns, and every record can be inspected by hand. Clustering 60 records produces unstable, hard-to-interpret groups. At thousands of records the trade reverses — a fixed taxonomy cannot discover a category nobody thought to name, and per-record LLM calls stop being economic.
 
 Slack, Zendesk, and Gong connections are **explained, not implemented**.

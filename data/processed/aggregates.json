@@ -1,521 +1,3774 @@
 {
+  "meta": {
+    "analysis_run_id": "20260730T180324Z-v3.0-v2.0",
+    "model_name": "claude-sonnet-5",
+    "prompt_version": "v3.0",
+    "taxonomy_version": "v2.0",
+    "schema_version": "v2.0",
+    "generated_at": "2026-07-30T18:03:49.983657+00:00"
+  },
+  "ranking": {
+    "keys": [
+      {
+        "key": "open_records",
+        "explanation": "Number of distinct open feedback records asking for this change -- independent voices converging on one problem."
+      },
+      {
+        "key": "severity_band",
+        "explanation": "Severity band (average severity, rounded) -- how much the problem hurts when it happens."
+      },
+      {
+        "key": "max_severity",
+        "explanation": "The single worst record in the group."
+      },
+      {
+        "key": "source_diversity",
+        "explanation": "How many different source systems raised it."
+      },
+      {
+        "key": "avg_confidence",
+        "explanation": "Average classifier confidence, as a data-quality tie-breaker only."
+      },
+      {
+        "key": "latest_created",
+        "explanation": "Recency of the newest supporting record."
+      }
+    ],
+    "explanation": "Product actions are ranked lexicographically, not by a weighted score. Only open records count towards a ranking; completed and closed work is excluded so shipped features cannot argue for themselves again. Each key below is applied in order, and the first one that differs decides the position.\n\n**Evidence volume leads, severity follows.** Severity is one model's reading of one piece of text, so a lone severity-4 record is a far weaker signal than several independent records converging on the same problem. Ranking severity first put single-record requests above problems eight people reported. High severity is surfaced instead as its own KPI and filter, where a small number of severe records stays visible without displacing widely-reported ones.",
+    "open_statuses": [
+      "In progress",
+      "Open",
+      "Planned"
+    ]
+  },
   "kpis": {
-    "records_collected": 327,
-    "relevant_posts": 208,
-    "total_votes": 1842,
-    "high_severity_posts": 25,
-    "most_common_theme": "Execution visibility, notifications & run control",
-    "highest_priority_theme": "Execution visibility, notifications & run control",
-    "low_confidence_posts": 26,
-    "unverified_evidence": 2
+    "feedback_records_analyzed": 327,
+    "in_scope_records": 182,
+    "out_of_scope_records": 145,
+    "open_records": 155,
+    "resolved_records": 27,
+    "recommended_product_actions": 54,
+    "high_severity_open_records": 22,
+    "top_product_action": "Enforce RBAC on action run pages so users cannot view runs or entity details for actions or entities they lack permission to access.",
+    "top_product_action_category": "Permissions & Approvals",
+    "subcategories_covered": 54,
+    "records_needing_review": 26,
+    "low_confidence_records": 18,
+    "unverified_evidence": 1,
+    "source_systems": [
+      "Port portal"
+    ]
   },
-  "scoring": {
-    "vote_scale": "linear",
-    "vote_skew_ratio": 2.18,
-    "threshold": 10.0,
-    "weights": {
-      "demand": 0.45,
-      "frequency": 0.3,
-      "severity": 0.25
-    },
-    "explanation": "Priority = 45% vote demand + 30% how often the theme appears + 25% average severity. Each part is scaled so the highest-scoring theme = 1.0. Votes use a linear scale because the top theme has 2.2x the votes of the median theme (log applies above 10x)."
-  },
-  "themes": [
+  "product_actions": [
     {
-      "primary_theme": "Execution visibility, notifications & run control",
-      "posts": 42,
-      "total_votes": 345,
-      "avg_severity": 2.619047619047619,
-      "avg_confidence": 0.8142857142857144,
-      "demand_score": 1.0,
-      "frequency_score": 1.0,
-      "severity_score": 0.8002645502645502,
-      "priority_score": 0.9500661375661376,
-      "recommended_action": "Centralize run status, logs, notifications, retries and controls in the execution experience.",
+      "category": "Permissions & Approvals",
+      "subcategory": "RBAC & dynamic permissions",
+      "product_action": "Enforce RBAC on action run pages so users cannot view runs or entity details for actions or entities they lack permission to access.",
+      "product_action_source_id": "6826b40db0070616c963e9bf",
+      "open_records": 10,
+      "avg_severity": 3.5,
+      "max_severity": 5,
+      "severity_band": 4,
+      "avg_confidence": 0.767,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-05-07T20:55:09.812000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 2,
+      "record_ids": [
+        "6853d436533319bfbf13d0ae",
+        "68f8fbb8741fd60efd0e8d17",
+        "6826b40db0070616c963e9bf",
+        "69fcfc2d78f2a5775788b55d",
+        "69f84ce3477db7829b2e1f27",
+        "663e275443acb838cf19a5ba",
+        "682f670b596869f89577489f",
+        "67bb1b378aff64bedccf9ae2",
+        "693ffd899279e1a4c35ca2c0",
+        "699328e947c850515815cb26"
+      ],
       "rank": 1
     },
     {
-      "primary_theme": "Backend & invocation configuration",
-      "posts": 38,
-      "total_votes": 275,
-      "avg_severity": 3.0,
-      "avg_confidence": 0.7842105263157895,
-      "demand_score": 0.7971014492753623,
-      "frequency_score": 0.9047619047619048,
-      "severity_score": 0.9166666666666666,
-      "priority_score": 0.8592908902691511,
-      "recommended_action": "Make backend connections, payload mapping, credentials and invocation settings easier to configure.",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & request editing",
+      "product_action": "Enable approvers to edit action input values during the manual approval step before granting approval.",
+      "product_action_source_id": "64f484d97fb24609a28e0250",
+      "open_records": 8,
+      "avg_severity": 2.75,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.784,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-07-06T06:26:06.386000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 2,
+      "record_ids": [
+        "66bdca87e78e9ec286c639a3",
+        "6a211ea7d47059032854eafd",
+        "6a214383d4705903285ef4fe",
+        "69d3359760115cf4136a1d87",
+        "6a4b4a7e3395e568ba0e931f",
+        "67ae47018df2ac10d76e1fec",
+        "64f484d97fb24609a28e0250",
+        "69a98a661fe40914834d9831"
+      ],
       "rank": 2
     },
     {
-      "primary_theme": "Permissions, eligibility & action visibility",
-      "posts": 29,
-      "total_votes": 267,
-      "avg_severity": 2.896551724137931,
-      "avg_confidence": 0.7644827586206897,
-      "demand_score": 0.7739130434782608,
-      "frequency_score": 0.6904761904761905,
-      "severity_score": 0.8850574712643677,
-      "priority_score": 0.7766680945241664,
-      "recommended_action": "Evaluate eligibility earlier and clearly control which users can see and run each action.",
+      "category": "Observability & Debugging",
+      "subcategory": "Logs & log streaming",
+      "product_action": "Provide real-time streaming of action run logs in the UI as the run executes.",
+      "product_action_source_id": "65d34b8e9dcc811d4a9300cf",
+      "open_records": 7,
+      "avg_severity": 2.43,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.793,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-10-24T14:03:33.363000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "64e494a2a6c07309e3af5db7",
+        "659d2fac49ce63995d7e4269",
+        "6489ffa40370ff090a8af507",
+        "65d34b8e9dcc811d4a9300cf",
+        "68fb8735235b71fd93744c18",
+        "64f4adb66cbacd09633abd68",
+        "66a5e31d8a37596baba1b970"
+      ],
       "rank": 3
     },
     {
-      "primary_theme": "Approval workflows & governance",
-      "posts": 26,
-      "total_votes": 173,
-      "avg_severity": 2.923076923076923,
-      "avg_confidence": 0.8519230769230769,
-      "demand_score": 0.5014492753623189,
-      "frequency_score": 0.6190476190476191,
-      "severity_score": 0.8931623931623931,
-      "priority_score": 0.6346570579179275,
-      "recommended_action": "Support flexible approval routing and governance rules based on risk, environment, team and action type.",
+      "category": "Observability & Debugging",
+      "subcategory": "Run history, audit & filtering",
+      "product_action": "Add audit log entries and run-page visibility showing the actor (user, integration, or system) and action type for each run status change.",
+      "product_action_source_id": "6a50eea591b05abba241121a",
+      "open_records": 6,
+      "avg_severity": 2.33,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.795,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-07-10T13:07:49.430000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "64f4abe4fd7c2d092c0ce671",
+        "659fb8621779012e85e49c57",
+        "656c4a01ba5aabc9ac975d71",
+        "6a50eea591b05abba241121a",
+        "67173cd806d353fc3299f57b",
+        "662a16854790d8da141e4e6e"
+      ],
       "rank": 4
     },
     {
-      "primary_theme": "Multi-step & orchestration",
-      "posts": 11,
-      "total_votes": 162,
-      "avg_severity": 3.272727272727273,
-      "avg_confidence": 0.759090909090909,
-      "demand_score": 0.46956521739130436,
-      "frequency_score": 0.2619047619047619,
-      "severity_score": 1.0,
-      "priority_score": 0.5398757763975155,
-      "recommended_action": "Support reliable multi-step execution, branching, data transfer and coordination across systems.",
+      "category": "Form Configuration",
+      "subcategory": "Input types & controls",
+      "product_action": "Add support for additional file formats and free-text/markdown input types in action form fields, beyond YAML, JSON, and Protobuf.",
+      "product_action_source_id": "65b62b199794d2cfb2ae1c65",
+      "open_records": 6,
+      "avg_severity": 2.5,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.783,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-01-23T09:47:14.042000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 0,
+      "record_ids": [
+        "65b62b199794d2cfb2ae1c65",
+        "697343a26bf41cfd6bc9ac53",
+        "649bdc0ecf7291098a1c28bf",
+        "665ede26e43d7a73fc2e947a",
+        "6693781aa31de39613529762",
+        "687ced0964a12a95ef832dd9"
+      ],
       "rank": 5
     },
     {
-      "primary_theme": "Form structure, input types & controls",
-      "posts": 21,
-      "total_votes": 156,
-      "avg_severity": 2.2857142857142856,
-      "avg_confidence": 0.8023809523809524,
-      "demand_score": 0.45217391304347826,
-      "frequency_score": 0.5,
-      "severity_score": 0.6984126984126984,
-      "priority_score": 0.5280814354727399,
-      "recommended_action": "Expand form controls and make long or complex forms easier to structure and complete.",
+      "category": "Form Configuration",
+      "subcategory": "Labels, descriptions & display controls",
+      "product_action": "Add support for enum label mappings so form dropdowns can display friendly text distinct from the submitted value.",
+      "product_action_source_id": "697bc2552c0e437d54520fb7",
+      "open_records": 6,
+      "avg_severity": 2.0,
+      "max_severity": 2,
+      "severity_band": 2,
+      "avg_confidence": 0.825,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-06-01T08:41:09.221000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 0,
+      "record_ids": [
+        "6970abf0757ff2b799889f3e",
+        "67bc9e20e167a610dfa628f4",
+        "697bc2552c0e437d54520fb7",
+        "69f1052c6a8c8903012ea194",
+        "6a1d45a5b06d5b62ae23dc43",
+        "6874c373410d522ad019cd56"
+      ],
       "rank": 6
     },
     {
-      "primary_theme": "Dynamic & dependent inputs",
-      "posts": 14,
-      "total_votes": 158,
-      "avg_severity": 2.5714285714285716,
-      "avg_confidence": 0.7571428571428571,
-      "demand_score": 0.4579710144927536,
-      "frequency_score": 0.3333333333333333,
-      "severity_score": 0.7857142857142857,
-      "priority_score": 0.5025155279503105,
-      "recommended_action": "Allow form fields, options and defaults to adapt dynamically to previous selections and context.",
+      "category": "Invocation & Integrations",
+      "subcategory": "Backend & invocation method selection",
+      "product_action": "Support computed/templated values for the integration installationId field in invocation method configuration, with clear execution feedback when resolution fails.",
+      "product_action_source_id": "6995741f6a0047498c59fa71",
+      "open_records": 5,
+      "avg_severity": 3.0,
+      "max_severity": 4,
+      "severity_band": 3,
+      "avg_confidence": 0.77,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-02-18T08:11:11.145000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 1,
+      "record_ids": [
+        "64f241ba50f7aa096976efe6",
+        "67641f3021e6bd260f037ed5",
+        "662c18c1879e6a4fff5ed742",
+        "6995741f6a0047498c59fa71",
+        "65a512ccbb34b59cd65ce460"
+      ],
       "rank": 7
     },
     {
-      "primary_theme": "Validation & error guidance",
-      "posts": 9,
-      "total_votes": 79,
-      "avg_severity": 3.2222222222222223,
-      "avg_confidence": 0.8,
-      "demand_score": 0.2289855072463768,
-      "frequency_score": 0.21428571428571427,
-      "severity_score": 0.9845679012345678,
-      "priority_score": 0.4134711678552258,
-      "recommended_action": "Provide flexible validation rules and clear, actionable explanations before submission.",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval policies & thresholds",
+      "product_action": "Support configurable approval thresholds such as a fixed number or majority for manual approval workflows",
+      "product_action_source_id": "69f2529d03b1298401635428",
+      "open_records": 5,
+      "avg_severity": 2.8,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.82,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-06-10T09:22:55.921000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 0,
+      "record_ids": [
+        "65bb5ba2299d1b93acc3052d",
+        "69f2529d03b1298401635428",
+        "65755f639cb7be20f870e3ce",
+        "6a292ceff00721fb0e2d24cc",
+        "68f92f09f3aea6791833224b"
+      ],
       "rank": 8
     },
     {
-      "primary_theme": "Action discovery & organization",
-      "posts": 6,
-      "total_votes": 136,
-      "avg_severity": 2.1666666666666665,
-      "avg_confidence": 0.8583333333333334,
-      "demand_score": 0.39420289855072466,
-      "frequency_score": 0.14285714285714285,
-      "severity_score": 0.662037037037037,
-      "priority_score": 0.3857577064642282,
-      "recommended_action": "Improve action search, categories, naming and catalog organization so users can quickly find the correct action.",
+      "category": "Form Configuration",
+      "subcategory": "Defaults & computed fields",
+      "product_action": "Support computed default values that reference and combine multiple other form fields, updating automatically as selections change.",
+      "product_action_source_id": "666ec4697bfd74c4333701ac",
+      "open_records": 5,
+      "avg_severity": 2.4,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.78,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-06-04T14:43:40.979000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 1,
+      "record_ids": [
+        "666ec4697bfd74c4333701ac",
+        "6734db6c0c9bb03c11a23807",
+        "66fab653f08e28ee955809ce",
+        "67e5118773bc7a1fd199885d",
+        "68405b9c4ebfd09d591cf6e6"
+      ],
       "rank": 9
     },
     {
-      "primary_theme": "Context, targeting & pre-fill",
-      "posts": 4,
-      "total_votes": 44,
-      "avg_severity": 3.25,
-      "avg_confidence": 0.7125,
-      "demand_score": 0.12753623188405797,
-      "frequency_score": 0.09523809523809523,
-      "severity_score": 0.9930555555555555,
-      "priority_score": 0.33422662180814355,
-      "recommended_action": "Use the originating page and entity context to pre-select known targets and reduce repeated input.",
+      "category": "Discovery, Organization & Reuse",
+      "subcategory": "Action discovery, grouping & ordering",
+      "product_action": "Add the ability to manually order or sort self-service action widgets on the hub page.",
+      "product_action_source_id": "65e7390a0b8acf82dfc933fc",
+      "open_records": 5,
+      "avg_severity": 1.8,
+      "max_severity": 2,
+      "severity_band": 2,
+      "avg_confidence": 0.82,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-12-10T13:12:01.386000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Action discovery & organization",
+      "needs_review": 0,
+      "record_ids": [
+        "64a512f97525ac09ce7a21c4",
+        "65e7390a0b8acf82dfc933fc",
+        "64edffb2ab1b040a223eadd5",
+        "67479928414b9cbfe00bf473",
+        "67583e21f84a4af5d432d045"
+      ],
       "rank": 10
     },
     {
-      "primary_theme": "Testing, editing & drafts",
-      "posts": 8,
-      "total_votes": 47,
-      "avg_severity": 2.5,
-      "avg_confidence": 0.78125,
-      "demand_score": 0.13623188405797101,
-      "frequency_score": 0.19047619047619047,
-      "severity_score": 0.7638888888888888,
-      "priority_score": 0.30941942719116633,
-      "recommended_action": "Improve safe action creation with previews, test runs, drafts, versioning and unsaved-change protection.",
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Authentication & delegated execution",
+      "product_action": "Support OAuth2-based per-user delegated execution so actions run with the requesting user's own linked credentials instead of a shared service token, while still respecting RBAC.",
+      "product_action_source_id": "69553a67723320e3d9a93ab6",
+      "open_records": 4,
+      "avg_severity": 4.0,
+      "max_severity": 5,
+      "severity_band": 4,
+      "avg_confidence": 0.718,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-12-31T14:59:51.272000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 2,
+      "record_ids": [
+        "6671999837fce115c9971b8d",
+        "669fced47627f58ee55d66ec",
+        "69553a67723320e3d9a93ab6",
+        "67adc340ed8cfaae72b680d0"
+      ],
       "rank": 11
+    },
+    {
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval notifications",
+      "product_action": "Send approval notification emails to approvers determined by dynamic permission rules, matching static permission behavior.",
+      "product_action_source_id": "66ed917798991dce147b5cff",
+      "open_records": 4,
+      "avg_severity": 2.75,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-09-20T15:15:03.584000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 1,
+      "record_ids": [
+        "66b884521be290a30c801053",
+        "66ed917798991dce147b5cff",
+        "65c3900fc543d815a5cbf71b",
+        "66718308988563c6da0bb9a9"
+      ],
+      "rank": 12
+    },
+    {
+      "category": "Invocation & Integrations",
+      "subcategory": "Payload mapping & transformation",
+      "product_action": "Provide access to the invoking entity's properties for JQ-based mapping into the action payload",
+      "product_action_source_id": "64b93341745be567b249a32f",
+      "open_records": 4,
+      "avg_severity": 2.25,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.68,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-05-21T13:23:49.788000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 2,
+      "record_ids": [
+        "64b93341745be567b249a32f",
+        "65788dd234dcbc6adbd713bb",
+        "6a0f0765f1bb95af4396d0aa",
+        "6589bbb30ae0869b95c141cd"
+      ],
+      "rank": 13
+    },
+    {
+      "category": "Validation & Rules",
+      "subcategory": "Server-side & API enforcement",
+      "product_action": "Enforce action input validation rules server-side across all invocation paths including API, JSON mode, and MCP.",
+      "product_action_source_id": "6a3586ab940f0b4a269d450c",
+      "open_records": 3,
+      "avg_severity": 4.0,
+      "max_severity": 5,
+      "severity_band": 4,
+      "avg_confidence": 0.823,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-06-19T18:12:59.471000+00:00",
+      "top_problem_type": "Validation gap",
+      "top_journey_stage": "Validation, dependencies & conditional logic",
+      "needs_review": 0,
+      "record_ids": [
+        "652552a8916365c76f187d12",
+        "69d7f5a35356befe54b0025c",
+        "6a3586ab940f0b4a269d450c"
+      ],
+      "rank": 14
+    },
+    {
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver routing & identity",
+      "product_action": "Add a configurable policy to define whether an empty dynamic approvers list should auto-approve the action or block it.",
+      "product_action_source_id": "66781226b894b19aca35a768",
+      "open_records": 3,
+      "avg_severity": 3.67,
+      "max_severity": 4,
+      "severity_band": 4,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-02-24T13:35:59.943000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 0,
+      "record_ids": [
+        "6925812013fb0ed2240adb99",
+        "66781226b894b19aca35a768",
+        "699da93f7e35df0d59976c69"
+      ],
+      "rank": 15
+    },
+    {
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Sensitive-data masking & redaction",
+      "product_action": "Add a way to flag specific run output variables as sensitive so their values are automatically redacted or masked in run history.",
+      "product_action_source_id": "6a62cdea0933efc13e70eab5",
+      "open_records": 3,
+      "avg_severity": 3.67,
+      "max_severity": 4,
+      "severity_band": 4,
+      "avg_confidence": 0.683,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-07-24T02:28:58.987000+00:00",
+      "top_problem_type": "Bug / defect",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 2,
+      "record_ids": [
+        "66c8d155bc622140de9a1e79",
+        "6710640a41d1a5151b93a275",
+        "6a62cdea0933efc13e70eab5"
+      ],
+      "rank": 16
+    },
+    {
+      "category": "Permissions & Approvals",
+      "subcategory": "Permission authoring & testing",
+      "product_action": "Provide detailed error messages that identify which specific dynamic permission condition caused an action execution to be denied.",
+      "product_action_source_id": "66b1434bd12b821c86cbc7fc",
+      "open_records": 3,
+      "avg_severity": 3.33,
+      "max_severity": 4,
+      "severity_band": 3,
+      "avg_confidence": 0.867,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-09-06T10:16:44.298000+00:00",
+      "top_problem_type": "Configuration complexity",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 0,
+      "record_ids": [
+        "66b1434bd12b821c86cbc7fc",
+        "66dad68c5c2fac7ded045460",
+        "66b14531ed4315cc0258b909"
+      ],
+      "rank": 17
+    },
+    {
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Message signing & webhook security",
+      "product_action": "Support referencing stored Port secrets for webhook signature verification instead of raw secret values",
+      "product_action_source_id": "6915caf8c4c30db90d700b0b",
+      "open_records": 3,
+      "avg_severity": 3.33,
+      "max_severity": 4,
+      "severity_band": 3,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-04-20T13:07:21.865000+00:00",
+      "top_problem_type": "Security or privacy concern",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "record_ids": [
+        "6915caf8c4c30db90d700b0b",
+        "69e62509bf8b6dbf40b878c7",
+        "69c1a3bff8901915c20c5ca3"
+      ],
+      "rank": 18
+    },
+    {
+      "category": "Observability & Debugging",
+      "subcategory": "Run status & progress",
+      "product_action": "Surface pre-execution run status states such as queued, delayed, and rate-limited, with clear error messaging if the run fails to start.",
+      "product_action_source_id": "6a206c5f516b94d1532bef24",
+      "open_records": 3,
+      "avg_severity": 2.67,
+      "max_severity": 4,
+      "severity_band": 3,
+      "avg_confidence": 0.783,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-06-03T18:03:11.223000+00:00",
+      "top_problem_type": "Observability or debugging gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "6a206c5f516b94d1532bef24",
+        "697141709b01af0c80a5efd1",
+        "674613bc11c9ac3dbb882e6a"
+      ],
+      "rank": 19
+    },
+    {
+      "category": "Observability & Debugging",
+      "subcategory": "Error messages & backend responses",
+      "product_action": "Surface JQ evaluation errors in a monitorable location so users can see and act on why an action failed to run.",
+      "product_action_source_id": "66e68c9ff85bef2fa5d4dc82",
+      "open_records": 3,
+      "avg_severity": 3.33,
+      "max_severity": 4,
+      "severity_band": 3,
+      "avg_confidence": 0.783,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-04-30T19:32:06.727000+00:00",
+      "top_problem_type": "Observability or debugging gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 1,
+      "record_ids": [
+        "67c68b799784f92c6176416d",
+        "68127ab6fd3a32236bbbbeba",
+        "66e68c9ff85bef2fa5d4dc82"
+      ],
+      "rank": 20
+    },
+    {
+      "category": "Discovery, Organization & Reuse",
+      "subcategory": "Conditional availability & placement",
+      "product_action": "Allow builders to configure conditional visibility of actions per entity, not just per blueprint.",
+      "product_action_source_id": "656dffd9c9406ec6bc18eaa5",
+      "open_records": 3,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-01-21T13:36:16.461000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Action discovery & organization",
+      "needs_review": 0,
+      "record_ids": [
+        "65b9006ef5018ed4ab27075b",
+        "678fa2d0541d91b91a772c41",
+        "656dffd9c9406ec6bc18eaa5"
+      ],
+      "rank": 21
+    },
+    {
+      "category": "Form Configuration",
+      "subcategory": "Structured & repeatable inputs",
+      "product_action": "Add a table-style structured input control that lets users enter repeatable rows of related fields in a self-service action form.",
+      "product_action_source_id": "68385892443469540b4ed3bd",
+      "open_records": 3,
+      "avg_severity": 2.67,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.817,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-06-10T02:48:54.481000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 0,
+      "record_ids": [
+        "68385892443469540b4ed3bd",
+        "6a28d09693ba6573b6a4a68e",
+        "67f4f44f1aac623580bb3589"
+      ],
+      "rank": 22
+    },
+    {
+      "category": "Validation & Rules",
+      "subcategory": "Input & cross-field validation",
+      "product_action": "Restore live regex validation for string inputs, or provide a setting to toggle live validation on and off.",
+      "product_action_source_id": "68c1d18fa34b05cc8bf233c6",
+      "open_records": 3,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.817,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-03-23T07:15:53.227000+00:00",
+      "top_problem_type": "Bug / defect",
+      "top_journey_stage": "Validation, dependencies & conditional logic",
+      "needs_review": 0,
+      "record_ids": [
+        "69c0e8a9943dfd034f363563",
+        "68c1d18fa34b05cc8bf233c6",
+        "68c9c5736bddc38edb2a4072"
+      ],
+      "rank": 23
+    },
+    {
+      "category": "Invocation & Integrations",
+      "subcategory": "Execution agents & runners",
+      "product_action": "Add a configurable cluster identifier that lets execution agents claim only matching runs during polling.",
+      "product_action_source_id": "696f2e14d1352674295c2e11",
+      "open_records": 3,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.767,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-02-26T11:24:39.313000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "record_ids": [
+        "693717e9a5e8f26790db4e71",
+        "696f2e14d1352674295c2e11",
+        "69a02d77006d0995d3c7e953"
+      ],
+      "rank": 24
+    },
+    {
+      "category": "Form Configuration",
+      "subcategory": "Dynamic & dependent inputs",
+      "product_action": "Support dropdown input options populated dynamically from external API responses",
+      "product_action_source_id": "6548e76c830f6a63732c6653",
+      "open_records": 3,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.683,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-10-02T11:52:34.064000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 2,
+      "record_ids": [
+        "6548e76c830f6a63732c6653",
+        "679265f3a7c7da4003832a79",
+        "68de67828ad773d9baab31b1"
+      ],
+      "rank": 25
+    },
+    {
+      "category": "Validation & Rules",
+      "subcategory": "Expression and JQ rule authoring",
+      "product_action": "Support JQ expressions in action condition/rule authoring for Day-2 and Delete actions.",
+      "product_action_source_id": "681b0a5d2c401ce3fc35e8bc",
+      "open_records": 3,
+      "avg_severity": 2.67,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.683,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-08-11T10:33:38.267000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Validation, dependencies & conditional logic",
+      "needs_review": 1,
+      "record_ids": [
+        "6899c7023d379b03f9f77df7",
+        "681b0a5d2c401ce3fc35e8bc",
+        "66cc92d3c146ef3febde98ab"
+      ],
+      "rank": 26
+    },
+    {
+      "category": "Observability & Debugging",
+      "subcategory": "Run-history APIs & export",
+      "product_action": "Add filtering, field-inclusion, and pagination support to the action runs API endpoint",
+      "product_action_source_id": "6984c8667a1845e176fe3732",
+      "open_records": 3,
+      "avg_severity": 2.33,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-03-03T17:55:10.562000+00:00",
+      "top_problem_type": "Integration or API gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "6984c8667a1845e176fe3732",
+        "69a7207e9505b9d5de41736b",
+        "66fabe27f08e28ee95624d41"
+      ],
+      "rank": 27
+    },
+    {
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval audit & context",
+      "product_action": "Add approver and approved-by columns with filtering support to the Runs audit log table",
+      "product_action_source_id": "6a2a7d26bd2d82218bddf0be",
+      "open_records": 3,
+      "avg_severity": 2.33,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.783,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-06-11T09:17:26.678000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 0,
+      "record_ids": [
+        "67098dae95ff13ed656df804",
+        "697b9fddcfbf975300198439",
+        "6a2a7d26bd2d82218bddf0be"
+      ],
+      "rank": 28
+    },
+    {
+      "category": "Execution Lifecycle",
+      "subcategory": "Concurrency, rate limits & duplicate prevention",
+      "product_action": "Provide configuration options to restrict concurrent or duplicate action runs on the same target",
+      "product_action_source_id": "656771af070a907c6e635dc9",
+      "open_records": 2,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.875,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-05-18T11:50:41.898000+00:00",
+      "top_problem_type": "Bug / defect",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "656771af070a907c6e635dc9",
+        "6a0afd1159c18d657028cd5c"
+      ],
+      "rank": 29
+    },
+    {
+      "category": "Execution Lifecycle",
+      "subcategory": "Cancel, stop & resume",
+      "product_action": "Add a cancel/stop control for in-progress action runs",
+      "product_action_source_id": "650acbf95b34b73cc2493ca8",
+      "open_records": 2,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.825,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-10-04T17:49:48.806000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "67002abcd4bbc2b93566d305",
+        "650acbf95b34b73cc2493ca8"
+      ],
+      "rank": 30
+    },
+    {
+      "category": "Execution Lifecycle",
+      "subcategory": "Completion & result-state control",
+      "product_action": "Support manual success/fail run status control for create/update invocation types, matching the capability already available for Kafka-backed actions.",
+      "product_action_source_id": "699c78c2ebbb27ef14d76770",
+      "open_records": 2,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.785,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-02-23T15:56:50.952000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 1,
+      "record_ids": [
+        "699c78c2ebbb27ef14d76770",
+        "6582ce708d54e728d31b780f"
+      ],
+      "rank": 31
+    },
+    {
+      "category": "Observability & Debugging",
+      "subcategory": "Run traceability & related entities",
+      "product_action": "Surface the triggering user's identity in audit log entries for entities created via self-service actions",
+      "product_action_source_id": "697a6d812b05462f8a614382",
+      "open_records": 2,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.785,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-01-28T20:11:45.370000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "67b20c2e5a5587585abe688c",
+        "697a6d812b05462f8a614382"
+      ],
+      "rank": 32
+    },
+    {
+      "category": "Discovery, Organization & Reuse",
+      "subcategory": "Bulk actions",
+      "product_action": "Enable bulk execution of self-service actions, including day-2 and delete operations, across multiple selected entities",
+      "product_action_source_id": "67dbf184d3db9fe5bd6f51f5",
+      "open_records": 2,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.725,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-03-20T10:44:20.329000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Action discovery & organization",
+      "needs_review": 1,
+      "record_ids": [
+        "67dbf184d3db9fe5bd6f51f5",
+        "670e6d4f1d4ba786e2faa0df"
+      ],
+      "rank": 33
+    },
+    {
+      "category": "Authoring, Testing & Management",
+      "subcategory": "API & IaC configuration management",
+      "product_action": "Add support for configuring action permissions via the Pulumi provider (IaC/API configuration management)",
+      "product_action_source_id": "64f9b9a2b9071e097d98d1c7",
+      "open_records": 2,
+      "avg_severity": 2.5,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-02-14T01:04:24.126000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Testing, editing & publishing",
+      "needs_review": 0,
+      "record_ids": [
+        "64f9b9a2b9071e097d98d1c7",
+        "67ae96986cf677fdc79b6969"
+      ],
+      "rank": 34
+    },
+    {
+      "category": "Context, Targeting & Pre-fill",
+      "subcategory": "Embedded & alternative launch surfaces",
+      "product_action": "Enable triggering a self-service action form as a modal overlay on any page via markdown or link syntax, without redirecting to the Self-service catalog page.",
+      "product_action_source_id": "6760726f4a50f11189d6e973",
+      "open_records": 2,
+      "avg_severity": 2.5,
+      "max_severity": 3,
+      "severity_band": 2,
+      "avg_confidence": 0.735,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-03-03T08:30:35.951000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Contextual entry, targeting & pre-fill",
+      "needs_review": 1,
+      "record_ids": [
+        "6760726f4a50f11189d6e973",
+        "69a69c2bbd9e53f8d10aa84f"
+      ],
+      "rank": 35
+    },
+    {
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Editing & unsaved-change safety",
+      "product_action": "Implement true change detection in the action edit dialog to only prompt for unsaved-change confirmation when a real diff exists.",
+      "product_action_source_id": "670fd226ff2831f9768b8724",
+      "open_records": 2,
+      "avg_severity": 2.0,
+      "max_severity": 2,
+      "severity_band": 2,
+      "avg_confidence": 0.9,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-11-06T11:42:13.306000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Testing, editing & publishing",
+      "needs_review": 0,
+      "record_ids": [
+        "672b5615349fd99b0f353e36",
+        "670fd226ff2831f9768b8724"
+      ],
+      "rank": 36
+    },
+    {
+      "category": "Form Configuration",
+      "subcategory": "Form layout, sections & multi-page forms",
+      "product_action": "Allow users to submit a multi-step action form directly from the first step once all required fields are valid",
+      "product_action_source_id": "672b52a3c45ed39e22567862",
+      "open_records": 2,
+      "avg_severity": 2.0,
+      "max_severity": 2,
+      "severity_band": 2,
+      "avg_confidence": 0.8,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-02-23T12:24:12.983000+00:00",
+      "top_problem_type": "Usability friction",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 0,
+      "record_ids": [
+        "67bb136c8e2de556c2957dad",
+        "672b52a3c45ed39e22567862"
+      ],
+      "rank": 37
+    },
+    {
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Credentials & secrets management",
+      "product_action": "Add native HashiCorp Vault integration so Action secrets can be resolved at runtime instead of being stored inside Port.",
+      "product_action_source_id": "6a61eb457560de5c7714679f",
+      "open_records": 1,
+      "avg_severity": 4.0,
+      "max_severity": 4,
+      "severity_band": 4,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-07-23T10:21:57.248000+00:00",
+      "top_problem_type": "Integration or API gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "record_ids": [
+        "6a61eb457560de5c7714679f"
+      ],
+      "rank": 38
+    },
+    {
+      "category": "Orchestration",
+      "subcategory": "Shared context & output passing",
+      "product_action": "Expose result, workflowStatus, and error fields in the node outputs available to downstream JQ expressions in workflows",
+      "product_action_source_id": "6a5fd5a33da3c9382571e53c",
+      "open_records": 1,
+      "avg_severity": 4.0,
+      "max_severity": 4,
+      "severity_band": 4,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-07-21T20:25:07.886000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "record_ids": [
+        "6a5fd5a33da3c9382571e53c"
+      ],
+      "rank": 39
+    },
+    {
+      "category": "Orchestration",
+      "subcategory": "Multi-backend & multi-system sequencing",
+      "product_action": "Enable configuring multiple backends per action with conditional routing and per-backend payload formatting based on input values.",
+      "product_action_source_id": "684c4e772523f38ddde65e37",
+      "open_records": 1,
+      "avg_severity": 4.0,
+      "max_severity": 4,
+      "severity_band": 4,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-06-13T16:14:47.335000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "record_ids": [
+        "684c4e772523f38ddde65e37"
+      ],
+      "rank": 40
+    },
+    {
+      "category": "Context, Targeting & Pre-fill",
+      "subcategory": "Pre-fill & context-specific defaults",
+      "product_action": "Support dynamic JQ-based defaults and filtering for entity, user, and team picker inputs using current-user and triggering-entity context.",
+      "product_action_source_id": "6a3c68a73959e847601ffa6f",
+      "open_records": 1,
+      "avg_severity": 4.0,
+      "max_severity": 4,
+      "severity_band": 4,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-06-24T23:30:47.480000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Contextual entry, targeting & pre-fill",
+      "needs_review": 1,
+      "record_ids": [
+        "6a3c68a73959e847601ffa6f"
+      ],
+      "rank": 41
+    },
+    {
+      "category": "Execution Lifecycle",
+      "subcategory": "Timeouts",
+      "product_action": "Allow configuring a timeout duration for action runs that automatically stops execution once exceeded",
+      "product_action_source_id": "6583401b32150dedcd8f0e46",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.9,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2023-12-20T19:27:23.324000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "6583401b32150dedcd8f0e46"
+      ],
+      "rank": 42
+    },
+    {
+      "category": "Invocation & Integrations",
+      "subcategory": "Event triggers & action-to-automation integration",
+      "product_action": "Support wildcard or global event triggers that connect automations to all self-service actions rather than a single action.",
+      "product_action_source_id": "6a5979a17cd0080dd647c575",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-07-17T00:38:57.102000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "record_ids": [
+        "6a5979a17cd0080dd647c575"
+      ],
+      "rank": 43
+    },
+    {
+      "category": "Permissions & Approvals",
+      "subcategory": "Action visibility & eligibility",
+      "product_action": "Support hiding or displaying self-service actions in the UI based on dynamic permission policy evaluation, before form submission.",
+      "product_action_source_id": "68c27182f9c430044f39113f",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-09-11T06:51:46.185000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 0,
+      "record_ids": [
+        "68c27182f9c430044f39113f"
+      ],
+      "rank": 44
+    },
+    {
+      "category": "Orchestration",
+      "subcategory": "Intermediate approvals",
+      "product_action": "Support intermediate approval gates that can pause a running action and require approval before it resumes.",
+      "product_action_source_id": "658017fae4e884edf5a34ea5",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2023-12-18T09:59:22.243000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "record_ids": [
+        "658017fae4e884edf5a34ea5"
+      ],
+      "rank": 45
+    },
+    {
+      "category": "Context, Targeting & Pre-fill",
+      "subcategory": "Current-user and context propagation",
+      "product_action": "Expose additional trusted executing-user context (e.g., team relationships) in the action backend payload sourced from the system rather than user input.",
+      "product_action_source_id": "695ce5f621c449e1fd7ce58e",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-01-06T10:37:42.687000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Contextual entry, targeting & pre-fill",
+      "needs_review": 0,
+      "record_ids": [
+        "695ce5f621c449e1fd7ce58e"
+      ],
+      "rank": 46
+    },
+    {
+      "category": "Context, Targeting & Pre-fill",
+      "subcategory": "Entity and resource targeting",
+      "product_action": "Allow a single action to be associated with multiple blueprints so it can be triggered from any of them.",
+      "product_action_source_id": "67fe69fc077f02acb331e710",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-04-15T14:15:24.787000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Contextual entry, targeting & pre-fill",
+      "needs_review": 1,
+      "record_ids": [
+        "67fe69fc077f02acb331e710"
+      ],
+      "rank": 47
+    },
+    {
+      "category": "Invocation & Integrations",
+      "subcategory": "APIs & external integrations",
+      "product_action": "Provide a native Microsoft Teams bot integration that can be used as an action backend to deliver messages to Teams channels and users.",
+      "product_action_source_id": "6728c6a7e9894c1a059aa821",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-11-04T13:05:43.199000+00:00",
+      "top_problem_type": "Integration or API gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "record_ids": [
+        "6728c6a7e9894c1a059aa821"
+      ],
+      "rank": 48
+    },
+    {
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Playground, examples & in-product help",
+      "product_action": "Allow users to add real entity examples to the backend playground for JQ mapping validation",
+      "product_action_source_id": "66e985470be4dcfd3da6e336",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-09-17T13:33:59.820000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Testing, editing & publishing",
+      "needs_review": 0,
+      "record_ids": [
+        "66e985470be4dcfd3da6e336"
+      ],
+      "rank": 49
+    },
+    {
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Preview & dry run",
+      "product_action": "Add a dry-run flag to the Port GitHub Action integration to validate workflow execution without performing real side effects",
+      "product_action_source_id": "664dfc30f03c3cdb1e67c0b7",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-05-22T14:07:44.602000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Testing, editing & publishing",
+      "needs_review": 0,
+      "record_ids": [
+        "664dfc30f03c3cdb1e67c0b7"
+      ],
+      "rank": 50
+    },
+    {
+      "category": "Execution Lifecycle",
+      "subcategory": "Reliability & transient-failure handling",
+      "product_action": "Add Port-managed automatic retries with backoff for action runs that report transient errors, including an API-based opt-in and a status field to signal retryable failures.",
+      "product_action_source_id": "659823830182c070291f2d87",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-01-05T15:42:59.194000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "659823830182c070291f2d87"
+      ],
+      "rank": 51
+    },
+    {
+      "category": "Orchestration",
+      "subcategory": "Multi-step workflows",
+      "product_action": "Enable multi-step action workflows that chain inputs, conditions and approvals in a single self-service action.",
+      "product_action_source_id": "689c4e5eda725fecc3d241bf",
+      "open_records": 1,
+      "avg_severity": 3.0,
+      "max_severity": 3,
+      "severity_band": 3,
+      "avg_confidence": 0.7,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-08-13T08:35:42.274000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 1,
+      "record_ids": [
+        "689c4e5eda725fecc3d241bf"
+      ],
+      "rank": 52
+    },
+    {
+      "category": "Execution Lifecycle",
+      "subcategory": "Retry, rerun & duplicate execution",
+      "product_action": "Enable starting a duplicate run with the same inputs while the original run is still in progress, with clearer labeling and a confirmation step to prevent accidental duplicate execution.",
+      "product_action_source_id": "69523d930fce6a18f6f14a07",
+      "open_records": 1,
+      "avg_severity": 2.0,
+      "max_severity": 2,
+      "severity_band": 2,
+      "avg_confidence": 0.85,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-12-29T08:36:35.476000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "record_ids": [
+        "69523d930fce6a18f6f14a07"
+      ],
+      "rank": 53
+    },
+    {
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Drafts, publishing & disablement",
+      "product_action": "Add a maintenance/disabled state for actions that hides them from non-admin users while allowing admins to continue editing.",
+      "product_action_source_id": "669f73086d132f3ee45a4c86",
+      "open_records": 1,
+      "avg_severity": 2.0,
+      "max_severity": 2,
+      "severity_band": 2,
+      "avg_confidence": 0.75,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2024-07-23T09:08:24.325000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Testing, editing & publishing",
+      "needs_review": 0,
+      "record_ids": [
+        "669f73086d132f3ee45a4c86"
+      ],
+      "rank": 54
+    }
+  ],
+  "categories": [
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "records": 47,
+      "open_records": 37,
+      "avg_severity": 3.0,
+      "high_severity": 7,
+      "avg_confidence": 0.798,
+      "subcategories_seen": 8
+    },
+    {
+      "primary_taxonomy_category": "Form Configuration",
+      "records": 32,
+      "open_records": 25,
+      "avg_severity": 2.38,
+      "high_severity": 0,
+      "avg_confidence": 0.786,
+      "subcategories_seen": 6
+    },
+    {
+      "primary_taxonomy_category": "Observability & Debugging",
+      "records": 27,
+      "open_records": 24,
+      "avg_severity": 2.48,
+      "high_severity": 2,
+      "avg_confidence": 0.792,
+      "subcategories_seen": 6
+    },
+    {
+      "primary_taxonomy_category": "Invocation & Integrations",
+      "records": 17,
+      "open_records": 14,
+      "avg_severity": 2.76,
+      "high_severity": 1,
+      "avg_confidence": 0.752,
+      "subcategories_seen": 5
+    },
+    {
+      "primary_taxonomy_category": "Identity, Secrets & Security",
+      "records": 11,
+      "open_records": 11,
+      "avg_severity": 3.73,
+      "high_severity": 7,
+      "avg_confidence": 0.756,
+      "subcategories_seen": 4
+    },
+    {
+      "primary_taxonomy_category": "Discovery, Organization & Reuse",
+      "records": 10,
+      "open_records": 10,
+      "avg_severity": 2.4,
+      "high_severity": 0,
+      "avg_confidence": 0.81,
+      "subcategories_seen": 3
+    },
+    {
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "records": 10,
+      "open_records": 9,
+      "avg_severity": 2.8,
+      "high_severity": 0,
+      "avg_confidence": 0.837,
+      "subcategories_seen": 6
+    },
+    {
+      "primary_taxonomy_category": "Validation & Rules",
+      "records": 9,
+      "open_records": 9,
+      "avg_severity": 3.22,
+      "high_severity": 2,
+      "avg_confidence": 0.774,
+      "subcategories_seen": 3
+    },
+    {
+      "primary_taxonomy_category": "Authoring, Testing & Management",
+      "records": 7,
+      "open_records": 7,
+      "avg_severity": 2.43,
+      "high_severity": 0,
+      "avg_confidence": 0.793,
+      "subcategories_seen": 5
+    },
+    {
+      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
+      "records": 7,
+      "open_records": 5,
+      "avg_severity": 3.0,
+      "high_severity": 1,
+      "avg_confidence": 0.731,
+      "subcategories_seen": 4
+    },
+    {
+      "primary_taxonomy_category": "Orchestration",
+      "records": 5,
+      "open_records": 4,
+      "avg_severity": 3.6,
+      "high_severity": 3,
+      "avg_confidence": 0.82,
+      "subcategories_seen": 4
+    }
+  ],
+  "subcategories": [
+    {
+      "primary_taxonomy_category": "Authoring, Testing & Management",
+      "primary_taxonomy_subcategory": "API & IaC configuration management",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 2.5
+    },
+    {
+      "primary_taxonomy_category": "Authoring, Testing & Management",
+      "primary_taxonomy_subcategory": "Editing & unsaved-change safety",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 2.0
+    },
+    {
+      "primary_taxonomy_category": "Authoring, Testing & Management",
+      "primary_taxonomy_subcategory": "Drafts, publishing & disablement",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 2.0
+    },
+    {
+      "primary_taxonomy_category": "Authoring, Testing & Management",
+      "primary_taxonomy_subcategory": "Playground, examples & in-product help",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Authoring, Testing & Management",
+      "primary_taxonomy_subcategory": "Preview & dry run",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
+      "primary_taxonomy_subcategory": "Embedded & alternative launch surfaces",
+      "records": 3,
+      "open_records": 2,
+      "avg_severity": 2.67
+    },
+    {
+      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
+      "primary_taxonomy_subcategory": "Entity and resource targeting",
+      "records": 2,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
+      "primary_taxonomy_subcategory": "Current-user and context propagation",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
+      "primary_taxonomy_subcategory": "Pre-fill & context-specific defaults",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 4.0
+    },
+    {
+      "primary_taxonomy_category": "Discovery, Organization & Reuse",
+      "primary_taxonomy_subcategory": "Action discovery, grouping & ordering",
+      "records": 5,
+      "open_records": 5,
+      "avg_severity": 1.8
+    },
+    {
+      "primary_taxonomy_category": "Discovery, Organization & Reuse",
+      "primary_taxonomy_subcategory": "Conditional availability & placement",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Discovery, Organization & Reuse",
+      "primary_taxonomy_subcategory": "Bulk actions",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "primary_taxonomy_subcategory": "Cancel, stop & resume",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "primary_taxonomy_subcategory": "Completion & result-state control",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "primary_taxonomy_subcategory": "Concurrency, rate limits & duplicate prevention",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "primary_taxonomy_subcategory": "Retry, rerun & duplicate execution",
+      "records": 2,
+      "open_records": 1,
+      "avg_severity": 2.0
+    },
+    {
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "primary_taxonomy_subcategory": "Reliability & transient-failure handling",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "primary_taxonomy_subcategory": "Timeouts",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Form Configuration",
+      "primary_taxonomy_subcategory": "Input types & controls",
+      "records": 8,
+      "open_records": 6,
+      "avg_severity": 2.38
+    },
+    {
+      "primary_taxonomy_category": "Form Configuration",
+      "primary_taxonomy_subcategory": "Defaults & computed fields",
+      "records": 6,
+      "open_records": 5,
+      "avg_severity": 2.33
+    },
+    {
+      "primary_taxonomy_category": "Form Configuration",
+      "primary_taxonomy_subcategory": "Labels, descriptions & display controls",
+      "records": 6,
+      "open_records": 6,
+      "avg_severity": 2.0
+    },
+    {
+      "primary_taxonomy_category": "Form Configuration",
+      "primary_taxonomy_subcategory": "Form layout, sections & multi-page forms",
+      "records": 5,
+      "open_records": 2,
+      "avg_severity": 2.2
+    },
+    {
+      "primary_taxonomy_category": "Form Configuration",
+      "primary_taxonomy_subcategory": "Dynamic & dependent inputs",
+      "records": 4,
+      "open_records": 3,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Form Configuration",
+      "primary_taxonomy_subcategory": "Structured & repeatable inputs",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 2.67
+    },
+    {
+      "primary_taxonomy_category": "Identity, Secrets & Security",
+      "primary_taxonomy_subcategory": "Authentication & delegated execution",
+      "records": 4,
+      "open_records": 4,
+      "avg_severity": 4.0
+    },
+    {
+      "primary_taxonomy_category": "Identity, Secrets & Security",
+      "primary_taxonomy_subcategory": "Message signing & webhook security",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 3.33
+    },
+    {
+      "primary_taxonomy_category": "Identity, Secrets & Security",
+      "primary_taxonomy_subcategory": "Sensitive-data masking & redaction",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 3.67
+    },
+    {
+      "primary_taxonomy_category": "Identity, Secrets & Security",
+      "primary_taxonomy_subcategory": "Credentials & secrets management",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 4.0
+    },
+    {
+      "primary_taxonomy_category": "Invocation & Integrations",
+      "primary_taxonomy_subcategory": "Backend & invocation method selection",
+      "records": 6,
+      "open_records": 5,
+      "avg_severity": 2.83
+    },
+    {
+      "primary_taxonomy_category": "Invocation & Integrations",
+      "primary_taxonomy_subcategory": "Payload mapping & transformation",
+      "records": 6,
+      "open_records": 4,
+      "avg_severity": 2.5
+    },
+    {
+      "primary_taxonomy_category": "Invocation & Integrations",
+      "primary_taxonomy_subcategory": "Execution agents & runners",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Invocation & Integrations",
+      "primary_taxonomy_subcategory": "APIs & external integrations",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Invocation & Integrations",
+      "primary_taxonomy_subcategory": "Event triggers & action-to-automation integration",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Observability & Debugging",
+      "primary_taxonomy_subcategory": "Run history, audit & filtering",
+      "records": 8,
+      "open_records": 6,
+      "avg_severity": 2.12
+    },
+    {
+      "primary_taxonomy_category": "Observability & Debugging",
+      "primary_taxonomy_subcategory": "Logs & log streaming",
+      "records": 7,
+      "open_records": 7,
+      "avg_severity": 2.43
+    },
+    {
+      "primary_taxonomy_category": "Observability & Debugging",
+      "primary_taxonomy_subcategory": "Run status & progress",
+      "records": 4,
+      "open_records": 3,
+      "avg_severity": 2.5
+    },
+    {
+      "primary_taxonomy_category": "Observability & Debugging",
+      "primary_taxonomy_subcategory": "Error messages & backend responses",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 3.33
+    },
+    {
+      "primary_taxonomy_category": "Observability & Debugging",
+      "primary_taxonomy_subcategory": "Run-history APIs & export",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 2.33
+    },
+    {
+      "primary_taxonomy_category": "Observability & Debugging",
+      "primary_taxonomy_subcategory": "Run traceability & related entities",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Orchestration",
+      "primary_taxonomy_subcategory": "Intermediate approvals",
+      "records": 2,
+      "open_records": 1,
+      "avg_severity": 3.5
+    },
+    {
+      "primary_taxonomy_category": "Orchestration",
+      "primary_taxonomy_subcategory": "Multi-backend & multi-system sequencing",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 4.0
+    },
+    {
+      "primary_taxonomy_category": "Orchestration",
+      "primary_taxonomy_subcategory": "Multi-step workflows",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Orchestration",
+      "primary_taxonomy_subcategory": "Shared context & output passing",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 4.0
+    },
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "primary_taxonomy_subcategory": "RBAC & dynamic permissions",
+      "records": 13,
+      "open_records": 10,
+      "avg_severity": 3.38
+    },
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "primary_taxonomy_subcategory": "Approver experience & request editing",
+      "records": 8,
+      "open_records": 8,
+      "avg_severity": 2.75
+    },
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "primary_taxonomy_subcategory": "Approval policies & thresholds",
+      "records": 7,
+      "open_records": 5,
+      "avg_severity": 2.57
+    },
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "primary_taxonomy_subcategory": "Approval notifications",
+      "records": 5,
+      "open_records": 4,
+      "avg_severity": 2.8
+    },
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "primary_taxonomy_subcategory": "Approver routing & identity",
+      "records": 5,
+      "open_records": 3,
+      "avg_severity": 3.4
+    },
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "primary_taxonomy_subcategory": "Permission authoring & testing",
+      "records": 5,
+      "open_records": 3,
+      "avg_severity": 3.2
+    },
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "primary_taxonomy_subcategory": "Approval audit & context",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 2.33
+    },
+    {
+      "primary_taxonomy_category": "Permissions & Approvals",
+      "primary_taxonomy_subcategory": "Action visibility & eligibility",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Validation & Rules",
+      "primary_taxonomy_subcategory": "Expression and JQ rule authoring",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 2.67
+    },
+    {
+      "primary_taxonomy_category": "Validation & Rules",
+      "primary_taxonomy_subcategory": "Input & cross-field validation",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 3.0
+    },
+    {
+      "primary_taxonomy_category": "Validation & Rules",
+      "primary_taxonomy_subcategory": "Server-side & API enforcement",
+      "records": 3,
+      "open_records": 3,
+      "avg_severity": 4.0
     }
   ],
   "stages": [
     {
       "journey_stage": "Action discovery & organization",
-      "posts": 6,
-      "total_votes": 136,
-      "avg_severity": 2.1666666666666665,
-      "stage_order": 0,
-      "votes_per_post": 22.666666666666668
+      "records": 10,
+      "open_records": 10,
+      "avg_severity": 2.4,
+      "high_severity": 0,
+      "stage_order": 0
     },
     {
       "journey_stage": "Contextual entry, targeting & pre-fill",
-      "posts": 4,
-      "total_votes": 44,
-      "avg_severity": 3.25,
-      "stage_order": 1,
-      "votes_per_post": 11.0
+      "records": 6,
+      "open_records": 5,
+      "avg_severity": 3.0,
+      "high_severity": 1,
+      "stage_order": 1
     },
     {
       "journey_stage": "Form & input configuration",
-      "posts": 21,
-      "total_votes": 156,
-      "avg_severity": 2.2857142857142856,
-      "stage_order": 2,
-      "votes_per_post": 7.428571428571429
+      "records": 32,
+      "open_records": 25,
+      "avg_severity": 2.38,
+      "high_severity": 0,
+      "stage_order": 2
     },
     {
       "journey_stage": "Validation, dependencies & conditional logic",
-      "posts": 23,
-      "total_votes": 237,
-      "avg_severity": 2.8260869565217392,
-      "stage_order": 3,
-      "votes_per_post": 10.304347826086957
+      "records": 9,
+      "open_records": 9,
+      "avg_severity": 3.22,
+      "high_severity": 2,
+      "stage_order": 3
     },
     {
       "journey_stage": "Backend & invocation setup",
-      "posts": 48,
-      "total_votes": 435,
-      "avg_severity": 3.0625,
-      "stage_order": 4,
-      "votes_per_post": 9.0625
+      "records": 31,
+      "open_records": 26,
+      "avg_severity": 3.16,
+      "high_severity": 9,
+      "stage_order": 4
     },
     {
       "journey_stage": "Permissions & approvals",
-      "posts": 57,
-      "total_votes": 494,
-      "avg_severity": 2.8771929824561404,
-      "stage_order": 5,
-      "votes_per_post": 8.666666666666666
+      "records": 48,
+      "open_records": 38,
+      "avg_severity": 3.02,
+      "high_severity": 8,
+      "stage_order": 5
     },
     {
       "journey_stage": "Testing, editing & publishing",
-      "posts": 8,
-      "total_votes": 47,
-      "avg_severity": 2.5,
-      "stage_order": 6,
-      "votes_per_post": 5.875
+      "records": 7,
+      "open_records": 7,
+      "avg_severity": 2.43,
+      "high_severity": 0,
+      "stage_order": 6
     },
     {
       "journey_stage": "Execution, monitoring & run control",
-      "posts": 41,
-      "total_votes": 293,
-      "avg_severity": 2.658536585365854,
-      "stage_order": 7,
-      "votes_per_post": 7.146341463414634
+      "records": 39,
+      "open_records": 35,
+      "avg_severity": 2.62,
+      "high_severity": 3,
+      "stage_order": 7
+    }
+  ],
+  "problem_types": [
+    {
+      "problem_type": "Feature gap",
+      "records": 128,
+      "open_records": 105,
+      "avg_severity": 2.72
+    },
+    {
+      "problem_type": "Usability friction",
+      "records": 11,
+      "open_records": 11,
+      "avg_severity": 2.0
+    },
+    {
+      "problem_type": "Observability or debugging gap",
+      "records": 9,
+      "open_records": 8,
+      "avg_severity": 3.22
+    },
+    {
+      "problem_type": "Bug / defect",
+      "records": 7,
+      "open_records": 7,
+      "avg_severity": 3.0
+    },
+    {
+      "problem_type": "Integration or API gap",
+      "records": 7,
+      "open_records": 7,
+      "avg_severity": 2.86
+    },
+    {
+      "problem_type": "Security or privacy concern",
+      "records": 6,
+      "open_records": 6,
+      "avg_severity": 4.17
+    },
+    {
+      "problem_type": "Configuration complexity",
+      "records": 4,
+      "open_records": 3,
+      "avg_severity": 3.0
+    },
+    {
+      "problem_type": "Validation gap",
+      "records": 4,
+      "open_records": 4,
+      "avg_severity": 4.0
+    },
+    {
+      "problem_type": "Poor error message",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 3.5
+    },
+    {
+      "problem_type": "Positive / completed feedback",
+      "records": 2,
+      "open_records": 0,
+      "avg_severity": 1.0
+    },
+    {
+      "problem_type": "Performance or scalability limitation",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 4.0
+    },
+    {
+      "problem_type": "Reusability or maintainability issue",
+      "records": 1,
+      "open_records": 1,
+      "avg_severity": 3.0
+    },
+    {
+      "problem_type": "Documentation or discoverability gap",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    },
+    {
+      "problem_type": "Reliability issue",
+      "records": 0,
+      "open_records": 0,
+      "avg_severity": 0.0
+    }
+  ],
+  "lifecycle": [
+    {
+      "lifecycle_status": "Open",
+      "records": 145,
+      "avg_severity": 2.84
+    },
+    {
+      "lifecycle_status": "Completed",
+      "records": 24,
+      "avg_severity": 2.54
+    },
+    {
+      "lifecycle_status": "In progress",
+      "records": 8,
+      "avg_severity": 2.75
+    },
+    {
+      "lifecycle_status": "Closed",
+      "records": 3,
+      "avg_severity": 2.67
+    },
+    {
+      "lifecycle_status": "Planned",
+      "records": 2,
+      "avg_severity": 3.0
     }
   ],
   "evidence": {
-    "Execution visibility, notifications & run control": [
+    "Permissions & Approvals||RBAC & dynamic permissions": [
       {
-        "title": "Ability to retry the action from the run page",
-        "votes": 47,
-        "severity": 2,
-        "evidence_excerpt": "In some cases an operation failed and a retry will solve it.  Adding a retry action for a run can be nice addition",
-        "source_url": "https://roadmap.port.io/ideas/p/ability-to-retry-the-action-from-the-run-page",
-        "journey_stage": "Execution, monitoring & run control"
+        "feedback_id": "6826b40db0070616c963e9bf",
+        "title": "To enable RBAC on SSA run pages",
+        "severity": 5,
+        "confidence": 0.85,
+        "problem_type": "Security or privacy concern",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "a user can view the action run pages of actions that run on entities they are not permitted to access",
+        "short_summary": "Users can view action run pages and entity details for runs involving entities or actions they are not permitted to access, bypassing ownership restrictions.",
+        "source_url": "https://roadmap.port.io/ideas/p/to-enable-rbac-on-ssa-run-pages"
       },
       {
-        "title": "Microsoft teams notification",
-        "votes": 44,
-        "severity": 3,
-        "evidence_excerpt": "Currently, the message sender only supports slack.  Some organizations use Microsoft teams, which means they cannot create notifications for their teams.",
-        "source_url": "https://roadmap.port.io/ideas/p/microsoft-teams-notification",
-        "journey_stage": "Execution, monitoring & run control"
-      },
-      {
-        "title": "Self-Service Action Approval Notifications",
-        "votes": 29,
-        "severity": 3,
-        "evidence_excerpt": "There is no option to automatically notify users when their requested actions have been approved.",
-        "source_url": "https://roadmap.port.io/ideas/p/self-service-action-approval-notifications",
-        "journey_stage": "Permissions & approvals"
-      }
-    ],
-    "Backend & invocation configuration": [
-      {
-        "title": "Self-service actions - controlling the payload",
-        "votes": 26,
-        "severity": 3,
-        "evidence_excerpt": "Use JQ to manipulate the payload before sending it to the relevant workflow",
-        "source_url": "https://roadmap.port.io/ideas/p/self-service-actions-controlling-the-payload",
-        "journey_stage": "Backend & invocation setup"
-      },
-      {
-        "title": "Support multiple event triggers in Automations",
-        "votes": 24,
-        "severity": 3,
-        "evidence_excerpt": "it's only possible to configure an automation to be triggered on one specific event. For example, when an entity is created or when it gets",
-        "source_url": "https://roadmap.port.io/ideas/p/support-multiple-event-triggers-in-automations",
-        "journey_stage": "Backend & invocation setup"
-      },
-      {
-        "title": "Use current user's session to interact with internal systems",
-        "votes": 21,
-        "severity": 3,
-        "evidence_excerpt": "the action should be performed on behalf of that user, inheriting their identity, role-based access controls (RBAC), and authorized privileges from the same Identity and Access Management (IAM) provider used by Port, which is Okta",
-        "source_url": "https://roadmap.port.io/ideas/p/use-current-users-session-to-interact-with-internal-systems",
-        "journey_stage": "Backend & invocation setup"
-      }
-    ],
-    "Permissions, eligibility & action visibility": [
-      {
-        "title": "Improved UI for managing dynamic permissions",
-        "votes": 41,
-        "severity": 3,
-        "evidence_excerpt": "Managing dynamic permissions requires specific skills and is more challenging to debug and",
-        "source_url": "https://roadmap.port.io/ideas/p/improved-ui-for-managing-dynamic-permissions",
-        "journey_stage": "Permissions & approvals"
-      },
-      {
-        "title": "More RBAC for admin permissions",
-        "votes": 37,
-        "severity": 3,
-        "evidence_excerpt": "some admins can only edit automations, and webhooks, some admins can only edit the data model, or no admins can generate a new org token",
-        "source_url": "https://roadmap.port.io/ideas/p/more-rbac-for-admin-permissions",
-        "journey_stage": "Permissions & approvals"
-      },
-      {
-        "title": "Better Error Messages for Denied Dynamic Permissions",
-        "votes": 29,
+        "feedback_id": "693ffd899279e1a4c35ca2c0",
+        "title": "Disallow saving actions with no execute permissions",
         "severity": 4,
-        "evidence_excerpt": "provides no context about what specific part of the dynamic permission caused the action to be denied. This makes troubleshooting and building permissions incredibly difficult",
-        "source_url": "https://roadmap.port.io/ideas/p/better-error-messages-for-denied-dynamic-permissions",
-        "journey_stage": "Permissions & approvals"
-      }
-    ],
-    "Approval workflows & governance": [
+        "confidence": 0.85,
+        "problem_type": "Validation gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "execute permissions can be removed entirely, which allows an action to be saved with no execute permissions at all",
+        "short_summary": "Actions can be saved with no one able to execute them because all execute permissions can be removed without warning.",
+        "source_url": "https://roadmap.port.io/ideas/p/disallow-saving-actions-with-no-execute-permissions"
+      },
       {
-        "title": "Support Input Secrets with Approvals in Self Service Actions",
-        "votes": 22,
+        "feedback_id": "682f670b596869f89577489f",
+        "title": "Apply permissions to entity selection inputs in Actions",
         "severity": 4,
-        "evidence_excerpt": "Currently defining an input as a secret does not work in cases where there is an approver on the action.",
-        "source_url": "https://roadmap.port.io/ideas/p/support-input-secrets-with-approvals-in-self-service-actions",
-        "journey_stage": "Permissions & approvals"
-      },
-      {
-        "title": "Conditional Manual approval based on specific input",
-        "votes": 19,
-        "severity": 3,
-        "evidence_excerpt": "decide if a certain input in the action form is a certain value, enforce manual approval",
-        "source_url": "https://roadmap.port.io/ideas/p/conditional-manual-approval-based-on-specific-input",
-        "journey_stage": "Permissions & approvals"
-      },
-      {
-        "title": "Request to Increase Dynamic Approval Policy Query Threshold",
-        "votes": 17,
-        "severity": 4,
-        "evidence_excerpt": "the dynamic approval policy returns a maximum of 1,000 entities per query. This creates a limitation for organizations with more than 1,000 users.",
-        "source_url": "https://roadmap.port.io/ideas/p/request-to-increase-dynamic-approval-policy-query-threshold",
-        "journey_stage": "Permissions & approvals"
+        "confidence": 0.82,
+        "problem_type": "Security or privacy concern",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Currently action permissions only restrict Day-2 and Delete target entities so that people who don't have read access cannot select those entities.",
+        "short_summary": "Users without read access to certain entities can still select those entities in action input fields, even though the same restriction is correctly applied to Day-2 and Delete targets.",
+        "source_url": "https://roadmap.port.io/ideas/p/apply-permissions-to-entity-selection-inputs-in-actions"
       }
     ],
-    "Multi-step & orchestration": [
+    "Permissions & Approvals||Approver experience & request editing": [
       {
-        "title": "Multi-step workflows",
-        "votes": 69,
-        "severity": 2,
-        "evidence_excerpt": "Chain multiple inputs, approvals, conditions, and actions via automatic triggers or self-service",
-        "source_url": "https://roadmap.port.io/ideas/p/multi-step-workflows",
-        "journey_stage": "Backend & invocation setup"
+        "feedback_id": "64f484d97fb24609a28e0250",
+        "title": "Action Input Overrides During Manual Approval",
+        "severity": 3,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the admin that approves the request will want to make a change to the inputs provided by the user",
+        "short_summary": "Approvers cannot adjust the values a requester submitted before approving, forcing them to reject and ask the user to resubmit instead of simply correcting the request.",
+        "source_url": "https://roadmap.port.io/ideas/p/action-input-overrides-during-manual-approval"
       },
       {
-        "title": "Automation",
-        "votes": 26,
+        "feedback_id": "66bdca87e78e9ec286c639a3",
+        "title": "Modify Payload/Inputs for 'Waiting for approval' Self-Service Actions",
         "severity": 3,
-        "evidence_excerpt": "only one trigger per blueprint can be defined, and each trigger is executed for any change in the catalog, without the ability to define rules for a specific trigger",
-        "source_url": "https://roadmap.port.io/ideas/p/automation",
-        "journey_stage": "Backend & invocation setup"
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Approvers are unable to change the action's specifics and they can only accept or reject it.",
+        "short_summary": "Approvers cannot edit the submitted inputs of a pending action request, forcing back-and-forth with the requester for changes.",
+        "source_url": "https://roadmap.port.io/ideas/p/modify-payload-inputs-for-waiting-for-approval-self-service-actions"
       },
       {
-        "title": "Self Service Action Workflow",
-        "votes": 22,
+        "feedback_id": "6a211ea7d47059032854eafd",
+        "title": "Approver ↔ Requester communication thread on action runs",
         "severity": 3,
-        "evidence_excerpt": "Based on that first trigger result, prompt an approval request and based on the approval, invoke another trigger.",
-        "source_url": "https://roadmap.port.io/ideas/p/self-service-action-workflow",
-        "journey_stage": "Backend & invocation setup"
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "both the approver and the requester should be able to exchange messages/comments directly within the action run context in Port",
+        "short_summary": "Approvers and requesters cannot discuss or clarify action requests directly inside Port, forcing them to use external chat tools or reject and resubmit the request.",
+        "source_url": "https://roadmap.port.io/ideas/p/approver-requester-communication-thread-on-action-runs"
       }
     ],
-    "Form structure, input types & controls": [
+    "Observability & Debugging||Logs & log streaming": [
       {
-        "title": "Steps in Port Self-Service Action Form",
-        "votes": 44,
-        "severity": 2,
-        "evidence_excerpt": "I want the ability to collapse the form into distinct sections such as network configuration, security configuration, and IAM role",
-        "source_url": "https://roadmap.port.io/ideas/p/steps-in-port-self-service-action-form",
-        "journey_stage": "Form & input configuration"
+        "feedback_id": "65d34b8e9dcc811d4a9300cf",
+        "title": "Ability to action stream logs real-time",
+        "severity": 3,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Currently, users must wait for an action to complete or a certain amount of data to be processed before logs can be viewed.",
+        "short_summary": "Users cannot see action logs as they happen and must wait until the run finishes or enough data accumulates.",
+        "source_url": "https://roadmap.port.io/ideas/p/ability-to-action-stream-logs-real-time"
       },
       {
+        "feedback_id": "66a5e31d8a37596baba1b970",
+        "title": "Make actions log user friendly",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Usability friction",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "The logs presented today are completely raw which reduces the usability of the actions",
+        "short_summary": "Action run logs are shown as raw, undifferentiated text, making it hard to tell apart technical and important messages or follow links.",
+        "source_url": "https://roadmap.port.io/ideas/p/make-actions-log-user-friendly"
+      },
+      {
+        "feedback_id": "64f4adb66cbacd09633abd68",
+        "title": "Action runs | Automatic logs sending / from file",
+        "severity": 3,
+        "confidence": 0.7,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Instead of requiring a dedicated API call done by the user",
+        "short_summary": "Users must manually call an API to send logs for a run instead of having logs sent automatically.",
+        "source_url": "https://roadmap.port.io/ideas/p/action-runs-automatic-logs-sending-from-file"
+      }
+    ],
+    "Observability & Debugging||Run history, audit & filtering": [
+      {
+        "feedback_id": "6a50eea591b05abba241121a",
+        "title": "Improve Visibility of Run Status Changes in Audit Logs",
+        "severity": 3,
+        "confidence": 0.82,
+        "problem_type": "Observability or debugging gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "it is not clearly visible who or what made that change, whether it was the integration, the Port actions backend, or a user manually patching the run",
+        "short_summary": "Users cannot tell who or what changed a run's status, making it hard to audit failures or manual overrides.",
+        "source_url": "https://roadmap.port.io/ideas/p/improve-visibility-of-run-status-changes-in-audit-logs"
+      },
+      {
+        "feedback_id": "64f4abe4fd7c2d092c0ce671",
+        "title": "Action runs as blueprint",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "visualizations (pie chart and line chart) are limited to blueprints, and do not apply to action runs",
+        "short_summary": "Administrators cannot visualize action run success rates or trends because charting tools only work with blueprint data, not action run data.",
+        "source_url": "https://roadmap.port.io/ideas/p/action-runs-as-blueprint"
+      },
+      {
+        "feedback_id": "656c4a01ba5aabc9ac975d71",
+        "title": "Actions audit log improvements",
+        "severity": 2,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "a specific audit log for each action will be added to the \"audit log\" page",
+        "short_summary": "Users cannot see per-action run history with the specific inputs submitted for each execution.",
+        "source_url": "https://roadmap.port.io/ideas/p/actions-audit-log-improvements"
+      }
+    ],
+    "Form Configuration||Input types & controls": [
+      {
+        "feedback_id": "65b62b199794d2cfb2ae1c65",
         "title": "Support code or file upload in self-service action form",
-        "votes": 18,
         "severity": 3,
-        "evidence_excerpt": "This feature should support a range of file formats beyond the current YAML, JSON, and Protobuf, and offer the option of markdown/free text input for added",
-        "source_url": "https://roadmap.port.io/ideas/p/support-code-or-file-upload-in-self-service-action-form",
-        "journey_stage": "Form & input configuration"
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Allow developers to upload or insert various configuration file types (e.g., .py, .conf, .txt) directly into the self service action form",
+        "short_summary": "Users cannot upload or paste various configuration file types (like .py, .conf, .txt) into the action form, limiting it to YAML, JSON, and Protobuf.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-code-or-file-upload-in-self-service-action-form"
       },
       {
-        "title": "Improve automation interface",
-        "votes": 15,
-        "severity": 2,
-        "evidence_excerpt": "We will improve our interface for Automation (to match with one of Actions) to simplify the creation of new automation.",
-        "source_url": "https://roadmap.port.io/ideas/p/improve-automation-interface",
-        "journey_stage": "Form & input configuration"
+        "feedback_id": "6693781aa31de39613529762",
+        "title": "New input type - Map",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Currently, this can be done using Control the Payload (I can have an if that checks the input and calculates the relevant value), but this is not maintainable when you have a lot of inputs.",
+        "short_summary": "There is no input type that lets users pick a friendly label while sending a different underlying value to the backend.",
+        "source_url": "https://roadmap.port.io/ideas/p/new-input-type-map"
+      },
+      {
+        "feedback_id": "649bdc0ecf7291098a1c28bf",
+        "title": "Auto-generate action inputs from blueprint definition",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Configuration complexity",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "that action has to be created and its inputs need to be configured manually",
+        "short_summary": "Builders must manually recreate blueprint properties as action inputs instead of having them generated automatically.",
+        "source_url": "https://roadmap.port.io/ideas/p/auto-generate-action-inputs-from-blueprint-definition"
       }
     ],
-    "Dynamic & dependent inputs": [
+    "Form Configuration||Labels, descriptions & display controls": [
       {
-        "title": "Dropdown input based on API",
-        "votes": 36,
-        "severity": 3,
-        "evidence_excerpt": "there is no way to offer input selection based on API",
-        "source_url": "https://roadmap.port.io/ideas/p/dropdown-input-based-on-api",
-        "journey_stage": "Validation, dependencies & conditional logic"
+        "feedback_id": "697bc2552c0e437d54520fb7",
+        "title": "Support for enumLabels in self-service action inputs",
+        "severity": 2,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Ability to show user-friendly display labels while passing technical keys/values to the backend",
+        "short_summary": "Users want dropdown options to show friendly labels while still sending the technical value to the backend.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-for-enumlabels-in-self-service-action-inputs"
       },
       {
-        "title": "Support Calculated Properties in Self-Service Dataset Conditions",
-        "votes": 20,
-        "severity": 3,
-        "evidence_excerpt": "search conditions cannot be applied to calculated properties in self-service actions. Adding support for this is required",
-        "source_url": "https://roadmap.port.io/ideas/p/support-calculated-properties-in-self-service-dataset-conditions",
-        "journey_stage": "Validation, dependencies & conditional logic"
+        "feedback_id": "67bc9e20e167a610dfa628f4",
+        "title": "Hyperlink in Action input titles",
+        "severity": 2,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "It would be useful if you could do the same on Titles for action inputs instead of making users hover over the description.",
+        "short_summary": "Users cannot add clickable links directly in input field titles, only in descriptions, forcing users to hover to find related info.",
+        "source_url": "https://roadmap.port.io/ideas/p/hyperlink-in-action-input-titles"
       },
       {
+        "feedback_id": "6874c373410d522ad019cd56",
+        "title": "Placeholder value in self-service action fields",
+        "severity": 2,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "It would be useful to be able to set placeholder value to give user an example but forcing them to set a new value.",
+        "short_summary": "There is no way to show an example value in a field without it being treated as a real default, so users can accidentally submit the example unchanged.",
+        "source_url": "https://roadmap.port.io/ideas/p/placeholder-value-in-self-service-action-fields"
+      }
+    ],
+    "Invocation & Integrations||Backend & invocation method selection": [
+      {
+        "feedback_id": "6995741f6a0047498c59fa71",
+        "title": "In self service section, allow for the installtionId  to be a computed value and not static value",
+        "severity": 4,
+        "confidence": 0.6,
+        "problem_type": "Bug / defect",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "The template renders correctly in the payload preview, but the integration is never invoked (no GitHub workflow run, nothing in the GitHub integration logs).",
+        "short_summary": "Using a dynamic templated value for the integration's installationId causes the action to silently fail to invoke the integration, even though it renders correctly in the payload preview.",
+        "source_url": "https://roadmap.port.io/ideas/p/in-self-service-section-allow-for-the-installtionid-to-be-a-computed-value-and-n"
+      },
+      {
+        "feedback_id": "64f241ba50f7aa096976efe6",
+        "title": "Add Codefresh as a supported Backend for an Action triggered from Port",
+        "severity": 3,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "add Codefresh as a supported Backend for an Action triggered from Port",
+        "short_summary": "Users cannot connect a Port action to Codefresh Classic Pipelines because it is not an available backend option.",
+        "source_url": "https://roadmap.port.io/ideas/p/add-codefresh-as-a-supported-backend-for-an-action-triggered-from-port"
+      },
+      {
+        "feedback_id": "67641f3021e6bd260f037ed5",
+        "title": "Upsert entity invocation method - Allow upserting multiple entities",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Today you can only update one entity using the Upsert entity invocation method",
+        "short_summary": "The built-in upsert entity backend for actions only supports updating one entity at a time, forcing builders to use a custom webhook workaround for bulk updates.",
+        "source_url": "https://roadmap.port.io/ideas/p/upsert-entity-invocation-method-allow-upserting-multiple-entities"
+      }
+    ],
+    "Permissions & Approvals||Approval policies & thresholds": [
+      {
+        "feedback_id": "69f2529d03b1298401635428",
+        "title": "Configurable Minimum Approval Threshold for Manual Approvals (e.g., “2 out of N”)",
+        "severity": 3,
+        "confidence": 0.95,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Planned",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the current options only allow either a single approver (\"Any\") or requiring all approvers (\"All\")",
+        "short_summary": "Admins cannot require a specific number of approvers (like 2 out of N) for actions needing manual approval; only 'any one' or 'all' options are available.",
+        "source_url": "https://roadmap.port.io/ideas/p/configurable-minimum-approval-threshold-for-manual-approvals-eg-2-out-of-n"
+      },
+      {
+        "feedback_id": "6524c821ec2dd97343235238",
+        "title": "Manual approvals | Support requiring multiple approvals",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Support requiring multiple approvals",
+        "short_summary": "Action builders cannot require more than one approver to sign off before an action runs.",
+        "source_url": "https://roadmap.port.io/ideas/p/manual-approvals-support-requiring-multiple-approvals"
+      },
+      {
+        "feedback_id": "65bb5ba2299d1b93acc3052d",
+        "title": "Conditional Manual approval based on specific input",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the ability to decide if a certain input in the action form is a certain value, enforce manual approval",
+        "short_summary": "Users want approval requirements to depend on the specific value entered in a form field, not apply uniformly to every run.",
+        "source_url": "https://roadmap.port.io/ideas/p/conditional-manual-approval-based-on-specific-input"
+      }
+    ],
+    "Form Configuration||Defaults & computed fields": [
+      {
+        "feedback_id": "666ec4697bfd74c4333701ac",
         "title": "Allow form field default values to have complex patterns based on user selection",
-        "votes": 20,
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "create a certain default value for a field based on previous selection made by the user. This can include literals and even multiple fields references.",
+        "short_summary": "Users want a form field's default value to be automatically computed from other fields the user has already selected, including combining multiple field values.",
+        "source_url": "https://roadmap.port.io/ideas/p/allow-form-field-default-values-to-have-complex-patterns-based-on-user-selection"
+      },
+      {
+        "feedback_id": "66fab653f08e28ee955809ce",
+        "title": "Dynamic Default in Actions",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "allow the name to be updated as the entity is",
+        "short_summary": "A field's default value does not update automatically when another field it depends on changes, forcing manual re-entry.",
+        "source_url": "https://roadmap.port.io/ideas/p/dynamic-default-in-actions"
+      },
+      {
+        "feedback_id": "67e5118773bc7a1fd199885d",
+        "title": "Action auto generated input based on previous inputs: option to disable from editing",
         "severity": 2,
-        "evidence_excerpt": "create a certain default value for a field based on previous selection made by the user. This can include literals and even multiple fields",
-        "source_url": "https://roadmap.port.io/ideas/p/allow-form-field-default-values-to-have-complex-patterns-based-on-user-selection",
-        "journey_stage": "Validation, dependencies & conditional logic"
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I would like \"resource_prefix\" to be auto-generated from the previous inputs and NOT EDITABLE from the user form.",
+        "short_summary": "Users cannot make an auto-computed form field read-only so end users don't accidentally override the generated value.",
+        "source_url": "https://roadmap.port.io/ideas/p/action-auto-generated-input-based-on-previous-inputs-option-to-disable-from-edit"
       }
     ],
-    "Validation & error guidance": [
+    "Discovery, Organization & Reuse||Action discovery, grouping & ordering": [
       {
-        "title": "Improved customizations of user inputs validations",
-        "votes": 44,
-        "severity": 3,
-        "evidence_excerpt": "conditional logic like \"replica count must be at least 3 when deploying to production\", cross-field rules like email confirmation, and meaningful error messages that actually tell users what to fix",
-        "source_url": "https://roadmap.port.io/ideas/p/improved-customizations-of-user-inputs-validations",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      },
-      {
-        "title": "Dynamic user input validation",
-        "votes": 15,
-        "severity": 3,
-        "evidence_excerpt": "validate the user input for corectness against custom business logic, and display an error returned from the backend under the text field, without actually submitting the form",
-        "source_url": "https://roadmap.port.io/ideas/p/dynamic-user-input-validation",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      },
-      {
-        "title": "MCP should enforce frontend-only input validations when executing SSAs",
-        "votes": 6,
-        "severity": 4,
-        "evidence_excerpt": "the Port MCP bypasses frontend-only input validations (like dataset filters) when self service actions are triggered, allowing LLMs to select any value",
-        "source_url": "https://roadmap.port.io/ideas/p/mcp-should-enforce-frontend-only-input-validations-when-executing-ssas",
-        "journey_stage": "Validation, dependencies & conditional logic"
-      }
-    ],
-    "Action discovery & organization": [
-      {
-        "title": "Categorizing Self Service actions",
-        "votes": 106,
-        "severity": 2,
-        "evidence_excerpt": "Allow categorizing self service actions for ease of finding appropriate actions for your",
-        "source_url": "https://roadmap.port.io/ideas/p/categorizing-self-service-actions",
-        "journey_stage": "Action discovery & organization"
-      },
-      {
+        "feedback_id": "65e7390a0b8acf82dfc933fc",
         "title": "Ordering of action widgets",
-        "votes": 14,
         "severity": 2,
-        "evidence_excerpt": "The ability to order how the self serve action widgets appear on the hub",
-        "source_url": "https://roadmap.port.io/ideas/p/ordering-of-action-widgets",
-        "journey_stage": "Action discovery & organization"
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "they can just be in the order in which they were created",
+        "short_summary": "Users cannot control the display order of self-service action widgets on the hub page, which currently only reflects creation order.",
+        "source_url": "https://roadmap.port.io/ideas/p/ordering-of-action-widgets"
       },
       {
-        "title": "Abilty to add a filter so only certain Self Service Actions appear on a Catalog Page.",
-        "votes": 8,
-        "severity": 3,
-        "evidence_excerpt": "there is a requirement to filter Self Service Actions on custom catalogue",
-        "source_url": "https://roadmap.port.io/ideas/p/abilty-to-add-a-filter-so-only-certain-self-service-actions-appear-on-a-catalog",
-        "journey_stage": "Action discovery & organization"
+        "feedback_id": "64a512f97525ac09ce7a21c4",
+        "title": "Categorizing Self Service actions",
+        "severity": 2,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "In progress",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Allow categorizing self service actions for ease of finding appropriate actions for your needs.",
+        "short_summary": "Users cannot categorize self-service actions, making it harder to find the right action among many.",
+        "source_url": "https://roadmap.port.io/ideas/p/categorizing-self-service-actions"
+      },
+      {
+        "feedback_id": "64edffb2ab1b040a223eadd5",
+        "title": "Order self-service action items in the blueprint",
+        "severity": 2,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "ability for ordering self-service action items coming from the blueprint",
+        "short_summary": "Users cannot control the order in which self-service actions appear when they are listed from a blueprint.",
+        "source_url": "https://roadmap.port.io/ideas/p/order-self-service-action-items-in-the-blueprint"
       }
     ],
-    "Context, targeting & pre-fill": [
+    "Identity, Secrets & Security||Authentication & delegated execution": [
       {
-        "title": "Associate action with multiple blueprints",
-        "votes": 22,
+        "feedback_id": "69553a67723320e3d9a93ab6",
+        "title": "Per‑User Impersonation / Delegated Execution for Actions",
+        "severity": 5,
+        "confidence": 0.85,
+        "problem_type": "Security or privacy concern",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "actions that call tools like GitHub or Jira are executed with an app token, so in those tools every change appears as coming from a generic user",
+        "short_summary": "Actions run using a shared technical account instead of the actual requesting user, making it impossible to trace changes back to individuals and creating an audit/security risk.",
+        "source_url": "https://roadmap.port.io/ideas/p/peruser-impersonation-delegated-execution-for-actions"
+      },
+      {
+        "feedback_id": "669fced47627f58ee55d66ec",
+        "title": "OAuth2 / JWT backend for Self-service Actions",
         "severity": 4,
-        "evidence_excerpt": "an action if associated with service overview entity cant be associated with the service blueprint entity - which means a new actions should be created which can be associated with the service",
-        "source_url": "https://roadmap.port.io/ideas/p/associate-action-with-multiple-blueprints",
-        "journey_stage": "Contextual entry, targeting & pre-fill"
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I would like to be able to setup a Self-Service Action which will call a REST API endpoint with the user token required by the API for authentication and authorization purpose",
+        "short_summary": "Admins cannot configure an action to call an API using the individual end user's own login credentials, only machine-to-machine tokens.",
+        "source_url": "https://roadmap.port.io/ideas/p/oauth2-jwt-backend-for-self-service-actions"
       },
       {
-        "title": "Bulk self-service actions on entities",
-        "votes": 16,
-        "severity": 3,
-        "evidence_excerpt": "It would be great to have an option to do bulk actions(day2 and DELETE) on",
-        "source_url": "https://roadmap.port.io/ideas/p/bulk-self-service-actions-on-entities",
-        "journey_stage": "Contextual entry, targeting & pre-fill"
-      },
-      {
-        "title": "Triggering a self-service action from somewhere other than the self-service page",
-        "votes": 4,
-        "severity": 3,
-        "evidence_excerpt": "it would be nice to have a way to trigger the display of the appropriate self-service action form as a modal over the page that the user is currently",
-        "source_url": "https://roadmap.port.io/ideas/p/triggering-a-self-service-action-from-somewhere-other-than-the-self-service-page",
-        "journey_stage": "Contextual entry, targeting & pre-fill"
+        "feedback_id": "6671999837fce115c9971b8d",
+        "title": "Use current user's session to interact with internal systems",
+        "severity": 4,
+        "confidence": 0.72,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the action should be performed on behalf of that user, inheriting their identity, role-based access controls (RBAC), and authorized privileges",
+        "short_summary": "Users want actions to run using the logged-in person's own permissions in connected systems (like Jira or a cloud platform) instead of a generic service account.",
+        "source_url": "https://roadmap.port.io/ideas/p/use-current-users-session-to-interact-with-internal-systems"
       }
     ],
-    "Testing, editing & drafts": [
+    "Permissions & Approvals||Approval notifications": [
       {
-        "title": "Confirmation Window for Unsaved Changes in Self-service actions GUI Mode",
-        "votes": 20,
+        "feedback_id": "66ed917798991dce147b5cff",
+        "title": "Send Email to Approvers when Dynamic Permissions are Used",
         "severity": 3,
-        "evidence_excerpt": "users may accidentally navigate away without saving their changes. A confirmation prompt will help prevent this, ensuring users have the chance to save their work before leaving the page.",
-        "source_url": "https://roadmap.port.io/ideas/p/confirmation-window-for-unsaved-changes-in-self-service-actions-gui-mode",
-        "journey_stage": "Testing, editing & publishing"
+        "confidence": 0.9,
+        "problem_type": "Bug / defect",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "In progress",
+        "source_system": "Port portal",
+        "evidence_excerpt": "emails are not sent to the array of approvers which is generated via dynamic permissions",
+        "short_summary": "Approvers selected through dynamic permission rules do not receive email notifications, unlike approvers set through static permissions.",
+        "source_url": "https://roadmap.port.io/ideas/p/send-email-to-approvers-when-dynamic-permissions-are-used"
       },
       {
-        "title": "Re-run capability for Workflow runs",
-        "votes": 8,
+        "feedback_id": "6696f52ddaed01573b729714",
+        "title": "Specify approval emails via dynamic permissions",
         "severity": 3,
-        "evidence_excerpt": "we have to create a new event every time we want to test a workflow change. Being able to re-run a previous workflow run would significantly speed up the iteration",
-        "source_url": "https://roadmap.port.io/ideas/p/re-run-capability-for-workflow-runs",
-        "journey_stage": "Testing, editing & publishing"
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Closed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "all possible approvers are sent an email even those who were not eligible to approve the action",
+        "short_summary": "Approval emails are sent to all potential approvers, even those who are not actually eligible to approve based on dynamic permission rules.",
+        "source_url": "https://roadmap.port.io/ideas/p/specify-approval-emails-via-dynamic-permissions"
       },
       {
-        "title": "True Change Detection for Self-service Actions like Data Sources has",
-        "votes": 4,
+        "feedback_id": "65c3900fc543d815a5cbf71b",
+        "title": "Manual approval | support approval notification to a Kafka topic",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "support approval notification to a Kafka topic",
+        "short_summary": "Users cannot get approval requests delivered to a Kafka topic, limiting how they integrate approval notifications into their own systems.",
+        "source_url": "https://roadmap.port.io/ideas/p/manual-approval-support-approval-notification-to-a-kafka-topic"
+      }
+    ],
+    "Invocation & Integrations||Payload mapping & transformation": [
+      {
+        "feedback_id": "6481fa485cf5a50d549eaa3c",
+        "title": "Self-service actions - controlling the payload",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Use JQ to manipulate the payload before sending it to the relevant workflow",
+        "short_summary": "Users want to reshape the data sent to a backend system using JQ expressions before the action triggers the workflow.",
+        "source_url": "https://roadmap.port.io/ideas/p/self-service-actions-controlling-the-payload"
+      },
+      {
+        "feedback_id": "652e8946856cd53595829199",
+        "title": "Allow any selected entity's properties in the payload",
+        "severity": 3,
+        "confidence": 0.72,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "The self-service engineer should be able to choose which entity properties or property are relevant to send to the self-service action.",
+        "short_summary": "Action builders cannot choose which specific properties of a selected entity get included in the data sent to the action backend.",
+        "source_url": "https://roadmap.port.io/ideas/p/allow-any-selected-entitys-properties-in-the-payload"
+      },
+      {
+        "feedback_id": "64b93341745be567b249a32f",
+        "title": "Controlling the payload - Map current entity",
+        "severity": 3,
+        "confidence": 0.7,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "have access to the entity the action is invoked on, and use JQ to map properties from the entity to the payload",
+        "short_summary": "Action builders cannot access the entity the action was invoked on to map its properties into the payload sent to the backend.",
+        "source_url": "https://roadmap.port.io/ideas/p/controlling-the-payload-map-current-entity-1"
+      }
+    ],
+    "Validation & Rules||Server-side & API enforcement": [
+      {
+        "feedback_id": "6a3586ab940f0b4a269d450c",
+        "title": "Enforce UI-Level Input Validations at the Backend/API Level for Self-Service Actions/Workflows",
+        "severity": 5,
+        "confidence": 0.9,
+        "problem_type": "Validation gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Any execution path that bypasses the form UI, JSON mode, direct API calls, or Port's MCP, skips these validations entirely, allowing invalid or unauthorized inputs to be submitted.",
+        "short_summary": "Form validation rules only apply in the UI, so submissions via API, JSON mode, or MCP can bypass required field and dataset filter checks.",
+        "source_url": "https://roadmap.port.io/ideas/p/enforce-ui-level-input-validations-at-the-backend-api-level-for-self-service-act"
+      },
+      {
+        "feedback_id": "69d7f5a35356befe54b0025c",
+        "title": "MCP should enforce frontend-only input validations when executing SSAs",
+        "severity": 4,
+        "confidence": 0.82,
+        "problem_type": "Validation gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the Port MCP bypasses frontend-only input validations (like dataset filters) when self service actions are triggered, allowing LLMs to select any value",
+        "short_summary": "When actions are triggered through the MCP/API instead of the UI, input restrictions like dataset filters are not enforced, letting invalid or unauthorized values through.",
+        "source_url": "https://roadmap.port.io/ideas/p/mcp-should-enforce-frontend-only-input-validations-when-executing-ssas"
+      },
+      {
+        "feedback_id": "652552a8916365c76f187d12",
+        "title": "Dynamic user input validation",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "validate the user input for corectness against custom business logic, and display an error returned from the backend under the text field",
+        "short_summary": "Users cannot validate individual form inputs against custom backend business logic before submitting the whole form.",
+        "source_url": "https://roadmap.port.io/ideas/p/dynamic-user-input-validation"
+      }
+    ],
+    "Permissions & Approvals||Approver routing & identity": [
+      {
+        "feedback_id": "66781226b894b19aca35a768",
+        "title": "Cancel approval step when there are no approvers",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the action moves to \"waiting for approval,\" but the approval is not sent to anyone",
+        "short_summary": "When dynamic approver calculation results in no approvers, the action gets stuck waiting for approval that will never happen, with no way to configure the desired fallback behavior.",
+        "source_url": "https://roadmap.port.io/ideas/p/cancel-approval-step-when-there-are-no-approvers"
+      },
+      {
+        "feedback_id": "6925812013fb0ed2240adb99",
+        "title": "Request to Increase Dynamic Approval Policy Query Threshold",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Performance or scalability limitation",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the policy cannot return the full set of eligible approvers, as some users fall beyond the 1,000-entity threshold",
+        "short_summary": "The dynamic approval policy only checks the first 1,000 users, so organizations with larger user bases may miss valid approvers.",
+        "source_url": "https://roadmap.port.io/ideas/p/request-to-increase-dynamic-approval-policy-query-threshold"
+      },
+      {
+        "feedback_id": "65a6324c5bd75e78b7682e60",
+        "title": "Manual Approvals | Show approvers",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "you can't see who is the action approvers in the run page",
+        "short_summary": "Users cannot see who is assigned to approve their action run, making it hard to follow up.",
+        "source_url": "https://roadmap.port.io/ideas/p/manual-approvals-show-approvers"
+      }
+    ],
+    "Identity, Secrets & Security||Sensitive-data masking & redaction": [
+      {
+        "feedback_id": "6a62cdea0933efc13e70eab5",
+        "title": "Sensitive output masking / redaction flag for workflow node variables",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Security or privacy concern",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "There is currently no way to mark a variable as sensitive so that its value is redacted or masked in the run history display.",
+        "short_summary": "Dynamic credentials fetched during a run, such as OAuth tokens, are stored in plain text in run history for up to 90 days with no way to mask them.",
+        "source_url": "https://roadmap.port.io/ideas/p/sensitive-output-masking-redaction-flag-for-workflow-node-variables"
+      },
+      {
+        "feedback_id": "66c8d155bc622140de9a1e79",
+        "title": "Support Input Secrets with Approvals in Self Service Actions",
+        "severity": 4,
+        "confidence": 0.6,
+        "problem_type": "Bug / defect",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Currently defining an input as a secret does not work in cases where there is an approver on the action.",
+        "short_summary": "Marking a form field as a secret input does not work correctly when the action also requires an approval step.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-input-secrets-with-approvals-in-self-service-actions"
+      },
+      {
+        "feedback_id": "6710640a41d1a5151b93a275",
+        "title": "Toggle Payload 'See Details' for Self-Service Actions",
+        "severity": 3,
+        "confidence": 0.6,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Need a toggle to turn it on/off for the self-service actions.",
+        "short_summary": "Users can currently always see the full payload details of an action run, but there is no way to hide this information from certain users.",
+        "source_url": "https://roadmap.port.io/ideas/p/toggle-payload-see-details-for-self-service-actions"
+      }
+    ],
+    "Permissions & Approvals||Permission authoring & testing": [
+      {
+        "feedback_id": "66b1434bd12b821c86cbc7fc",
+        "title": "Better Error Messages for Denied Dynamic Permissions",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Poor error message",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the error message logged provides no context about what specific part of the dynamic permission caused the action to be denied",
+        "short_summary": "When an action is blocked by dynamic permission rules, the error message does not explain which specific condition caused the denial.",
+        "source_url": "https://roadmap.port.io/ideas/p/better-error-messages-for-denied-dynamic-permissions"
+      },
+      {
+        "feedback_id": "66b14531ed4315cc0258b909",
+        "title": "Allow toggle of conditions array in dynamic permission from OR to AND",
+        "severity": 3,
+        "confidence": 0.9,
+        "problem_type": "Configuration complexity",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "You can force an AND by building a JQ expression and putting all the logic inside of a single condition, but this is rather complex",
+        "short_summary": "Admins cannot easily require that multiple permission conditions all be met together; the only workaround is writing a complex JQ expression.",
+        "source_url": "https://roadmap.port.io/ideas/p/allow-toggle-of-conditions-array-in-dynamic-permission-from-or-to-and"
+      },
+      {
+        "feedback_id": "66c2e3fc26a6ce7012e28f00",
+        "title": "Improved UI for managing dynamic permissions",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Configuration complexity",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Managing dynamic permissions requires specific skills and is more challenging to debug and verify.",
+        "short_summary": "Setting up and verifying dynamic permission rules is difficult and requires specialized expertise, making it hard to confirm they work as intended.",
+        "source_url": "https://roadmap.port.io/ideas/p/improved-ui-for-managing-dynamic-permissions"
+      }
+    ],
+    "Identity, Secrets & Security||Message signing & webhook security": [
+      {
+        "feedback_id": "6915caf8c4c30db90d700b0b",
+        "title": "Support secrets on webhook security configuration",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Security or privacy concern",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the secret is exposed in source code!",
+        "short_summary": "Webhook secrets used for signature verification must be entered as raw values, which exposes them in source code when configured via Terraform.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-secrets-on-webhook-security-configuration"
+      },
+      {
+        "feedback_id": "69c1a3bff8901915c20c5ca3",
+        "title": "Port Secrets Support in Webhook Security Configuration",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Allow the {{ .secrets.<secret_name> }} syntax in the secret field for webhook, consistent with how secrets are already used in self-service action and automation payloads.",
+        "short_summary": "Users cannot use the standard secret-reference syntax inside the webhook security configuration, forcing inconsistent secret handling for webhook signing.",
+        "source_url": "https://roadmap.port.io/ideas/p/port-secrets-support-in-webhook-security-configuration"
+      },
+      {
+        "feedback_id": "69e62509bf8b6dbf40b878c7",
+        "title": "Support Service Account Credentials for Signing Port Execution Agent Messages",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Security or privacy concern",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the signature verification still relies on the org-level secret — not the service account credentials",
+        "short_summary": "Message signing for the execution agent uses the org-wide secret instead of the configured service account, increasing security exposure if the org secret leaks.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-service-account-credentials-for-signing-port-execution-agent-messages"
+      }
+    ],
+    "Observability & Debugging||Run status & progress": [
+      {
+        "feedback_id": "6a206c5f516b94d1532bef24",
+        "title": "Add real-time pre-execution status and progress visibility for self-service actions",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Observability or debugging gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "There is no indication of whether the action is queued, rate-limited, or encountered an error during startup.",
+        "short_summary": "Users have no visibility into whether their action run is queued, delayed, or failing to start, especially during long rate-limit delays.",
+        "source_url": "https://roadmap.port.io/ideas/p/add-real-time-pre-execution-status-and-progress-visibility-for-self-service-acti"
+      },
+      {
+        "feedback_id": "697141709b01af0c80a5efd1",
+        "title": "Multi-Step Action Visibility",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Observability or debugging gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Limited visibility into intermediate progress or where failures occur.",
+        "short_summary": "Users running multi-step actions cannot see progress or identify which step failed during execution.",
+        "source_url": "https://roadmap.port.io/ideas/p/multi-step-action-visibility"
+      },
+      {
+        "feedback_id": "65b60179d9cc3038ffc233d3",
+        "title": "Add action run status description",
         "severity": 2,
-        "evidence_excerpt": "it will ask you if you want to continue editing or discard changes whether you made changes or not, this can be",
-        "source_url": "https://roadmap.port.io/ideas/p/true-change-detection-for-self-service-actions-like-data-sources-has",
-        "journey_stage": "Testing, editing & publishing"
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "add the option to provide additional descriptions next to the status and further explain the current step, like \"waiting_for_resource\", \"preparing\", \"canceled\"",
+        "short_summary": "Users can only see broad run statuses like Success or Failure, without more detailed information about what stage the run is currently in.",
+        "source_url": "https://roadmap.port.io/ideas/p/add-action-run-status-description"
+      }
+    ],
+    "Observability & Debugging||Error messages & backend responses": [
+      {
+        "feedback_id": "66e68c9ff85bef2fa5d4dc82",
+        "title": "Surface JQ errors",
+        "severity": 4,
+        "confidence": 0.65,
+        "problem_type": "Observability or debugging gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "In Integration Mapping, resources will not be created. In automations/actions, it won't run.",
+        "short_summary": "When a JQ expression used by an action fails, the action is silently skipped with no visible error for the user to investigate.",
+        "source_url": "https://roadmap.port.io/ideas/p/surface-jq-errors"
+      },
+      {
+        "feedback_id": "67c68b799784f92c6176416d",
+        "title": "Admins should see the HTTP response of action backend's webhook calls",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Observability or debugging gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I'd like to see the return status and body for webhook self-service action backends",
+        "short_summary": "Admins cannot see the HTTP status and response body returned by webhook backends when an action runs.",
+        "source_url": "https://roadmap.port.io/ideas/p/admins-should-see-the-http-response-of-action-backends-webhook-calls"
+      },
+      {
+        "feedback_id": "68127ab6fd3a32236bbbbeba",
+        "title": "GHA Invocation Error Improvements",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Poor error message",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Got 404 while addressing github api, repo or workflow not found",
+        "short_summary": "A generic 404 error for GitHub Action failures forces trial-and-error debugging, and some error messages get cut off in the UI.",
+        "source_url": "https://roadmap.port.io/ideas/p/gha-invocation-error-improvements"
+      }
+    ],
+    "Discovery, Organization & Reuse||Conditional availability & placement": [
+      {
+        "feedback_id": "656dffd9c9406ec6bc18eaa5",
+        "title": "Hide actions from entity menu",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Having the option to hide Actions on specific Entities will allow to clean up the catalog, and disable Actions on entities that should not run it.",
+        "short_summary": "Actions currently show for every entity of a blueprint, with no way to hide them on specific entities that shouldn't run them.",
+        "source_url": "https://roadmap.port.io/ideas/p/hide-actions-from-entity-menu"
+      },
+      {
+        "feedback_id": "65b9006ef5018ed4ab27075b",
+        "title": "Abilty to add a filter so only certain Self Service Actions appear on a Catalog Page.",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "there is a requirement to filter Self Service Actions on custom catalogue pages",
+        "short_summary": "Users cannot restrict which self-service actions show up on specific catalog pages for a given entity type.",
+        "source_url": "https://roadmap.port.io/ideas/p/abilty-to-add-a-filter-so-only-certain-self-service-actions-appear-on-a-catalog"
+      },
+      {
+        "feedback_id": "678fa2d0541d91b91a772c41",
+        "title": "Conditional self-service actions",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the ability to make an action conditionally available (based on one of more properties of the selected entity)",
+        "short_summary": "Users want actions to only show up when relevant, based on properties of the selected entity, instead of always appearing regardless of context.",
+        "source_url": "https://roadmap.port.io/ideas/p/conditional-self-service-actions"
+      }
+    ],
+    "Form Configuration||Structured & repeatable inputs": [
+      {
+        "feedback_id": "68385892443469540b4ed3bd",
+        "title": "Add Table input to Self Service Action Form",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "It would be great if Port Self Service Actions allowed to have an input field in table format for users.",
+        "short_summary": "Users need to enter multiple related pieces of network data repeatedly, but the form has no table-style input to make this easy and clear.",
+        "source_url": "https://roadmap.port.io/ideas/p/add-table-input-to-self-service-action-form"
+      },
+      {
+        "feedback_id": "67f4f44f1aac623580bb3589",
+        "title": "Dynamic Self Service Action",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the latter bypasses the regex validations that are applied in the single-container provisioning action",
+        "short_summary": "Users cannot dynamically add multiple items via a plus button in a form, forcing a separate JSON-list action that skips important validation.",
+        "source_url": "https://roadmap.port.io/ideas/p/dynamic-self-service-action"
+      },
+      {
+        "feedback_id": "6a28d09693ba6573b6a4a68e",
+        "title": "Add \"Select All\" / \"Deselect All\" for Array-Type Entity Inputs in Self-Service Action Forms",
+        "severity": 2,
+        "confidence": 0.85,
+        "problem_type": "Usability friction",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "requiring users to manually select each item one by one — which becomes tedious and time-consuming when dealing with large lists",
+        "short_summary": "Users must manually select each item one by one in large array-type input lists, which is slow and tedious.",
+        "source_url": "https://roadmap.port.io/ideas/p/add-select-all-deselect-all-for-array-type-entity-inputs-in-self-service-action"
+      }
+    ],
+    "Validation & Rules||Input & cross-field validation": [
+      {
+        "feedback_id": "68c1d18fa34b05cc8bf233c6",
+        "title": "Support for Live Regex Validation in String Inputs",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Bug / defect",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Regex validation used to run live for string inputs, which was a much better experience than waiting until action execution",
+        "short_summary": "Regex validation on text fields no longer runs live while typing, forcing users to wait until they submit the action to find out their input is invalid.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-for-live-regex-validation-in-string-inputs"
+      },
+      {
+        "feedback_id": "68c9c5736bddc38edb2a4072",
+        "title": "Require Object type input property contents, not input itself",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Validation gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I just want specified properties in the object to be required IF that input is used.",
+        "short_summary": "Users cannot mark individual properties inside an object-type action input as required, only the whole object or its property types.",
+        "source_url": "https://roadmap.port.io/ideas/p/require-object-type-input-property-contents-not-input-itself"
+      },
+      {
+        "feedback_id": "69c0e8a9943dfd034f363563",
+        "title": "Improved customizations of user inputs validations",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "In progress",
+        "source_system": "Port portal",
+        "evidence_excerpt": "conditional logic like \"replica count must be at least 3 when deploying to production\", cross-field rules like email confirmation, and meaningful error messages",
+        "short_summary": "Builders cannot define complex, conditional, or cross-field validation rules that run in the form before execution, forcing reliance on backend scripts or failed runs to catch bad input.",
+        "source_url": "https://roadmap.port.io/ideas/p/improved-customizations-of-user-inputs-validations"
+      }
+    ],
+    "Invocation & Integrations||Execution agents & runners": [
+      {
+        "feedback_id": "696f2e14d1352674295c2e11",
+        "title": "Control which Port Execution Agent deployment process which message with polling streamer",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "You cannot control which agent processes which message at the moment.",
+        "short_summary": "Platform admins cannot control which execution agent handles which run when using multiple agents with polling streamer, risking inconsistent filtering logic.",
+        "source_url": "https://roadmap.port.io/ideas/p/control-which-port-execution-agent-deployment-process-which-message-with-polling"
+      },
+      {
+        "feedback_id": "693717e9a5e8f26790db4e71",
+        "title": "Forward everything the Port Execution Agent gets and make it transparent",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I mean for it to just forward whatever payload it receives: headers, body, etc.",
+        "short_summary": "Users want an option to make the Execution Agent fully transparent, forwarding the entire original payload including headers without transformation.",
+        "source_url": "https://roadmap.port.io/ideas/p/forward-everything-the-port-execution-agent-gets-and-make-it-transparent"
+      },
+      {
+        "feedback_id": "69a02d77006d0995d3c7e953",
+        "title": "In port execution agent allow the agent to have SSL no-verify option when communicating with the remote server",
+        "severity": 3,
+        "confidence": 0.7,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "We want to communicate with an internal service without the hassle of handling the self signed certificates",
+        "short_summary": "Users need a way to let the execution agent skip SSL certificate verification when calling internal services with self-signed certificates.",
+        "source_url": "https://roadmap.port.io/ideas/p/in-port-execution-agent-allow-the-agent-to-have-ssl-no-verify-option-when-commun"
+      }
+    ],
+    "Form Configuration||Dynamic & dependent inputs": [
+      {
+        "feedback_id": "6508161951aa0709909e3647",
+        "title": "Add conditionals based on bool input",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "if input1 true create array to select from in input2 else hide input2",
+        "short_summary": "Users cannot make one form field's visibility or options depend on the value of a boolean field.",
+        "source_url": "https://roadmap.port.io/ideas/p/add-conditionals-based-on-bool-input"
+      },
+      {
+        "feedback_id": "6548e76c830f6a63732c6653",
+        "title": "Dropdown input based on API",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "there is no way to offer input selection based on API",
+        "short_summary": "Users cannot populate a dropdown field with options fetched dynamically from an external API.",
+        "source_url": "https://roadmap.port.io/ideas/p/dropdown-input-based-on-api"
+      },
+      {
+        "feedback_id": "679265f3a7c7da4003832a79",
+        "title": "Support Calculated Properties in Self-Service Dataset Conditions",
+        "severity": 3,
+        "confidence": 0.6,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "In progress",
+        "source_system": "Port portal",
+        "evidence_excerpt": "search conditions cannot be applied to calculated properties in self-service actions",
+        "short_summary": "Action builders cannot filter dropdown or entity selection options in a form using calculated properties as a condition.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-calculated-properties-in-self-service-dataset-conditions"
+      }
+    ],
+    "Validation & Rules||Expression and JQ rule authoring": [
+      {
+        "feedback_id": "681b0a5d2c401ce3fc35e8bc",
+        "title": "JQ in Action conditions",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "it is not possible to use JQ when creating conditions for Day-2 or Delete actions",
+        "short_summary": "Users cannot use JQ expressions to define conditions for Day-2 or Delete actions, limiting advanced filtering of entities.",
+        "source_url": "https://roadmap.port.io/ideas/p/jq-in-action-conditions"
+      },
+      {
+        "feedback_id": "66cc92d3c146ef3febde98ab",
+        "title": "Reflect invalid JQ results to stakeholders",
+        "severity": 3,
+        "confidence": 0.55,
+        "problem_type": "Observability or debugging gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "We should find a way to alert relevant stakeholders to the fact that the calculated value is invalid when it occurs.",
+        "short_summary": "When a JQ calculation used in an action produces an invalid result, there is no clear way to alert the people who need to know.",
+        "source_url": "https://roadmap.port.io/ideas/p/reflect-invalid-jq-results-to-stakeholders"
+      },
+      {
+        "feedback_id": "6899c7023d379b03f9f77df7",
+        "title": "Support jq version 1.8 in Port",
+        "severity": 2,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Port currently uses JQ v1.7.1, which does not support functions introduced in v1.8 (e.g., trim, ltrim, rtrim).",
+        "short_summary": "Port's JQ engine is an older version that lacks newer string functions, forcing users to write workaround regex logic.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-jq-version-18-in-port"
+      }
+    ],
+    "Observability & Debugging||Run-history APIs & export": [
+      {
+        "feedback_id": "6984c8667a1845e176fe3732",
+        "title": "Action Runs API endpoint improvements",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Integration or API gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "there is not enough ability for filtering of the returned runs, there is no \"include\" parameter, and the limit is set to max of 1000 runs without ability for pagination",
+        "short_summary": "The API for retrieving action run history lacks filtering, field inclusion options, and pagination beyond 1000 records.",
+        "source_url": "https://roadmap.port.io/ideas/p/action-runs-api-endpoint-improvements"
+      },
+      {
+        "feedback_id": "66fabe27f08e28ee95624d41",
+        "title": "Export Action Run History",
+        "severity": 2,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Currently Port does not have the ability to export action runs via the UI, only the API.",
+        "short_summary": "Users cannot export action run history from the UI, only via the API, making it harder to analyze or share run data.",
+        "source_url": "https://roadmap.port.io/ideas/p/export-action-run-history"
+      },
+      {
+        "feedback_id": "69a7207e9505b9d5de41736b",
+        "title": "Include stable action_id in GET Action Runs API",
+        "severity": 2,
+        "confidence": 0.8,
+        "problem_type": "Integration or API gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Exposing the stable action_id in the action runs response will ensure long-term data consistency and reliable analytics.",
+        "short_summary": "The API for listing action runs does not include a stable identifier for the action, making it hard to reliably track and analyze run data over time.",
+        "source_url": "https://roadmap.port.io/ideas/p/include-stable-action-id-in-get-action-runs-api"
+      }
+    ],
+    "Permissions & Approvals||Approval audit & context": [
+      {
+        "feedback_id": "6a2a7d26bd2d82218bddf0be",
+        "title": "Audit Log (Runs tab) — Add Approver field and filtering",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Allow filtering by approver directly in the UI, without needing to query the API",
+        "short_summary": "The Runs audit log does not show or let users filter by who approved each run, forcing manual API calls to get that information.",
+        "source_url": "https://roadmap.port.io/ideas/p/audit-log-runs-tab-add-approver-field-and-filtering"
+      },
+      {
+        "feedback_id": "67098dae95ff13ed656df804",
+        "title": "API to return action approver details",
+        "severity": 2,
+        "confidence": 0.75,
+        "problem_type": "Integration or API gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "It would be beneficial if it could also include the action approver details, such as their name and email.",
+        "short_summary": "The API for action runs does not expose who approved the action, such as the approver's name and email.",
+        "source_url": "https://roadmap.port.io/ideas/p/api-to-return-action-approver-details"
+      },
+      {
+        "feedback_id": "697b9fddcfbf975300198439",
+        "title": "Expose Approver Context in Runs",
+        "severity": 2,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "SSA execution context only includes the run creator, not the actual approver",
+        "short_summary": "The system does not capture or display who actually approved a request, only who created the run.",
+        "source_url": "https://roadmap.port.io/ideas/p/expose-approver-context-in-runs"
+      }
+    ],
+    "Execution Lifecycle||Concurrency, rate limits & duplicate prevention": [
+      {
+        "feedback_id": "656771af070a907c6e635dc9",
+        "title": "Restrictions on Running Actions in Parallel",
+        "severity": 3,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I want to be able to configure restrictions on running actions in parallel, so that I can control the concurrency of certain tasks within my workflow.",
+        "short_summary": "Admins cannot limit how many times the same action can run at the same time on the same target, risking duplicate or conflicting deployments.",
+        "source_url": "https://roadmap.port.io/ideas/p/restrictions-on-running-actions-in-parallel"
+      },
+      {
+        "feedback_id": "6a0afd1159c18d657028cd5c",
+        "title": "Disable workflow execute button while execution is in progress",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Bug / defect",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "users can click the button multiple times, unintentionally triggering duplicate executions",
+        "short_summary": "The action's run button stays clickable while a run is starting, allowing users to accidentally trigger multiple duplicate runs.",
+        "source_url": "https://roadmap.port.io/ideas/p/disable-workflow-execute-button-while-execution-is-in-progress"
+      }
+    ],
+    "Execution Lifecycle||Cancel, stop & resume": [
+      {
+        "feedback_id": "650acbf95b34b73cc2493ca8",
+        "title": "\"Cancel\" button for action run",
+        "severity": 3,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Ability to cancel the execution of an action after triggering it",
+        "short_summary": "Users cannot stop an action run once it has started, even if it needs to be halted.",
+        "source_url": "https://roadmap.port.io/ideas/p/cancel-button-for-action-run"
+      },
+      {
+        "feedback_id": "67002abcd4bbc2b93566d305",
+        "title": "Cancellation Logic For Self Service Actions",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Add a cancel button to self service actions and allow configuration for the cancel button to invoke external communication.",
+        "short_summary": "Users cannot cancel a running self-service action or trigger an external notification when it is cancelled.",
+        "source_url": "https://roadmap.port.io/ideas/p/cancellation-logic-for-self-service-actions"
+      }
+    ],
+    "Execution Lifecycle||Completion & result-state control": [
+      {
+        "feedback_id": "699c78c2ebbb27ef14d76770",
+        "title": "Add the ability to mark run as success/fail for create/update just like it is when using kafka topic",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I would like to have the same ability just with create/update invocation type.",
+        "short_summary": "Users cannot manually mark a create/update action run as success or failure the way they can when using Kafka as the backend.",
+        "source_url": "https://roadmap.port.io/ideas/p/add-the-ability-to-mark-run-as-success-fail-for-create-update-just-like-it-is-wh"
+      },
+      {
+        "feedback_id": "6582ce708d54e728d31b780f",
+        "title": "gitlab pipeline trigger action",
+        "severity": 3,
+        "confidence": 0.72,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the list should contain all Gitlab's possible pipeline statuses: (created, waiting_for_resource, preparing, pending, running, success, failed, canceled, skipped, manual, scheduled)",
+        "short_summary": "The action only reports Success or Failure for a GitLab pipeline, even though GitLab pipelines can be in many other states.",
+        "source_url": "https://roadmap.port.io/ideas/p/gitlab-pipeline-trigger-action"
+      }
+    ],
+    "Observability & Debugging||Run traceability & related entities": [
+      {
+        "feedback_id": "697a6d812b05462f8a614382",
+        "title": "Show triggering user in audit logs for entities created via self-service actions",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Observability or debugging gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the audit log shows the entity as being created by Port automation. While the action run itself contains the triggering user's information, that context is not surfaced in the audit log.",
+        "short_summary": "Audit logs show entities as created by 'Port automation' instead of showing which user actually triggered the action that created them.",
+        "source_url": "https://roadmap.port.io/ideas/p/show-triggering-user-in-audit-logs-for-entities-created-via-self-service-actions"
+      },
+      {
+        "feedback_id": "67b20c2e5a5587585abe688c",
+        "title": "Self-Service Actions to automatically tie affected entities to an action run",
+        "severity": 3,
+        "confidence": 0.72,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "this should be automated when invoking a self service actions - User clicks on an action --> port system gets the entities affected and encodes them with an action runner run_id",
+        "short_summary": "Users must manually call an API to link affected entities to an action run instead of this happening automatically.",
+        "source_url": "https://roadmap.port.io/ideas/p/self-service-actions-to-automatically-tie-affected-entities-to-an-action-run"
+      }
+    ],
+    "Discovery, Organization & Reuse||Bulk actions": [
+      {
+        "feedback_id": "67dbf184d3db9fe5bd6f51f5",
+        "title": "Bulk self-service actions on entities",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "It would be great to have an option to do bulk actions(day2 and DELETE) on entities",
+        "short_summary": "Users cannot run day-2 or delete actions on multiple entities at the same time, forcing repeated manual execution.",
+        "source_url": "https://roadmap.port.io/ideas/p/bulk-self-service-actions-on-entities"
+      },
+      {
+        "feedback_id": "670e6d4f1d4ba786e2faa0df",
+        "title": "Table & bulk actions",
+        "severity": 3,
+        "confidence": 0.6,
+        "problem_type": "Feature gap",
+        "journey_stage": "Action discovery & organization",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I want to run a single action that references all entities",
+        "short_summary": "Users want to run a single action against a whole filtered set of entities in a table view, not just one at a time.",
+        "source_url": "https://roadmap.port.io/ideas/p/table-bulk-actions"
+      }
+    ],
+    "Authoring, Testing & Management||API & IaC configuration management": [
+      {
+        "feedback_id": "64f9b9a2b9071e097d98d1c7",
+        "title": "Configure action permissions using Port's pulumi provider",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Integration or API gap",
+        "journey_stage": "Testing, editing & publishing",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "we are not able to configure an action's permissions using the pulumi provider",
+        "short_summary": "Users cannot manage an action's permission settings through the Pulumi provider, forcing manual configuration outside of infrastructure-as-code workflows.",
+        "source_url": "https://roadmap.port.io/ideas/p/configure-action-permissions-using-ports-pulumi-provider"
+      },
+      {
+        "feedback_id": "67ae96986cf677fdc79b6969",
+        "title": "Action API viewable per action",
+        "severity": 2,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Testing, editing & publishing",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "It would be really nice if you could go into a self service action and see a similar view.",
+        "short_summary": "Users want to view an action's underlying API/configuration with a working example, similar to the code view available for blueprints.",
+        "source_url": "https://roadmap.port.io/ideas/p/action-api-viewable-per-action"
+      }
+    ],
+    "Context, Targeting & Pre-fill||Embedded & alternative launch surfaces": [
+      {
+        "feedback_id": "6a428d9c292f2041042ba04e",
+        "title": "Expose Action Form Trigger in Custom Widget/Plugin SDK",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Contextual entry, targeting & pre-fill",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Add support for opening a self-service action form directly from a custom widget/plugin, without navigating to the Self-Service Actions tab",
+        "short_summary": "Developers cannot launch an action form from a custom widget or plugin without navigating away to the Self-Service Actions tab.",
+        "source_url": "https://roadmap.port.io/ideas/p/expose-action-form-trigger-in-custom-widget-plugin-sdk"
+      },
+      {
+        "feedback_id": "6760726f4a50f11189d6e973",
+        "title": "Triggering a self-service action from somewhere other than the self-service page",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Contextual entry, targeting & pre-fill",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "this link takes the user to the Self-service page (albeit with the correct action modal opened to the form). Completing the form then leaves then on the Self-service page.",
+        "short_summary": "Deep links to an action currently redirect users to the Self-service page instead of opening the action as a modal over the page they were on.",
+        "source_url": "https://roadmap.port.io/ideas/p/triggering-a-self-service-action-from-somewhere-other-than-the-self-service-page"
+      },
+      {
+        "feedback_id": "69a69c2bbd9e53f8d10aa84f",
+        "title": "Configurable automatic execution of self-service actions from Slack",
+        "severity": 2,
+        "confidence": 0.72,
+        "problem_type": "Feature gap",
+        "journey_stage": "Contextual entry, targeting & pre-fill",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Add a configuration option that allows admins to control whether self-service actions triggered via the Slack app can be:",
+        "short_summary": "Admins want the option to let users fully complete and execute self-service actions directly from Slack instead of being redirected to the Port UI.",
+        "source_url": "https://roadmap.port.io/ideas/p/configurable-automatic-execution-of-self-service-actions-from-slack"
+      }
+    ],
+    "Authoring, Testing & Management||Editing & unsaved-change safety": [
+      {
+        "feedback_id": "670fd226ff2831f9768b8724",
+        "title": "True Change Detection for Self-service Actions like Data Sources has",
+        "severity": 2,
+        "confidence": 0.9,
+        "problem_type": "Usability friction",
+        "journey_stage": "Testing, editing & publishing",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "it would be nice if a true diff check was made to see if a change is actually present",
+        "short_summary": "The edit dialog always asks to confirm discarding changes, even when nothing was actually changed, causing confusion.",
+        "source_url": "https://roadmap.port.io/ideas/p/true-change-detection-for-self-service-actions-like-data-sources-has"
+      },
+      {
+        "feedback_id": "672b5615349fd99b0f353e36",
+        "title": "Confirmation Window for Unsaved Changes in Self-service actions GUI Mode",
+        "severity": 2,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Testing, editing & publishing",
+        "lifecycle_status": "In progress",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Currently, this confirmation prompt exists in JSON mode in Self-service action window, but it is missing in GUI mode, which can lead to accidental data loss.",
+        "short_summary": "Users editing an action in the visual (GUI) builder can navigate away and lose unsaved changes because no warning is shown, unlike in JSON mode.",
+        "source_url": "https://roadmap.port.io/ideas/p/confirmation-window-for-unsaved-changes-in-self-service-actions-gui-mode"
+      }
+    ],
+    "Form Configuration||Form layout, sections & multi-page forms": [
+      {
+        "feedback_id": "675b0c008682d4e202eeeb9a",
+        "title": "Conditional step in Self-service form",
+        "severity": 3,
+        "confidence": 0.6,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I would like to be able to display or not some steps",
+        "short_summary": "Action builders cannot show or hide entire form steps depending on whether a related entity already exists.",
+        "source_url": "https://roadmap.port.io/ideas/p/conditional-step-in-self-service-form"
+      },
+      {
+        "feedback_id": "65809c20bdd786e7c10ce20e",
+        "title": "Steps in Port Self-Service Action Form",
+        "severity": 2,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I want the ability to collapse the form into distinct sections such as network configuration, security configuration, and IAM role",
+        "short_summary": "Users want long action forms broken into collapsible sections like network, security, and IAM so they can focus on relevant parts.",
+        "source_url": "https://roadmap.port.io/ideas/p/steps-in-port-self-service-action-form"
+      },
+      {
+        "feedback_id": "672b52a3c45ed39e22567862",
+        "title": "“Execute” Button on the First Step of the Input Window",
+        "severity": 2,
+        "confidence": 0.85,
+        "problem_type": "Usability friction",
+        "journey_stage": "Form & input configuration",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "This button will allow users to initiate the action immediately if they do not need to modify any fields in subsequent steps.",
+        "short_summary": "Users must click through every step of a multi-page action form even when they only need to fill in the required fields on the first page.",
+        "source_url": "https://roadmap.port.io/ideas/p/execute-button-on-the-first-step-of-the-input-window"
+      }
+    ],
+    "Identity, Secrets & Security||Credentials & secrets management": [],
+    "Orchestration||Shared context & output passing": [
+      {
+        "feedback_id": "6a5fd5a33da3c9382571e53c",
+        "title": "Expose GitHub Node Conclusion in Workflow JQ Context",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the .outputs available to downstream JQ expressions only include workflowRunUrl and workflowRunId, not result, workflowStatus, or any error detail",
+        "short_summary": "When a GitHub Actions step fails, later steps in the same workflow cannot see the failure result or error details, even though that data exists in Port.",
+        "source_url": "https://roadmap.port.io/ideas/p/expose-github-node-conclusion-in-workflow-jq-context"
+      }
+    ],
+    "Orchestration||Multi-backend & multi-system sequencing": [
+      {
+        "feedback_id": "684c4e772523f38ddde65e37",
+        "title": "I want to be able to use multiple backends for one self service action",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I have to combine these 5 GH actions into one since the SSA can only trigger one backend",
+        "short_summary": "Users cannot route a single action to different backend workflows based on the input selected, forcing them to combine multiple backends into one overly complex workflow.",
+        "source_url": "https://roadmap.port.io/ideas/p/i-want-to-be-able-to-use-multiple-backends-for-one-self-service-action"
+      }
+    ],
+    "Context, Targeting & Pre-fill||Pre-fill & context-specific defaults": [
+      {
+        "feedback_id": "6a3c68a73959e847601ffa6f",
+        "title": "Entity and user/team pickers should allow dynamic filters and defaults",
+        "severity": 4,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Contextual entry, targeting & pre-fill",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "there's no way to default the team input to, say, the first team in the user's team list",
+        "short_summary": "Builders cannot default team, user, or array inputs based on the current user's properties or the entity that triggered the action, forcing manual selection from unfiltered lists.",
+        "source_url": "https://roadmap.port.io/ideas/p/entity-and-user-team-pickers-should-allow-dynamic-filters-and-defaults"
+      }
+    ],
+    "Execution Lifecycle||Timeouts": [
+      {
+        "feedback_id": "6583401b32150dedcd8f0e46",
+        "title": "Configure timeout value for actions",
+        "severity": 3,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Ability to configure timeout values for actions within Port so that certain operations, like deploying a service, do not exceed a certain duration.",
+        "short_summary": "Users cannot set a maximum time limit for an action run, so long-running operations may run indefinitely.",
+        "source_url": "https://roadmap.port.io/ideas/p/configure-timeout-value-for-actions"
+      }
+    ],
+    "Invocation & Integrations||Event triggers & action-to-automation integration": [
+      {
+        "feedback_id": "6a5979a17cd0080dd647c575",
+        "title": "Event trigger for ALL self-service actions",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "it's tied to a specific action rather than ALL actions",
+        "short_summary": "Users can only wire an automation trigger to one specific action at a time, not to all actions generally.",
+        "source_url": "https://roadmap.port.io/ideas/p/event-trigger-for-all-self-service-actions"
+      }
+    ],
+    "Permissions & Approvals||Action visibility & eligibility": [
+      {
+        "feedback_id": "68c27182f9c430044f39113f",
+        "title": "Support hiding/displaying self-service actions using dynamic permissions",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "lifecycle_status": "In progress",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the run will be rejected only after sending the self-service action form",
+        "short_summary": "Users can see and fill out self-service actions they are not actually permitted to run, only finding out they are rejected after submitting the form.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-hiding-displaying-self-service-actions-using-dynamic-permissions"
+      }
+    ],
+    "Orchestration||Intermediate approvals": [
+      {
+        "feedback_id": "661812f8f2d3cbf4dabfe941",
+        "title": "Self Service Action Workflow",
+        "severity": 4,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Based on that first trigger result, prompt an approval request and based on the approval, invoke another trigger.",
+        "short_summary": "Users cannot chain multiple execution steps in one action with an approval required between steps before continuing.",
+        "source_url": "https://roadmap.port.io/ideas/p/self-service-action-workflow"
+      },
+      {
+        "feedback_id": "658017fae4e884edf5a34ea5",
+        "title": "Support manual approval in the middle of a running action",
+        "severity": 3,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "an action might perform some process and then arrive at another point that requires manual approval",
+        "short_summary": "Users cannot require a new approval step partway through an already-running action, only before it starts.",
+        "source_url": "https://roadmap.port.io/ideas/p/support-manual-approval-in-the-middle-of-a-running-action"
+      }
+    ],
+    "Context, Targeting & Pre-fill||Current-user and context propagation": [
+      {
+        "feedback_id": "695ce5f621c449e1fd7ce58e",
+        "title": "Expose Richer Executing User Context in SSA Backend",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Contextual entry, targeting & pre-fill",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Passing the User Form .user object to the backend is not safe, as it can be spoofed and allow user impersonation.",
+        "short_summary": "Backends only get a limited set of trusted executing-user data, and using the richer user-submitted data isn't safe because it can be spoofed.",
+        "source_url": "https://roadmap.port.io/ideas/p/expose-richer-executing-user-context-in-ssa-backend"
+      }
+    ],
+    "Context, Targeting & Pre-fill||Entity and resource targeting": [
+      {
+        "feedback_id": "67fe69fc077f02acb331e710",
+        "title": "Associate action with multiple blueprints",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Contextual entry, targeting & pre-fill",
+        "lifecycle_status": "In progress",
+        "source_system": "Port portal",
+        "evidence_excerpt": "an action if associated with service overview entity cant be associated with the service blueprint entity - which means a new actions should be created",
+        "short_summary": "Users cannot associate one action with more than one blueprint, forcing them to duplicate actions for each entity type that should trigger the same operation.",
+        "source_url": "https://roadmap.port.io/ideas/p/associate-action-with-multiple-blueprints"
+      },
+      {
+        "feedback_id": "6584045643d41b6fd0ac313c",
+        "title": "Self service action without requiring blueprint",
+        "severity": 3,
+        "confidence": 0.55,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I want the ability to create self-service actions directly within Port without the need for predefined blueprints",
+        "short_summary": "DevOps engineers cannot create a self-service action unless it is tied to a predefined blueprint, limiting flexibility for ad hoc tasks.",
+        "source_url": "https://roadmap.port.io/ideas/p/self-service-action-without-requiring-blueprint"
+      }
+    ],
+    "Invocation & Integrations||APIs & external integrations": [
+      {
+        "feedback_id": "6728c6a7e9894c1a059aa821",
+        "title": "Port Teams Bot Backend",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Integration or API gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "We'd like to be able to Install a Port Teams Bot to our Microsoft 365 environment such that the bot can be authorised to communicate with members and channels",
+        "short_summary": "Users want a native Microsoft Teams bot backend so Self-Service Actions can send messages directly to Teams channels and users without building custom infrastructure.",
+        "source_url": "https://roadmap.port.io/ideas/p/port-teams-bot-backend"
+      }
+    ],
+    "Authoring, Testing & Management||Playground, examples & in-product help": [
+      {
+        "feedback_id": "66e985470be4dcfd3da6e336",
+        "title": "Entities example for backend playground",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Testing, editing & publishing",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "The examples that are being provided are automatically generated and in some cases are not aligned with the actual data.",
+        "short_summary": "The auto-generated examples in the JQ testing playground don't match real data, making it hard to validate mappings accurately.",
+        "source_url": "https://roadmap.port.io/ideas/p/entities-example-for-backend-playground"
+      }
+    ],
+    "Authoring, Testing & Management||Preview & dry run": [
+      {
+        "feedback_id": "664dfc30f03c3cdb1e67c0b7",
+        "title": "Port GitHub action | Support dry run for the Port action for tests",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Testing, editing & publishing",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "we would want to have a flag for the port-github-action",
+        "short_summary": "Users want a way to run the GitHub Action integration in a test-only mode that validates without triggering real workflow side effects.",
+        "source_url": "https://roadmap.port.io/ideas/p/port-github-action-support-dry-run-for-the-port-action-for-tests"
+      }
+    ],
+    "Execution Lifecycle||Reliability & transient-failure handling": [
+      {
+        "feedback_id": "659823830182c070291f2d87",
+        "title": "Retry logic for transient errors in action backends",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "It would be nice to have the option to have Port manage back pressure and retries of action runs.",
+        "short_summary": "Users want Port to automatically retry action runs that fail due to temporary backend errors, using backoff, instead of handling retries manually.",
+        "source_url": "https://roadmap.port.io/ideas/p/retry-logic-for-transient-errors-in-action-backends"
+      }
+    ],
+    "Orchestration||Multi-step workflows": [
+      {
+        "feedback_id": "689c4e5eda725fecc3d241bf",
+        "title": "Multi-step workflows",
+        "severity": 3,
+        "confidence": 0.7,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Planned",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Chain multiple inputs, approvals, conditions, and actions via automatic triggers or self-service",
+        "short_summary": "Users want to combine multiple steps, approvals and conditions into a single automated action workflow.",
+        "source_url": "https://roadmap.port.io/ideas/p/multi-step-workflows"
+      }
+    ],
+    "Execution Lifecycle||Retry, rerun & duplicate execution": [
+      {
+        "feedback_id": "64d09ad21cf6f309b9affae5",
+        "title": "Ability to retry the action from the run page",
+        "severity": 2,
+        "confidence": 0.9,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Completed",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Adding a retry action for a run can be nice addition",
+        "short_summary": "Users cannot retry a failed action run directly from the run page and must restart the process manually.",
+        "source_url": "https://roadmap.port.io/ideas/p/ability-to-retry-the-action-from-the-run-page"
+      },
+      {
+        "feedback_id": "69523d930fce6a18f6f14a07",
+        "title": "Execute another self-service action run with the similar inputs",
+        "severity": 2,
+        "confidence": 0.85,
+        "problem_type": "Feature gap",
+        "journey_stage": "Execution, monitoring & run control",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "We want the ability to execute another run with the same inputs as an existing run, while it is in progress.",
+        "short_summary": "Users cannot start a new run with the same inputs as an in-progress run without waiting for it to finish, and the current 'Re-run' wording risks confusion about cancelling the active run.",
+        "source_url": "https://roadmap.port.io/ideas/p/execute-another-self-service-action-run-with-the-similar-inputs"
+      }
+    ],
+    "Authoring, Testing & Management||Drafts, publishing & disablement": [
+      {
+        "feedback_id": "669f73086d132f3ee45a4c86",
+        "title": "Place action in maintenance mode",
+        "severity": 2,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Testing, editing & publishing",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "It would be great to be able to temporarily disable actions for non-admins.",
+        "short_summary": "Platform engineers want a way to temporarily disable an action for regular users while it is being updated, without fully deleting or unpublishing it for everyone.",
+        "source_url": "https://roadmap.port.io/ideas/p/place-action-in-maintenance-mode"
       }
     ]
   }
