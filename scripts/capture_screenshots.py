@@ -28,11 +28,14 @@ SHOTS = [
     ("02-product-actions.png", 0, "Recommended product actions", 1100),
     ("03-categories.png", 0, "Where the problems concentrate", 900),
     ("04-journey.png", 0, "Where in the journey users get stuck", 900),
-    ("05-evidence.png", 0, "Evidence explorer", 800),
-    ("06-guide-intro.png", 1, "The four questions every record answers", 900),
-    ("07-guide-categories.png", 1, "The 11 categories", 900),
-    ("08-guide-stages.png", 1, "The 8 journey stages", 900),
-    ("09-guide-examples.png", 1, "Worked examples", 900),
+    # Anchored on the caption, not the "Who is asking" heading: the page title
+    # ends with "...and who is asking for it", so the heading text is not unique.
+    ("05-persona-secondary.png", 0, "Persona is independent of product area", 800),
+    ("06-evidence.png", 0, "Evidence explorer", 800),
+    ("07-guide-intro.png", 1, "The four questions every record answers", 900),
+    ("08-guide-categories.png", 1, "The 11 categories", 900),
+    ("09-guide-stages.png", 1, "The 8 journey stages", 900),
+    ("10-guide-examples.png", 1, "Worked examples", 900),
 ]
 
 # Streamlit tabs are divs, not buttons with role=tab.

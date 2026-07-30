@@ -53,6 +53,7 @@
     "top_product_action_category": "Permissions & Approvals",
     "subcategories_covered": 54,
     "records_needing_review": 26,
+    "records_with_secondary": 102,
     "low_confidence_records": 18,
     "unverified_evidence": 1,
     "source_systems": [
@@ -2035,6 +2036,84 @@
       "records": 0,
       "open_records": 0,
       "avg_severity": 0.0
+    }
+  ],
+  "personas": [
+    {
+      "persona": "Action builder",
+      "records": 109,
+      "open_records": 93,
+      "avg_severity": 2.81
+    },
+    {
+      "persona": "Platform admin",
+      "records": 37,
+      "open_records": 31,
+      "avg_severity": 3.03
+    },
+    {
+      "persona": "Developer / end user",
+      "records": 24,
+      "open_records": 20,
+      "avg_severity": 2.38
+    },
+    {
+      "persona": "Approver / manager",
+      "records": 10,
+      "open_records": 9,
+      "avg_severity": 2.8
+    },
+    {
+      "persona": "Unknown",
+      "records": 2,
+      "open_records": 2,
+      "avg_severity": 3.0
+    }
+  ],
+  "secondary_mentions": [
+    {
+      "category": "Permissions & Approvals",
+      "secondary_mentions": 24
+    },
+    {
+      "category": "Invocation & Integrations",
+      "secondary_mentions": 19
+    },
+    {
+      "category": "Observability & Debugging",
+      "secondary_mentions": 17
+    },
+    {
+      "category": "Validation & Rules",
+      "secondary_mentions": 12
+    },
+    {
+      "category": "Identity, Secrets & Security",
+      "secondary_mentions": 8
+    },
+    {
+      "category": "Form Configuration",
+      "secondary_mentions": 7
+    },
+    {
+      "category": "Context, Targeting & Pre-fill",
+      "secondary_mentions": 5
+    },
+    {
+      "category": "Execution Lifecycle",
+      "secondary_mentions": 4
+    },
+    {
+      "category": "Authoring, Testing & Management",
+      "secondary_mentions": 3
+    },
+    {
+      "category": "Orchestration",
+      "secondary_mentions": 3
+    },
+    {
+      "category": "Discovery, Organization & Reuse",
+      "secondary_mentions": 2
     }
   ],
   "lifecycle": [

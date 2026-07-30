@@ -34,6 +34,7 @@ import pandas as pd
 from ..models.taxonomy import (
     CATEGORY_NAMES,
     OPEN_STATUSES,
+    PERSONA_NAMES,
     PROBLEM_TYPE_NAMES,
     STAGE_NAMES,
 )
@@ -232,6 +233,46 @@ def problem_type_table(rel: pd.DataFrame) -> pd.DataFrame:
                          ascending=[False, True]).reset_index(drop=True)
 
 
+def persona_table(rel: pd.DataFrame) -> pd.DataFrame:
+    """Who is asking. Persona is independent of product area on purpose.
+
+    An Action builder blocked on approval routing and a developer blocked on
+    the same routing are different product problems even though they share a
+    subcategory, and only this dimension separates them.
+    """
+    g = rel.groupby("persona").agg(
+        records=("feedback_id", "count"),
+        open_records=("is_open", "sum"),
+        avg_severity=("severity", "mean"),
+    ).reset_index()
+    g = _pad(g, "persona", PERSONA_NAMES)
+    g["avg_severity"] = g["avg_severity"].round(2)
+    return g.sort_values(["records", "persona"],
+                         ascending=[False, True]).reset_index(drop=True)
+
+
+def secondary_table(rel: pd.DataFrame) -> pd.DataFrame:
+    """How often each category is implicated *without* being the primary.
+
+    A category with few primary records but many secondary mentions is a real
+    finding: it is being dragged into other teams' problems rather than owning
+    them. Kept in its own table, never added to the primary counts -- a record
+    is counted once, in one place, or the totals stop meaning anything.
+    """
+    rows: list[dict] = []
+    for categories in rel["secondary_categories"]:
+        for category in (categories or []):
+            rows.append({"category": category})
+    if not rows:
+        return pd.DataFrame({"category": list(CATEGORY_NAMES),
+                             "secondary_mentions": 0})
+    g = (pd.DataFrame(rows).groupby("category").size()
+         .reset_index(name="secondary_mentions"))
+    g = _pad(g, "category", CATEGORY_NAMES)
+    return g.sort_values(["secondary_mentions", "category"],
+                         ascending=[False, True]).reset_index(drop=True)
+
+
 def lifecycle_table(rel: pd.DataFrame) -> pd.DataFrame:
     g = rel.groupby("lifecycle_status").agg(
         records=("feedback_id", "count"),
@@ -281,6 +322,8 @@ def kpis(df: pd.DataFrame, rel: pd.DataFrame, actions: pd.DataFrame) -> dict:
                                         if len(actions) else ""),
         "subcategories_covered": int(subcats_seen),
         "records_needing_review": int(rel["needs_human_review"].sum()),
+        "records_with_secondary": int(
+            rel["secondary_categories"].apply(lambda x: bool(x)).sum()),
         "low_confidence_records": int((rel["confidence"] < LOW_CONFIDENCE).sum()),
         "unverified_evidence": int((~rel["evidence_verified"]).sum()),
         "source_systems": sorted(df["source_system"].unique().tolist()),
@@ -332,6 +375,8 @@ def build_all() -> dict:
         "subcategories": subcategory_table(rel).to_dict("records"),
         "stages": stage_table(rel).to_dict("records"),
         "problem_types": problem_type_table(rel).to_dict("records"),
+        "personas": persona_table(rel).to_dict("records"),
+        "secondary_mentions": secondary_table(rel).to_dict("records"),
         "lifecycle": lifecycle_table(rel).to_dict("records"),
         "evidence": {
             f"{r['category']}||{r['subcategory']}":

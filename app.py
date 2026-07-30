@@ -39,6 +39,8 @@ from src.models.taxonomy import (
     CONFUSION_PAIRS,
     GLOSSARY,
     LIFECYCLE_STATUSES,
+    PERSONA_NAMES,
+    PERSONAS,
     PROBLEM_TYPE_NAMES,
     SEVERITY_SCALE,
     STAGE_GUIDE,
@@ -148,7 +150,13 @@ def sidebar_filters() -> tuple[pd.DataFrame, bool]:
             "Lifecycle status", [s for s in LIFECYCLE_STATUSES if s in present_status]
         )
 
+        present_personas = set(rel["persona"].dropna())
+        f_persona = st.multiselect(
+            "Persona", [p for p in PERSONA_NAMES if p in present_personas]
+        )
+
         f_sev = st.slider("Minimum severity", 1, 5, 1)
+        review_only = st.toggle("Only records flagged for review", value=False)
         verified_only = st.toggle("Verified quotes only", value=True)
 
         n_unverified = int((~rel["evidence_verified"]).sum())
@@ -187,6 +195,10 @@ def sidebar_filters() -> tuple[pd.DataFrame, bool]:
         view = view[view["problem_type"].isin(f_problem)]
     if f_status:
         view = view[view["lifecycle_status"].isin(f_status)]
+    if f_persona:
+        view = view[view["persona"].isin(f_persona)]
+    if review_only:
+        view = view[view["needs_human_review"]]
     view = view[view["severity"] >= f_sev]
     return view.copy(), verified_only
 
@@ -444,7 +456,89 @@ def render_dashboard() -> None:
 
     st.divider()
 
-    # ------------------------------------------------------- 6. Evidence
+    # --------------------------------------------- 6. Persona + secondaries
+    left, right = st.columns(2)
+
+    with left:
+        st.subheader("Who is asking")
+        st.caption(
+            "Persona is independent of product area. A builder blocked on "
+            "approval routing and a developer blocked on the same routing are "
+            "different product problems, and only this dimension separates them."
+        )
+        personas = (
+            view.groupby("persona")
+            .agg(records=("feedback_id", "count"),
+                 open_records=("is_open", "sum"),
+                 avg_severity=("severity", "mean"))
+            .reset_index()
+            .sort_values("records", ascending=False)
+        )
+        personas["avg_severity"] = personas["avg_severity"].round(1)
+        st.dataframe(
+            personas, hide_index=True, width="stretch",
+            column_config={
+                "persona": st.column_config.TextColumn("Persona", width="medium"),
+                "records": st.column_config.NumberColumn("Records", width="small"),
+                "open_records": st.column_config.NumberColumn("Open", width="small"),
+                "avg_severity": st.column_config.NumberColumn("Avg sev", width="small"),
+            },
+        )
+
+    with right:
+        st.subheader("Primary owner vs. also implicated")
+        st.caption(
+            "A record can name up to two further areas it touches. Secondary "
+            "mentions are counted here and **nowhere else** — they never enter a "
+            "primary total or a ranking, so a record is only ever counted once."
+        )
+        secondary_rows: list[str] = []
+        for extras in view["secondary_categories"]:
+            secondary_rows.extend(extras or [])
+        secondary_counts = pd.Series(secondary_rows).value_counts()
+
+        owner = (
+            view.groupby("primary_taxonomy_category")
+            .size().reset_index(name="primary")
+            .rename(columns={"primary_taxonomy_category": "category"})
+        )
+        owner["also_implicated"] = owner["category"].map(secondary_counts).fillna(0).astype(int)
+        # Categories that appear only as a secondary would be missing entirely.
+        extra_only = [c for c in secondary_counts.index if c not in set(owner["category"])]
+        if extra_only:
+            owner = pd.concat([owner, pd.DataFrame({
+                "category": extra_only, "primary": 0,
+                "also_implicated": [int(secondary_counts[c]) for c in extra_only],
+            })], ignore_index=True)
+        owner = owner.sort_values("primary", ascending=False)
+
+        st.dataframe(
+            owner, hide_index=True, width="stretch",
+            column_config={
+                "category": st.column_config.TextColumn("Category", width="medium"),
+                "primary": st.column_config.NumberColumn("Owns", width="small"),
+                "also_implicated": st.column_config.NumberColumn(
+                    "Also implicated", width="small"),
+            },
+        )
+
+        dragged = owner[owner["also_implicated"] > owner["primary"]]
+        if len(dragged):
+            names = [f"**{c}**" for c in dragged["category"]]
+            joined = (names[0] if len(names) == 1
+                      else " and ".join([", ".join(names[:-1]), names[-1]]))
+            plural = len(names) > 1
+            st.caption(
+                f":material/info: {joined} "
+                f"{'are' if plural else 'is'} named as a contributing area more "
+                f"often than {'they own' if plural else 'it owns'} a problem "
+                f"outright — being pulled into other areas' feedback rather than "
+                f"generating {'their' if plural else 'its'} own."
+            )
+
+    st.divider()
+
+    # ------------------------------------------------------- 7. Evidence
     st.subheader("Evidence explorer")
     st.caption(
         "Every figure above traces back to these records. Open any of them on "
@@ -453,14 +547,23 @@ def render_dashboard() -> None:
 
     ev_view = view[view["evidence_verified"]] if verified_only else view
     ev_view = ev_view.sort_values(
-        ["severity", "confidence"], ascending=[False, False])
+        ["severity", "confidence"], ascending=[False, False]).copy()
+    # Flatten the secondary pairs for display. Kept as text rather than a
+    # separate column per slot -- most records have none, and two sparse
+    # columns would read as missing data rather than as an empty list.
+    ev_view["also_touches"] = [
+        " · ".join(f"{c} › {s}" for c, s in zip(cats or [], subs or []))
+        for cats, subs in zip(ev_view["secondary_categories"],
+                              ev_view["secondary_subcategories"])
+    ]
 
     st.dataframe(
         ev_view[[
             "title", "short_summary", "suggested_product_action",
             "primary_taxonomy_category", "primary_taxonomy_subcategory",
-            "problem_type", "journey_stage", "lifecycle_status", "severity",
-            "confidence", "needs_human_review", "evidence_excerpt", "source_url",
+            "also_touches", "problem_type", "journey_stage", "persona",
+            "lifecycle_status", "severity", "confidence", "needs_human_review",
+            "evidence_excerpt", "source_url",
         ]],
         hide_index=True, width="stretch", height=420,
         column_config={
@@ -470,8 +573,12 @@ def render_dashboard() -> None:
                 "Suggested change", width="large"),
             "primary_taxonomy_category": st.column_config.TextColumn("Category"),
             "primary_taxonomy_subcategory": st.column_config.TextColumn("Subcategory"),
+            "also_touches": st.column_config.TextColumn(
+                "Also touches", width="medium",
+                help="Secondary areas. Never counted in any total or ranking."),
             "problem_type": st.column_config.TextColumn("Problem type"),
             "journey_stage": st.column_config.TextColumn("Journey stage"),
+            "persona": st.column_config.TextColumn("Persona", width="small"),
             "lifecycle_status": st.column_config.TextColumn("Status", width="small"),
             "severity": st.column_config.NumberColumn("Sev", width="small"),
             "confidence": st.column_config.NumberColumn("Conf", format="%.2f", width="small"),
@@ -701,6 +808,36 @@ def render_guide() -> None:
                "popular the request is and not how hard it would be to build.")
     for level in sorted(SEVERITY_SCALE, reverse=True):
         st.markdown(f"**{level}** — {SEVERITY_SCALE[level]}")
+
+    st.divider()
+
+    st.header("Personas")
+    st.caption(
+        "Who the feedback is coming from. Independent of everything above — the "
+        "same subcategory can be a builder's problem and a developer's problem, "
+        "and those are different things to fix."
+    )
+    persona_counts = rel["persona"].value_counts().to_dict()
+    for name, meaning in PERSONAS.items():
+        count = persona_counts.get(name, 0)
+        st.markdown(f"**{name}** — {meaning} *({count} record"
+                    f"{'s' if count != 1 else ''})*")
+
+    st.divider()
+
+    st.header("Secondary areas")
+    st.caption(
+        "A record names one primary area, and may name up to two more it also "
+        "touches. This exists so a permissions problem whose real complaint is "
+        "a missing explanation is visible to **both** teams. Secondary areas are "
+        "shown in the evidence table and counted in their own column — they "
+        "never enter a primary total or a ranking, so no record is counted twice."
+    )
+    with_secondary = int(rel["secondary_categories"].apply(lambda x: bool(x)).sum())
+    st.markdown(
+        f"**{with_secondary} of {len(rel)}** in-scope records name at least one "
+        f"secondary area."
+    )
 
     st.divider()
 

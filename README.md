@@ -99,25 +99,29 @@ Two tabs. **Dashboard** — ranked product actions, each opening onto its suppor
 
 *Where friction falls across the eight stages of setting up an action, in chronological lifecycle order. Stages with no feedback are shown rather than dropped — an empty stage is a finding, not a gap in the chart.*
 
-![Evidence explorer](docs/screenshots/05-evidence.png)
+![Persona and secondary areas](docs/screenshots/05-persona-secondary.png)
+
+*Who is asking, and which areas get pulled into other areas' problems. **Invocation & Integrations owns 17 records but is named as a contributing area in 19**, and Validation & Rules owns 9 against 12 — both are dragged into other teams' feedback more than they generate their own. Secondary mentions are counted in their own column and never enter a primary total or a ranking, so no record is counted twice.*
+
+![Evidence explorer](docs/screenshots/06-evidence.png)
 
 *Every figure traces to these records: AI summary, suggested change, all four labels, and a verbatim quote with a clickable link to the original request on Port's portal.*
 
 ### Tab 2 — Taxonomy & Journey Guide
 
-![Guide introduction](docs/screenshots/06-guide-intro.png)
+![Guide introduction](docs/screenshots/07-guide-intro.png)
 
 *Explains what an Action is, why every record carries four independent labels rather than one, and how to place a record in four steps.*
 
-![Categories](docs/screenshots/07-guide-categories.png)
+![Categories](docs/screenshots/08-guide-categories.png)
 
 *All 11 categories and their 63 subcategories, each with a plain-language meaning, use-for triggers, an explicit do-not-use-when rule surfaced as a warning, real examples, and live record counts from the current dataset.*
 
-![Journey stages](docs/screenshots/08-guide-stages.png)
+![Journey stages](docs/screenshots/09-guide-stages.png)
 
 *The 8 stages as a numbered timeline in lifecycle order, each with what the user was trying to do and a live record count.*
 
-![Worked examples](docs/screenshots/09-guide-examples.png)
+![Worked examples](docs/screenshots/10-guide-examples.png)
 
 *Eight worked classification examples with the reasoning shown, plus the eight side-by-side pairs that are most commonly confused.*
 
@@ -193,6 +197,8 @@ A dynamic-permission failure belongs to **Permissions & Approvals** while its pr
 Stages are in chronological lifecycle order and mirror Port's own self-service flow, so a finding like *"friction concentrates in permissions and approvals"* points at a surface the team already owns.
 
 Each relevant record gets exactly **one** primary category/subcategory pair, one problem type and one stage. **At most two secondary assignments** are allowed for records that genuinely span areas — 102 of 182 carry one — and secondaries never affect any count or ranking, so adding one cannot inflate a total. Where a record could reasonably go two ways, thirteen documented tie-break rules decide, and residual uncertainty is reported through `confidence` and `needs_human_review` rather than hidden.
+
+**Persona** is a fifth independent dimension: 109 records come from Action builders, 37 from platform admins, 24 from developers, 10 from approvers. The same subcategory can be a builder's problem and a developer's problem, and only this dimension tells them apart.
 
 The app's second tab, **Taxonomy & Journey Guide**, explains all of this in plain language for readers with no software or DevOps background.
 
