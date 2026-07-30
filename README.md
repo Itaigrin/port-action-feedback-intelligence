@@ -105,7 +105,7 @@ Two tabs. **Dashboard** — ranked product actions, each opening onto its suppor
 
 ![Evidence explorer](docs/screenshots/06-evidence.png)
 
-*Every figure traces to these records: AI summary, suggested change, all four labels, and a verbatim quote with a clickable link to the original request on Port's portal.*
+*Every figure traces to these records: AI summary, suggested change, every label the record carries — including any secondary areas it touches — and a verbatim quote with a clickable link to the original request on Port's portal.*
 
 ### Tab 2 — Taxonomy & Journey Guide
 
