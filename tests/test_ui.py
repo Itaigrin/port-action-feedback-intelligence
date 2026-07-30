@@ -305,7 +305,6 @@ def test_interactions_do_not_navigate_the_browser():
         NAV_DRILL,
         NAV_FOCUS,
         NAV_SUB,
-        NAV_UNFOCUS,
         render_product_actions,
         render_taxonomy_chart,
     )
@@ -340,10 +339,10 @@ def test_interactions_do_not_navigate_the_browser():
     # Every proxied key must be one app.py actually creates a button for.
     for key in keys:
         stem = re.sub(r"_\d+$", "", key)
-        assert stem in (NAV_DRILL, NAV_SUB, NAV_FOCUS, NAV_BACK, NAV_UNFOCUS), key
+        assert stem in (NAV_DRILL, NAV_SUB, NAV_FOCUS, NAV_BACK), key
     # app.py builds the drill/sub keys from the same constants.
     assert "render.NAV_SUB if drilled else render.NAV_DRILL" in APP
-    assert "render.NAV_BACK" in APP and "render.NAV_UNFOCUS" in APP
+    assert "render.NAV_BACK" in APP
     assert "render.NAV_FOCUS" in APP
 
 
@@ -360,7 +359,7 @@ def test_hidden_nav_buttons_are_created_for_every_proxy():
     # drill vs subcategory is chosen into `handler` before the button call.
     assert "handler = _select_subcategory if drilled else _drill_into" in APP
     for wired in ("on_click=handler", "on_click=_clear_drill",
-                  "on_click=_clear_focus", "on_click=_focus_on"):
+                  "on_click=_focus_on"):
         assert wired in APP, wired
     assert "st.rerun()" not in APP, "callbacks rerun on their own"
 
@@ -429,3 +428,87 @@ def test_streamlit_theme_matches_the_mockup_tokens():
     assert f'backgroundColor = "{theme.BG}"' in config
     assert f'textColor = "{theme.INK}"' in config
     assert f'primaryColor = "{theme.BLUE}"' in config
+
+
+def test_supporting_feedback_expands_inside_its_own_action_card():
+    """The evidence belongs under the claim it supports, not in a section below."""
+    from src.ui.render import ACTION_ANCHOR, render_product_actions
+
+    action = {
+        "category": "Permissions & Approvals",
+        "subcategory": "RBAC & dynamic permissions",
+        "product_action": "Enforce RBAC on run pages.",
+        "open_records": 2, "avg_severity": 3.0, "max_severity": 4,
+        "source_diversity": 1, "needs_review": 0, "signal": "quote",
+    }
+    record = {
+        "title": "Only this record", "source_system": "Port portal",
+        "lifecycle_status": "Open", "created_at": "2026-01-01T00:00:00Z",
+        "confidence": 0.9, "persona": "Unknown", "needs_human_review": False,
+        "primary_taxonomy_category": "Permissions & Approvals",
+        "primary_taxonomy_subcategory": "RBAC & dynamic permissions",
+        "secondary_categories": [], "problem_type": "Feature gap",
+        "journey_stage": "Permissions & approvals",
+        "suggested_product_action": "do", "evidence_excerpt": "q",
+        "evidence_verified": True, "severity": 3, "source_url": "https://x",
+    }
+
+    collapsed = render_product_actions([action], 10)
+    assert "afi-action-evidence" not in collapsed
+    assert "View supporting feedback" in collapsed
+
+    opened = render_product_actions(
+        [action], 10, expanded=action["subcategory"], expanded_records=[record])
+    assert "Hide supporting feedback" in opened, "the control must toggle"
+    assert 'aria-expanded="true"' in opened
+    assert f'id="{ACTION_ANCHOR}"' in opened, "anchor lets the toggle stay in view"
+    assert record["title"] in opened
+    # The block must sit inside the card, before that card closes.
+    card_start = opened.index("afi-insight")
+    assert opened.index("afi-action-evidence") > card_start
+    assert opened.index("afi-action-evidence") > opened.index("afi-action-btn")
+
+
+def test_filter_state_line_no_longer_carries_a_focused_state():
+    """Expanding an action stopped narrowing the section, so both are gone."""
+    import inspect
+
+    from src.ui.render import render_filter_state
+
+    assert "focus" not in inspect.signature(render_filter_state).parameters
+    html = render_filter_state(10, 182, 8, 1)
+    assert "focused on" not in html
+    assert "afi-focus-back" not in html
+
+
+def test_filter_rail_has_no_internal_scrollbar():
+    """Expanding a filter section should grow the rail, not scroll inside it."""
+    from src.ui.theme import CSS
+
+    marker = CSS.index(".st-key-afi_rail {")
+    rule = CSS[marker:CSS.index("}", marker)]
+    # Strip comments: the rule documents why the cap was removed.
+    declarations = re.sub(r"/\*.*?\*/", "", rule, flags=re.S)
+    assert "max-height" not in declarations, "a capped rail scrolls internally"
+    assert "overflow-y: auto" not in declarations
+    assert "overflow: visible" in declarations
+
+
+def test_expanded_evidence_matches_the_count_on_the_card(records, aggregates):
+    """The list must be the records the action was ranked from.
+
+    Expanding the whole subcategory would show completed work beneath a card
+    that says "N open supporting records", so the list would contradict its
+    own count.
+    """
+    assert 'open_action["record_ids"]' in APP
+    assert 'view["feedback_id"].isin(' in APP
+
+    from src.models.taxonomy import OPEN_STATUSES
+
+    by_id = {r["feedback_id"]: r for r in records}
+    for action in aggregates["product_actions"][:10]:
+        supporting = [by_id[i] for i in action["record_ids"]]
+        assert len(supporting) == action["open_records"]
+        for record in supporting:
+            assert record["lifecycle_status"] in OPEN_STATUSES

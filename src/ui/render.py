@@ -29,13 +29,15 @@ from .theme import SEVERITY_BADGE
 # it just filtered rather than leaving the reader looking at an unchanged screen.
 FEEDBACK_ANCHOR = "afi-feedback"
 
+# Anchor on the expanded action, so the toggle can keep it in view.
+ACTION_ANCHOR = "afi-open-action"
+
 # Hidden-button key prefixes. Shared with app.py so the markup and the buttons
 # it targets cannot drift apart.
 NAV_DRILL = "afinav_cat"
 NAV_SUB = "afinav_sub"
 NAV_FOCUS = "afinav_focus"
 NAV_BACK = "afinav_back"
-NAV_UNFOCUS = "afinav_unfocus"
 
 
 def _esc(value: object) -> str:
@@ -116,7 +118,15 @@ def render_kpis(product_actions: int, open_actions: int,
 
 
 # --------------------------------------------------------------------------
-def render_product_actions(actions: list[dict], limit: int) -> str:
+def render_product_actions(actions: list[dict], limit: int,
+                           expanded: str | None = None,
+                           expanded_records: list[dict] | None = None) -> str:
+    """Ranked action cards, with one optionally expanded in place.
+
+    The supporting records render *inside* the expanded card rather than
+    filtering a section further down the page: the reader stays where they are
+    and the evidence appears under the claim it supports.
+    """
     head = (
         '<div class="afi-actions"><div class="afi-section-head"><div>'
         "<h2>Recommended product actions</h2>"
@@ -152,6 +162,17 @@ def render_product_actions(actions: list[dict], limit: int) -> str:
                 f'<span class="afi-badge b-amber">'
                 f'{action["needs_review"]} flagged for review</span>'
             )
+        is_open = expanded is not None and action["subcategory"] == expanded
+        label = ("Hide supporting feedback &#8593;" if is_open
+                 else "View supporting feedback &#8595;")
+        evidence = ""
+        if is_open:
+            evidence = (
+                '<div class="afi-action-evidence" '
+                f'id="{ACTION_ANCHOR}">'
+                + render_feedback_cards(expanded_records or [])
+                + "</div>"
+            )
         rows.append(
             f'<div class="{cls}">'
             f'<div class="afi-insight-top">'
@@ -159,8 +180,9 @@ def render_product_actions(actions: list[dict], limit: int) -> str:
             f'<span class="afi-badge {badge}">Severity {severity}</span></div>'
             f"<p>{_esc(signal)}</p>"
             f'<div class="afi-action-metrics">{"".join(metrics)}</div>'
-            f'<a class="afi-action-btn" {_click(f"{NAV_FOCUS}_{index}")}>'
-            f"View supporting feedback &#8595;</a>"
+            f'<a class="afi-action-btn" {_click(f"{NAV_FOCUS}_{index}")}'
+            f'{" aria-expanded=\"true\"" if is_open else ""}>{label}</a>'
+            f"{evidence}"
             "</div>"
         )
     rows.append("</div>")
@@ -291,14 +313,14 @@ def render_feedback_cards(records: list[dict]) -> str:
 
 
 def render_filter_state(shown: int, total: int, open_count: int,
-                        min_severity: int, focus: str | None) -> str:
-    focused = (f' · focused on <b>{_esc(focus)}</b>' if focus else "")
-    back = (
-        f'<a class="afi-focus-back" {_click(NAV_UNFOCUS)}>← Back to filtered view</a>'
-        if focus else ""
-    )
+                        min_severity: int) -> str:
+    """The section only ever reflects the filters now.
+
+    An action's evidence expands inside its own card, so this line no longer
+    needs a focused state or a control to leave one.
+    """
     return (
         '<div class="afi-filter-state-row">'
         f'<p class="afi-filter-state">Showing {shown} of {total} in-scope records · '
-        f"{open_count} open · severity {min_severity}+{focused}</p>{back}</div>"
+        f"{open_count} open · severity {min_severity}+</p></div>"
     )

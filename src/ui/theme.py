@@ -181,6 +181,12 @@ body {{ overflow-x: hidden; }}
 .afi-action-btn:hover {{
   border-color: #9fb8df; background: #f1f6ff; color: #234f91;
 }}
+/* Supporting records, expanded inside the action card they belong to. */
+.afi-action-evidence {{
+  margin-top: 13px; padding-top: 13px; border-top: 1px dashed #cfddf5;
+}}
+.afi-action-evidence .afi-evidence {{ margin-top: 0; gap: 8px; }}
+.afi-action-evidence .afi-feedback {{ background: #fcfdff; }}
 
 /* ----------------------------------------------------------- CSS bar chart */
 .afi-category-list {{ display: grid; gap: 10px; }}
@@ -350,7 +356,11 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   height: fit-content !important; align-self: flex-start !important;
   background: var(--surface); border: 1px solid var(--line);
   border-radius: 14px; box-shadow: var(--shadow); padding: 17px !important;
-  max-height: calc(100vh - 112px); overflow-y: auto; overflow-x: hidden;
+  /* Deliberately no max-height or overflow. The mockup capped the rail to the
+     viewport and scrolled it internally, but expanding "More filters" or "View
+     full taxonomy" then produced a second scrollbar inside the page. The rail
+     now grows and the page scrolls once. */
+  overflow: visible;
 }}
 
 /* The feedback section is one card wrapping header, search and all records.
