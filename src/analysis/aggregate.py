@@ -45,10 +45,22 @@ PROC_DIR = ROOT / "data" / "processed"
 HIGH_SEVERITY = 4
 LOW_CONFIDENCE = 0.7
 
+# A group is "critical" when enough people report it AND it hurts badly on
+# average. Both must hold: the record floor stops one severe voice topping the
+# list, and the severity floor stops sheer volume doing the same. The severity
+# test uses the raw mean, not the rounded band -- rounding would let an average
+# of 3.5 satisfy a rule written as "4 and above".
+CRITICAL_MIN_RECORDS = 3
+CRITICAL_MIN_SEVERITY = 4.0
+
 # The ranking keys, applied in this order, all descending. Stated as data so
 # the dashboard can display the exact list that produced the ranking rather
 # than a prose paraphrase of it that could drift out of sync.
 RANK_KEYS: tuple[tuple[str, str], ...] = (
+    ("is_critical", f"Critical: at least {CRITICAL_MIN_RECORDS} open records "
+                    f"AND an average severity of {CRITICAL_MIN_SEVERITY:.0f} or "
+                    "above. Widely reported and severe, so it outranks "
+                    "everything below regardless of the other keys."),
     ("open_records", "Number of distinct open feedback records asking for this "
                      "change -- independent voices converging on one problem."),
     ("severity_band", "Severity band (average severity, rounded) -- how much "
@@ -125,6 +137,11 @@ def product_actions(rel: pd.DataFrame) -> pd.DataFrame:
             "product_action_source_id": rep["feedback_id"],
             "open_records": int(len(group)),
             "avg_severity": round(float(group["severity"].mean()), 2),
+            # Stored as int so it sorts and serialises cleanly.
+            "is_critical": int(
+                len(group) >= CRITICAL_MIN_RECORDS
+                and float(group["severity"].mean()) >= CRITICAL_MIN_SEVERITY
+            ),
             "max_severity": int(group["severity"].max()),
             "severity_band": int(round(float(group["severity"].mean()))),
             "avg_confidence": round(float(group["confidence"].mean()), 3),

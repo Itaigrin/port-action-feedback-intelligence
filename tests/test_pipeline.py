@@ -634,3 +634,47 @@ def test_streamlit_app_starts():
             proc.wait(timeout=15)
         except subprocess.TimeoutExpired:
             proc.kill()
+
+
+def test_critical_gate_requires_both_floors(aggregates):
+    """`is_critical` must need volume AND severity, and must not round.
+
+    Rounding matters here rather than in theory: an action averaging 3.5 rounds
+    to a severity band of 4, so a gate written against the band would admit it
+    under a rule that says "4 and above".
+    """
+    from src.analysis.aggregate import CRITICAL_MIN_RECORDS, CRITICAL_MIN_SEVERITY
+
+    assert CRITICAL_MIN_RECORDS == 3
+    assert CRITICAL_MIN_SEVERITY == 4.0
+
+    # The gate is the first key applied.
+    assert aggregates["ranking"]["keys"][0]["key"] == "is_critical"
+
+    rounds_up_but_excluded = 0
+    for action in aggregates["product_actions"]:
+        expected = int(action["open_records"] >= CRITICAL_MIN_RECORDS
+                       and action["avg_severity"] >= CRITICAL_MIN_SEVERITY)
+        assert action["is_critical"] == expected, action["subcategory"]
+
+        if action["is_critical"]:
+            assert action["open_records"] >= CRITICAL_MIN_RECORDS
+            assert action["avg_severity"] >= CRITICAL_MIN_SEVERITY
+        elif (action["open_records"] >= CRITICAL_MIN_RECORDS
+              and action["severity_band"] >= CRITICAL_MIN_SEVERITY):
+            # Enough records, band rounds to 4, raw mean below 4 -> excluded.
+            assert action["avg_severity"] < CRITICAL_MIN_SEVERITY
+            rounds_up_but_excluded += 1
+
+    assert rounds_up_but_excluded, (
+        "expected at least one action whose band rounds to 4 while its raw mean "
+        "does not -- that case is what the unrounded test exists for"
+    )
+
+
+def test_critical_actions_outrank_everything_else(aggregates):
+    rows = aggregates["product_actions"]
+    ranks = [r["rank"] for r in rows if r["is_critical"]]
+    if ranks:
+        assert ranks == list(range(1, len(ranks) + 1)), (
+            "critical actions must occupy the top ranks")

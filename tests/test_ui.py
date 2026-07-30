@@ -535,3 +535,24 @@ def test_sidebar_ranking_note_is_generated_from_the_ranking_keys(aggregates):
     assert "no weighted score" in APP
     assert [k for k, _ in RANK_KEYS] == [
         e["key"] for e in aggregates["ranking"]["keys"]]
+
+
+def test_critical_actions_are_badged():
+    """The severity chip rounds; the gate does not. Without a badge, an action
+    averaging 3.5 reads "Severity 4" yet ranks below one that cleared the gate,
+    and the order looks arbitrary."""
+    from src.ui.render import render_product_actions
+
+    base = {
+        "category": "Permissions & Approvals",
+        "subcategory": "RBAC & dynamic permissions",
+        "product_action": "Enforce RBAC.", "open_records": 10,
+        "avg_severity": 3.5, "max_severity": 5, "source_diversity": 1,
+        "needs_review": 0, "signal": "quote", "is_critical": 0,
+    }
+    not_gated = render_product_actions([base], 10)
+    assert ">Critical<" not in not_gated
+    assert "Severity 4" in not_gated, "the chip still rounds 3.5 up"
+
+    gated = render_product_actions([dict(base, is_critical=1)], 10)
+    assert ">Critical<" in gated

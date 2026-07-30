@@ -10,6 +10,10 @@
   "ranking": {
     "keys": [
       {
+        "key": "is_critical",
+        "explanation": "Critical: at least 3 open records AND an average severity of 4 or above. Widely reported and severe, so it outranks everything below regardless of the other keys."
+      },
+      {
         "key": "open_records",
         "explanation": "Number of distinct open feedback records asking for this change -- independent voices converging on one problem."
       },
@@ -49,8 +53,8 @@
     "resolved_records": 27,
     "recommended_product_actions": 54,
     "high_severity_open_records": 22,
-    "top_product_action": "Enforce RBAC on action run pages so users cannot view runs or entity details for actions or entities they lack permission to access.",
-    "top_product_action_category": "Permissions & Approvals",
+    "top_product_action": "Support OAuth2-based per-user delegated execution so actions run with the requesting user's own linked credentials instead of a shared service token, while still respecting RBAC.",
+    "top_product_action_category": "Identity, Secrets & Security",
     "subcategories_covered": 54,
     "records_needing_review": 26,
     "records_with_secondary": 102,
@@ -62,12 +66,66 @@
   },
   "product_actions": [
     {
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Authentication & delegated execution",
+      "product_action": "Support OAuth2-based per-user delegated execution so actions run with the requesting user's own linked credentials instead of a shared service token, while still respecting RBAC.",
+      "product_action_source_id": "69553a67723320e3d9a93ab6",
+      "open_records": 4,
+      "avg_severity": 4.0,
+      "is_critical": 1,
+      "max_severity": 5,
+      "severity_band": 4,
+      "avg_confidence": 0.718,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2025-12-31T14:59:51.272000+00:00",
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 2,
+      "record_ids": [
+        "6671999837fce115c9971b8d",
+        "669fced47627f58ee55d66ec",
+        "69553a67723320e3d9a93ab6",
+        "67adc340ed8cfaae72b680d0"
+      ],
+      "rank": 1
+    },
+    {
+      "category": "Validation & Rules",
+      "subcategory": "Server-side & API enforcement",
+      "product_action": "Enforce action input validation rules server-side across all invocation paths including API, JSON mode, and MCP.",
+      "product_action_source_id": "6a3586ab940f0b4a269d450c",
+      "open_records": 3,
+      "avg_severity": 4.0,
+      "is_critical": 1,
+      "max_severity": 5,
+      "severity_band": 4,
+      "avg_confidence": 0.823,
+      "source_diversity": 1,
+      "source_systems": [
+        "Port portal"
+      ],
+      "latest_created": "2026-06-19T18:12:59.471000+00:00",
+      "top_problem_type": "Validation gap",
+      "top_journey_stage": "Validation, dependencies & conditional logic",
+      "needs_review": 0,
+      "record_ids": [
+        "652552a8916365c76f187d12",
+        "69d7f5a35356befe54b0025c",
+        "6a3586ab940f0b4a269d450c"
+      ],
+      "rank": 2
+    },
+    {
       "category": "Permissions & Approvals",
       "subcategory": "RBAC & dynamic permissions",
       "product_action": "Enforce RBAC on action run pages so users cannot view runs or entity details for actions or entities they lack permission to access.",
       "product_action_source_id": "6826b40db0070616c963e9bf",
       "open_records": 10,
       "avg_severity": 3.5,
+      "is_critical": 0,
       "max_severity": 5,
       "severity_band": 4,
       "avg_confidence": 0.767,
@@ -91,7 +149,7 @@
         "693ffd899279e1a4c35ca2c0",
         "699328e947c850515815cb26"
       ],
-      "rank": 1
+      "rank": 3
     },
     {
       "category": "Permissions & Approvals",
@@ -100,6 +158,7 @@
       "product_action_source_id": "64f484d97fb24609a28e0250",
       "open_records": 8,
       "avg_severity": 2.75,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.784,
@@ -121,7 +180,7 @@
         "64f484d97fb24609a28e0250",
         "69a98a661fe40914834d9831"
       ],
-      "rank": 2
+      "rank": 4
     },
     {
       "category": "Observability & Debugging",
@@ -130,6 +189,7 @@
       "product_action_source_id": "65d34b8e9dcc811d4a9300cf",
       "open_records": 7,
       "avg_severity": 2.43,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.793,
@@ -150,7 +210,7 @@
         "64f4adb66cbacd09633abd68",
         "66a5e31d8a37596baba1b970"
       ],
-      "rank": 3
+      "rank": 5
     },
     {
       "category": "Observability & Debugging",
@@ -159,6 +219,7 @@
       "product_action_source_id": "6a50eea591b05abba241121a",
       "open_records": 6,
       "avg_severity": 2.33,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.795,
@@ -178,7 +239,7 @@
         "67173cd806d353fc3299f57b",
         "662a16854790d8da141e4e6e"
       ],
-      "rank": 4
+      "rank": 6
     },
     {
       "category": "Form Configuration",
@@ -187,6 +248,7 @@
       "product_action_source_id": "65b62b199794d2cfb2ae1c65",
       "open_records": 6,
       "avg_severity": 2.5,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.783,
@@ -206,7 +268,7 @@
         "6693781aa31de39613529762",
         "687ced0964a12a95ef832dd9"
       ],
-      "rank": 5
+      "rank": 7
     },
     {
       "category": "Form Configuration",
@@ -215,6 +277,7 @@
       "product_action_source_id": "697bc2552c0e437d54520fb7",
       "open_records": 6,
       "avg_severity": 2.0,
+      "is_critical": 0,
       "max_severity": 2,
       "severity_band": 2,
       "avg_confidence": 0.825,
@@ -234,7 +297,7 @@
         "6a1d45a5b06d5b62ae23dc43",
         "6874c373410d522ad019cd56"
       ],
-      "rank": 6
+      "rank": 8
     },
     {
       "category": "Invocation & Integrations",
@@ -243,6 +306,7 @@
       "product_action_source_id": "6995741f6a0047498c59fa71",
       "open_records": 5,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 3,
       "avg_confidence": 0.77,
@@ -261,7 +325,7 @@
         "6995741f6a0047498c59fa71",
         "65a512ccbb34b59cd65ce460"
       ],
-      "rank": 7
+      "rank": 9
     },
     {
       "category": "Permissions & Approvals",
@@ -270,6 +334,7 @@
       "product_action_source_id": "69f2529d03b1298401635428",
       "open_records": 5,
       "avg_severity": 2.8,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.82,
@@ -288,7 +353,7 @@
         "6a292ceff00721fb0e2d24cc",
         "68f92f09f3aea6791833224b"
       ],
-      "rank": 8
+      "rank": 10
     },
     {
       "category": "Form Configuration",
@@ -297,6 +362,7 @@
       "product_action_source_id": "666ec4697bfd74c4333701ac",
       "open_records": 5,
       "avg_severity": 2.4,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.78,
@@ -315,7 +381,7 @@
         "67e5118773bc7a1fd199885d",
         "68405b9c4ebfd09d591cf6e6"
       ],
-      "rank": 9
+      "rank": 11
     },
     {
       "category": "Discovery, Organization & Reuse",
@@ -324,6 +390,7 @@
       "product_action_source_id": "65e7390a0b8acf82dfc933fc",
       "open_records": 5,
       "avg_severity": 1.8,
+      "is_critical": 0,
       "max_severity": 2,
       "severity_band": 2,
       "avg_confidence": 0.82,
@@ -342,33 +409,7 @@
         "67479928414b9cbfe00bf473",
         "67583e21f84a4af5d432d045"
       ],
-      "rank": 10
-    },
-    {
-      "category": "Identity, Secrets & Security",
-      "subcategory": "Authentication & delegated execution",
-      "product_action": "Support OAuth2-based per-user delegated execution so actions run with the requesting user's own linked credentials instead of a shared service token, while still respecting RBAC.",
-      "product_action_source_id": "69553a67723320e3d9a93ab6",
-      "open_records": 4,
-      "avg_severity": 4.0,
-      "max_severity": 5,
-      "severity_band": 4,
-      "avg_confidence": 0.718,
-      "source_diversity": 1,
-      "source_systems": [
-        "Port portal"
-      ],
-      "latest_created": "2025-12-31T14:59:51.272000+00:00",
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Backend & invocation setup",
-      "needs_review": 2,
-      "record_ids": [
-        "6671999837fce115c9971b8d",
-        "669fced47627f58ee55d66ec",
-        "69553a67723320e3d9a93ab6",
-        "67adc340ed8cfaae72b680d0"
-      ],
-      "rank": 11
+      "rank": 12
     },
     {
       "category": "Permissions & Approvals",
@@ -377,6 +418,7 @@
       "product_action_source_id": "66ed917798991dce147b5cff",
       "open_records": 4,
       "avg_severity": 2.75,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.75,
@@ -394,7 +436,7 @@
         "65c3900fc543d815a5cbf71b",
         "66718308988563c6da0bb9a9"
       ],
-      "rank": 12
+      "rank": 13
     },
     {
       "category": "Invocation & Integrations",
@@ -403,6 +445,7 @@
       "product_action_source_id": "64b93341745be567b249a32f",
       "open_records": 4,
       "avg_severity": 2.25,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.68,
@@ -420,31 +463,6 @@
         "6a0f0765f1bb95af4396d0aa",
         "6589bbb30ae0869b95c141cd"
       ],
-      "rank": 13
-    },
-    {
-      "category": "Validation & Rules",
-      "subcategory": "Server-side & API enforcement",
-      "product_action": "Enforce action input validation rules server-side across all invocation paths including API, JSON mode, and MCP.",
-      "product_action_source_id": "6a3586ab940f0b4a269d450c",
-      "open_records": 3,
-      "avg_severity": 4.0,
-      "max_severity": 5,
-      "severity_band": 4,
-      "avg_confidence": 0.823,
-      "source_diversity": 1,
-      "source_systems": [
-        "Port portal"
-      ],
-      "latest_created": "2026-06-19T18:12:59.471000+00:00",
-      "top_problem_type": "Validation gap",
-      "top_journey_stage": "Validation, dependencies & conditional logic",
-      "needs_review": 0,
-      "record_ids": [
-        "652552a8916365c76f187d12",
-        "69d7f5a35356befe54b0025c",
-        "6a3586ab940f0b4a269d450c"
-      ],
       "rank": 14
     },
     {
@@ -454,6 +472,7 @@
       "product_action_source_id": "66781226b894b19aca35a768",
       "open_records": 3,
       "avg_severity": 3.67,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 4,
       "avg_confidence": 0.85,
@@ -479,6 +498,7 @@
       "product_action_source_id": "6a62cdea0933efc13e70eab5",
       "open_records": 3,
       "avg_severity": 3.67,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 4,
       "avg_confidence": 0.683,
@@ -504,6 +524,7 @@
       "product_action_source_id": "66b1434bd12b821c86cbc7fc",
       "open_records": 3,
       "avg_severity": 3.33,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 3,
       "avg_confidence": 0.867,
@@ -529,6 +550,7 @@
       "product_action_source_id": "6915caf8c4c30db90d700b0b",
       "open_records": 3,
       "avg_severity": 3.33,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 3,
       "avg_confidence": 0.85,
@@ -554,6 +576,7 @@
       "product_action_source_id": "6a206c5f516b94d1532bef24",
       "open_records": 3,
       "avg_severity": 2.67,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 3,
       "avg_confidence": 0.783,
@@ -579,6 +602,7 @@
       "product_action_source_id": "66e68c9ff85bef2fa5d4dc82",
       "open_records": 3,
       "avg_severity": 3.33,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 3,
       "avg_confidence": 0.783,
@@ -604,6 +628,7 @@
       "product_action_source_id": "656dffd9c9406ec6bc18eaa5",
       "open_records": 3,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.85,
@@ -629,6 +654,7 @@
       "product_action_source_id": "68385892443469540b4ed3bd",
       "open_records": 3,
       "avg_severity": 2.67,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.817,
@@ -654,6 +680,7 @@
       "product_action_source_id": "68c1d18fa34b05cc8bf233c6",
       "open_records": 3,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.817,
@@ -679,6 +706,7 @@
       "product_action_source_id": "696f2e14d1352674295c2e11",
       "open_records": 3,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.767,
@@ -704,6 +732,7 @@
       "product_action_source_id": "6548e76c830f6a63732c6653",
       "open_records": 3,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.683,
@@ -729,6 +758,7 @@
       "product_action_source_id": "681b0a5d2c401ce3fc35e8bc",
       "open_records": 3,
       "avg_severity": 2.67,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.683,
@@ -754,6 +784,7 @@
       "product_action_source_id": "6984c8667a1845e176fe3732",
       "open_records": 3,
       "avg_severity": 2.33,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.85,
@@ -779,6 +810,7 @@
       "product_action_source_id": "6a2a7d26bd2d82218bddf0be",
       "open_records": 3,
       "avg_severity": 2.33,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.783,
@@ -804,6 +836,7 @@
       "product_action_source_id": "656771af070a907c6e635dc9",
       "open_records": 2,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.875,
@@ -828,6 +861,7 @@
       "product_action_source_id": "650acbf95b34b73cc2493ca8",
       "open_records": 2,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.825,
@@ -852,6 +886,7 @@
       "product_action_source_id": "699c78c2ebbb27ef14d76770",
       "open_records": 2,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.785,
@@ -876,6 +911,7 @@
       "product_action_source_id": "697a6d812b05462f8a614382",
       "open_records": 2,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.785,
@@ -900,6 +936,7 @@
       "product_action_source_id": "67dbf184d3db9fe5bd6f51f5",
       "open_records": 2,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.725,
@@ -924,6 +961,7 @@
       "product_action_source_id": "64f9b9a2b9071e097d98d1c7",
       "open_records": 2,
       "avg_severity": 2.5,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.75,
@@ -948,6 +986,7 @@
       "product_action_source_id": "6760726f4a50f11189d6e973",
       "open_records": 2,
       "avg_severity": 2.5,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 2,
       "avg_confidence": 0.735,
@@ -972,6 +1011,7 @@
       "product_action_source_id": "670fd226ff2831f9768b8724",
       "open_records": 2,
       "avg_severity": 2.0,
+      "is_critical": 0,
       "max_severity": 2,
       "severity_band": 2,
       "avg_confidence": 0.9,
@@ -996,6 +1036,7 @@
       "product_action_source_id": "672b52a3c45ed39e22567862",
       "open_records": 2,
       "avg_severity": 2.0,
+      "is_critical": 0,
       "max_severity": 2,
       "severity_band": 2,
       "avg_confidence": 0.8,
@@ -1020,6 +1061,7 @@
       "product_action_source_id": "6a61eb457560de5c7714679f",
       "open_records": 1,
       "avg_severity": 4.0,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 4,
       "avg_confidence": 0.85,
@@ -1043,6 +1085,7 @@
       "product_action_source_id": "6a5fd5a33da3c9382571e53c",
       "open_records": 1,
       "avg_severity": 4.0,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 4,
       "avg_confidence": 0.85,
@@ -1066,6 +1109,7 @@
       "product_action_source_id": "684c4e772523f38ddde65e37",
       "open_records": 1,
       "avg_severity": 4.0,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 4,
       "avg_confidence": 0.85,
@@ -1089,6 +1133,7 @@
       "product_action_source_id": "6a3c68a73959e847601ffa6f",
       "open_records": 1,
       "avg_severity": 4.0,
+      "is_critical": 0,
       "max_severity": 4,
       "severity_band": 4,
       "avg_confidence": 0.75,
@@ -1112,6 +1157,7 @@
       "product_action_source_id": "6583401b32150dedcd8f0e46",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.9,
@@ -1135,6 +1181,7 @@
       "product_action_source_id": "6a5979a17cd0080dd647c575",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.85,
@@ -1158,6 +1205,7 @@
       "product_action_source_id": "68c27182f9c430044f39113f",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.85,
@@ -1181,6 +1229,7 @@
       "product_action_source_id": "658017fae4e884edf5a34ea5",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.85,
@@ -1204,6 +1253,7 @@
       "product_action_source_id": "695ce5f621c449e1fd7ce58e",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.75,
@@ -1227,6 +1277,7 @@
       "product_action_source_id": "67fe69fc077f02acb331e710",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.75,
@@ -1250,6 +1301,7 @@
       "product_action_source_id": "6728c6a7e9894c1a059aa821",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.75,
@@ -1273,6 +1325,7 @@
       "product_action_source_id": "66e985470be4dcfd3da6e336",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.75,
@@ -1296,6 +1349,7 @@
       "product_action_source_id": "664dfc30f03c3cdb1e67c0b7",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.75,
@@ -1319,6 +1373,7 @@
       "product_action_source_id": "659823830182c070291f2d87",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.75,
@@ -1342,6 +1397,7 @@
       "product_action_source_id": "689c4e5eda725fecc3d241bf",
       "open_records": 1,
       "avg_severity": 3.0,
+      "is_critical": 0,
       "max_severity": 3,
       "severity_band": 3,
       "avg_confidence": 0.7,
@@ -1365,6 +1421,7 @@
       "product_action_source_id": "69523d930fce6a18f6f14a07",
       "open_records": 1,
       "avg_severity": 2.0,
+      "is_critical": 0,
       "max_severity": 2,
       "severity_band": 2,
       "avg_confidence": 0.85,
@@ -1388,6 +1445,7 @@
       "product_action_source_id": "669f73086d132f3ee45a4c86",
       "open_records": 1,
       "avg_severity": 2.0,
+      "is_critical": 0,
       "max_severity": 2,
       "severity_band": 2,
       "avg_confidence": 0.75,
@@ -2144,6 +2202,88 @@
     }
   ],
   "evidence": {
+    "Identity, Secrets & Security||Authentication & delegated execution": [
+      {
+        "feedback_id": "69553a67723320e3d9a93ab6",
+        "title": "Per‑User Impersonation / Delegated Execution for Actions",
+        "severity": 5,
+        "confidence": 0.85,
+        "problem_type": "Security or privacy concern",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "actions that call tools like GitHub or Jira are executed with an app token, so in those tools every change appears as coming from a generic user",
+        "short_summary": "Actions run using a shared technical account instead of the actual requesting user, making it impossible to trace changes back to individuals and creating an audit/security risk.",
+        "source_url": "https://roadmap.port.io/ideas/p/peruser-impersonation-delegated-execution-for-actions"
+      },
+      {
+        "feedback_id": "669fced47627f58ee55d66ec",
+        "title": "OAuth2 / JWT backend for Self-service Actions",
+        "severity": 4,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "I would like to be able to setup a Self-Service Action which will call a REST API endpoint with the user token required by the API for authentication and authorization purpose",
+        "short_summary": "Admins cannot configure an action to call an API using the individual end user's own login credentials, only machine-to-machine tokens.",
+        "source_url": "https://roadmap.port.io/ideas/p/oauth2-jwt-backend-for-self-service-actions"
+      },
+      {
+        "feedback_id": "6671999837fce115c9971b8d",
+        "title": "Use current user's session to interact with internal systems",
+        "severity": 4,
+        "confidence": 0.72,
+        "problem_type": "Feature gap",
+        "journey_stage": "Backend & invocation setup",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the action should be performed on behalf of that user, inheriting their identity, role-based access controls (RBAC), and authorized privileges",
+        "short_summary": "Users want actions to run using the logged-in person's own permissions in connected systems (like Jira or a cloud platform) instead of a generic service account.",
+        "source_url": "https://roadmap.port.io/ideas/p/use-current-users-session-to-interact-with-internal-systems"
+      }
+    ],
+    "Validation & Rules||Server-side & API enforcement": [
+      {
+        "feedback_id": "6a3586ab940f0b4a269d450c",
+        "title": "Enforce UI-Level Input Validations at the Backend/API Level for Self-Service Actions/Workflows",
+        "severity": 5,
+        "confidence": 0.9,
+        "problem_type": "Validation gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "Any execution path that bypasses the form UI, JSON mode, direct API calls, or Port's MCP, skips these validations entirely, allowing invalid or unauthorized inputs to be submitted.",
+        "short_summary": "Form validation rules only apply in the UI, so submissions via API, JSON mode, or MCP can bypass required field and dataset filter checks.",
+        "source_url": "https://roadmap.port.io/ideas/p/enforce-ui-level-input-validations-at-the-backend-api-level-for-self-service-act"
+      },
+      {
+        "feedback_id": "69d7f5a35356befe54b0025c",
+        "title": "MCP should enforce frontend-only input validations when executing SSAs",
+        "severity": 4,
+        "confidence": 0.82,
+        "problem_type": "Validation gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "the Port MCP bypasses frontend-only input validations (like dataset filters) when self service actions are triggered, allowing LLMs to select any value",
+        "short_summary": "When actions are triggered through the MCP/API instead of the UI, input restrictions like dataset filters are not enforced, letting invalid or unauthorized values through.",
+        "source_url": "https://roadmap.port.io/ideas/p/mcp-should-enforce-frontend-only-input-validations-when-executing-ssas"
+      },
+      {
+        "feedback_id": "652552a8916365c76f187d12",
+        "title": "Dynamic user input validation",
+        "severity": 3,
+        "confidence": 0.75,
+        "problem_type": "Feature gap",
+        "journey_stage": "Validation, dependencies & conditional logic",
+        "lifecycle_status": "Open",
+        "source_system": "Port portal",
+        "evidence_excerpt": "validate the user input for corectness against custom business logic, and display an error returned from the backend under the text field",
+        "short_summary": "Users cannot validate individual form inputs against custom backend business logic before submitting the whole form.",
+        "source_url": "https://roadmap.port.io/ideas/p/dynamic-user-input-validation"
+      }
+    ],
     "Permissions & Approvals||RBAC & dynamic permissions": [
       {
         "feedback_id": "6826b40db0070616c963e9bf",
@@ -2554,47 +2694,6 @@
         "source_url": "https://roadmap.port.io/ideas/p/order-self-service-action-items-in-the-blueprint"
       }
     ],
-    "Identity, Secrets & Security||Authentication & delegated execution": [
-      {
-        "feedback_id": "69553a67723320e3d9a93ab6",
-        "title": "Per‑User Impersonation / Delegated Execution for Actions",
-        "severity": 5,
-        "confidence": 0.85,
-        "problem_type": "Security or privacy concern",
-        "journey_stage": "Backend & invocation setup",
-        "lifecycle_status": "Open",
-        "source_system": "Port portal",
-        "evidence_excerpt": "actions that call tools like GitHub or Jira are executed with an app token, so in those tools every change appears as coming from a generic user",
-        "short_summary": "Actions run using a shared technical account instead of the actual requesting user, making it impossible to trace changes back to individuals and creating an audit/security risk.",
-        "source_url": "https://roadmap.port.io/ideas/p/peruser-impersonation-delegated-execution-for-actions"
-      },
-      {
-        "feedback_id": "669fced47627f58ee55d66ec",
-        "title": "OAuth2 / JWT backend for Self-service Actions",
-        "severity": 4,
-        "confidence": 0.75,
-        "problem_type": "Feature gap",
-        "journey_stage": "Backend & invocation setup",
-        "lifecycle_status": "Open",
-        "source_system": "Port portal",
-        "evidence_excerpt": "I would like to be able to setup a Self-Service Action which will call a REST API endpoint with the user token required by the API for authentication and authorization purpose",
-        "short_summary": "Admins cannot configure an action to call an API using the individual end user's own login credentials, only machine-to-machine tokens.",
-        "source_url": "https://roadmap.port.io/ideas/p/oauth2-jwt-backend-for-self-service-actions"
-      },
-      {
-        "feedback_id": "6671999837fce115c9971b8d",
-        "title": "Use current user's session to interact with internal systems",
-        "severity": 4,
-        "confidence": 0.72,
-        "problem_type": "Feature gap",
-        "journey_stage": "Backend & invocation setup",
-        "lifecycle_status": "Open",
-        "source_system": "Port portal",
-        "evidence_excerpt": "the action should be performed on behalf of that user, inheriting their identity, role-based access controls (RBAC), and authorized privileges",
-        "short_summary": "Users want actions to run using the logged-in person's own permissions in connected systems (like Jira or a cloud platform) instead of a generic service account.",
-        "source_url": "https://roadmap.port.io/ideas/p/use-current-users-session-to-interact-with-internal-systems"
-      }
-    ],
     "Permissions & Approvals||Approval notifications": [
       {
         "feedback_id": "66ed917798991dce147b5cff",
@@ -2675,47 +2774,6 @@
         "evidence_excerpt": "have access to the entity the action is invoked on, and use JQ to map properties from the entity to the payload",
         "short_summary": "Action builders cannot access the entity the action was invoked on to map its properties into the payload sent to the backend.",
         "source_url": "https://roadmap.port.io/ideas/p/controlling-the-payload-map-current-entity-1"
-      }
-    ],
-    "Validation & Rules||Server-side & API enforcement": [
-      {
-        "feedback_id": "6a3586ab940f0b4a269d450c",
-        "title": "Enforce UI-Level Input Validations at the Backend/API Level for Self-Service Actions/Workflows",
-        "severity": 5,
-        "confidence": 0.9,
-        "problem_type": "Validation gap",
-        "journey_stage": "Validation, dependencies & conditional logic",
-        "lifecycle_status": "Open",
-        "source_system": "Port portal",
-        "evidence_excerpt": "Any execution path that bypasses the form UI, JSON mode, direct API calls, or Port's MCP, skips these validations entirely, allowing invalid or unauthorized inputs to be submitted.",
-        "short_summary": "Form validation rules only apply in the UI, so submissions via API, JSON mode, or MCP can bypass required field and dataset filter checks.",
-        "source_url": "https://roadmap.port.io/ideas/p/enforce-ui-level-input-validations-at-the-backend-api-level-for-self-service-act"
-      },
-      {
-        "feedback_id": "69d7f5a35356befe54b0025c",
-        "title": "MCP should enforce frontend-only input validations when executing SSAs",
-        "severity": 4,
-        "confidence": 0.82,
-        "problem_type": "Validation gap",
-        "journey_stage": "Validation, dependencies & conditional logic",
-        "lifecycle_status": "Open",
-        "source_system": "Port portal",
-        "evidence_excerpt": "the Port MCP bypasses frontend-only input validations (like dataset filters) when self service actions are triggered, allowing LLMs to select any value",
-        "short_summary": "When actions are triggered through the MCP/API instead of the UI, input restrictions like dataset filters are not enforced, letting invalid or unauthorized values through.",
-        "source_url": "https://roadmap.port.io/ideas/p/mcp-should-enforce-frontend-only-input-validations-when-executing-ssas"
-      },
-      {
-        "feedback_id": "652552a8916365c76f187d12",
-        "title": "Dynamic user input validation",
-        "severity": 3,
-        "confidence": 0.75,
-        "problem_type": "Feature gap",
-        "journey_stage": "Validation, dependencies & conditional logic",
-        "lifecycle_status": "Open",
-        "source_system": "Port portal",
-        "evidence_excerpt": "validate the user input for corectness against custom business logic, and display an error returned from the backend under the text field",
-        "short_summary": "Users cannot validate individual form inputs against custom backend business logic before submitting the whole form.",
-        "source_url": "https://roadmap.port.io/ideas/p/dynamic-user-input-validation"
       }
     ],
     "Permissions & Approvals||Approver routing & identity": [

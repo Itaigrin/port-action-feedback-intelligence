@@ -145,7 +145,18 @@ def render_product_actions(actions: list[dict], limit: int,
         cls = "afi-insight afi-insight-high" if action["max_severity"] >= 4 else "afi-insight"
         badge = SEVERITY_BADGE.get(severity, "b-neutral")
         signal = action.get("signal") or ""
-        metrics = [
+        metrics = []
+        # Without this badge the top of the list looks arbitrary: the severity
+        # chip shows a rounded band, so an action averaging 3.5 also reads
+        # "Severity 4" while failing a gate that tests the raw mean. The badge
+        # is what makes "why is that one above this one" answerable on sight.
+        if action.get("is_critical"):
+            metrics.append(
+                '<span class="afi-badge b-red" '
+                'title="At least 3 open records and an average severity of 4.0 '
+                'or above">Critical</span>'
+            )
+        metrics += [
             f'<span class="afi-badge b-blue">'
             f'{_plural(action["open_records"], "open supporting record")}</span>',
             f'<span class="afi-badge b-neutral">{_esc(action["category"])}</span>',

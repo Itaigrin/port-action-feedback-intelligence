@@ -235,20 +235,34 @@ Open records are grouped by **taxonomy subcategory** — the closed key the mode
 
 Each group's displayed label is **one real record's wording**, picked deterministically (highest severity, then highest confidence, then lowest id) and stored with that record's id. A label on the dashboard always traces back to the feedback it came from.
 
-### Step 3 — the six ranking keys
+### Step 3 — the seven ranking keys
 
 Groups are ordered **lexicographically**: each key is applied in turn, and the first one that differs decides the position. All descending.
 
 | # | Key | What it measures |
 |---|---|---|
-| 1 | `open_records` | How many distinct open records ask for this change |
-| 2 | `severity_band` | Average severity, rounded to a whole number |
-| 3 | `max_severity` | The single worst record in the group |
-| 4 | `source_diversity` | How many different source systems raised it |
-| 5 | `avg_confidence` | Classifier confidence — **tie-breaker only** |
-| 6 | `latest_created` | The newest supporting record |
+| 1 | `is_critical` | **Gate** — at least 3 open records **and** average severity ≥ 4.0 |
+| 2 | `open_records` | How many distinct open records ask for this change |
+| 3 | `severity_band` | Average severity, rounded to a whole number |
+| 4 | `max_severity` | The single worst record in the group |
+| 5 | `source_diversity` | How many different source systems raised it |
+| 6 | `avg_confidence` | Classifier confidence — **tie-breaker only** |
+| 7 | `latest_created` | The newest supporting record |
 
-A seventh alphabetical key (`subcategory`) makes the order **total**, so the same input always produces the same ranking rather than one that depends on row order. Every position can be explained by naming the single key that decided it.
+An eighth alphabetical key (`subcategory`) makes the order **total**, so the same input always produces the same ranking rather than one that depends on row order. Every position can be explained by naming the single key that decided it.
+
+#### The critical gate
+
+Being widely reported *and* severe is the one combination that should outrank a larger but milder problem, so it is tested first. It is a **gate, not a score**: an action either clears both floors or it does not, and there is no partial credit that could be traded off against volume.
+
+Both floors earn their place in the current data — 2 of 54 actions clear it:
+
+| Floor | What it stops | Blocked in practice |
+|---|---|---|
+| ≥ 3 open records | A single severe voice topping the roadmap | 4 actions at severity 4.0 backed by 1 record each |
+| avg severity ≥ 4.0 | Sheer volume presenting as urgency | *RBAC & dynamic permissions* — 10 records, but averaging 3.5 |
+
+**The severity floor uses the raw mean, not `severity_band`.** That distinction decides a real case: RBAC averages 3.5, which *rounds to 4*. Testing the rounded band would have admitted it under a rule written as "4 and above". The unrounded test keeps it at rank 3, where its ten records still place it above everything milder.
 
 ### Why there is no weighted score
 
@@ -258,9 +272,9 @@ An earlier version ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 ×
 
 *Votes do not generalise.* A vote total means something inside one feedback portal and nothing across Slack, Zendesk and Gong — there is nothing to vote with in a support ticket or a sales call. Ranking on a signal only one of four sources can produce would systematically bury every problem arriving through the other three. Votes are still collected and preserved as evidence; nothing is ranked by them.
 
-### Why volume leads and severity follows
+### Why volume leads severity below the gate
 
-This order was **corrected, not assumed**. Ranking severity first is the obvious reading of *"rank by severity, break ties by count"*, but run against the real dataset it put a single severity-4 request for Vault integration above a problem eight independent records reported.
+Below `is_critical`, this order was **corrected, not assumed**. Ranking severity first is the obvious reading of *"rank by severity, break ties by count"*, but run against the real dataset it put a single severity-4 request for Vault integration above a problem eight independent records reported.
 
 Severity is one model's reading of one piece of text; convergence across independent records is the stronger signal at this sample size. High severity is surfaced as its own KPI and sidebar filter instead, so severe-but-rare problems stay visible without displacing widely-reported ones.
 
