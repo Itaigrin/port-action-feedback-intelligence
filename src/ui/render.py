@@ -5,42 +5,51 @@ layout can be unit-tested without a running server and so the section order is
 readable in one place in app.py.
 
 Interactions inside these HTML blocks (category drill-down, "View supporting
-feedback", the back control) are plain anchors carrying query parameters.
-Streamlit re-runs on navigation and reads them back, which keeps the mockup's
-markup intact while staying wired to real data -- no static mockup records
-appear anywhere in this file.
+feedback", the back controls) carry a `data-afi-click` attribute naming a hidden
+Streamlit button. A single delegated listener forwards the click to that button,
+so the interaction is an ordinary Streamlit rerun.
+
+They were query-parameter anchors first. That worked, but every click was a real
+navigation: the browser tore the page down and Streamlit's shell repainted from
+scratch, which showed as a black flash and a moment of unstyled content. A rerun
+keeps the page alive, so there is nothing to flash.
+
+No static mockup records appear anywhere in this file -- every value is passed
+in from the classified dataset.
 """
 
 from __future__ import annotations
 
 from html import escape
-from urllib.parse import quote
 
 from ..models.taxonomy import SEVERITY_SCALE  # noqa: F401  (documents the 1-5 scale)
 from .theme import SEVERITY_BADGE
 
-# Anchor target for the feedback section, so an action link jumps to the
-# records it filtered instead of leaving the reader at the top of the page.
+# Anchor id for the feedback section, so a focus click can scroll to the records
+# it just filtered rather than leaving the reader looking at an unchanged screen.
 FEEDBACK_ANCHOR = "afi-feedback"
+
+# Hidden-button key prefixes. Shared with app.py so the markup and the buttons
+# it targets cannot drift apart.
+NAV_DRILL = "afinav_cat"
+NAV_SUB = "afinav_sub"
+NAV_FOCUS = "afinav_focus"
+NAV_BACK = "afinav_back"
+NAV_UNFOCUS = "afinav_unfocus"
 
 
 def _esc(value: object) -> str:
     return escape(str(value if value is not None else ""), quote=True)
 
 
-def _href(param: str, value: str, fragment: str = "") -> str:
-    """Build a query-parameter link.
+def _click(key: str) -> str:
+    """Attributes that turn any element into a proxy for a hidden button.
 
-    The value must be percent-encoded, not HTML-escaped. Most taxonomy names
-    contain an ampersand ("Permissions & Approvals"); HTML-escaping produces
-    `&amp;`, the browser decodes that back to a bare `&`, and the query string
-    then splits there -- so the app received "Permissions " and matched nothing.
-    Eight of eleven categories and forty-six of fifty-four subcategories were
-    affected.
+    href="#" keeps the element keyboard-focusable and styled as a control; the
+    delegated listener calls preventDefault, so the fragment is never applied.
     """
-    encoded = quote(str(value), safe="")
-    tail = f"#{fragment}" if fragment else ""
-    return f"?{param}={encoded}{tail}"
+    return f'href="#" role="button" data-afi-click="{_esc(key)}"'
+
 
 
 def _plural(n: int, word: str) -> str:
@@ -123,7 +132,7 @@ def render_product_actions(actions: list[dict], limit: int) -> str:
         )
 
     rows = ['<div class="afi-action-list">']
-    for action in actions[:limit]:
+    for index, action in enumerate(actions[:limit]):
         severity = int(round(action["avg_severity"]))
         cls = "afi-insight afi-insight-high" if action["max_severity"] >= 4 else "afi-insight"
         badge = SEVERITY_BADGE.get(severity, "b-neutral")
@@ -143,7 +152,6 @@ def render_product_actions(actions: list[dict], limit: int) -> str:
                 f'<span class="afi-badge b-amber">'
                 f'{action["needs_review"]} flagged for review</span>'
             )
-        focus = _href("focus", action["subcategory"], FEEDBACK_ANCHOR)
         rows.append(
             f'<div class="{cls}">'
             f'<div class="afi-insight-top">'
@@ -151,7 +159,7 @@ def render_product_actions(actions: list[dict], limit: int) -> str:
             f'<span class="afi-badge {badge}">Severity {severity}</span></div>'
             f"<p>{_esc(signal)}</p>"
             f'<div class="afi-action-metrics">{"".join(metrics)}</div>'
-            f'<a class="afi-action-btn" href="{focus}" target="_self">'
+            f'<a class="afi-action-btn" {_click(f"{NAV_FOCUS}_{index}")}>'
             f"View supporting feedback &#8595;</a>"
             "</div>"
         )
@@ -160,13 +168,13 @@ def render_product_actions(actions: list[dict], limit: int) -> str:
 
 
 # --------------------------------------------------------------------------
-def _bar_rows(rows: list[tuple[str, int]], link: str | None) -> str:
+def _bar_rows(rows: list[tuple[str, int]], click_prefix: str | None) -> str:
     """Shared CSS-bar markup. The mockup charts are bars, not a plotting library."""
     if not rows:
         return '<div class="afi-empty">No matching feedback.</div>'
     top = max((count for _, count in rows), default=0) or 1
     out = ['<div class="afi-category-list">']
-    for name, count in rows:
+    for index, (name, count) in enumerate(rows):
         width = round(count / top * 100)
         body = (
             f"<div><strong>{_esc(name)}</strong>"
@@ -174,10 +182,10 @@ def _bar_rows(rows: list[tuple[str, int]], link: str | None) -> str:
             f'<div class="afi-row-num"><b>{count}</b> '
             f'{"record" if count == 1 else "records"}</div>'
         )
-        if link:
+        if click_prefix:
             out.append(
-                f'<a class="afi-category-row" href="{_href(link, name)}" '
-                f'target="_self">{body}</a>'
+                f'<a class="afi-category-row" '
+                f'{_click(f"{click_prefix}_{index}")}>{body}</a>'
             )
         else:
             out.append(f'<div class="afi-category-row">{body}</div>')
@@ -190,17 +198,17 @@ def render_taxonomy_chart(rows: list[tuple[str, int]],
     if drilled_category:
         crumb = (
             f'<div class="afi-crumb">'
-            f'<span><a href="?" target="_self">Categories</a> › '
+            f'<span><a {_click(NAV_BACK)}>Categories</a> › '
             f"<b>{_esc(drilled_category)}</b></span>"
-            f'<a href="?" target="_self">← Back</a></div>'
+            f'<a {_click(NAV_BACK)}>← Back</a></div>'
         )
         desc = "Subcategories inside this category. Select one to filter everything."
-        chart = _bar_rows(rows, link="sub")
+        chart = _bar_rows(rows, NAV_SUB)
     else:
         crumb = ""
         desc = "Based on the number of records matching the current filters. "\
                "Select a category to open its subcategories."
-        chart = _bar_rows(rows, link="cat")
+        chart = _bar_rows(rows, NAV_DRILL)
 
     return (
         '<div class="afi-card afi-section" style="box-shadow:none">'
@@ -217,7 +225,7 @@ def render_journey_chart(rows: list[tuple[str, int]]) -> str:
         '<div class="afi-section-head"><div>'
         "<h2>Matching feedback by Journey stage</h2>"
         "<p>In the order a user meets them, not by volume.</p></div></div>"
-        + _bar_rows(rows, link=None)
+        + _bar_rows(rows, None)
         + "</div>"
     )
 
@@ -286,7 +294,7 @@ def render_filter_state(shown: int, total: int, open_count: int,
                         min_severity: int, focus: str | None) -> str:
     focused = (f' · focused on <b>{_esc(focus)}</b>' if focus else "")
     back = (
-        '<a class="afi-focus-back" href="?" target="_self">← Back to filtered view</a>'
+        f'<a class="afi-focus-back" {_click(NAV_UNFOCUS)}>← Back to filtered view</a>'
         if focus else ""
     )
     return (

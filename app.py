@@ -134,25 +134,14 @@ def _reset_filters() -> None:
     """
     for key, value in FILTER_DEFAULTS.items():
         st.session_state[key] = value
-    st.session_state.pop("_applied_sub", None)
-    st.query_params.clear()
+    # Reset also drops the chart drill-down and the focused action, so the
+    # dashboard returns to the state a first-time visitor sees.
+    st.session_state["afi_drill"] = None
+    st.session_state["afi_focus"] = None
 
 
 def render_filter_panel() -> dict:
     """Render the compact filter rail and return the current selections."""
-    params = st.query_params
-
-    # Seed the taxonomy filters from a subcategory click, before any widget is
-    # created -- assigning a widget key is only legal ahead of its widget.
-    # Guarded by _applied_sub so the seed happens once and the user can then
-    # clear the filter without the query parameter forcing it back.
-    pending_sub = params.get("sub")
-    if pending_sub and st.session_state.get("_applied_sub") != pending_sub:
-        if pending_sub in CATEGORY_FOR_SUBCATEGORY:
-            st.session_state["f_category"] = [CATEGORY_FOR_SUBCATEGORY[pending_sub]]
-            st.session_state["f_subcategory"] = [pending_sub]
-        st.session_state["_applied_sub"] = pending_sub
-
     st.markdown(
         '<div class="afi-panel" style="padding:17px">'
         '<h2 style="font-size:17px;letter-spacing:-.02em;margin:0 0 6px">'
@@ -280,13 +269,83 @@ def apply_filters(f: dict, search: str) -> pd.DataFrame:
     return view.copy()
 
 
+# --------------------------------------------------------------------------
+# Navigation
+#
+# The chart rows and action buttons are mockup HTML, but they must behave like
+# Streamlit controls. Each carries a data-afi-click naming a hidden button; one
+# delegated listener forwards the click. That keeps the interaction inside a
+# normal rerun -- the earlier query-parameter links navigated the browser, which
+# tore the page down and repainted Streamlit's shell (the black flash, and the
+# moment of unstyled content that looked like a stray heading).
+#
+# Every handler is an on_click callback, so it runs before the next script run
+# creates any widget and may therefore assign widget-bound keys.
+# --------------------------------------------------------------------------
+CLICK_FORWARDER = """
+<script>
+const doc = window.parent.document;
+if (!doc.__afiClickBound) {
+  doc.__afiClickBound = true;
+  doc.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-afi-click]');
+    if (!trigger) return;
+    event.preventDefault();
+    const button = doc.querySelector(
+      '.st-key-' + trigger.dataset.afiClick + ' button');
+    if (button) button.click();
+  }, true);
+}
+</script>
+"""
+
+
+def _drill_into(category: str) -> None:
+    st.session_state["afi_drill"] = category
+
+
+def _clear_drill() -> None:
+    st.session_state["afi_drill"] = None
+
+
+def _select_subcategory(subcategory: str) -> None:
+    """A subcategory click sets both taxonomy filters, per the requirements."""
+    st.session_state["f_category"] = [CATEGORY_FOR_SUBCATEGORY[subcategory]]
+    st.session_state["f_subcategory"] = [subcategory]
+    st.session_state["afi_drill"] = None
+
+
+def _focus_on(subcategory: str) -> None:
+    st.session_state["afi_focus"] = subcategory
+
+
+def _clear_focus() -> None:
+    st.session_state["afi_focus"] = None
+
+
+def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
+                      actions: list[dict]) -> None:
+    """Render the buttons the HTML proxies target. Hidden, never tabbed to."""
+    components.html(CLICK_FORWARDER, height=0)
+    with st.container(key="afi_hidden_nav"):
+        prefix = render.NAV_SUB if drilled else render.NAV_DRILL
+        handler = _select_subcategory if drilled else _drill_into
+        for index, (name, _count) in enumerate(bar_rows):
+            st.button("go", key=f"{prefix}_{index}",
+                      on_click=handler, args=(name,))
+        st.button("go", key=render.NAV_BACK, on_click=_clear_drill)
+        st.button("go", key=render.NAV_UNFOCUS, on_click=_clear_focus)
+        for index, action in enumerate(actions):
+            st.button("go", key=f"{render.NAV_FOCUS}_{index}",
+                      on_click=_focus_on, args=(action["subcategory"],))
+
+
 # ==========================================================================
 # Dashboard
 # ==========================================================================
 def render_dashboard() -> None:
-    params = st.query_params
-    focus = params.get("focus")
-    drilled = params.get("cat")
+    focus = st.session_state.get("afi_focus")
+    drilled = st.session_state.get("afi_drill")
 
     # --- page grid: 270px rail + main content ------------------------------
     # Keyed containers emit stable .st-key-<key> classes, which the stylesheet
@@ -337,6 +396,18 @@ def render_dashboard() -> None:
             unsafe_allow_html=True,
         )
 
+        # Chart rows are computed before the grid so the hidden nav buttons and
+        # the rendered bars are built from one list and cannot fall out of step.
+        if drilled and drilled in set(view["primary_taxonomy_category"]):
+            counts = (view[view["primary_taxonomy_category"] == drilled]
+                      ["primary_taxonomy_subcategory"].value_counts())
+        else:
+            drilled = None
+            counts = view["primary_taxonomy_category"].value_counts()
+        bar_rows = [(name, int(n)) for name, n in counts.items()]
+
+        render_hidden_nav(bar_rows, drilled, actions[:filters["top_n"]])
+
         # --- content grid: actions left, charts right ---------------------
         content = st.container(key="afi_content")
         left, right = content.columns([1.3, 0.7], gap="medium")
@@ -349,15 +420,7 @@ def render_dashboard() -> None:
             )
 
         with right, st.container(key="afi_charts"):
-            if drilled and drilled in set(view["primary_taxonomy_category"]):
-                counts = (view[view["primary_taxonomy_category"] == drilled]
-                          ["primary_taxonomy_subcategory"].value_counts())
-                rows = [(name, int(n)) for name, n in counts.items()]
-            else:
-                drilled = None
-                counts = view["primary_taxonomy_category"].value_counts()
-                rows = [(name, int(n)) for name, n in counts.items()]
-            st.markdown(render.render_taxonomy_chart(rows, drilled),
+            st.markdown(render.render_taxonomy_chart(bar_rows, drilled),
                         unsafe_allow_html=True)
 
             stage_counts = view["journey_stage"].value_counts().to_dict()
@@ -406,10 +469,10 @@ def render_dashboard() -> None:
             )
 
             if focus:
-                # The #afi-feedback fragment alone is not enough: the browser
-                # resolves it while Streamlit is still streaming the page, so
-                # the anchor does not exist yet and the reader is left at the
-                # top wondering whether the click did anything.
+                # Nothing navigates any more, so the browser keeps its scroll
+                # position and the reader may not see the section update below
+                # the fold. Scroll it into view; retry because Streamlit
+                # streams the page and the anchor may not exist yet.
                 components.html(
                     "<script>"
                     "let tries = 0;"

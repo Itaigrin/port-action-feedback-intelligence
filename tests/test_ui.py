@@ -291,26 +291,24 @@ def test_page_starts_without_an_api_key():
 
 
 # --- interaction regressions ----------------------------------------------
-def test_query_links_are_url_encoded_not_html_escaped():
-    """Ampersands in taxonomy names must survive the round trip.
+def test_interactions_do_not_navigate_the_browser():
+    """Every in-panel control must trigger a rerun, not a page load.
 
-    HTML-escaping produces `&amp;`; the browser decodes that to a bare `&`,
-    which then splits the query string. Eight of eleven categories and
-    forty-six of fifty-four subcategories contain an ampersand, so this broke
-    almost every drill-down and every action link.
+    The controls were query-parameter anchors first. They worked, but each
+    click was a real navigation: the browser tore the page down and Streamlit's
+    shell repainted, which showed as a black flash and a moment of unstyled
+    content. They now proxy to hidden Streamlit buttons.
     """
-    from urllib.parse import parse_qs, urlparse
-
-    from src.models.taxonomy import ALL_SUBCATEGORY_NAMES, CATEGORY_NAMES
+    from src.models.taxonomy import CATEGORY_NAMES
     from src.ui.render import (
+        NAV_BACK,
+        NAV_DRILL,
+        NAV_FOCUS,
+        NAV_SUB,
+        NAV_UNFOCUS,
         render_product_actions,
         render_taxonomy_chart,
     )
-
-    html = render_taxonomy_chart([(c, 1) for c in CATEGORY_NAMES], None)
-    assert "&amp;" not in re.findall(r'href="([^"]*)"', html)[0]
-    for name, href in zip(CATEGORY_NAMES, re.findall(r'href="([^"]*)"', html)):
-        assert parse_qs(urlparse(href).query)["cat"] == [name], href
 
     action = {
         "category": "Permissions & Approvals",
@@ -319,12 +317,65 @@ def test_query_links_are_url_encoded_not_html_escaped():
         "open_records": 3, "avg_severity": 3.0, "max_severity": 4,
         "source_diversity": 1, "needs_review": 0, "signal": "quote",
     }
-    html = render_product_actions([action], 10)
-    href = re.search(r'class="afi-action-btn" href="([^"]+)"', html).group(1)
-    parsed = urlparse(href)
-    assert parse_qs(parsed.query)["focus"] == ["RBAC & dynamic permissions"]
-    assert parsed.fragment == "afi-feedback", "link must jump to the records"
-    assert ALL_SUBCATEGORY_NAMES  # sanity
+    blocks = [
+        render_taxonomy_chart([(c, 1) for c in CATEGORY_NAMES], None),
+        render_taxonomy_chart([("RBAC & dynamic permissions", 1)],
+                              "Permissions & Approvals"),
+        render_product_actions([action], 10),
+    ]
+    for html in blocks:
+        # No anchor may carry a real destination.
+        for href in re.findall(r'href="([^"]*)"', html):
+            assert href == "#", f"navigating link found: {href}"
+        assert "target=" not in html
+        assert "data-afi-click=" in html
+
+    keys = {k for html in blocks
+            for k in re.findall(r'data-afi-click="([^"]+)"', html)}
+    assert f"{NAV_DRILL}_0" in keys
+    assert f"{NAV_SUB}_0" in keys
+    assert f"{NAV_FOCUS}_0" in keys
+    assert NAV_BACK in keys
+
+    # Every proxied key must be one app.py actually creates a button for.
+    for key in keys:
+        stem = re.sub(r"_\d+$", "", key)
+        assert stem in (NAV_DRILL, NAV_SUB, NAV_FOCUS, NAV_BACK, NAV_UNFOCUS), key
+    # app.py builds the drill/sub keys from the same constants.
+    assert "render.NAV_SUB if drilled else render.NAV_DRILL" in APP
+    assert "render.NAV_BACK" in APP and "render.NAV_UNFOCUS" in APP
+    assert "render.NAV_FOCUS" in APP
+
+
+def test_hidden_nav_buttons_are_created_for_every_proxy():
+    """The forwarder is installed once and the buttons use on_click callbacks."""
+    assert "def render_hidden_nav(" in APP
+    assert "CLICK_FORWARDER" in APP
+    assert "__afiClickBound" in APP, "listener must guard against double binding"
+    # Every handler must exist and be wired as a callback -- callbacks run
+    # before widgets are created, which is what makes their state writes legal.
+    for handler in ("_drill_into", "_clear_drill", "_select_subcategory",
+                    "_focus_on", "_clear_focus"):
+        assert f"def {handler}(" in APP, handler
+    # drill vs subcategory is chosen into `handler` before the button call.
+    assert "handler = _select_subcategory if drilled else _drill_into" in APP
+    for wired in ("on_click=handler", "on_click=_clear_drill",
+                  "on_click=_clear_focus", "on_click=_focus_on"):
+        assert wired in APP, wired
+    assert "st.rerun()" not in APP, "callbacks rerun on their own"
+
+
+def test_markdown_negative_margin_is_neutralised():
+    """Streamlit pulls the next block up by 14px over a trailing <p> margin.
+
+    Our blocks set margin:0 on that <p>, so the pull-back had nothing to cancel
+    and dragged the filter-state line into the section caption.
+    """
+    from src.ui.theme import CSS
+
+    assert '.st-key-afi_page [data-testid="stMarkdownContainer"]' in CSS
+    marker = CSS.index('.st-key-afi_page [data-testid="stMarkdownContainer"]')
+    assert "margin-bottom: 0 !important" in CSS[marker:marker + 160]
 
 
 def test_feedback_section_carries_the_scroll_anchor():

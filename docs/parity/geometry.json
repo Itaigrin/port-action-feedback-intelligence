@@ -60,7 +60,7 @@
       "x": 32,
       "y": 88,
       "width": 270,
-      "height": 676
+      "height": 704
     },
     "hero": {
       "x": 326,
@@ -70,33 +70,33 @@
     },
     "kpi-row": {
       "x": 326,
-      "y": 230,
+      "y": 244,
       "width": 1082,
       "height": 142
     },
     "kpi-card": {
       "x": 326,
-      "y": 230,
+      "y": 244,
       "width": 260,
       "height": 142
     },
     "actions-panel": {
       "x": 326,
-      "y": 378,
+      "y": 406,
       "width": 693,
       "height": 2802
     },
     "charts-panel": {
       "x": 1039,
-      "y": 378,
+      "y": 406,
       "width": 369,
-      "height": 1234
+      "height": 1262
     },
     "feedback-section": {
       "x": 326,
-      "y": 3192,
+      "y": 3234,
       "width": 1082,
-      "height": 10223
+      "height": 10279
     }
   },
   "mockup-mobile": {
@@ -160,43 +160,43 @@
       "x": 18,
       "y": 82,
       "width": 354,
-      "height": 661
+      "height": 689
     },
     "hero": {
       "x": 18,
-      "y": 767,
+      "y": 795,
       "width": 354,
       "height": 327
     },
     "kpi-row": {
       "x": 18,
-      "y": 1102,
+      "y": 1144,
       "width": 354,
       "height": 529
     },
     "kpi-card": {
       "x": 18,
-      "y": 1102,
+      "y": 1144,
       "width": 354,
       "height": 122
     },
     "actions-panel": {
       "x": 18,
-      "y": 1637,
+      "y": 1693,
       "width": 354,
       "height": 4970
     },
     "charts-panel": {
       "x": 18,
-      "y": 6613,
+      "y": 6683,
       "width": 354,
-      "height": 1254
+      "height": 1282
     },
     "feedback-section": {
       "x": 18,
-      "y": 7893,
+      "y": 7991,
       "width": 354,
-      "height": 19577
+      "height": 19643
     }
   }
 }

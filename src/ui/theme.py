@@ -260,7 +260,7 @@ a.afi-category-row:hover strong {{ color: var(--blue) !important; }}
 }}
 .afi-filter-state-row {{
   display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; margin: 0 0 11px;
+  gap: 12px; margin: 14px 0 11px;
 }}
 .afi-filter-state {{ margin: 0; color: var(--blue); font-size: 12px; font-weight: 700; }}
 .afi-focus-back {{
@@ -308,6 +308,13 @@ header[data-testid="stHeader"] {{ display: none !important; }}
 
 /* Streamlit stacks every element with a gap; the mockup controls its own. */
 [data-testid="stVerticalBlock"] {{ gap: 0 !important; }}
+
+/* Streamlit gives every markdown block margin-bottom: -14px to pull the next
+   element up over a trailing <p>'s own margin. Our blocks set margin:0 on that
+   <p>, so there is nothing to pull back over and the negative margin drags the
+   following element 14px into this one -- which is what made the filter-state
+   line overlap the section caption. */
+.st-key-afi_page [data-testid="stMarkdownContainer"] {{ margin-bottom: 0 !important; }}
 [data-testid="stVerticalBlockBorderWrapper"] {{ gap: 0 !important; }}
 [data-testid="stElementContainer"] {{ margin: 0 !important; }}
 
@@ -356,6 +363,15 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   padding: 19px !important; margin-top: 26px !important;
 }}
 .st-key-afi_actions, .st-key-afi_charts {{ min-width: 0; }}
+
+/* Hidden proxies for the mockup's HTML controls. Positioned off-screen rather
+   than display:none -- a programmatic .click() must still reach a live button,
+   and aria-hidden keeps them out of the accessibility tree and tab order. */
+.st-key-afi_hidden_nav {{
+  position: absolute !important; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}}
+[data-afi-click] {{ cursor: pointer; }}
 .st-key-afi_content [data-testid="stHorizontalBlock"] {{ gap: 20px !important; }}
 
 /* Filter panel widgets, sized down to the mockup's compact scale. */
