@@ -181,12 +181,13 @@ body {{ overflow-x: hidden; }}
 .afi-action-btn:hover {{
   border-color: #9fb8df; background: #f1f6ff; color: #234f91;
 }}
-/* Supporting records, expanded inside the action card they belong to. */
-.afi-action-evidence {{
-  margin-top: 13px; padding-top: 13px; border-top: 1px dashed #cfddf5;
+/* The card whose records the feedback section is currently showing. */
+.afi-action-btn.is-selected {{
+  background: var(--blue); border-color: var(--blue); color: #fff !important;
 }}
-.afi-action-evidence .afi-evidence {{ margin-top: 0; gap: 8px; }}
-.afi-action-evidence .afi-feedback {{ background: #fcfdff; }}
+.afi-action-btn.is-selected:hover {{
+  background: #1d54c9; border-color: #1d54c9; color: #fff !important;
+}}
 
 /* ----------------------------------------------------------- CSS bar chart */
 .afi-category-list {{ display: grid; gap: 10px; }}

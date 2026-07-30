@@ -338,9 +338,13 @@ def _select_subcategory(subcategory: str) -> None:
 
 
 def _focus_on(subcategory: str) -> None:
-    """Toggle: clicking the open action's own button closes it again."""
-    current = st.session_state.get("afi_focus")
-    st.session_state["afi_focus"] = None if current == subcategory else subcategory
+    """Select an action; the feedback section then shows only its records.
+
+    Not a toggle. The button's job is to take the reader to the evidence, so
+    pressing it again should land them there again rather than silently
+    clearing the selection. "Back to filtered view" is what clears it.
+    """
+    st.session_state["afi_focus"] = subcategory
 
 
 def _clear_focus() -> None:
@@ -358,6 +362,7 @@ def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
             st.button("go", key=f"{prefix}_{index}",
                       on_click=handler, args=(name,))
         st.button("go", key=render.NAV_BACK, on_click=_clear_drill)
+        st.button("go", key=render.NAV_UNFOCUS, on_click=_clear_focus)
         for index, action in enumerate(actions):
             st.button("go", key=f"{render.NAV_FOCUS}_{index}",
                       on_click=_focus_on, args=(action["subcategory"],))
@@ -437,27 +442,9 @@ def render_dashboard() -> None:
 
 
         with left:
-            # Expand exactly the records the action was ranked from -- its
-            # open ones. Expanding the whole subcategory would list completed
-            # work under a card that says "N open supporting records", so the
-            # list would contradict its own count.
-            expanded_records: list[dict] = []
-            if focus:
-                open_action = next(
-                    (a for a in actions if a["subcategory"] == focus), None)
-                if open_action:
-                    supporting = view[
-                        view["feedback_id"].isin(open_action["record_ids"])]
-                    expanded_records = (
-                        supporting.sort_values(["severity", "confidence"],
-                                               ascending=[False, False])
-                        .to_dict("records")
-                    )
             st.markdown(
                 render.render_product_actions(
-                    actions, filters["top_n"],
-                    expanded=focus, expanded_records=expanded_records,
-                ),
+                    actions, filters["top_n"], selected=focus),
                 unsafe_allow_html=True,
             )
 
@@ -471,9 +458,17 @@ def render_dashboard() -> None:
                         unsafe_allow_html=True)
 
         # --- feedback, full width -----------------------------------------
-        # The section reflects the filters only. An action's own evidence lives
-        # inside its card, so expanding one no longer narrows this list.
+        # Selecting an action narrows this section to the records that action
+        # was ranked from -- its open ones, matching the count on its card.
+        # Filtering by subcategory instead would list completed work under a
+        # card reading "N open supporting records".
         shown = view
+        if focus:
+            selected_action = next(
+                (a for a in actions if a["subcategory"] == focus), None)
+            shown = (view[view["feedback_id"].isin(selected_action["record_ids"])]
+                     if selected_action
+                     else view[view["primary_taxonomy_subcategory"] == focus])
 
         with st.container(key="afi_feedback"):
             head, tools = st.columns([1, 0.32], gap="small")
@@ -497,7 +492,7 @@ def render_dashboard() -> None:
                 render.render_filter_state(
                     shown=len(shown), total=len(rel),
                     open_count=int(shown["is_open"].sum()),
-                    min_severity=filters["severity"],
+                    min_severity=filters["severity"], focus=focus,
                 ),
                 unsafe_allow_html=True,
             )
@@ -511,18 +506,19 @@ def render_dashboard() -> None:
             )
 
             if focus:
-                # A rerun replaces the whole DOM, so the browser loses its
-                # scroll offset. Bring the expanded card back into view instead
-                # of leaving the reader at the top; retry because Streamlit
-                # streams the page and the anchor may not exist yet.
+                # Take the reader to the evidence they asked for. A rerun
+                # replaces the DOM and drops the scroll offset, so this both
+                # performs the jump and stops the page landing at the top.
+                # Retry: Streamlit streams the page, so the section may not
+                # exist yet when the script first runs.
                 components.html(
                     "<script>"
                     "let tries = 0;"
                     "const go = () => {"
                     "  const el = window.parent.document"
-                    f"    .getElementById('{render.ACTION_ANCHOR}');"
+                    "    .querySelector('.st-key-afi_feedback');"
                     "  if (el) {"
-                    "    el.scrollIntoView({behavior: 'auto', block: 'center'});"
+                    "    el.scrollIntoView({behavior: 'smooth', block: 'start'});"
                     "  } else if (++tries < 25) { setTimeout(go, 120); }"
                     "};"
                     "setTimeout(go, 120);"
