@@ -1,68 +1,70 @@
 feedback_id,title,description,source_url,model_is_relevant,model_theme,model_journey_stage,model_feedback_type,model_severity,model_confidence,human_is_relevant,human_theme,human_journey_stage,human_feedback_type,human_severity,notes
-663767aaaa732863041977e3,receive the relation objects in the payload instead of just the related object identifier,"Right now when you query an entity using API you will get the identifiers of the related entities. 
+69bd58a10abc9096ad81862e,Re-run capability for Workflow runs,"Requesting re-run button/capability for workflow runs.
 
-It could be helpful to receive the relation objects in the payload instead of just the related object identifier",https://roadmap.port.io/ideas/p/receive-the-relation-objects-in-the-payload-instead-of-just-the-related-object-i,False,Backend & invocation configuration,Backend and invocation setup,Feature request,2,0.9,,,,,,
-65cb2a1d8c99793a14bf35b8,Specific Resync,Add option to specifically resync a predefined list of resources & do a scheduled resync only for a selected list of resources,https://roadmap.port.io/ideas/p/specific-resync,False,Backend & invocation configuration,Backend and invocation setup,Feature request,2,0.95,,,,,,
-6a428d9c292f2041042ba04e,Expose Action Form Trigger in Custom Widget/Plugin SDK,"Add support for opening a self-service action form directly from a custom widget/plugin, without navigating to the Self-Service Actions tab",https://roadmap.port.io/ideas/p/expose-action-form-trigger-in-custom-widget-plugin-sdk,True,Action discovery & organization,Discovering and organizing actions,Feature request,2,0.75,,,,,,
-66d94baa3c9acf656ff773fa,Prisma Cloud Ocean integration,"Ingest vulnerabilities from Prisma Cloud for open source, containers and other sources",https://roadmap.port.io/ideas/p/prisma-cloud-ocean-integration,False,Backend & invocation configuration,Backend and invocation setup,Feature request,1,0.95,,,,,,
-65b62b199794d2cfb2ae1c65,Support code or file upload in self-service action form,"Allow developers to upload or insert various configuration file types (e.g., .py, .conf, .txt) directly into the self service action form for ""creating a microservice"", for example. This feature should support a range of file formats beyond the current YAML, JSON, and Protobuf, and offer the option of markdown/free text input for added flexibility.
+During development and testing, we have to create a new event every time we want to test a workflow change. Being able to re-run a previous workflow run would significantly speed up the iteration cycle.",https://roadmap.port.io/ideas/p/re-run-capability-for-workflow-runs,True,"Testing, editing & drafts","Testing, editing & publishing",Feature request,3,0.75,,,,,,
+69fce3c7aa7919d7184f46f4,Ability to limit the LLM/AI invocations per user,"Right now the limit for AI invocations are organization based, we would need to be able to set consumption/invocation limits per user",https://roadmap.port.io/ideas/p/ability-to-limit-the-llm-ai-invocations-per-user,False,"Permissions, eligibility & action visibility",Permissions & approvals,Feature request,2,0.9,,,,,,
+64a512f97525ac09ce7a21c4,Categorizing Self Service actions,Allow categorizing self service actions for ease of finding appropriate actions for your needs.,https://roadmap.port.io/ideas/p/categorizing-self-service-actions,True,Action discovery & organization,Action discovery & organization,Feature request,2,0.9,,,,,,
+68244c550f9886c27cc30388,Trigger Aggregation Property Update,"Some aggregation properties will only be updated when certain conditions are met e.g. total number of related x to y could only update for any entity change in a related x. Some aggregation properties are also usually static after an initial period of updating and will likely never be updated again. 
 
-Here is an example of a microservice file structure:
+For these recalculating every 15 minutes will result in lots of unnecessary work. What if instead these aggregation properties could be triggered by an update to a downstream related entity either before or after so only have an update when necessary. So when an entity of x is updated the aggrega",https://roadmap.port.io/ideas/p/trigger-aggregation-property-update,False,Backend & invocation configuration,Backend & invocation setup,Feature request,2,0.9,,,,,,
+69a7207e9505b9d5de41736b,Include stable action_id in GET Action Runs API,Exposing the stable action_id in the action runs response will ensure long-term data consistency and reliable analytics.,https://roadmap.port.io/ideas/p/include-stable-action-id-in-get-action-runs-api,True,"Execution visibility, notifications & run control","Execution, monitoring & run control",Feature request,2,0.75,,,,,,
+693ffd899279e1a4c35ca2c0,Disallow saving actions with no execute permissions,"Currently, execute permissions can be removed entirely, which allows an action to be saved with no execute permissions at all. We need a product safeguard to prevent this by either:
 
-Microservice/
+Disallowing actions from being saved without any execute permissions, or
 
-│
+Automatically retaining the Admin role as a default execute permission.",https://roadmap.port.io/ideas/p/disallow-saving-actions-with-no-execute-permissions,True,"Permissions, eligibility & action visibility",Permissions & approvals,Bug,3,0.85,,,,,,
+696f2e14d1352674295c2e11,Control which Port Execution Agent deployment process which message with polling streamer,"With Port Execution Agent that use polling streamer  (https://docs.port.io/actions-and-automations/setup-backend/webhook/port-execution-agent/usage#polling-streamer), messages are acknowledged before processing and cannot be claimed by another agent once fetched.
 
-│── MS-code/
+This allows multiple agents to run in parallel without conflicts, but requires using the same filtering logic across all agents to avoid unintended filtering.
 
-│── values-files/
+You cannot control which agent processes which message at the moment.
 
-│   │   ├── production.yaml
+Suggested solution:
 
-|   |   ├── staging.yaml     
+Set and optional ""cluster identifier"" that is evaluated when executing the run. The",https://roadmap.port.io/ideas/p/control-which-port-execution-agent-deployment-process-which-message-with-polling,True,Backend & invocation configuration,Backend & invocation setup,Feature request,3,0.85,,,,,,
+66bdca87e78e9ec286c639a3,Modify Payload/Inputs for 'Waiting for approval' Self-Service Actions,"Currently, once a user initiates a self-service action that needs approval, the action's payload or inputs are fixed. Approvers are unable to change the action's specifics and they can only accept or reject it. 
 
-│   │   └── testing.yaml    
+I suggest before giving final approval, approvers will be able to make any necessary changes to the payload or inputs, potentially reducing the number of rounds of back-and-forth correspondence required between initiators and approvers to modify payloads and inputs.",https://roadmap.port.io/ideas/p/modify-payload-inputs-for-waiting-for-approval-self-service-actions,True,Approval workflows & governance,Permissions & approvals,Feature request,3,0.9,,,,,,
+673cc7ccf5479baf4a9f4a75,Ability to specify the source of an API change (updatedByAlias/createdByAlias),"We now have multiple locations where we are using the API to update specific blueprints. Having all changes to blueprints made through the API under ""Rest API"" is too vague for us to know where specifically the change came from. It would be nice if we could include a name of the source in our blueprint change payload and then be able to see this reflect in the audit logs.
 
-│   │
+For example:
 
-│   └── configmaps/           
+I change blueprint Service with a python script called ""service_changer.py"" using a POST in the script - I can also pass into the body of the POST ""updatedByAlias"":""service_changer.py""
 
-│       ├── pr",https://roadmap.port.io/ideas/p/support-code-or-file-upload-in-self-service-action-form,True,Input types & controls,Configuring forms and inputs,Feature request,3,0.85,,,,,,
-6a42936d80bbb7363013edcf,"Teams, roles and dynamic policy in Port Workflows Input node","Right now the Input node supports only a static list of users. Adding teams, roles, and dynamic policies will enable more advanced human-in-the-loop use cases. For example: requesting approval from the on-call engineer before deployment outside business hours.",https://roadmap.port.io/ideas/p/teams-roles-and-dynamic-policy-in-port-workflows-input-node,True,Permissions & access control,Configuring forms and inputs,Feature request,3,0.75,,,,,,
-65f03ef6cb7414bcffae7545,Create/update entity invocation type,"The new ""Create/update entity"" invocation type for self-service actions and automations will allow updating catalog entities as part of a self-service action form/automation execution
+And then later, I can fi",https://roadmap.port.io/ideas/p/ability-to-specify-the-source-of-an-api-change-updatedbyalias-createdbyalias,False,Backend & invocation configuration,Backend & invocation setup,Feature request,2,0.85,,,,,,
+6508161951aa0709909e3647,Add conditionals based on bool input,"I want to be able based on bool input to populate other property or hide it/grey out. For example if input1 true create array to select from in input2 else hide input2
 
-For example, creating a specific self-service form for updating the Service team and Tier directly in the catalog.",https://roadmap.port.io/ideas/p/create-update-entity-invocation-type,True,Backend & invocation configuration,Backend and invocation setup,Feature request,2,0.75,,,,,,
-697b9fddcfbf975300198439,Expose Approver Context in Runs,"Currently, SSA execution context only includes the run creator, not the actual approver. There’s no way to display the approver’s name or email in entity today. This would be a nice improvement to add",https://roadmap.port.io/ideas/p/expose-approver-context-in-runs,True,Approval workflows,Execution and monitoring,Feature request,2,0.8,,,,,,
-6967774a6dfee8ee8e4ce896,RBAC for Port Usage Dashboard,"Current behavior
+This way we can add logic based on input boolean and use one action to perform complex workflows",https://roadmap.port.io/ideas/p/add-conditionals-based-on-bool-input,True,Dynamic & dependent inputs,"Validation, dependencies & conditional logic",Feature request,3,0.9,,,,,,
+684c4e772523f38ddde65e37,I want to be able to use multiple backends for one self service action,"As an example: I have different GH actions configured for provisioning resources on AWS depending on the resource requested:
 
-The Usage Dashboard is automatically visible to all Org Admins in Pro & Enterprise orgs. [Usage dashboard announcement]
+- Action A: To provision an EC2 instance
 
-This access cannot be changed or restricted today; all Org Admins always see it.
+- Action B: To provision an S3 bucket
 
-Problem
+- Action C: To provision an AWS user
 
-Usage and billing‑related data is sensitive. Organizations want least‑privilege access and the ability to limit visibility to a small group (e.g., platform owners, FinOps, auditors), not all Org Admins. 
+- Action D: To provision a lambda function
 
-Requested change
+- Action E: To provision a Postgres DB
 
-Add RBAC controls for the Usage Dashboard
+I have a single SSA, ""Provision AWS Resource"" which contains several advanced inputs which are visible or disappear based on the resource type selected. Due to Port's current setup, I have to combine these 5 GH actions into one since the SSA can only trigger one backend.",https://roadmap.port.io/ideas/p/i-want-to-be-able-to-use-multiple-backends-for-one-self-service-action,True,Multi-step & orchestration,Backend & invocation setup,Feature request,4,0.9,,,,,,
+68f64cb7d2693237fd1b30d3,Historical Reporting for Deleted Entities,"Port currently only displays entities that exist in the catalog. Users need the ability to generate historical reports that include deleted entities, particularly for:
 
-Configure who can view it by:
+Tracking entity counts over time (including deleted entities)
 
-Roles
+Visualizing entity duration/lifetime after deletion
 
-Specific users
+Analyzing trends for entities with timer properties that expire automatically
 
-Teams
+Current Gap: Line charts and dashboards only reflect current entities; deleted entities are only available in the audit log (limited to 1,000 records) with no visualization capabilities.
 
-This should be similar in spirit to existin",https://roadmap.port.io/ideas/p/rbac-for-port-usage-dashboard,False,Permissions & access control,Permissions and approvals,Feature request,2,0.9,,,,,,
-6481fb245cf5a50d549f4fdb,Runs - displaying the payload,The payload of a specific run is now displayed in Port’s specific run page and audit log under the “Payload” property.,https://roadmap.port.io/ideas/p/runs-displaying-the-payload,True,Execution visibility & logs,Execution and monitoring,Feature request,2,0.75,,,,,,
-657042ba954a046b2cfa8ab1,Microsoft teams notification,"Currently, the message sender only supports slack.
+Requested Solution: Enable historical reporting ",https://roadmap.port.io/ideas/p/historical-reporting-for-deleted-entities,False,"Execution visibility, notifications & run control","Execution, monitoring & run control",Feature request,3,0.95,,,,,,
+660e76e9c5ad749ac2a191e0,Discussions & Comments on entities,"Ask questions, discuss, and make decisions within context. 
 
-Some organizations use Microsoft teams, which means they cannot create notifications for their teams.",https://roadmap.port.io/ideas/p/microsoft-teams-notification,True,Notifications & alerting,Permissions and approvals,Feature request,3,0.6,,,,,,
-678ad59d8b818be882975a08,ADO SaaS Integration : support for multiple organizations,,https://roadmap.port.io/ideas/p/ado-saas-integration-support-for-multiple-organizations,False,Backend & invocation configuration,Backend and invocation setup,Feature request,1,0.9,,,,,,
-660d4069156ca7bcee9b5457,Running JQ manipulation on dynamic filters,"Currently you can't  run JQ manipulation on dynamic filters. If we could, we could connect to entities using jq filtering (like getting name from email)",https://roadmap.port.io/ideas/p/running-jq-manipulation-on-dynamic-filters,False,Dynamic & dependent inputs,Configuring forms and inputs,Feature request,2,0.9,,,,,,
-6a3c68a73959e847601ffa6f,Entity and user/team pickers should allow dynamic filters and defaults,"I've been trying to set self-service action input defaults on team, array, and string inputs based on properties of the current user or the action's triggering entity. I went through a lot of AI-suggested attempts, but nothing worked.
+Allow developers to discuss and comment on different entities directly in Port.",https://roadmap.port.io/ideas/p/discussions-comments-on-entities,False,Action discovery & organization,Action discovery & organization,Feature request,2,0.95,,,,,,
+67dbf184d3db9fe5bd6f51f5,Bulk self-service actions on entities,It would be great to have an option to do bulk actions(day2 and DELETE) on entities,https://roadmap.port.io/ideas/p/bulk-self-service-actions-on-entities,True,"Context, targeting & pre-fill","Contextual entry, targeting & pre-fill",Feature request,3,0.6,,,,,,
+65809c20bdd786e7c10ce20e,Steps in Port Self-Service Action Form,"As a developer using Port's self-service action form,
 
-For instance, I have a self-service action that triggers a GitHub Actions workflow to create a git repo. There's an input to choose the team that should be added to the repo with admin privileges, but there's no way to default the team input to, say, the first team in the user's team list. I tried using `default` as shown below, but it doesn't do anything (I als",https://roadmap.port.io/ideas/p/entity-and-user-team-pickers-should-allow-dynamic-filters-and-defaults,True,Dynamic & dependent inputs,Configuring forms and inputs,Feature request,4,0.85,,,,,,
-689c4e5eda725fecc3d241bf,Multi-step workflows,"Chain multiple inputs, approvals, conditions, and actions via automatic triggers or self-service",https://roadmap.port.io/ideas/p/multi-step-workflows,True,Multi-step & orchestration,Configuring forms and inputs,Feature request,3,0.6,,,,,,
+I want the ability to collapse the form into distinct sections such as network configuration, security configuration, and IAM role,
+
+So that I can more easily navigate and digest the information, focusing on specific areas as needed based on my answers.",https://roadmap.port.io/ideas/p/steps-in-port-self-service-action-form,True,"Form structure, input types & controls",Form & input configuration,Feature request,2,0.85,,,,,,

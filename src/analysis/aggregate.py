@@ -31,31 +31,39 @@ HIGH_SEVERITY = 4
 # Analyst recommendations. These are JUDGMENT, not data -- labelled as such in
 # the UI so a reader can always tell which is which.
 RECOMMENDED_ACTIONS: dict[str, str] = {
-    "Backend & invocation configuration":
-        "Reduce setup steps for common backends; surface clearer errors when a "
-        "payload or credential is wrong.",
-    "Execution visibility & logs":
-        "Show run state, progress and failure reason without leaving Port.",
-    "Permissions & access control":
-        "Make dynamic permission rules easier to author, preview and debug.",
-    "Approval workflows":
-        "Support flexible approver rules and notify approvers automatically.",
-    "Input types & controls":
-        "Broaden the input control set so common form patterns need no workaround.",
-    "Validation & conditional logic":
-        "Allow form-level validation rules without backend code.",
     "Action discovery & organization":
-        "Let builders group and categorise actions so users can find the right one.",
-    "Run control & retries":
-        "Allow retry, cancel and re-run directly from the run view.",
+        "Improve action search, categories, naming and catalog organization so "
+        "users can quickly find the correct action.",
+    "Context, targeting & pre-fill":
+        "Use the originating page and entity context to pre-select known targets "
+        "and reduce repeated input.",
+    "Form structure, input types & controls":
+        "Expand form controls and make long or complex forms easier to structure "
+        "and complete.",
     "Dynamic & dependent inputs":
-        "Improve inputs that depend on other inputs or external data.",
-    "Notifications & alerting":
-        "Notify the right people on the channels they already use.",
+        "Allow form fields, options and defaults to adapt dynamically to "
+        "previous selections and context.",
+    "Validation & error guidance":
+        "Provide flexible validation rules and clear, actionable explanations "
+        "before submission.",
+    "Backend & invocation configuration":
+        "Make backend connections, payload mapping, credentials and invocation "
+        "settings easier to configure.",
+    "Permissions, eligibility & action visibility":
+        "Evaluate eligibility earlier and clearly control which users can see "
+        "and run each action.",
+    "Approval workflows & governance":
+        "Support flexible approval routing and governance rules based on risk, "
+        "environment, team and action type.",
+    "Testing, editing & drafts":
+        "Improve safe action creation with previews, test runs, drafts, "
+        "versioning and unsaved-change protection.",
+    "Execution visibility, notifications & run control":
+        "Centralize run status, logs, notifications, retries and controls in the "
+        "execution experience.",
     "Multi-step & orchestration":
-        "Support multi-step action flows as a first-class concept.",
-    "Testing & editing experience":
-        "Let builders trial an action safely before exposing it.",
+        "Support reliable multi-step execution, branching, data transfer and "
+        "coordination across systems.",
 }
 
 

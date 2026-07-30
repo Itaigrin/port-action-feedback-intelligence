@@ -75,10 +75,17 @@ def classify_one(client, model: str, effort: str, title: str,
 
         except Exception as exc:                      # noqa: BLE001
             name = type(exc).__name__
-            if name in ("BadRequestError", "AuthenticationError", "PermissionDeniedError"):
-                return None, f"{name}: {str(exc)[:120]}"
-            if attempt == retries - 1:
-                return None, f"{name}: {str(exc)[:120]}"
+            message = str(exc)
+            # Most 400s mean the request itself is wrong, so retrying is pointless.
+            # "Grammar compilation timed out" is the exception: it is a transient
+            # server-side hiccup while compiling the structured-output schema, and
+            # the identical request usually succeeds on a second attempt.
+            transient_400 = "grammar compilation timed out" in message.lower()
+            fatal = name in ("AuthenticationError", "PermissionDeniedError") or (
+                name == "BadRequestError" and not transient_400
+            )
+            if fatal or attempt == retries - 1:
+                return None, f"{name}: {message[:120]}"
             time.sleep(2 ** attempt)                  # backoff on transient failure
 
     return None, "exhausted_retries"

@@ -17,6 +17,7 @@ produced them.
 from __future__ import annotations
 
 from .taxonomy import (
+    DEFAULT_STAGE_FOR_THEME,
     FEEDBACK_TYPES,
     JOURNEY_STAGES,
     SEVERITY_SCALE,
@@ -24,11 +25,20 @@ from .taxonomy import (
     TIE_BREAK_RULES,
 )
 
-PROMPT_VERSION = "v1.0"
+# v2.0 -- 11 themes / 8 stages taxonomy, with the context-and-pre-fill theme and
+# stage added and the three execution themes merged. Bumping this invalidates
+# every cache key, which is intended: the old labels are not translatable.
+PROMPT_VERSION = "v2.0"
 
 
 def _numbered(items: dict[str, str]) -> str:
     return "\n".join(f"  - {k}: {v}" for k, v in items.items())
+
+
+def _stages_ordered(items: dict[str, str]) -> str:
+    """Number the stages so the model sees the lifecycle order explicitly."""
+    return "\n".join(f"  {i}. {k}: {v}"
+                     for i, (k, v) in enumerate(items.items(), 1))
 
 
 SYSTEM_PROMPT = f"""\
@@ -40,11 +50,24 @@ users start configuring an action but never reach a first successful trigger.
 Your job is to read one piece of public feedback and classify it, so the
 product team can see where that friction concentrates.
 
-## Journey stages -- WHERE the user is stuck
-{_numbered(JOURNEY_STAGES)}
+## The two dimensions -- they answer DIFFERENT questions
 
-## Themes -- WHAT the specific problem area is
+THEME answers: "What is the main product problem, or the main product change
+that would solve it?"
+JOURNEY STAGE answers: "Where in the action lifecycle does the user hit this?"
+
+They are independent. Pick the theme for the product change needed, and the
+stage where the user's friction BEGINS. A theme has a usual stage (listed
+below), but use a different stage when the feedback clearly calls for it.
+
+## Journey stages -- WHERE the user is stuck (chronological lifecycle order)
+{_stages_ordered(JOURNEY_STAGES)}
+
+## Themes -- WHAT product problem is being raised
 {_numbered(THEMES)}
+
+## Usual stage for each theme (a guideline, not a rule)
+{chr(10).join(f"  - {t} -> {s}" for t, s in DEFAULT_STAGE_FOR_THEME.items())}
 
 ## Feedback types
 {_numbered(FEEDBACK_TYPES)}
@@ -91,6 +114,12 @@ product team can see where that friction concentrates.
 
 7. WRITE FOR A PRODUCT AUDIENCE. short_summary and user_need should be plain
    business English that a non-engineer can follow. No Port-internal jargon.
+
+8. DO NOT CLASSIFY ON KEYWORDS ALONE. A post that merely mentions "payload" is
+   not automatically a backend post. Ask what product change would actually
+   solve the user's problem, then pick that theme. If a post spans several
+   areas, choose the theme for the MAIN problem and the stage where the user
+   FIRST becomes blocked -- there are no secondary classifications.
 
 Return only the structured fields requested."""
 

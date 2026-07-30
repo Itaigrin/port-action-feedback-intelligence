@@ -12,7 +12,7 @@ is no code path that can produce a number without real labels.
   decision meaningful — a sample of only relevant posts could not detect
   over-inclusion.
 - **Spread across themes**: one record per theme first, then filled at random.
-  Covers 9 of 12 themes and 5 of 7 journey stages.
+  Spread across themes so no single theme dominates the sample.
 - Low-confidence records appear at their natural rate. The sample is not
   cherry-picked to flatter the model, and not stacked with hard cases either.
 
@@ -31,15 +31,28 @@ on whatever exists.
 | `human_severity` | `1`–`5` |
 | `notes` | optional — why you disagreed |
 
-**Journey stages:** Discovering and organizing actions · Configuring forms and inputs ·
-Validations and conditional logic · Backend and invocation setup ·
-Permissions and approvals · Testing and editing · Execution and monitoring
+**Journey stages** (8, in lifecycle order — the order matters, stage 1 is the
+earliest point a user can get stuck):
 
-**Themes:** Action discovery & organization · Input types & controls ·
-Dynamic & dependent inputs · Validation & conditional logic ·
-Backend & invocation configuration · Permissions & access control ·
-Approval workflows · Testing & editing experience · Execution visibility & logs ·
-Run control & retries · Multi-step & orchestration · Notifications & alerting
+1. Action discovery & organization
+2. Contextual entry, targeting & pre-fill
+3. Form & input configuration
+4. Validation, dependencies & conditional logic
+5. Backend & invocation setup
+6. Permissions & approvals
+7. Testing, editing & publishing
+8. Execution, monitoring & run control
+
+**Themes** (11): Action discovery & organization · Context, targeting & pre-fill ·
+Form structure, input types & controls · Dynamic & dependent inputs ·
+Validation & error guidance · Backend & invocation configuration ·
+Permissions, eligibility & action visibility · Approval workflows & governance ·
+Testing, editing & drafts · Execution visibility, notifications & run control ·
+Multi-step & orchestration
+
+> The in-app **Themes & Journey Stages Guide** tab explains all of these in plain
+> language, with examples and a glossary. It is the easiest way to label
+> consistently — keep it open in another tab while you review.
 
 **Feedback types:** Feature request · Usability friction · Bug ·
 Documentation gap · Reliability issue

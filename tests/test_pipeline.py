@@ -115,8 +115,8 @@ def test_schema_rejects_invented_values():
     from src.models.schema import FeedbackClassification
 
     valid = dict(
-        is_relevant=True, primary_theme="Approval workflows",
-        journey_stage="Permissions and approvals", feedback_type="Feature request",
+        is_relevant=True, primary_theme="Approval workflows & governance",
+        journey_stage="Permissions & approvals", feedback_type="Feature request",
         severity=3, short_summary="Approvers cannot be configured flexibly enough.",
         user_need="Route approvals to the right people automatically.",
         confidence=0.8, evidence_excerpt="approval is not sent to anyone",
@@ -132,6 +132,204 @@ def test_schema_rejects_invented_values():
     ):
         with pytest.raises(ValidationError):
             FeedbackClassification(**bad)
+
+
+# --- 3b. Taxonomy shape and ordering --------------------------------------
+# The v2.0 taxonomy: 11 themes, 8 chronological stages. These tests exist
+# because the ordering is load-bearing -- charts, filters and the guide all
+# derive their order from STAGE_NAMES, so a reordered dict silently reorders
+# the product journey everywhere.
+EXPECTED_THEMES = (
+    "Action discovery & organization",
+    "Context, targeting & pre-fill",
+    "Form structure, input types & controls",
+    "Dynamic & dependent inputs",
+    "Validation & error guidance",
+    "Backend & invocation configuration",
+    "Permissions, eligibility & action visibility",
+    "Approval workflows & governance",
+    "Testing, editing & drafts",
+    "Execution visibility, notifications & run control",
+    "Multi-step & orchestration",
+)
+
+EXPECTED_STAGES = (
+    "Action discovery & organization",
+    "Contextual entry, targeting & pre-fill",
+    "Form & input configuration",
+    "Validation, dependencies & conditional logic",
+    "Backend & invocation setup",
+    "Permissions & approvals",
+    "Testing, editing & publishing",
+    "Execution, monitoring & run control",
+)
+
+# Every theme and stage name retired in the v1 -> v2 migration. None may be
+# accepted again: allowing both would let stale labels leak back into the data.
+REMOVED_THEMES = (
+    "Input types & controls",
+    "Validation & conditional logic",
+    "Permissions & access control",
+    "Approval workflows",
+    "Testing & editing experience",
+    "Execution visibility & logs",
+    "Run control & retries",
+    "Notifications & alerting",
+)
+
+REMOVED_STAGES = (
+    "Discovering and organizing actions",
+    "Configuring forms and inputs",
+    "Validations and conditional logic",
+    "Backend and invocation setup",
+    "Permissions and approvals",
+    "Testing and editing",
+    "Execution and monitoring",
+)
+
+
+def test_exactly_eleven_themes_in_order():
+    from src.models.taxonomy import THEME_NAMES
+
+    assert len(THEME_NAMES) == 11, f"expected 11 themes, got {len(THEME_NAMES)}"
+    assert THEME_NAMES == EXPECTED_THEMES
+
+
+def test_exactly_eight_stages_in_lifecycle_order():
+    from src.models.taxonomy import STAGE_NAMES
+
+    assert len(STAGE_NAMES) == 8, f"expected 8 stages, got {len(STAGE_NAMES)}"
+    assert STAGE_NAMES == EXPECTED_STAGES, "journey stages are not in lifecycle order"
+
+
+def test_context_theme_and_stage_exist():
+    from src.models.taxonomy import STAGE_NAMES, THEME_NAMES
+
+    assert "Context, targeting & pre-fill" in THEME_NAMES
+    assert "Contextual entry, targeting & pre-fill" in STAGE_NAMES
+
+
+def test_removed_taxonomy_names_are_rejected():
+    from pydantic import ValidationError
+
+    from src.models.schema import FeedbackClassification
+    from src.models.taxonomy import STAGE_NAMES, THEME_NAMES
+
+    base = dict(
+        is_relevant=True, primary_theme="Approval workflows & governance",
+        journey_stage="Permissions & approvals", feedback_type="Feature request",
+        severity=3, short_summary="Approvers cannot be configured flexibly enough.",
+        user_need="Route approvals to the right people automatically.",
+        confidence=0.8, evidence_excerpt="approval is not sent to anyone",
+    )
+
+    for old in REMOVED_THEMES:
+        assert old not in THEME_NAMES, f"retired theme still active: {old}"
+        with pytest.raises(ValidationError):
+            FeedbackClassification(**dict(base, primary_theme=old))
+
+    for old in REMOVED_STAGES:
+        assert old not in STAGE_NAMES, f"retired stage still active: {old}"
+        with pytest.raises(ValidationError):
+            FeedbackClassification(**dict(base, journey_stage=old))
+
+
+def test_every_theme_has_a_recommended_action():
+    from src.analysis.aggregate import RECOMMENDED_ACTIONS
+    from src.models.taxonomy import THEME_NAMES
+
+    for theme in THEME_NAMES:
+        assert theme in RECOMMENDED_ACTIONS, f"no recommendation for {theme}"
+        assert RECOMMENDED_ACTIONS[theme].strip(), f"empty recommendation for {theme}"
+    stale = set(RECOMMENDED_ACTIONS) - set(THEME_NAMES)
+    assert not stale, f"recommendations for themes that no longer exist: {stale}"
+
+
+def test_default_stage_mapping_is_complete_and_valid():
+    from src.models.taxonomy import DEFAULT_STAGE_FOR_THEME, STAGE_NAMES, THEME_NAMES
+
+    assert set(DEFAULT_STAGE_FOR_THEME) == set(THEME_NAMES)
+    for theme, stage in DEFAULT_STAGE_FOR_THEME.items():
+        assert stage in STAGE_NAMES, f"{theme} maps to unknown stage {stage}"
+
+
+def test_guide_metadata_is_complete():
+    """The guide tab renders straight from this metadata, so gaps become blanks."""
+    from src.models.taxonomy import (
+        GLOSSARY, STAGE_GUIDE, STAGE_NAMES, THEME_GUIDE, THEME_NAMES,
+    )
+
+    for theme in THEME_NAMES:
+        assert theme in THEME_GUIDE, f"no guide entry for theme {theme}"
+        g = THEME_GUIDE[theme]
+        for field in ("plain", "use_when", "avoid_when", "examples"):
+            assert field in g and g[field], f"{theme} guide missing {field}"
+        assert len(g["examples"]) >= 2, f"{theme} needs two examples"
+
+    for stage in STAGE_NAMES:
+        assert stage in STAGE_GUIDE, f"no guide entry for stage {stage}"
+        g = STAGE_GUIDE[stage]
+        for field in ("plain", "user_goal", "example"):
+            assert field in g and g[field], f"{stage} guide missing {field}"
+
+    assert len(GLOSSARY) >= 18
+    for term, definition in GLOSSARY.items():
+        assert definition.strip(), f"empty glossary definition for {term}"
+
+
+def test_guide_supporting_content_present():
+    from src.models.taxonomy import (
+        CONFUSION_PAIRS, STAGE_NAMES, THEME_NAMES, WORKED_EXAMPLES,
+    )
+
+    assert len(WORKED_EXAMPLES) >= 4
+    for ex in WORKED_EXAMPLES:
+        assert ex["theme"] in THEME_NAMES, ex["theme"]
+        assert ex["stage"] in STAGE_NAMES, ex["stage"]
+        assert ex["feedback"] and ex["why"]
+
+    assert len(CONFUSION_PAIRS) >= 8
+    for pair in CONFUSION_PAIRS:
+        for key in ("left", "right", "left_says", "right_says"):
+            assert pair[key].strip(), f"confusion pair missing {key}"
+
+
+def test_no_retired_names_in_active_source():
+    """Old labels must not survive in code or UI text."""
+    targets = [ROOT / "app.py", ROOT / "src" / "models" / "taxonomy.py",
+               ROOT / "src" / "models" / "prompt.py",
+               ROOT / "src" / "analysis" / "aggregate.py"]
+    # These two read as substrings of live v2 names, so check them separately.
+    substring_safe = {"Approval workflows", "Backend and invocation setup"}
+    for path in targets:
+        text = path.read_text(encoding="utf-8")
+        for old in REMOVED_THEMES:
+            if old in substring_safe:
+                continue
+            assert old not in text, f"retired theme {old!r} still in {path.name}"
+        for old in REMOVED_STAGES:
+            if old in substring_safe:
+                continue
+            assert old not in text, f"retired stage {old!r} still in {path.name}"
+
+
+def test_guide_renders_without_api_key():
+    """The guide is pure metadata -- it must not need a key or a network call."""
+    env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
+    env["PYTHONIOENCODING"] = "utf-8"
+    code = (
+        "import os, sys;"
+        "assert 'ANTHROPIC_API_KEY' not in os.environ;"
+        f"sys.path.insert(0, r'{ROOT}');"
+        "from src.models.taxonomy import THEME_GUIDE, STAGE_GUIDE, GLOSSARY, "
+        "CONFUSION_PAIRS, WORKED_EXAMPLES, DEFAULT_STAGE_FOR_THEME;"
+        "assert len(THEME_GUIDE) == 11 and len(STAGE_GUIDE) == 8;"
+        "print('GUIDE OK')"
+    )
+    result = subprocess.run([sys.executable, "-c", code], env=env,
+                            capture_output=True, text=True, timeout=120)
+    assert result.returncode == 0, result.stderr
+    assert "GUIDE OK" in result.stdout
 
 
 # --- 4. Evidence grounding -------------------------------------------------
@@ -213,9 +411,12 @@ def test_vote_scale_choice_matches_the_data():
 
 # --- Edge cases ------------------------------------------------------------
 def test_filters_handle_empty_result(relevant):
+    """An impossible filter combination must yield an empty frame, not an error."""
     df = pd.DataFrame(relevant)
-    empty = df[(df["primary_theme"] == "Testing & editing experience")
-               & (df["severity"] >= 5)]
+    # Deliberately contradictory: a severity above the scale's maximum can never
+    # match, whatever the data contains, so this stays valid as the data changes.
+    empty = df[(df["primary_theme"] == "Testing, editing & drafts")
+               & (df["severity"] > 5)]
     assert empty.empty
     empty.sort_values("votes", ascending=False)      # must not raise
 

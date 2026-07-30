@@ -29,6 +29,14 @@ desktop.ini
 .vscode/
 .idea/
 
+# Personal working notes that live alongside the project but are not part of it.
+# Office lock files (~$...) must never be committed.
+*.docx
+*.doc
+*.xlsx
+*.pptx
+~$*
+
 # ---------------------------------------------------------------------------
 # Data policy — READ BEFORE EDITING
 #

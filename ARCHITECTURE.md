@@ -36,7 +36,7 @@ Four steps, each writing a file, each re-runnable from the previous step's outpu
 | 2 | **Clean & dedupe** | `src/analysis/clean.py` | `data/processed/feedback_clean.csv` |
 | 3 | **Classify (LLM)** | `src/analysis/classify.py` | `data/processed/analyzed.json` ← **committed** |
 | 4 | **Aggregate & score** | `src/analysis/` | computed at app load, deterministic |
-| 5 | **Present** | `app.py` | one Streamlit page, five sections |
+| 5 | **Present** | `app.py` | Streamlit app: Dashboard tab (five sections) + Guide tab |
 
 **The central rule — who does what:**
 
@@ -101,10 +101,11 @@ priority = 0.45 × normalized_votes + 0.30 × normalized_frequency + 0.25 × nor
 ## Layout
 
 ```
-app.py                  the single Streamlit page (5 sections)
+app.py                  Streamlit app -- Dashboard tab (5 sections) + Guide tab
 src/
   collectors/           portal fetch + parse
-  models/               Pydantic schema + taxonomy
+  models/               Pydantic schema + taxonomy (single source of truth for
+                        themes, stages, guide metadata and glossary)
   analysis/             clean, dedupe, classify, aggregate, score, evaluate
 data/
   raw/                  immutable snapshots — write once
