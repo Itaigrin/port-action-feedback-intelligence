@@ -24,6 +24,9 @@ from urllib.parse import urlparse, urlunparse
 
 import pandas as pd
 
+from ..collectors.portal import SOURCE_SYSTEM, normalize_status
+from ..models.taxonomy import LIFECYCLE_STATUSES, SOURCE_SYSTEMS
+
 ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = ROOT / "data" / "raw"
 PROC_DIR = ROOT / "data" / "processed"
@@ -104,6 +107,19 @@ def gate(record: dict) -> str | None:
 def sanitise(record: dict, issues: Counter) -> dict:
     """Null out values that fail sanity checks, recording each occurrence."""
     rec = dict(record)
+
+    # Normalise provenance here rather than trusting the snapshot, so raw files
+    # captured before these fields existed still produce valid clean records.
+    rec["source_system"] = rec.get("source_system") or SOURCE_SYSTEM
+    if rec["source_system"] not in SOURCE_SYSTEMS:
+        rec["source_system"] = SOURCE_SYSTEM
+        issues["source_system_defaulted"] += 1
+
+    lifecycle = rec.get("lifecycle_status")
+    if lifecycle not in LIFECYCLE_STATUSES:
+        lifecycle = normalize_status(rec.get("status"))
+        issues["lifecycle_status_derived"] += 1
+    rec["lifecycle_status"] = lifecycle
 
     votes = rec.get("votes")
     if votes is not None and (not isinstance(votes, int) or votes < 0):
@@ -203,7 +219,8 @@ def main() -> None:
     unique.sort(key=lambda r: -(r.get("votes") or 0))
 
     PROC_DIR.mkdir(parents=True, exist_ok=True)
-    columns = ["feedback_id", "title", "description", "votes", "comments_count",
+    columns = ["feedback_id", "title", "description", "source_system",
+               "lifecycle_status", "votes", "comments_count",
                "status", "category", "created_at", "source_url", "retrieved_at",
                "slug", "relevance_hint", "keyword_hits"]
     df = pd.DataFrame(unique)[columns]
@@ -228,6 +245,10 @@ def main() -> None:
         "null_counts": nulls,
         "category_distribution": df["category"].value_counts(dropna=False).to_dict(),
         "status_distribution": df["status"].value_counts(dropna=False).to_dict(),
+        "lifecycle_status_distribution":
+            df["lifecycle_status"].value_counts(dropna=False).to_dict(),
+        "source_system_distribution":
+            df["source_system"].value_counts(dropna=False).to_dict(),
         "vote_stats": {
             "min": int(df["votes"].min()), "median": float(df["votes"].median()),
             "max": int(df["votes"].max()), "total": int(df["votes"].sum()),
