@@ -294,23 +294,3 @@ def render_filter_state(shown: int, total: int, open_count: int,
         f'<p class="afi-filter-state">Showing {shown} of {total} in-scope records · '
         f"{open_count} open · severity {min_severity}+{focused}</p>{back}</div>"
     )
-
-
-def render_comparison_panel() -> str:
-    return (
-        '<div class="afi-card afi-why">'
-        "<h2>What this changes compared with a flat-theme dashboard</h2>"
-        '<div class="afi-comparison">'
-        "<div class=\"old\"><strong>Flat theme only</strong><ul>"
-        "<li>“Backend &amp; invocation” becomes a catch-all.</li>"
-        "<li>Completed records can look like current demand.</li>"
-        "<li>General automation feedback can inflate Action Configuration insights.</li>"
-        "<li>Charts show a count, but not the root cause.</li>"
-        "</ul></div>"
-        "<div class=\"new\"><strong>Evidence-first multidimensional model</strong><ul>"
-        "<li>Product area and problem type are separate dimensions.</li>"
-        "<li>Lifecycle status is explicit in every ranking decision.</li>"
-        "<li>Out-of-scope feedback stays auditable but is excluded from every total.</li>"
-        "<li>Every recommendation can reveal the source records behind it.</li>"
-        "</ul></div></div></div>"
-    )

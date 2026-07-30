@@ -52,7 +52,6 @@ ALLOWED_DASHBOARD_HEADINGS = {
     "Matching feedback by taxonomy category",
     "Matching feedback by Journey stage",
     "Feedback behind recommended actions",
-    "What this changes compared with a flat-theme dashboard",
 }
 
 # Headings from the previous dashboard. Any of these reappearing means a legacy
@@ -159,7 +158,6 @@ def test_dashboard_section_order():
         "render_journey_chart",
         "Feedback behind recommended actions",
         "render_feedback_cards",
-        "render_comparison_panel",
     ]
     positions = [source.index(token) for token in order]
     assert positions == sorted(positions), f"sections out of order: {order}"
@@ -208,12 +206,26 @@ def test_feedback_cards_hide_banned_metadata(records):
         assert banned not in html, f"banned metadata rendered: {banned}"
 
 
-def test_comparison_panel_present():
-    from src.ui.render import render_comparison_panel
+def test_comparison_panel_removed():
+    """Removed from the dashboard as a product decision, not merely hidden."""
+    import src.ui.render as render_mod
 
-    html = render_comparison_panel()
-    assert "What this changes compared with a flat-theme dashboard" in html
-    assert 'class="old"' in html and 'class="new"' in html
+    assert not hasattr(render_mod, "render_comparison_panel")
+    assert "render_comparison_panel" not in APP
+    assert "flat-theme dashboard" not in APP
+    assert "flat-theme dashboard" not in RENDER_SRC
+    # Check the rendered stylesheet, not the source text: a comment mentioning
+    # the removal is fine, a surviving rule is not.
+    from src.ui.theme import CSS
+
+    assert ".afi-why" not in CSS
+
+
+def test_guide_still_uses_the_two_column_compare_block():
+    """The shared .afi-comparison styling must survive the panel's removal."""
+    assert ".afi-comparison" in THEME
+    guide = APP[APP.index("def render_guide("):]
+    assert 'class="afi-comparison"' in guide
 
 
 def test_guide_is_a_separate_view():

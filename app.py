@@ -424,8 +424,6 @@ def render_dashboard() -> None:
                     height=0,
                 )
 
-        st.markdown(render.render_comparison_panel(), unsafe_allow_html=True)
-
 
 # ==========================================================================
 # Guide

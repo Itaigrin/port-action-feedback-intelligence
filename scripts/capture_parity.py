@@ -27,6 +27,7 @@ APP = "http://localhost:8504"
 VIEWPORTS = {"desktop": (1440, 1200), "mobile": (390, 844)}
 
 # (label, mockup selector, app selector)
+# No comparison-panel probe: that section was removed from the dashboard.
 PROBES = [
     ("topbar", ".topbar", ".afi-topbar"),
     ("sidebar", ".sidebar .panel", ".st-key-afi_rail"),
@@ -36,7 +37,6 @@ PROBES = [
     ("actions-panel", "#actionsSection", ".afi-actions"),
     ("charts-panel", "#featureAreasSection", ".st-key-afi_charts"),
     ("feedback-section", "#evidenceSection", ".st-key-afi_feedback"),
-    ("comparison", ".why", ".afi-why"),
 ]
 
 

@@ -47,12 +47,6 @@
       "y": 2332,
       "width": 1082,
       "height": 2804
-    },
-    "comparison": {
-      "x": 326,
-      "y": 5156,
-      "width": 1082,
-      "height": 214
     }
   },
   "app-desktop": {
@@ -103,12 +97,6 @@
       "y": 3192,
       "width": 1082,
       "height": 10223
-    },
-    "comparison": {
-      "x": 326,
-      "y": 13434,
-      "width": 1082,
-      "height": 250
     }
   },
   "mockup-mobile": {
@@ -159,12 +147,6 @@
       "y": 4898,
       "width": 354,
       "height": 4745
-    },
-    "comparison": {
-      "x": 18,
-      "y": 9663,
-      "width": 354,
-      "height": 551
     }
   },
   "app-mobile": {
@@ -215,12 +197,6 @@
       "y": 7893,
       "width": 354,
       "height": 19577
-    },
-    "comparison": {
-      "x": 18,
-      "y": 27489,
-      "width": 354,
-      "height": 594
     }
   }
 }

@@ -15,7 +15,6 @@ Screenshots and raw geometry: `docs/parity/`.
 | `docs/parity/mockup-mobile.png` / `app-mobile.png` | 390×844 side by side |
 | `docs/parity/*-full.png` | Full-page versions of all four |
 | `docs/parity/app-feedback-section.png` | Feedback cards at full width |
-| `docs/parity/app-comparison.png` | Final comparison panel |
 | `docs/parity/geometry.json` | Measured box for every probed element |
 
 ## Measured geometry — desktop, 1440×1200
@@ -32,7 +31,6 @@ Screenshots and raw geometry: `docs/parity/`.
 | Actions panel | 690×1928 @326,378 | 693×2802 @326,378 | x/y **exact**, w +3 |
 | Charts panel | 372×461 @1036,378 | 369×1234 @1039,378 | y **exact**, x +3 |
 | Feedback section | 1082×2804 @326 | 1082×10223 @326 | width/x **exact** |
-| Comparison panel | 1082×214 @326 | 1082×250 @326 | width/x **exact** |
 
 ## Measured geometry — mobile, 390×844
 
@@ -65,6 +63,16 @@ horizontal page scroll at either breakpoint.
 
 No unavoidable Streamlit limitation was left in place as a layout difference.
 
+## Later change: the comparison panel was removed
+
+The brief asked for `What this changes compared with a flat-theme dashboard` to
+be preserved *for that task*, noting that removing it would be a separate
+product decision. That decision was subsequently taken, and the panel is gone
+from the dashboard. Its `.afi-why` wrapper rule was deleted with it; the shared
+`.afi-comparison` two-column styling stays, because the Guide still uses it for
+confusion pairs and the severity/persona split. `Feedback behind recommended
+actions` is now the last dashboard section.
+
 ## Charts: Plotly was removed
 
 The mockup's "charts" are CSS bars (`.category-row` + `.bar > span`), not a
@@ -84,14 +92,14 @@ a test asserts that.
 
 ## Tests
 
-`python -m pytest tests/ -q` → **58 passed**
+`python -m pytest tests/ -q` → **64 passed**
 
-`tests/test_ui.py` (21 new) covers: no Scope filter, exactly four KPIs with the
+`tests/test_ui.py` (26) covers: no Scope filter, exactly four KPIs with the
 approved labels, no legacy KPI, exact chart titles, no Plotly and no old Theme
 chart, chronological journey order, dashboard section order, separate
 Category/Subcategory controls, filter-panel order, Top-actions default of 10,
 Source/Status/Created-date rendered separately, banned metadata absent, the
-comparison panel, the Guide as a separate view, both responsive breakpoints,
+comparison panel's removal, the Guide as a separate view, both responsive breakpoints,
 design tokens matching the mockup, Streamlit defaults neutralised, and that the
 UI renders pipeline data rather than hardcoded markup.
 

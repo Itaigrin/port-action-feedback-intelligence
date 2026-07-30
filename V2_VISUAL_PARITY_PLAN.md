@@ -22,7 +22,7 @@ Current Dashboard renders 10 sections. The whitelist allows 8 elements.
 | 8 | "Primary owner vs. also implicated" | **Remove from UI** (secondary labels stay on feedback cards; `secondary_table()` kept) |
 | 9 | "Evidence explorer" (`st.dataframe`) | **Replace** → "Feedback behind recommended actions", full-width card list |
 | 10 | "How good is the AI classification?" (QA panel) | **Remove from UI** (`evaluate.score()` kept in backend) |
-| — | Final comparison panel | **Missing — add** |
+| — | Final comparison panel | Added for parity, then **removed** as a separate product decision |
 | — | Custom top bar | **Missing — add** |
 
 Nothing is deleted from the backend. Only the Dashboard stops rendering it.
@@ -56,7 +56,7 @@ The mockup's KPI labels differ from V2's. Required labels, with V2-consistent ma
 | Label | Definition |
 |---|---|
 | Product actions | Distinct (category, subcategory) groups in the filtered in-scope set |
-| Open product actions | Those groups with ≥1 open record — the ones that get ranked |
+| Open product actions | Groups that are *entirely* unmet — nothing in them completed or closed |
 | High severity | Filtered records at severity ≥ 4 |
 | Needs human review | Filtered records flagged by the classifier |
 
@@ -67,7 +67,7 @@ Ranking itself is unchanged: still open-records-only, still lexicographic over t
 | File | Role |
 |---|---|
 | `src/ui/theme.py` | Design tokens + the full CSS sheet + Streamlit-default overrides |
-| `src/ui/render.py` | `render_topbar`, `render_hero`, `render_kpis`, `render_product_actions`, `render_taxonomy_chart`, `render_journey_chart`, `render_feedback_cards`, `render_comparison_panel` |
+| `src/ui/render.py` | `render_topbar`, `render_hero`, `render_kpis`, `render_product_actions`, `render_taxonomy_chart`, `render_journey_chart`, `render_feedback_cards` |
 | `app.py` | Orchestration, filter panel, navigation, Guide view |
 | `scripts/capture_parity.py` | Repeatable side-by-side screenshots at 1440×1200 and 390×844 |
 | `tests/test_ui.py` | Whitelist, section order, no-Scope-filter, breakpoints, real-data checks |

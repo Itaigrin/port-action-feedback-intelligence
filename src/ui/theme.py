@@ -273,9 +273,10 @@ a.afi-category-row:hover strong {{ color: var(--blue) !important; }}
   border: 1px dashed #cbd5e1; border-radius: 10px;
 }}
 
-/* ------------------------------------------------------- comparison panel */
-.afi-why {{ margin-top: 20px; padding: 19px; }}
-.afi-why h2 {{ font-size: 17px; letter-spacing: -.02em; margin: 0 0 12px; }}
+/* ---- two-column compare blocks -----------------------------------------
+   Still used by the Guide for confusion pairs and the severity/persona split.
+   The dashboard's comparison panel was removed as a product decision and its
+   wrapper rule went with it; these shared rules did not. */
 .afi-comparison {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }}
 .afi-comparison > div {{ border-radius: 10px; padding: 13px; }}
 .afi-comparison .old {{ background: #fff7ed; border: 1px solid #fed7aa; }}
