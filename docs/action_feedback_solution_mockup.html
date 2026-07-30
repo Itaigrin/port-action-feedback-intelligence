@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Action Configuration - Feedback Intelligence</title>
+  <style>
+    :root {
+      --ink: #182330;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --surface: #ffffff;
+      --bg: #f3f6fb;
+      --blue: #2764e7;
+      --blue-soft: #eaf1ff;
+      --green: #087b61;
+      --green-soft: #e9fbf4;
+      --amber: #aa6100;
+      --amber-soft: #fff5df;
+      --red: #c43e3e;
+      --red-soft: #fff0f0;
+      --purple: #6d43b8;
+      --purple-soft: #f2ebff;
+      --shadow: 0 8px 24px rgba(15, 23, 42, .06);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, select { font: inherit; }
+    .topbar { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.92); position: sticky; top: 0; z-index: 4; backdrop-filter: blur(10px); }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 750; letter-spacing: -.02em; }
+    .brand-mark { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 8px; background: var(--blue); color: #fff; font-size: 18px; }
+    .top-meta { color: var(--muted); font-size: 12px; }
+    .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 24px; max-width: 1500px; padding: 24px 32px 48px; margin: auto; }
+    .sidebar { position: sticky; top: 88px; height: fit-content; }
+    .panel, .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+    .sidebar .panel { padding: 17px; max-height: calc(100vh - 112px); overflow: auto; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 28px; letter-spacing: -.04em; margin-bottom: 7px; }
+    h2 { font-size: 17px; letter-spacing: -.02em; margin-bottom: 12px; }
+    h3 { font-size: 14px; margin-bottom: 7px; }
+    .eyebrow { color: var(--blue); font-weight: 750; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .subtle { color: var(--muted); }
+    .filter-label { display: block; margin: 16px 0 6px; color: #475569; font-weight: 650; font-size: 12px; }
+    select { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px; background: #fff; color: var(--ink); }
+    input[type="range"] { width: 100%; accent-color: var(--blue); }
+    .range-row { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+    .range-value { min-width: 26px; text-align: center; border-radius: 999px; background: var(--blue-soft); color: var(--blue); font-weight: 800; padding: 2px 7px; }
+    .rubric { color: var(--muted); font-size: 10px; margin: 4px 0 0; }
+    .reset-button { width: 100%; margin-top: 15px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; background: #fff; color: #475569; cursor: pointer; font-weight: 700; }
+    .advanced-filters { margin-top: 15px; border-top: 1px solid var(--line); padding-top: 12px; }
+    .advanced-filters > summary { cursor: pointer; color: #475569; font-size: 12px; font-weight: 750; }
+    .advanced-filter-body { padding-bottom: 2px; }
+    .taxonomy-reference { margin: -1px 0 17px; font-size: 12px; }
+    .taxonomy-reference > summary { cursor: pointer; color: var(--blue); font-weight: 700; }
+    .taxonomy-reference[open] { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #f8fafc; }
+    .tree { margin: 7px 0 0; color: #475569; font-size: 12px; }
+    .tree details { border-bottom: 1px solid #eef2f7; padding: 5px 0; }
+    .tree details:last-child { border-bottom: 0; }
+    .tree summary { cursor: pointer; color: var(--ink); font-weight: 700; }
+    .tree ul { list-style: none; margin: 5px 0 1px; padding: 0; }
+    .tree li { padding: 3px 0 3px 13px; position: relative; }
+    .tree li::before { content: ""; position: absolute; left: 0; top: 11px; width: 7px; border-top: 1px solid #cbd5e1; }
+    .main { min-width: 0; }
+    .hero { display: flex; justify-content: space-between; gap: 24px; margin-bottom: 22px; align-items: end; }
+    .hero p { max-width: 720px; margin-bottom: 0; }
+    .run-meta { min-width: 240px; background: #f8fafc; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; color: var(--muted); font-size: 12px; }
+    .run-meta b { color: var(--ink); }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+    .kpi { padding: 16px; box-shadow: none; background: rgba(255,255,255,.78); }
+    .kpi .label { color: var(--muted); font-size: 12px; }
+    .kpi .value { display: block; font-size: 27px; font-weight: 750; letter-spacing: -.04em; margin: 4px 0; }
+    .kpi .detail { font-size: 12px; color: var(--muted); }
+    .good { color: var(--green); }
+    .warning { color: var(--amber); }
+    .content-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(330px, .7fr); gap: 20px; align-items: start; }
+    .section { padding: 19px; }
+    .section-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 14px; }
+    .section-head p { margin-bottom: 0; font-size: 12px; color: var(--muted); }
+    #actionsSection { background: linear-gradient(155deg, #eaf1ff 0%, #f6f9ff 54%, #eef4ff 100%); border-color: #bfd1f2; box-shadow: 0 14px 34px rgba(39,100,231,.13); }
+    #actionsSection .section-head { padding-bottom: 13px; border-bottom: 1px solid #cfddf5; }
+    #actionsSection .section-head h2 { color: #173f8a; font-size: 20px; margin-bottom: 5px; }
+    #featureAreasSection { box-shadow: none; }
+    .insight { border: 1px solid #d5e0f0; border-left: 4px solid var(--blue); border-radius: 11px; padding: 14px; margin-top: 10px; background: #fff; box-shadow: 0 4px 12px rgba(31,65,122,.06); }
+    .insight-high { border-left-color: var(--red); }
+    .insight:first-of-type { margin-top: 0; }
+    .insight-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .insight-top > .badge { padding: 4px 9px; font-size: 12px; }
+    .action-title { font-size: 18px; letter-spacing: -.025em; margin: 0; color: #152d55; }
+    .insight p { color: #475569; margin: 10px 0; }
+    .action-metrics { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0 12px; }
+    .action-metrics .badge { padding: 4px 9px; font-size: 12px; }
+    .insight button { border: 1px solid #c8d7ee; border-radius: 7px; background: #f8faff; color: #41669f; padding: 6px 9px; cursor: pointer; font-size: 12px; font-weight: 650; box-shadow: none; }
+    .insight button:hover { border-color: #9fb8df; background: #f1f6ff; color: #234f91; }
+    .action-list { display: grid; gap: 10px; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; border-radius: 999px; padding: 3px 8px; font-size: 11px; font-weight: 700; }
+    .b-blue { background: var(--blue-soft); color: #2456c5; }
+    .b-green { background: var(--green-soft); color: var(--green); }
+    .b-amber { background: var(--amber-soft); color: var(--amber); }
+    .b-red { background: var(--red-soft); color: var(--red); }
+    .b-purple { background: var(--purple-soft); color: var(--purple); }
+    .b-neutral { background: #f1f5f9; color: #475569; }
+    .category-list { display: grid; gap: 10px; }
+    .category-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding-bottom: 9px; border-bottom: 1px solid #eef2f7; }
+    .category-row:last-child { border: 0; padding-bottom: 0; }
+    .bar { height: 7px; border-radius: 99px; background: #e9eef7; overflow: hidden; margin-top: 6px; }
+    .bar span { display: block; height: 100%; background: linear-gradient(90deg, #3b82f6, #6d5dfc); border-radius: inherit; }
+    .row-num { color: var(--muted); font-size: 12px; text-align: right; }
+    .table-section { margin-top: 26px; padding: 19px; }
+    .table-tools { display: flex; gap: 10px; align-items: center; }
+    .table-tools input { width: 220px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 9px; }
+    .evidence { display: grid; gap: 10px; margin-top: 13px; }
+    .feedback { border: 1px solid var(--line); border-radius: 11px; padding: 14px; background: #fff; transition: border-color .15s, box-shadow .15s; }
+    .feedback:hover { border-color: #9bb8f4; box-shadow: 0 5px 14px rgba(37,99,235,.08); }
+    .feedback.is-hidden { display: none; }
+    .feedback-head { display: flex; gap: 10px; align-items: start; justify-content: space-between; }
+    .feedback-title { font-weight: 750; letter-spacing: -.01em; }
+    .recommended-action { margin: 11px 0 8px; padding: 10px 11px; border-radius: 8px; background: var(--blue-soft); border-left: 3px solid var(--blue); }
+    .recommended-action span { display: block; color: #3963ad; font-size: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: .06em; }
+    .recommended-action strong { display: block; margin-top: 2px; color: #173f8a; font-size: 13px; }
+    .feedback-meta, .labels { display: flex; flex-wrap: wrap; gap: 6px; }
+    .feedback-meta { margin: 8px 0; }
+    .feedback-meta .b-amber, .feedback-meta .b-purple { background: #f1f5f9; color: #475569; }
+    .quote { border-left: 3px solid #bfdbfe; padding-left: 10px; color: #475569; font-size: 13px; margin: 9px 0 11px; }
+    .labels .label { border: 1px solid #d7e1f4; color: #3f5472; background: #f8fbff; padding: 3px 7px; border-radius: 6px; font-size: 11px; }
+    .source { color: var(--blue); text-decoration: none; font-weight: 650; font-size: 12px; }
+    .why { margin-top: 20px; padding: 19px; }
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .comparison > div { border-radius: 10px; padding: 13px; }
+    .old { background: #fff7ed; border: 1px solid #fed7aa; }
+    .new { background: #effcf7; border: 1px solid #bbf7d0; }
+    .comparison ul { margin: 8px 0 0; padding-left: 18px; color: #475569; }
+    .empty { display: none; padding: 28px; color: var(--muted); text-align: center; border: 1px dashed #cbd5e1; border-radius: 10px; }
+    .filter-state-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 11px; }
+    .filter-state { margin: 0; color: var(--blue); font-size: 12px; font-weight: 700; }
+    .focus-back { flex: 0 0 auto; border: 1px solid #b9cdf7; border-radius: 7px; background: #f6f9ff; color: var(--blue); padding: 6px 9px; cursor: pointer; font-weight: 750; }
+    .focus-back[hidden] { display: none; }
+    @media (max-width: 1050px) { .layout { grid-template-columns: 1fr; padding: 18px; } .sidebar { position: static; } .kpis { grid-template-columns: repeat(2, 1fr); } .content-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 650px) { .topbar { padding: 0 16px; } .hero, .section-head { display: block; } .run-meta { margin-top: 12px; } .kpis, .comparison { grid-template-columns: 1fr; } .table-tools { margin-top: 10px; } .table-tools input { width: 100%; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">⌁</span> Action Feedback Intelligence <span class="badge b-blue">POC concept</span></div>
+    <div class="top-meta">Evidence-first qualitative analysis</div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="panel">
+        <h2>Evidence filters</h2>
+        <p class="subtle">Filters affect insights and records together.</p>
+        <label class="filter-label" for="scope">Scope</label>
+        <select id="scope">
+          <option value="all">All records</option>
+          <option value="relevant">Action Configuration only</option>
+          <option value="general">General / out of scope</option>
+        </select>
+        <label class="filter-label" for="status">Lifecycle status</label>
+        <select id="status">
+          <option value="all">All statuses</option>
+          <option value="open">Open / unmet</option>
+          <option value="planned">Planned</option>
+          <option value="in-progress">In progress</option>
+          <option value="complete">Completed / historical</option>
+          <option value="closed">Closed</option>
+        </select>
+        <label class="filter-label" for="type">Problem type</label>
+        <select id="type">
+          <option value="all">All problem types</option>
+          <option value="bug">Bug / defect</option>
+          <option value="feature">Feature gap</option>
+          <option value="complexity">Configuration complexity</option>
+          <option value="security">Security concern</option>
+          <option value="observability">Observability / error quality</option>
+        </select>
+        <label class="filter-label" for="journey">Journey stage</label>
+        <select id="journey">
+          <option value="all">All journey stages</option>
+          <option value="Discovering and organizing actions">Discovering and organizing actions</option>
+          <option value="Configuring forms and inputs">Configuring forms and inputs</option>
+          <option value="Validations and conditional logic">Validations and conditional logic</option>
+          <option value="Backend and invocation setup">Backend and invocation setup</option>
+          <option value="Permissions and approvals">Permissions and approvals</option>
+          <option value="Testing and editing">Testing and editing</option>
+          <option value="Execution and monitoring">Execution and monitoring</option>
+        </select>
+        <label class="filter-label" for="category">Taxonomy category</label>
+        <select id="category">
+          <option value="all">All categories</option>
+          <optgroup label="Discovery & Reuse"><option value="Discovery & Reuse">All Discovery & Reuse</option><option value="Action discovery, grouping, and ordering">Action discovery, grouping, and ordering</option><option value="Conditional visibility">Conditional visibility</option><option value="Bulk actions">Bulk actions</option><option value="Reusability and templates">Reusability and templates</option></optgroup>
+          <optgroup label="Form Configuration"><option value="Form Configuration">All Form Configuration</option><option value="Input types and controls">Input types and controls</option><option value="Dynamic and dependent inputs">Dynamic and dependent inputs</option><option value="Defaults and computed fields">Defaults and computed fields</option><option value="Form layout and multi-step forms">Form layout and multi-step forms</option></optgroup>
+          <optgroup label="Validation & Rules"><option value="Validation & Rules">All Validation & Rules</option><option value="Input validation">Input validation</option><option value="Conditional logic">Conditional logic</option><option value="Server-side enforcement">Server-side enforcement</option><option value="Validation messages">Validation messages</option></optgroup>
+          <optgroup label="Invocation & Integrations"><option value="Invocation & Integrations">All Invocation & Integrations</option><option value="Backend selection">Backend selection</option><option value="Payload mapping">Payload mapping</option><option value="APIs and external integrations">APIs and external integrations</option><option value="Execution agents">Execution agents</option></optgroup>
+          <optgroup label="Identity, Secrets & Security"><option value="Identity, Secrets & Security">All Identity, Secrets & Security</option><option value="Authentication and impersonation">Authentication and impersonation</option><option value="Secrets management">Secrets management</option><option value="Service accounts">Service accounts</option><option value="Sensitive-data masking">Sensitive-data masking</option></optgroup>
+          <optgroup label="Permissions & Approvals"><option value="Permissions & Approvals">All Permissions & Approvals</option><option value="RBAC and dynamic permissions">RBAC and dynamic permissions</option><option value="Approval policies">Approval policies</option><option value="Approver experience">Approver experience</option><option value="Approval notifications">Approval notifications</option></optgroup>
+          <optgroup label="Execution Lifecycle"><option value="Execution Lifecycle">All Execution Lifecycle</option><option value="Retry, rerun, and cancellation">Retry, rerun, and cancellation</option><option value="Timeouts">Timeouts</option><option value="Concurrency and rate limiting">Concurrency and rate limiting</option><option value="Reliability">Reliability</option></optgroup>
+          <optgroup label="Observability & Debugging"><option value="Observability & Debugging">All Observability & Debugging</option><option value="Logs">Logs</option><option value="Run status and progress">Run status and progress</option><option value="Audit trail">Audit trail</option><option value="Error messages">Error messages</option><option value="Run-history APIs">Run-history APIs</option></optgroup>
+          <optgroup label="Authoring & Testing"><option value="Authoring & Testing">All Authoring & Testing</option><option value="Preview and dry run">Preview and dry run</option><option value="Playground and examples">Playground and examples</option><option value="Editing experience">Editing experience</option></optgroup>
+        </select>
+        <details class="advanced-filters">
+          <summary>More filters</summary>
+          <div class="advanced-filter-body">
+            <label class="filter-label" for="persona">Persona</label>
+            <select id="persona">
+              <option value="all">All personas</option>
+              <option value="action-builder">Action builder</option>
+              <option value="action-user">Action user</option>
+              <option value="platform-admin">Platform admin</option>
+              <option value="integration-developer">Integration developer</option>
+            </select>
+            <label class="filter-label" for="confidence">Confidence / review state</label>
+            <select id="confidence">
+              <option value="all">All confidence levels</option>
+              <option value="review">Needs human review</option>
+              <option value="high">High confidence (0.85+)</option>
+              <option value="medium">Medium confidence (0.70-0.84)</option>
+              <option value="low">Low confidence (&lt;0.70)</option>
+            </select>
+          </div>
+        </details>
+        <label class="filter-label" for="severity">Minimum severity</label>
+        <div class="range-row"><span>1</span><output class="range-value" id="severityValue" for="severity">1</output><span>5</span></div>
+        <input id="severity" type="range" min="1" max="5" step="1" value="1" />
+        <p class="rubric">1 = minor friction · 3 = meaningful workaround · 5 = security/compliance blocker</p>
+        <button class="reset-button" id="resetFilters" type="button">Reset all filters</button>
+
+        <details class="taxonomy-reference">
+          <summary>View full taxonomy</summary>
+          <div class="tree">
+            <details><summary>Discovery & Reuse</summary><ul><li>Action discovery, grouping, and ordering</li><li>Conditional visibility</li><li>Bulk actions</li><li>Reusability and templates</li></ul></details>
+            <details><summary>Form Configuration</summary><ul><li>Input types and controls</li><li>Dynamic and dependent inputs</li><li>Defaults and computed fields</li><li>Form layout and multi-step forms</li></ul></details>
+            <details><summary>Validation & Rules</summary><ul><li>Input validation</li><li>Conditional logic</li><li>Server-side enforcement</li><li>Validation messages</li></ul></details>
+            <details><summary>Invocation & Integrations</summary><ul><li>Backend selection</li><li>Payload mapping</li><li>APIs and external integrations</li><li>Execution agents</li></ul></details>
+            <details><summary>Identity, Secrets & Security</summary><ul><li>Authentication and impersonation</li><li>Secrets management</li><li>Service accounts</li><li>Sensitive-data masking</li></ul></details>
+            <details><summary>Permissions & Approvals</summary><ul><li>RBAC and dynamic permissions</li><li>Approval policies</li><li>Approver experience</li><li>Approval notifications</li></ul></details>
+            <details><summary>Execution Lifecycle</summary><ul><li>Retry, rerun, and cancellation</li><li>Timeouts</li><li>Concurrency and rate limiting</li><li>Reliability</li></ul></details>
+            <details><summary>Observability & Debugging</summary><ul><li>Logs</li><li>Run status and progress</li><li>Audit trail</li><li>Error messages</li><li>Run-history APIs</li></ul></details>
+            <details><summary>Authoring & Testing</summary><ul><li>Preview and dry run</li><li>Playground and examples</li><li>Editing experience</li></ul></details>
+          </div>
+        </details>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Action Configuration feedback</div>
+          <h1>Turn feedback into decisions that retain the original evidence.</h1>
+          <p class="subtle">This mockup demonstrates a multidimensional alternative to a single flat theme: feature area, problem type, relevance, lifecycle status, journey stage, persona, severity, confidence, and direct source evidence.</p>
+        </div>
+        <div class="run-meta"><b>Analysis run</b><br>Mock data · taxonomy v2.0<br>LLM schema v1.0 · human review enabled</div>
+      </section>
+
+      <section class="kpis">
+        <div class="card kpi"><span class="label">Matching evidence</span><span class="value" id="matchingCount">11</span><span class="detail" id="matchingDetail">All severity levels</span></div>
+        <div class="card kpi"><span class="label">Open unmet demand</span><span class="value" id="openCount">10</span><span class="detail good">Completed history is excluded from this signal.</span></div>
+        <div class="card kpi"><span class="label">High severity</span><span class="value" id="riskCount">3</span><span class="detail warning">Matching records with severity 4+</span></div>
+        <div class="card kpi"><span class="label">Needs review</span><span class="value" id="reviewCount">1</span><span class="detail">Ambiguous or low-confidence classification</span></div>
+      </section>
+
+      <div class="content-grid">
+        <section class="card section" id="actionsSection">
+          <div class="section-head"><div><h2>Recommended product actions</h2><p>Derived from open, in-scope feedback. Open an action to inspect its evidence.</p></div></div>
+          <div class="action-list" id="actionList"></div>
+          <div class="empty" id="actionsEmpty">No recommended product actions match these filters. Try broadening scope, lifecycle, problem type, journey stage, taxonomy, persona, confidence, or severity.</div>
+        </section>
+
+        <section class="card section" id="featureAreasSection">
+          <div class="section-head"><div><h2>Matching feedback by feature area</h2><p>Based on the number of records matching the current filters.</p></div></div>
+          <div class="category-list" id="categoryList"></div>
+        </section>
+      </div>
+
+      <section class="card table-section" id="evidenceSection">
+        <div class="section-head">
+          <div><h2>Feedback behind recommended actions</h2><p>Inspect the original customer signal, source status, confidence, and labels that support or challenge a recommendation.</p></div>
+          <div class="table-tools"><input id="search" placeholder="Search feedback..." aria-label="Search feedback" /></div>
+        </div>
+        <div class="filter-state-row">
+          <p class="filter-state" id="filterState">Showing 11 of 11 mock records · 10 relevant to Action Configuration · 10 open unmet · severity 1+.</p>
+          <button class="focus-back" id="clearActionFocus" type="button" hidden>← Back to filtered view</button>
+        </div>
+        <div class="evidence" id="evidence">
+          <article class="feedback" data-id="vault" data-scope="relevant" data-status="open" data-type="security" data-area="Identity, Secrets & Security" data-taxonomy="|Identity, Secrets & Security|Secrets management|Invocation & Integrations|APIs and external integrations|" data-journey="Backend and invocation setup" data-severity="5" data-confidence="0.89" data-persona="action-builder" data-text="HashiCorp Vault secrets management security">
+            <div class="feedback-head"><div class="feedback-title">HashiCorp Vault for Secrets Management</div><span class="badge b-red">Severity 5</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.89</span><span class="badge b-purple">Action builder</span></div>
+            <div class="quote">“Our infosec policy requires secrets to reside exclusively in HashiCorp Vault. Storing them in Port is a blocker.”</div>
+            <div class="labels"><span class="label">Primary: Identity, Secrets & Security</span><span class="label">Secondary: Invocation & Integrations</span><span class="label">Problem: Security concern</span><span class="label">Action: Add Vault runtime resolution</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="signing" data-scope="relevant" data-status="open" data-type="security" data-area="Identity, Secrets & Security" data-taxonomy="|Identity, Secrets & Security|Service accounts|Invocation & Integrations|Execution agents|" data-journey="Backend and invocation setup" data-severity="5" data-confidence="0.84" data-persona="platform-admin" data-text="service account signing identity security execution agent">
+            <div class="feedback-head"><div class="feedback-title">Service Account Credentials for Execution Agent Signing</div><span class="badge b-red">Severity 5</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.84</span><span class="badge b-purple">Platform admin</span></div>
+            <div class="quote">“Signature verification still relies on the org-level secret rather than the configured service-account credentials.”</div>
+            <div class="labels"><span class="label">Primary: Identity, Secrets & Security</span><span class="label">Secondary: Execution agents</span><span class="label">Problem: Security concern</span><span class="label">Action: Sign with scoped credentials</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="mcp" data-scope="relevant" data-status="open" data-type="bug" data-area="Validation & Rules" data-taxonomy="|Validation & Rules|Server-side enforcement|Identity, Secrets & Security|" data-journey="Validations and conditional logic" data-severity="4" data-confidence="0.93" data-persona="action-builder" data-text="MCP API bypass validation server side defect">
+            <div class="feedback-head"><div class="feedback-title">MCP/API Bypasses Action Input Validation</div><span class="badge b-red">Severity 4</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.93</span><span class="badge b-purple">Action builder</span></div>
+            <div class="quote">“When the action is triggered through MCP, frontend-only validations are bypassed and invalid values can be submitted.”</div>
+            <div class="labels"><span class="label">Primary: Validation & Rules</span><span class="label">Secondary: Identity, Secrets & Security</span><span class="label">Problem: Bug / defect</span><span class="label">Action: Enforce validation server-side</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="errors" data-scope="relevant" data-status="open" data-type="observability" data-area="Permissions & Approvals" data-taxonomy="|Permissions & Approvals|RBAC and dynamic permissions|Observability & Debugging|Error messages|" data-journey="Permissions and approvals" data-severity="3" data-confidence="0.86" data-persona="action-builder" data-text="dynamic permissions denied error message debugging">
+            <div class="feedback-head"><div class="feedback-title">Better Error Messages for Denied Dynamic Permissions</div><span class="badge b-amber">Severity 3</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.86</span><span class="badge b-purple">Action builder</span></div>
+            <div class="quote">“The denial error does not say which part of the dynamic permission rule caused the action to fail.”</div>
+            <div class="labels"><span class="label">Primary: Permissions & Approvals</span><span class="label">Secondary: Observability & Debugging</span><span class="label">Problem: Poor error message</span><span class="label">Action: Explain failed condition</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="gha" data-scope="relevant" data-status="open" data-type="observability" data-area="Observability & Debugging" data-taxonomy="|Observability & Debugging|Error messages|Invocation & Integrations|APIs and external integrations|" data-journey="Execution and monitoring" data-severity="3" data-confidence="0.65" data-persona="integration-developer" data-review="true" data-text="github action invocation error truncated logs debugging">
+            <div class="feedback-head"><div class="feedback-title">GitHub Action Invocation Error Improvements</div><span class="badge b-amber">Severity 3</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.65 · review</span><span class="badge b-purple">Integration developer</span></div>
+            <div class="quote">“The error is vague and sometimes truncated, so users need trial and error to find the incorrect repository, workflow, or branch.”</div>
+            <div class="labels"><span class="label">Primary: Observability & Debugging</span><span class="label">Secondary: Invocation & Integrations</span><span class="label">Problem: Poor error message</span><span class="label">Action: Return structured diagnostic context</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="multi-backend" data-scope="relevant" data-status="open" data-type="feature" data-area="Invocation & Integrations" data-taxonomy="|Invocation & Integrations|Backend selection|Execution Lifecycle|" data-journey="Backend and invocation setup" data-severity="3" data-confidence="0.88" data-persona="action-builder" data-text="multiple backends self service action conditional routing feature gap">
+            <div class="feedback-head"><div class="feedback-title">Multiple Backends for One Self-Service Action</div><span class="badge b-amber">Severity 3</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.88</span><span class="badge b-purple">Action builder</span></div>
+            <div class="quote">“One self-service form can trigger only one backend, so we combine several pipelines into one large and difficult workflow.”</div>
+            <div class="labels"><span class="label">Primary: Invocation & Integrations</span><span class="label">Secondary: Execution Lifecycle</span><span class="label">Problem: Feature gap</span><span class="label">Action: Add conditional backend routing</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="api-dropdown" data-scope="relevant" data-status="open" data-type="feature" data-area="Form Configuration" data-taxonomy="|Form Configuration|Dynamic and dependent inputs|Invocation & Integrations|APIs and external integrations|" data-journey="Configuring forms and inputs" data-severity="3" data-confidence="0.91" data-persona="action-builder" data-text="dropdown input external api form configuration feature gap">
+            <div class="feedback-head"><div class="feedback-title">Dropdown Options from an External API</div><span class="badge b-amber">Severity 3</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.91</span><span class="badge b-purple">Action builder</span></div>
+            <div class="quote">“There is no way to populate a self-service action dropdown with choices fetched from our external API.”</div>
+            <div class="labels"><span class="label">Primary: Form Configuration</span><span class="label">Secondary: Invocation & Integrations</span><span class="label">Problem: Feature gap</span><span class="label">Action: Support API-backed input options</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="reusable-policy" data-scope="relevant" data-status="open" data-type="complexity" data-area="Permissions & Approvals" data-taxonomy="|Permissions & Approvals|RBAC and dynamic permissions|Discovery & Reuse|Reusability and templates|" data-journey="Permissions and approvals" data-severity="3" data-confidence="0.82" data-persona="platform-admin" data-text="reusable dynamic permission policies configuration complexity maintainability">
+            <div class="feedback-head"><div class="feedback-title">Reusable Dynamic Permission Policies</div><span class="badge b-amber">Severity 3</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.82</span><span class="badge b-purple">Platform admin</span></div>
+            <div class="quote">“We repeat the same dynamic permission logic across actions and workflows, which makes every change hard to maintain.”</div>
+            <div class="labels"><span class="label">Primary: Permissions & Approvals</span><span class="label">Problem: Configuration complexity</span><span class="label">Secondary: Reusability / maintainability</span><span class="label">Action: Introduce reusable policy objects</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="retry" data-scope="relevant" data-status="open" data-type="feature" data-area="Execution Lifecycle" data-taxonomy="|Execution Lifecycle|Retry, rerun, and cancellation|Reliability|" data-journey="Execution and monitoring" data-severity="3" data-confidence="0.94" data-persona="action-user" data-text="retry failed action run execution lifecycle feature gap">
+            <div class="feedback-head"><div class="feedback-title">Retry a Failed Action Run from the Run Page</div><span class="badge b-amber">Severity 3</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.94</span><span class="badge b-purple">Action user</span></div>
+            <div class="quote">“When an operation fails for a transient reason, we have to start again instead of retrying the existing run.”</div>
+            <div class="labels"><span class="label">Primary: Execution Lifecycle</span><span class="label">Problem: Feature gap</span><span class="label">Secondary: Reliability</span><span class="label">Action: Add retry with execution context</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="audit" data-scope="general" data-status="open" data-type="observability" data-area="Observability & Debugging" data-taxonomy="|Observability & Debugging|Audit trail|Run-history APIs|" data-journey="Execution and monitoring" data-severity="3" data-confidence="0.91" data-persona="platform-admin" data-text="audit log pagination platform general out of scope">
+            <div class="feedback-head"><div class="feedback-title">Audit Log Filter Beyond the Last 1,000 Records</div><span class="badge b-amber">Out of scope</span></div>
+            <div class="feedback-meta"><span class="badge b-amber">General platform feedback</span><span class="badge b-blue">Open</span><span class="badge b-amber">Confidence 0.91</span><span class="badge b-purple">Platform admin</span></div>
+            <div class="quote">“The audit log only shows the latest 1,000 records, and filtering applies only within those records.”</div>
+            <div class="labels"><span class="label">Scope: General platform</span><span class="label">Problem: Scalability</span><span class="label">Excluded from Action Configuration priority</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+
+          <article class="feedback" data-id="payload" data-scope="relevant" data-status="complete" data-type="feature" data-area="Observability & Debugging" data-taxonomy="|Observability & Debugging|Run status and progress|Audit trail|" data-journey="Execution and monitoring" data-severity="2" data-confidence="0.95" data-persona="action-user" data-text="run payload displayed completed historical positive">
+            <div class="feedback-head"><div class="feedback-title">Runs - Displaying the Payload</div><span class="badge b-green">Completed</span></div>
+            <div class="feedback-meta"><span class="badge b-green">Relevant</span><span class="badge b-green">Completed / historical</span><span class="badge b-amber">Confidence 0.95</span><span class="badge b-purple">Action user</span></div>
+            <div class="quote">“The payload of a specific run is now displayed in Port’s run page and audit log.”</div>
+            <div class="labels"><span class="label">Primary: Observability & Debugging</span><span class="label">Lifecycle: Completed</span><span class="label">Excluded from unmet-demand ranking</span></div>
+            <p><a class="source" href="#">Open original source ↗</a></p>
+          </article>
+        </div>
+        <div class="empty" id="empty">No feedback matches the current filters.</div>
+      </section>
+
+      <section class="card why">
+        <h2>What this changes compared with a flat-theme dashboard</h2>
+        <div class="comparison">
+          <div class="old"><strong>Flat theme only</strong><ul><li>“Backend & invocation” becomes a catch-all.</li><li>Completed records can look like current demand.</li><li>General automation feedback can inflate Action Configuration insights.</li><li>Charts show a count, but not the root cause.</li></ul></div>
+          <div class="new"><strong>Evidence-first multidimensional model</strong><ul><li>Feature area and problem type are separate.</li><li>Lifecycle status is explicit in every priority decision.</li><li>Out-of-scope feedback remains auditable but excluded.</li><li>Every insight can reveal the supporting source records.</li></ul></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const controls = ['scope', 'status', 'type', 'journey', 'category', 'persona', 'confidence'].map(id => document.getElementById(id));
+    const cards = [...document.querySelectorAll('.feedback')];
+    const search = document.getElementById('search');
+    const severity = document.getElementById('severity');
+    const severityValue = document.getElementById('severityValue');
+    const resetFilters = document.getElementById('resetFilters');
+    const clearActionFocus = document.getElementById('clearActionFocus');
+    const empty = document.getElementById('empty');
+    const matchingCount = document.getElementById('matchingCount');
+    const matchingDetail = document.getElementById('matchingDetail');
+    const openCount = document.getElementById('openCount');
+    const riskCount = document.getElementById('riskCount');
+    const reviewCount = document.getElementById('reviewCount');
+    const filterState = document.getElementById('filterState');
+    const categoryList = document.getElementById('categoryList');
+    const actionList = document.getElementById('actionList');
+    const actionsEmpty = document.getElementById('actionsEmpty');
+    let focusedCardIds = null;
+
+    cards.forEach(card => {
+      const actionLabel = [...card.querySelectorAll('.labels .label')].find(label => label.textContent.trim().startsWith('Action:'));
+      if (actionLabel) {
+        const action = document.createElement('div');
+        action.className = 'recommended-action';
+        action.innerHTML = `<span>Suggested product action</span><strong>${actionLabel.textContent.replace('Action:', '').trim()}</strong>`;
+        card.querySelector('.feedback-head').after(action);
+        actionLabel.remove();
+      }
+
+      card.querySelectorAll('.feedback-meta .badge').forEach(badge => {
+        if (badge.textContent.trim() === 'Open') badge.textContent = 'Source: open';
+        if (badge.textContent.trim() === 'Completed / historical') badge.textContent = 'Source: completed';
+        if (badge.textContent.trim().startsWith('Confidence')) badge.textContent = badge.textContent.replace('Confidence', 'Classification confidence');
+      });
+
+      const journeyLabel = document.createElement('span');
+      journeyLabel.className = 'label';
+      journeyLabel.textContent = `Journey: ${card.dataset.journey}`;
+      card.querySelector('.labels').append(journeyLabel);
+    });
+
+    function matches(card) {
+      const q = search.value.trim().toLowerCase();
+      const scope = document.getElementById('scope').value;
+      const status = document.getElementById('status').value;
+      const type = document.getElementById('type').value;
+      const journey = document.getElementById('journey').value;
+      const category = document.getElementById('category').value;
+      const persona = document.getElementById('persona').value;
+      const confidence = document.getElementById('confidence').value;
+      const minimumSeverity = Number(severity.value);
+      const cardConfidence = Number(card.dataset.confidence);
+      const scopeMatch = scope === 'all' || card.dataset.scope === scope;
+      const statusMatch = status === 'all' || card.dataset.status === status;
+      const typeMatch = type === 'all' || card.dataset.type === type;
+      const journeyMatch = journey === 'all' || card.dataset.journey === journey;
+      const categoryMatch = category === 'all' || card.dataset.taxonomy.includes(`|${category}|`);
+      const personaMatch = persona === 'all' || card.dataset.persona === persona;
+      const confidenceMatch = confidence === 'all' ||
+        (confidence === 'review' && card.dataset.review === 'true') ||
+        (confidence === 'high' && cardConfidence >= 0.85) ||
+        (confidence === 'medium' && cardConfidence >= 0.70 && cardConfidence < 0.85) ||
+        (confidence === 'low' && cardConfidence < 0.70);
+      const severityMatch = Number(card.dataset.severity) >= minimumSeverity;
+      const searchMatch = !q || card.dataset.text.toLowerCase().includes(q) || card.innerText.toLowerCase().includes(q);
+      const actionFocusMatch = !focusedCardIds || focusedCardIds.has(card.dataset.id);
+      return scopeMatch && statusMatch && typeMatch && journeyMatch && categoryMatch && personaMatch && confidenceMatch && severityMatch && searchMatch && actionFocusMatch;
+    }
+
+    function applyFilters() {
+      let visible = 0;
+      const minimumSeverity = Number(severity.value);
+      const visibleCards = [];
+      cards.forEach(card => {
+        const show = matches(card);
+        card.classList.toggle('is-hidden', !show);
+        if (show) { visible++; visibleCards.push(card); }
+      });
+      empty.style.display = visible ? 'none' : 'block';
+      const relevant = visibleCards.filter(c => c.dataset.scope === 'relevant').length;
+      const open = visibleCards.filter(c => c.dataset.scope === 'relevant' && c.dataset.status === 'open').length;
+      const highRisk = visibleCards.filter(c => Number(c.dataset.severity) >= 4).length;
+      const review = visibleCards.filter(c => c.dataset.review === 'true').length;
+      matchingCount.textContent = visible;
+      openCount.textContent = open;
+      riskCount.textContent = highRisk;
+      reviewCount.textContent = review;
+      matchingDetail.textContent = minimumSeverity > 1 ? `Severity ${minimumSeverity}+` : 'All severity levels';
+      clearActionFocus.hidden = !focusedCardIds;
+      filterState.textContent = focusedCardIds
+        ? `Showing ${visible} source record${visible === 1 ? '' : 's'} behind the selected action. Your previous filters are preserved.`
+        : `Showing ${visible} of ${cards.length} mock records · ${relevant} relevant to Action Configuration · ${open} open unmet · severity ${minimumSeverity}+.`;
+
+      const byArea = visibleCards.reduce((groups, card) => {
+        const name = card.dataset.area;
+        groups[name] ||= {records: 0};
+        groups[name].records += 1;
+        return groups;
+      }, {});
+      const areas = Object.entries(byArea).sort((a, b) => b[1].records - a[1].records || a[0].localeCompare(b[0]));
+      const maxRecords = Math.max(1, ...areas.map(([, value]) => value.records));
+      categoryList.innerHTML = areas.length
+        ? areas.map(([name, value]) => `<div class="category-row"><div><strong>${name}</strong><div class="bar"><span style="width:${Math.round(value.records / maxRecords * 100)}%"></span></div></div><div class="row-num"><b>${value.records}</b> record${value.records === 1 ? '' : 's'}</div></div>`).join('')
+        : '<p class="subtle">No feature area matches the current filters.</p>';
+
+      renderRecommendedActions(visibleCards);
+    }
+
+    function renderRecommendedActions(visibleCards) {
+      const candidates = visibleCards.filter(card =>
+        card.dataset.scope === 'relevant' &&
+        card.dataset.status === 'open' &&
+        card.querySelector('.recommended-action strong')
+      );
+
+      const groups = candidates.reduce((items, card) => {
+        const title = card.querySelector('.recommended-action strong').textContent.trim();
+        items[title] ||= {title, cards: [], severity: 0, areas: new Set()};
+        const item = items[title];
+        item.cards.push(card);
+        const cardSeverity = Number(card.dataset.severity);
+        item.severity = Math.max(item.severity, cardSeverity);
+        item.areas.add(card.dataset.area);
+        return items;
+      }, {});
+
+      const actions = Object.values(groups).sort((a, b) =>
+        b.severity - a.severity ||
+        b.cards.length - a.cards.length ||
+        a.title.localeCompare(b.title)
+      );
+      actionsEmpty.style.display = actions.length ? 'none' : 'block';
+      actionList.innerHTML = actions.map(action => {
+        const first = action.cards[0];
+        const signal = first.querySelector('.quote').textContent.trim();
+        const severityClass = action.severity >= 4 ? 'b-red' : 'b-amber';
+        const area = [...action.areas].join(' · ');
+        const cardIds = action.cards.map(card => card.dataset.id).join(',');
+        const insightClass = action.severity >= 4 ? 'insight insight-high' : 'insight';
+        return `<article class="${insightClass}"><div class="insight-top"><h3 class="action-title">${action.title}</h3><span class="badge ${severityClass}">Severity ${action.severity}</span></div><p>${signal}</p><div class="action-metrics"><span class="badge b-blue">${action.cards.length} open supporting record${action.cards.length === 1 ? '' : 's'}</span><span class="badge b-neutral">${area}</span></div><button data-card-ids="${cardIds}">View supporting feedback ↓</button></article>`;
+      }).join('');
+
+      actionList.querySelectorAll('[data-card-ids]').forEach(button => button.addEventListener('click', () => {
+        focusedCardIds = new Set(button.dataset.cardIds.split(','));
+        applyFilters();
+        document.getElementById('evidenceSection').scrollIntoView({behavior: 'smooth', block: 'start'});
+      }));
+    }
+
+    controls.forEach(control => control.addEventListener('change', () => {
+      focusedCardIds = null;
+      applyFilters();
+    }));
+    search.addEventListener('input', () => {
+      focusedCardIds = null;
+      applyFilters();
+    });
+    severity.addEventListener('input', () => {
+      focusedCardIds = null;
+      severityValue.textContent = severity.value;
+      applyFilters();
+    });
+    clearActionFocus.addEventListener('click', () => {
+      focusedCardIds = null;
+      applyFilters();
+      document.getElementById('actionsSection').scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+    resetFilters.addEventListener('click', () => {
+      focusedCardIds = null;
+      controls.forEach(control => control.value = 'all');
+      severity.value = '1';
+      severityValue.textContent = '1';
+      search.value = '';
+      applyFilters();
+    });
+
+    document.querySelectorAll('.source').forEach(link => link.addEventListener('click', event => {
+      event.preventDefault();
+      alert('Mockup: this would open the original Slack, Zendesk, Gong, or portal record.');
+    }));
+
+    applyFilters();
+  </script>
+</body>
+</html>

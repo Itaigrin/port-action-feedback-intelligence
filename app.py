@@ -1,19 +1,20 @@
-"""Port Action Feedback Intelligence -- two-tab Streamlit app.
+"""Port Action Feedback Intelligence -- two-view Streamlit app.
 
 An independent take-home project. Not an official Port product.
 
-Tab 1 "Dashboard" -- ranked product actions, each opening onto the feedback
-       records that argue for it.
-Tab 2 "Taxonomy & Journey Guide" -- plain-language reference for readers with
-       no software or DevOps background.
+View 1 "Dashboard" -- ranked product actions, each opening onto the feedback
+       records that argue for it. Layout follows
+       docs/action_feedback_solution_mockup.html.
+View 2 "Themes & Journey Stages Guide" -- plain-language reference for readers
+       with no software or DevOps background.
 
 Reads only from data/processed/. No API key, no network calls, no LLM at
 runtime -- the classification results are committed, so this opens and renders
 identically on any machine.
 
-All taxonomy definitions come from src/models/taxonomy.py, and every count
-comes from src/analysis/aggregate.py. Nothing here defines a category or
-computes a statistic of its own.
+All taxonomy definitions come from src/models/taxonomy.py, every count comes
+from src/analysis/aggregate.py, and all markup comes from src/ui/. Nothing here
+defines a category or computes a statistic of its own.
 
     streamlit run app.py
 """
@@ -21,17 +22,14 @@ computes a statistic of its own.
 from __future__ import annotations
 
 import json
-import textwrap
 from pathlib import Path
 
 import pandas as pd
-import plotly.express as px
 import streamlit as st
 
 from src.analysis.aggregate import (
     HIGH_SEVERITY,
     OPEN_STATUSES,
-    evidence_for,
     product_actions,
 )
 from src.models.taxonomy import (
@@ -49,17 +47,21 @@ from src.models.taxonomy import (
     TAXONOMY,
     WORKED_EXAMPLES,
 )
+from src.ui import render
+from src.ui.theme import CSS
 
 ROOT = Path(__file__).parent
 PROC = ROOT / "data" / "processed"
 
-ACCENT = "#5B4EE8"
+DEFAULT_TOP_ACTIONS = 10
 
 st.set_page_config(
-    page_title="Port Action Feedback Intelligence",
-    page_icon="🛠️",
+    page_title="Action Feedback Intelligence",
+    page_icon="⌁",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
+st.markdown(CSS, unsafe_allow_html=True)
 
 
 # --------------------------------------------------------------------------
@@ -69,13 +71,11 @@ st.set_page_config(
 def load() -> tuple[pd.DataFrame, dict, dict]:
     analyzed = json.loads((PROC / "analyzed.json").read_text(encoding="utf-8"))
     aggregates = json.loads((PROC / "aggregates.json").read_text(encoding="utf-8"))
-    quality = json.loads((PROC / "quality_report.json").read_text(encoding="utf-8"))
-    df = pd.DataFrame(analyzed["records"])
-    return df, aggregates, {"analyzed_meta": analyzed["meta"], "quality": quality}
+    return pd.DataFrame(analyzed["records"]), aggregates, analyzed["meta"]
 
 
 try:
-    df, agg, meta = load()
+    df, agg, amet = load()
 except FileNotFoundError:
     st.error(
         "Processed data not found. Run the pipeline first:\n\n"
@@ -86,776 +86,449 @@ except FileNotFoundError:
     )
     st.stop()
 
+# The dashboard is permanently restricted to in-scope records. There is no
+# Scope control: a toggle that could fold out-of-scope feedback back into a
+# demand ranking is an invitation to misread it.
 rel = df[df["is_relevant"]].copy()
 rel["is_open"] = rel["lifecycle_status"].isin(OPEN_STATUSES)
 rel["is_high_severity"] = rel["severity"] >= HIGH_SEVERITY
 
-kpi = agg["kpis"]
-amet = meta["analyzed_meta"]
-
-
-def _wrap(label: str, width: int = 22) -> str:
-    """Wrap a long category or stage name onto several lines for a chart axis."""
-    return "<br>".join(textwrap.wrap(label, width=width))
+OUT_OF_SCOPE = int(len(df) - len(rel))
 
 
 # --------------------------------------------------------------------------
-# Filters -- one set, applied to everything
+# Filter panel -- column 1 of the page grid, not Streamlit's native sidebar
 # --------------------------------------------------------------------------
-def sidebar_filters() -> tuple[pd.DataFrame, bool]:
-    """Build the filter controls and return the filtered relevant records.
+def render_filter_panel() -> dict:
+    """Render the compact filter rail and return the current selections."""
+    params = st.query_params
 
-    There is deliberately no Scope filter. Out-of-scope feedback is excluded
-    at classification time and is not a view the dashboard offers, because a
-    "product actions" ranking that could be toggled to include feedback the
-    system judged irrelevant would be an invitation to misread it.
-    """
-    with st.sidebar:
-        st.header("Filters")
-        st.caption(
-            "These apply to everything on the Dashboard tab at once — the "
-            "product actions, the charts and the evidence. What you see ranked "
-            "is always what you see supporting it."
+    st.markdown(
+        '<div class="afi-panel" style="padding:17px">'
+        '<h2 style="font-size:17px;letter-spacing:-.02em;margin:0 0 6px">'
+        "Evidence filters</h2>"
+        '<p style="margin:0 0 14px;color:#64748b;font-size:12px">'
+        "Filters affect the recommended actions, the charts and the records "
+        "together.</p></div>",
+        unsafe_allow_html=True,
+    )
+
+    status = st.multiselect(
+        "Lifecycle status",
+        [s for s in LIFECYCLE_STATUSES if s in set(rel["lifecycle_status"])],
+        key="f_status",
+    )
+    problem = st.multiselect(
+        "Problem type",
+        [p for p in PROBLEM_TYPE_NAMES if p in set(rel["problem_type"].dropna())],
+        key="f_problem",
+    )
+    stage = st.multiselect(
+        "Journey stage",  # chronological order, never alphabetical
+        [s for s in STAGE_NAMES if s in set(rel["journey_stage"].dropna())],
+        key="f_stage",
+    )
+
+    # A category clicked in the chart pre-seeds this control.
+    present_categories = [c for c in CATEGORY_NAMES
+                          if c in set(rel["primary_taxonomy_category"].dropna())]
+    if params.get("cat") and params["cat"] in present_categories:
+        st.session_state.setdefault("f_category", [params["cat"]])
+    category = st.multiselect("Taxonomy category", present_categories, key="f_category")
+
+    sub_pool = [
+        s
+        for c in (category or present_categories)
+        for s in SUBCATEGORY_NAMES_BY_CATEGORY[c]
+        if s in set(rel["primary_taxonomy_subcategory"].dropna())
+    ]
+    if params.get("sub") and params["sub"] in sub_pool:
+        st.session_state.setdefault("f_subcategory", [params["sub"]])
+    subcategory = st.multiselect("Taxonomy subcategory", sub_pool, key="f_subcategory")
+
+    severity = st.slider("Minimum severity", 1, 5, 1, key="f_severity")
+    st.markdown(
+        '<p class="afi-rubric" style="color:#64748b;font-size:10px">'
+        "1 = minor friction · 3 = meaningful workaround · 5 = blocker</p>",
+        unsafe_allow_html=True,
+    )
+
+    top_n = st.number_input(
+        "Top Recommended product actions", min_value=1, max_value=54,
+        value=DEFAULT_TOP_ACTIONS, step=1, key="f_top_n",
+    )
+
+    if st.button("Reset all filters", key="f_reset"):
+        for key in ("f_status", "f_problem", "f_stage", "f_category",
+                    "f_subcategory", "f_search"):
+            st.session_state.pop(key, None)
+        st.session_state["f_severity"] = 1
+        st.session_state["f_top_n"] = DEFAULT_TOP_ACTIONS
+        st.query_params.clear()
+        st.rerun()
+
+    with st.expander("More filters"):
+        persona = st.multiselect(
+            "Persona",
+            [p for p in PERSONA_NAMES if p in set(rel["persona"].dropna())],
+            key="f_persona",
+        )
+        review = st.selectbox(
+            "Confidence / review state",
+            ["All", "Needs human review", "High confidence (0.85+)",
+             "Medium confidence (0.70-0.84)", "Low confidence (<0.70)"],
+            key="f_review",
         )
 
-        present_categories = set(rel["primary_taxonomy_category"].dropna())
-        f_category = st.multiselect(
-            "Taxonomy category",
-            [c for c in CATEGORY_NAMES if c in present_categories],
-        )
+    with st.expander("View full taxonomy"):
+        for name, block in TAXONOMY.items():
+            subs = "".join(f"<li>{s}</li>" for s in block["subcategories"])
+            st.markdown(
+                f'<details style="border-bottom:1px solid #eef2f7;padding:5px 0">'
+                f'<summary style="cursor:pointer;font-weight:700;font-size:12px">'
+                f"{name}</summary>"
+                f'<ul style="margin:5px 0 1px;padding-left:16px;color:#475569;'
+                f'font-size:12px">{subs}</ul></details>',
+                unsafe_allow_html=True,
+            )
 
-        # Subcategory choices narrow to the chosen categories, so the control
-        # can never offer an option that would return nothing.
-        sub_pool = [
-            s
-            for c in (f_category or [c for c in CATEGORY_NAMES if c in present_categories])
-            for s in SUBCATEGORY_NAMES_BY_CATEGORY[c]
-            if s in set(rel["primary_taxonomy_subcategory"].dropna())
-        ]
-        f_subcategory = st.multiselect("Subcategory", sub_pool)
+    return {
+        "status": status, "problem": problem, "stage": stage,
+        "category": category, "subcategory": subcategory,
+        "severity": severity, "top_n": int(top_n),
+        "persona": persona, "review": review,
+    }
 
-        present_stages = set(rel["journey_stage"].dropna())
-        f_stage = st.multiselect(
-            "Journey stage",  # chronological order, not alphabetical
-            [s for s in STAGE_NAMES if s in present_stages],
-        )
 
-        present_problems = set(rel["problem_type"].dropna())
-        f_problem = st.multiselect(
-            "Problem type", [p for p in PROBLEM_TYPE_NAMES if p in present_problems]
-        )
-
-        present_status = set(rel["lifecycle_status"].dropna())
-        f_status = st.multiselect(
-            "Lifecycle status", [s for s in LIFECYCLE_STATUSES if s in present_status]
-        )
-
-        present_personas = set(rel["persona"].dropna())
-        f_persona = st.multiselect(
-            "Persona", [p for p in PERSONA_NAMES if p in present_personas]
-        )
-
-        f_sev = st.slider("Minimum severity", 1, 5, 1)
-        review_only = st.toggle("Only records flagged for review", value=False)
-        verified_only = st.toggle("Verified quotes only", value=True)
-
-        n_unverified = int((~rel["evidence_verified"]).sum())
-        st.caption(
-            f"Every quote is checked in Python against the original text, word "
-            f"for word. **{n_unverified} of {len(rel)}** could not be matched — "
-            f"the model paraphrased instead of copying. Leave this on to hide "
-            f"them. Their category, stage and severity still count everywhere "
-            f"else; only the quote is withheld."
-        )
-
-        st.divider()
-        st.caption(
-            f"**Data**\n\n"
-            f"{amet.get('records_analyzed', len(df))} records analysed · "
-            f"{kpi['in_scope_records']} in scope · "
-            f"{kpi['records_needing_review']} flagged for review · "
-            f"{kpi['unverified_evidence']} unverified quote(s)\n\n"
-            f"{len(CATEGORY_NAMES)} categories · "
-            f"{sum(len(v) for v in SUBCATEGORY_NAMES_BY_CATEGORY.values())} "
-            f"subcategories · {len(STAGE_NAMES)} journey stages\n\n"
-            f"Model `{amet.get('model_name', '?')}` · "
-            f"prompt `{amet.get('prompt_version', '?')}` · "
-            f"taxonomy `{amet.get('taxonomy_version', '?')}`\n\n"
-            f"Run `{amet.get('analysis_run_id', '?')}`"
-        )
-
+def apply_filters(f: dict, search: str) -> pd.DataFrame:
     view = rel
-    if f_category:
-        view = view[view["primary_taxonomy_category"].isin(f_category)]
-    if f_subcategory:
-        view = view[view["primary_taxonomy_subcategory"].isin(f_subcategory)]
-    if f_stage:
-        view = view[view["journey_stage"].isin(f_stage)]
-    if f_problem:
-        view = view[view["problem_type"].isin(f_problem)]
-    if f_status:
-        view = view[view["lifecycle_status"].isin(f_status)]
-    if f_persona:
-        view = view[view["persona"].isin(f_persona)]
-    if review_only:
+    if f["status"]:
+        view = view[view["lifecycle_status"].isin(f["status"])]
+    if f["problem"]:
+        view = view[view["problem_type"].isin(f["problem"])]
+    if f["stage"]:
+        view = view[view["journey_stage"].isin(f["stage"])]
+    if f["category"]:
+        view = view[view["primary_taxonomy_category"].isin(f["category"])]
+    if f["subcategory"]:
+        view = view[view["primary_taxonomy_subcategory"].isin(f["subcategory"])]
+    if f["persona"]:
+        view = view[view["persona"].isin(f["persona"])]
+
+    review = f["review"]
+    if review == "Needs human review":
         view = view[view["needs_human_review"]]
-    view = view[view["severity"] >= f_sev]
-    return view.copy(), verified_only
+    elif review == "High confidence (0.85+)":
+        view = view[view["confidence"] >= 0.85]
+    elif review == "Medium confidence (0.70-0.84)":
+        view = view[(view["confidence"] >= 0.70) & (view["confidence"] < 0.85)]
+    elif review == "Low confidence (<0.70)":
+        view = view[view["confidence"] < 0.70]
+
+    view = view[view["severity"] >= f["severity"]]
+
+    if search:
+        needle = search.strip().lower()
+        haystack = (
+            view["title"].fillna("") + " "
+            + view["short_summary"].fillna("") + " "
+            + view["suggested_product_action"].fillna("") + " "
+            + view["evidence_excerpt"].fillna("")
+        ).str.lower()
+        view = view[haystack.str.contains(needle, regex=False)]
+    return view.copy()
 
 
 # ==========================================================================
-# TAB 1 -- DASHBOARD
+# Dashboard
 # ==========================================================================
 def render_dashboard() -> None:
-    view, verified_only = sidebar_filters()
+    params = st.query_params
+    focus = params.get("focus")
+    drilled = params.get("cat")
 
-    st.title("What to build next for Port Actions, and who is asking for it")
-    st.caption(
-        f"{kpi['in_scope_records']} in-scope feedback records from Port's public "
-        f"portal · categorised by AI under a closed taxonomy, counted in Python · "
-        f"every recommendation opens onto the records that argue for it"
-    )
+    # --- page grid: 270px rail + main content ------------------------------
+    # Keyed containers emit stable .st-key-<key> classes, which the stylesheet
+    # targets instead of autogenerated test ids.
+    page = st.container(key="afi_page")
+    rail, main = page.columns([270, 1160], gap="medium")
 
-    if view.empty:
-        st.warning("No records match these filters.", icon=":material/filter_alt_off:")
-        return
+    with rail:
+        with st.container(key="afi_rail"):
+            filters = render_filter_panel()
 
-    # Recomputed from the filtered records using the same function that built
-    # the committed aggregates -- so a filtered view shows real counts for that
-    # selection rather than whole-dataset totals with a filtered table below.
-    actions = product_actions(view)
-    live = view[view["is_open"]]
+    with main:
+        search = st.session_state.get("f_search", "")
+        view = apply_filters(filters, search)
 
-    # -------------------------------------------------------------- 1. KPIs
-    with st.container(horizontal=True):
-        st.metric("Feedback records analysed", f"{len(df):,}",
-                  help="Every record collected, in scope or not.", border=True)
-        st.metric("In scope for Action Configuration", f"{len(view):,}",
-                  delta=f"{kpi['out_of_scope_records']} excluded as out of scope",
-                  delta_color="off", border=True)
-        st.metric("Recommended product actions", f"{len(actions):,}",
-                  help="Distinct product changes, grouped from open feedback.",
-                  border=True)
-        st.metric("High-severity open records", f"{int(live['is_high_severity'].sum()):,}",
-                  help=f"Open records at severity {HIGH_SEVERITY} or above.",
-                  border=True)
+        # Every product action in view, and the subset with live demand. Both
+        # are counted here so the two KPIs are genuinely different numbers.
+        grouped = view.groupby(
+            ["primary_taxonomy_category", "primary_taxonomy_subcategory"]
+        )
+        all_groups = grouped.size()
+        # "Open" means the whole group is still unmet: nothing in it has been
+        # completed or closed. Counting groups that merely contain an open
+        # record would return the same number as the total and say nothing.
+        fully_open = int(grouped["is_open"].all().sum())
+        actions_df = product_actions(view)
+        actions = actions_df.to_dict("records") if len(actions_df) else []
 
-    st.divider()
+        # Attach the strongest verified quote as each action's evidence signal.
+        for action in actions:
+            supporting = view[
+                (view["primary_taxonomy_category"] == action["category"])
+                & (view["primary_taxonomy_subcategory"] == action["subcategory"])
+                & (view["evidence_verified"])
+            ].sort_values("severity", ascending=False)
+            action["signal"] = (f'“{supporting.iloc[0]["evidence_excerpt"]}”'
+                                if len(supporting) else "")
 
-    # -------------------------------------------- 2. Ranked product actions
-    st.subheader("Recommended product actions")
-    st.caption(
-        "Ranked from open feedback only — completed and closed requests are "
-        "excluded so shipped work cannot argue for itself again. Ranking is "
-        "lexicographic over the keys below; there is no weighted score, because "
-        "a number built from invented weights cannot be defended when someone "
-        "asks why 0.45."
-    )
-
-    with st.expander("How this ranking is decided"):
-        st.markdown(agg["ranking"]["explanation"])
-        for i, entry in enumerate(agg["ranking"]["keys"], 1):
-            st.markdown(f"{i}. **{entry['key']}** — {entry['explanation']}")
-        st.caption(
-            f"Open statuses: {', '.join(agg['ranking']['open_statuses'])}. "
-            "Severity, category and problem type are the model's reading of the "
-            "text; the counting and ordering are plain Python."
+        st.markdown(render.render_hero(amet, len(rel), OUT_OF_SCOPE),
+                    unsafe_allow_html=True)
+        st.markdown(
+            render.render_kpis(
+                product_actions=int(len(all_groups)),
+                open_actions=fully_open,
+                high_severity=int(view["is_high_severity"].sum()),
+                needs_review=int(view["needs_human_review"].sum()),
+            ),
+            unsafe_allow_html=True,
         )
 
-    for row in actions.head(10).to_dict("records"):
-        with st.container(border=True):
-            head, stat = st.columns([5, 2])
-            with head:
-                st.markdown(f"**{row['rank']}. {row['product_action']}**")
-                st.caption(
-                    f"`{row['category']}` › `{row['subcategory']}` · "
-                    f"mostly *{row['top_problem_type']}* · "
-                    f"first felt at *{row['top_journey_stage']}*"
-                )
-            with stat:
-                st.markdown(
-                    f"**{row['open_records']}** open record"
-                    f"{'s' if row['open_records'] != 1 else ''} · "
-                    f"avg severity **{row['avg_severity']}** (max {row['max_severity']})"
-                )
-                if row["needs_review"]:
-                    st.caption(f":material/flag: {row['needs_review']} flagged for review")
+        # --- content grid: actions left, charts right ---------------------
+        content = st.container(key="afi_content")
+        left, right = content.columns([1.3, 0.7], gap="medium")
 
-            evidence = evidence_for(view, row["category"], row["subcategory"], n=3)
-            label = (f"Supporting feedback ({row['open_records']} open record"
-                     f"{'s' if row['open_records'] != 1 else ''})")
-            with st.expander(label):
-                if not evidence:
-                    st.caption(
-                        "No verified quote is available for this group. The "
-                        "records still count; only their quotes are withheld."
-                    )
-                for ev in evidence:
-                    st.markdown(f"> {ev['evidence_excerpt']}")
-                    st.caption(
-                        f"[{ev['title']}]({ev['source_url']}) · "
-                        f"severity {ev['severity']} · "
-                        f"{ev['lifecycle_status']} · {ev['source_system']} · "
-                        f"confidence {ev['confidence']:.2f}"
-                    )
 
-    st.caption(
-        ":material/lightbulb: **The counts and the ranking are computed; the "
-        "wording of each action is taken verbatim from one real record and "
-        "labelled with that record's id in the data.** This is a POC "
-        "prioritisation method — real prioritisation would also weigh customer "
-        "segment, revenue impact, churn risk, strategic alignment and "
-        "engineering effort."
-    )
-
-    st.divider()
-
-    # ------------------------------------------- 3. Category + drill-down
-    st.subheader("Where the problems concentrate")
-    st.caption(
-        f"{len(CATEGORY_NAMES)} product areas. Bars count in-scope records. "
-        "Pick a category to see which specific part of it the feedback is about."
-    )
-
-    cat_counts = (
-        view.groupby("primary_taxonomy_category")
-        .agg(records=("feedback_id", "count"),
-             open_records=("is_open", "sum"),
-             avg_severity=("severity", "mean"))
-        .reset_index()
-        .sort_values("records", ascending=True)
-    )
-
-    chart_col, drill_col = st.columns([3, 2])
-
-    with chart_col:
-        fig = px.bar(
-            cat_counts,
-            x="records",
-            y="primary_taxonomy_category",
-            orientation="h",
-            text=[f"{r} records · {o} open"
-                  for r, o in zip(cat_counts["records"], cat_counts["open_records"])],
-            labels={"records": "In-scope feedback records",
-                    "primary_taxonomy_category": ""},
-            color_discrete_sequence=[ACCENT],
-        )
-        fig.update_traces(textposition="outside", cliponaxis=False)
-        fig.update_layout(
-            height=460, margin=dict(l=0, r=90, t=10, b=10), showlegend=False,
-        )
-        st.plotly_chart(fig, width="stretch")
-
-    with drill_col:
-        present = [c for c in CATEGORY_NAMES
-                   if c in set(view["primary_taxonomy_category"].dropna())]
-        chosen = st.selectbox("Drill into a category", present, key="drill_category")
-        subs = (
-            view[view["primary_taxonomy_category"] == chosen]
-            .groupby("primary_taxonomy_subcategory")
-            .agg(records=("feedback_id", "count"),
-                 open_records=("is_open", "sum"),
-                 avg_severity=("severity", "mean"))
-            .reset_index()
-            .sort_values("records", ascending=False)
-        )
-        subs["avg_severity"] = subs["avg_severity"].round(1)
-        st.caption(
-            f"**{TAXONOMY[chosen]['plain']}** "
-            f"{len(subs)} of {len(SUBCATEGORY_NAMES_BY_CATEGORY[chosen])} "
-            f"subcategories appear in this feedback."
-        )
-        st.dataframe(
-            subs, hide_index=True, width="stretch",
-            column_config={
-                "primary_taxonomy_subcategory": st.column_config.TextColumn(
-                    "Subcategory", width="large"),
-                "records": st.column_config.NumberColumn("Records", width="small"),
-                "open_records": st.column_config.NumberColumn("Open", width="small"),
-                "avg_severity": st.column_config.NumberColumn("Avg sev", width="small"),
-            },
-        )
-
-    st.divider()
-
-    # ------------------------------------------------------ 4. Journey stage
-    st.subheader("Where in the journey users get stuck")
-    st.caption(
-        "The eight stages in the order a user meets them, left to right. This "
-        "answers *where* the friction happens; the categories above answer "
-        "*what* needs building. A record sits in exactly one of each."
-    )
-
-    stage_counts = (
-        view.groupby("journey_stage")
-        .agg(records=("feedback_id", "count"),
-             open_records=("is_open", "sum"),
-             avg_severity=("severity", "mean"))
-        .reset_index()
-    )
-    missing = [s for s in STAGE_NAMES if s not in set(stage_counts["journey_stage"])]
-    if missing:
-        stage_counts = pd.concat([stage_counts, pd.DataFrame(
-            {"journey_stage": missing, "records": 0,
-             "open_records": 0, "avg_severity": 0.0})], ignore_index=True)
-    stage_counts["order"] = stage_counts["journey_stage"].map(
-        {n: i for i, n in enumerate(STAGE_NAMES)})
-    stage_counts = stage_counts.sort_values("order")
-    stage_counts["label"] = stage_counts["journey_stage"].map(_wrap)
-
-    fig = px.bar(
-        stage_counts,
-        x="label",
-        y="records",
-        text="records",
-        labels={"label": "", "records": "In-scope feedback records"},
-        color_discrete_sequence=[ACCENT],
-    )
-    fig.update_traces(textposition="outside", cliponaxis=False)
-    fig.update_layout(height=420, margin=dict(l=0, r=0, t=10, b=10),
-                      showlegend=False, xaxis=dict(tickfont=dict(size=11)))
-    st.plotly_chart(fig, width="stretch")
-
-    busiest = stage_counts.sort_values("records", ascending=False).iloc[0]
-    empty_stages = stage_counts[stage_counts["records"] == 0]["journey_stage"].tolist()
-    st.markdown(
-        f"**{busiest['journey_stage']}** carries the most feedback "
-        f"({int(busiest['records'])} records, {int(busiest['open_records'])} still open)."
-        + (f" No feedback at all mentions "
-           f"{', '.join(f'*{s}*' for s in empty_stages)} — an empty stage is a "
-           f"finding, not a gap in the chart." if empty_stages else "")
-    )
-
-    st.divider()
-
-    # --------------------------------------------------- 5. Problem types
-    st.subheader("What kind of problems these are")
-    st.caption(
-        "Problem type is independent of product area. A permission failure can "
-        "be a *Poor error message*; folding that into the category name would "
-        "make both unusable for counting."
-    )
-    problems = (
-        view.groupby("problem_type")
-        .agg(records=("feedback_id", "count"),
-             open_records=("is_open", "sum"),
-             avg_severity=("severity", "mean"))
-        .reset_index()
-        .sort_values("records", ascending=False)
-    )
-    problems["avg_severity"] = problems["avg_severity"].round(1)
-    st.dataframe(
-        problems, hide_index=True, width="stretch",
-        column_config={
-            "problem_type": st.column_config.TextColumn("Problem type", width="large"),
-            "records": st.column_config.NumberColumn("Records", width="small"),
-            "open_records": st.column_config.NumberColumn("Open", width="small"),
-            "avg_severity": st.column_config.NumberColumn("Avg severity", width="small"),
-        },
-    )
-
-    st.divider()
-
-    # --------------------------------------------- 6. Persona + secondaries
-    left, right = st.columns(2)
-
-    with left:
-        st.subheader("Who is asking")
-        st.caption(
-            "Persona is independent of product area. A builder blocked on "
-            "approval routing and a developer blocked on the same routing are "
-            "different product problems, and only this dimension separates them."
-        )
-        personas = (
-            view.groupby("persona")
-            .agg(records=("feedback_id", "count"),
-                 open_records=("is_open", "sum"),
-                 avg_severity=("severity", "mean"))
-            .reset_index()
-            .sort_values("records", ascending=False)
-        )
-        personas["avg_severity"] = personas["avg_severity"].round(1)
-        st.dataframe(
-            personas, hide_index=True, width="stretch",
-            column_config={
-                "persona": st.column_config.TextColumn("Persona", width="medium"),
-                "records": st.column_config.NumberColumn("Records", width="small"),
-                "open_records": st.column_config.NumberColumn("Open", width="small"),
-                "avg_severity": st.column_config.NumberColumn("Avg sev", width="small"),
-            },
-        )
-
-    with right:
-        st.subheader("Primary owner vs. also implicated")
-        st.caption(
-            "A record can name up to two further areas it touches. Secondary "
-            "mentions are counted here and **nowhere else** — they never enter a "
-            "primary total or a ranking, so a record is only ever counted once."
-        )
-        secondary_rows: list[str] = []
-        for extras in view["secondary_categories"]:
-            secondary_rows.extend(extras or [])
-        secondary_counts = pd.Series(secondary_rows).value_counts()
-
-        owner = (
-            view.groupby("primary_taxonomy_category")
-            .size().reset_index(name="primary")
-            .rename(columns={"primary_taxonomy_category": "category"})
-        )
-        owner["also_implicated"] = owner["category"].map(secondary_counts).fillna(0).astype(int)
-        # Categories that appear only as a secondary would be missing entirely.
-        extra_only = [c for c in secondary_counts.index if c not in set(owner["category"])]
-        if extra_only:
-            owner = pd.concat([owner, pd.DataFrame({
-                "category": extra_only, "primary": 0,
-                "also_implicated": [int(secondary_counts[c]) for c in extra_only],
-            })], ignore_index=True)
-        owner = owner.sort_values("primary", ascending=False)
-
-        st.dataframe(
-            owner, hide_index=True, width="stretch",
-            column_config={
-                "category": st.column_config.TextColumn("Category", width="medium"),
-                "primary": st.column_config.NumberColumn("Owns", width="small"),
-                "also_implicated": st.column_config.NumberColumn(
-                    "Also implicated", width="small"),
-            },
-        )
-
-        dragged = owner[owner["also_implicated"] > owner["primary"]]
-        if len(dragged):
-            names = [f"**{c}**" for c in dragged["category"]]
-            joined = (names[0] if len(names) == 1
-                      else " and ".join([", ".join(names[:-1]), names[-1]]))
-            plural = len(names) > 1
-            st.caption(
-                f":material/info: {joined} "
-                f"{'are' if plural else 'is'} named as a contributing area more "
-                f"often than {'they own' if plural else 'it owns'} a problem "
-                f"outright — being pulled into other areas' feedback rather than "
-                f"generating {'their' if plural else 'its'} own."
+        with left:
+            st.markdown(
+                render.render_product_actions(actions, filters["top_n"]),
+                unsafe_allow_html=True,
             )
 
-    st.divider()
+        with right, st.container(key="afi_charts"):
+            if drilled and drilled in set(view["primary_taxonomy_category"]):
+                counts = (view[view["primary_taxonomy_category"] == drilled]
+                          ["primary_taxonomy_subcategory"].value_counts())
+                rows = [(name, int(n)) for name, n in counts.items()]
+            else:
+                drilled = None
+                counts = view["primary_taxonomy_category"].value_counts()
+                rows = [(name, int(n)) for name, n in counts.items()]
+            st.markdown(render.render_taxonomy_chart(rows, drilled),
+                        unsafe_allow_html=True)
 
-    # ------------------------------------------------------- 7. Evidence
-    st.subheader("Evidence explorer")
-    st.caption(
-        "Every figure above traces back to these records. Open any of them on "
-        "Port's portal to verify the quote yourself."
-    )
+            stage_counts = view["journey_stage"].value_counts().to_dict()
+            stage_rows = [(s, int(stage_counts.get(s, 0))) for s in STAGE_NAMES]
+            st.markdown(render.render_journey_chart(stage_rows),
+                        unsafe_allow_html=True)
 
-    ev_view = view[view["evidence_verified"]] if verified_only else view
-    ev_view = ev_view.sort_values(
-        ["severity", "confidence"], ascending=[False, False]).copy()
-    # Flatten the secondary pairs for display. Kept as text rather than a
-    # separate column per slot -- most records have none, and two sparse
-    # columns would read as missing data rather than as an empty list.
-    ev_view["also_touches"] = [
-        " · ".join(f"{c} › {s}" for c, s in zip(cats or [], subs or []))
-        for cats, subs in zip(ev_view["secondary_categories"],
-                              ev_view["secondary_subcategories"])
-    ]
+        # --- feedback, full width -----------------------------------------
+        shown = view
+        if focus:
+            shown = shown[shown["primary_taxonomy_subcategory"] == focus]
 
-    st.dataframe(
-        ev_view[[
-            "title", "short_summary", "suggested_product_action",
-            "primary_taxonomy_category", "primary_taxonomy_subcategory",
-            "also_touches", "problem_type", "journey_stage", "persona",
-            "lifecycle_status", "severity", "confidence", "needs_human_review",
-            "evidence_excerpt", "source_url",
-        ]],
-        hide_index=True, width="stretch", height=420,
-        column_config={
-            "title": st.column_config.TextColumn("Title", width="medium"),
-            "short_summary": st.column_config.TextColumn("AI summary", width="large"),
-            "suggested_product_action": st.column_config.TextColumn(
-                "Suggested change", width="large"),
-            "primary_taxonomy_category": st.column_config.TextColumn("Category"),
-            "primary_taxonomy_subcategory": st.column_config.TextColumn("Subcategory"),
-            "also_touches": st.column_config.TextColumn(
-                "Also touches", width="medium",
-                help="Secondary areas. Never counted in any total or ranking."),
-            "problem_type": st.column_config.TextColumn("Problem type"),
-            "journey_stage": st.column_config.TextColumn("Journey stage"),
-            "persona": st.column_config.TextColumn("Persona", width="small"),
-            "lifecycle_status": st.column_config.TextColumn("Status", width="small"),
-            "severity": st.column_config.NumberColumn("Sev", width="small"),
-            "confidence": st.column_config.NumberColumn("Conf", format="%.2f", width="small"),
-            "needs_human_review": st.column_config.CheckboxColumn("Review?", width="small"),
-            "evidence_excerpt": st.column_config.TextColumn("Verified quote", width="large"),
-            "source_url": st.column_config.LinkColumn("Source", display_text="Open"),
-        },
-    )
-    st.caption(f"{len(ev_view)} of {len(view)} filtered records shown.")
-
-    st.divider()
-    render_quality_panel()
-
-
-# --------------------------------------------------------------------------
-# Model quality
-# --------------------------------------------------------------------------
-def render_quality_panel() -> None:
-    st.subheader("How good is the AI classification?")
-
-    @st.cache_data
-    def evaluation_status(_mtime: float) -> dict | None:
-        """Cache keyed on the file's modification time.
-
-        The review CSV is meant to be edited by hand, so a plain cache would
-        keep serving "Not yet evaluated" after someone fills it in. Passing
-        mtime makes an edit invalidate the cache automatically.
-        """
-        sample_path = ROOT / "data" / "evaluation" / "review_sample.csv"
-        if not sample_path.exists():
-            return None
-        from src.analysis.evaluate import score
-        return score(pd.read_csv(sample_path))
-
-    sample = ROOT / "data" / "evaluation" / "review_sample.csv"
-    ev = evaluation_status(sample.stat().st_mtime if sample.exists() else 0.0)
-
-    if ev is None:
-        st.info("No review sample has been created yet.", icon=":material/help:")
-        return
-
-    scored = {k: v for k, v in ev["fields"].items() if v["status"] == "evaluated"}
-    if not scored:
-        st.warning(
-            f"**Not yet evaluated.** A reproducible {ev['sample_size']}-record "
-            "sample is ready for manual review, but no human labels have been "
-            "entered yet — so there is no agreement figure to report. This panel "
-            "deliberately shows nothing rather than a number that would not mean "
-            "anything.",
-            icon=":material/pending:",
-        )
-    else:
-        with st.container(horizontal=True):
-            for label, entry in scored.items():
-                st.metric(
-                    label.replace("_", " ").title(),
-                    f"{entry['agreement_rate']:.0%}",
-                    help=f"{entry['agreements']} of {entry['labelled']} reviewed "
-                         f"records agreed",
-                    border=True,
+        with st.container(key="afi_feedback"):
+            head, tools = st.columns([1, 0.32], gap="small")
+            with head:
+                st.markdown(
+                    '<div><h2 style="font-size:17px;letter-spacing:-.02em;'
+                    'margin:0 0 6px">Feedback behind recommended actions</h2>'
+                    '<p style="margin:0;font-size:12px;color:#64748b">Inspect the '
+                    "original signal, source, status, confidence and labels behind "
+                    "any recommendation.</p></div>",
+                    unsafe_allow_html=True,
                 )
-        if ev["disagreements"]:
-            with st.expander(f"Disagreements ({len(ev['disagreements'])})"):
-                st.dataframe(pd.DataFrame(ev["disagreements"]), hide_index=True)
+            with tools:
+                st.markdown('<div class="afi-search">', unsafe_allow_html=True)
+                st.text_input("Search feedback", key="f_search",
+                              placeholder="Search feedback...",
+                              label_visibility="collapsed")
+                st.markdown("</div>", unsafe_allow_html=True)
 
-    st.caption(
-        f"Sample of {ev['sample_size']} records, drawn with a fixed seed and "
-        "stratified across relevance and category. At this size it is a sanity "
-        "check, not a statistically robust evaluation — enough to catch a "
-        "category nobody can apply consistently, not enough to quote an accuracy "
-        "figure with confidence."
-    )
+            st.markdown(
+                render.render_filter_state(
+                    shown=len(shown), total=len(rel),
+                    open_count=int(shown["is_open"].sum()),
+                    min_severity=filters["severity"], focus=focus,
+                ),
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                render.render_feedback_cards(
+                    shown.sort_values(["severity", "confidence"],
+                                      ascending=[False, False])
+                         .head(40).to_dict("records")
+                ),
+                unsafe_allow_html=True,
+            )
+
+        st.markdown(render.render_comparison_panel(), unsafe_allow_html=True)
 
 
 # ==========================================================================
-# TAB 2 -- GUIDE
+# Guide
 # ==========================================================================
 def render_guide() -> None:
-    st.title("Taxonomy & Journey Guide")
-    st.caption(
-        "Written for a reader with no software or DevOps background. If you can "
-        "tell what a user was trying to do and what stopped them, you can use "
-        "this guide."
+    st.markdown(
+        '<div class="afi-card afi-section">'
+        '<div class="afi-eyebrow">Reference</div>'
+        '<h1 style="font-size:28px;letter-spacing:-.04em;margin:0 0 7px;'
+        'font-weight:750">Themes &amp; Journey Stages Guide</h1>'
+        '<p style="color:#64748b;margin:0">Written for a reader with no software '
+        "or DevOps background. If you can tell what a user was trying to do and "
+        "what stopped them, you can use this guide.</p></div>",
+        unsafe_allow_html=True,
+    )
+    st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
+
+    n_sub = sum(len(v) for v in SUBCATEGORY_NAMES_BY_CATEGORY.values())
+    cards = [
+        ("🏷️", "Category", "Which broad part of the product needs to change.",
+         f"{len(CATEGORY_NAMES)} categories"),
+        ("🔎", "Subcategory", "The specific part of that area.",
+         f"{n_sub} subcategories"),
+        ("🧩", "Problem type", "A bug, a missing feature, a confusing experience.",
+         f"{len(PROBLEM_TYPE_NAMES)} types"),
+        ("📍", "Journey stage", "How far the user had got before they hit it.",
+         f"{len(STAGE_NAMES)} stages"),
+    ]
+    st.markdown(
+        '<div class="afi-kpis">'
+        + "".join(
+            f'<div class="afi-card afi-kpi"><span class="label">{icon} {title}</span>'
+            f'<span style="display:block;margin:6px 0;font-size:13px">{body}</span>'
+            f'<span class="detail">{detail}</span></div>'
+            for icon, title, body, detail in cards
+        )
+        + "</div>",
+        unsafe_allow_html=True,
     )
 
-    st.info(
-        "**An Action is a form.** Someone fills it in to get something done — "
-        "deploy a service, spin up a database, request access. Everything in "
-        "this guide is about the moment that form fails its user.",
-        icon=":material/info:",
-    )
-
-    st.subheader("The four questions every record answers")
-    with st.container(horizontal=True):
-        with st.container(border=True):
-            st.markdown(
-                f"#### 🏷️ Category — *what area*\n"
-                f"Which broad part of the product needs to change.\n\n"
-                f"**{len(CATEGORY_NAMES)} categories.**"
-            )
-        with st.container(border=True):
-            st.markdown(
-                f"#### 🔎 Subcategory — *what exactly*\n"
-                f"The specific part of that area.\n\n"
-                f"**{sum(len(v) for v in SUBCATEGORY_NAMES_BY_CATEGORY.values())} "
-                f"subcategories.**"
-            )
-        with st.container(border=True):
-            st.markdown(
-                f"#### 🧩 Problem type — *what kind*\n"
-                f"A bug, a missing feature, a confusing experience.\n\n"
-                f"**{len(PROBLEM_TYPE_NAMES)} types.**"
-            )
-        with st.container(border=True):
-            st.markdown(
-                f"#### 📍 Journey stage — *where*\n"
-                f"How far the user had got before they hit it.\n\n"
-                f"**{len(STAGE_NAMES)} stages.**"
-            )
-
-    st.caption(
-        "They are independent on purpose. *Permissions* is the area; *Poor error "
-        "message* is the kind of problem; *Permissions & approvals* is the moment "
-        "it happened. Merging them would make all three impossible to count."
-    )
-
-    st.divider()
-
-    # ------------------------------------------------- how to decide
-    st.subheader("How to place a piece of feedback, in four steps")
-    for step, text in [
-        ("1", "**Ask what the user was trying to do**, in one plain sentence. "
-              "Not what they asked for — what they wanted."),
-        ("2", "**Ask what stopped them.** That points at the category."),
-        ("3", "**Read the subcategory's _Do NOT use when_ line** before you "
-              "commit. Almost every wrong answer is the neighbour it names."),
-        ("4", "**Ask how far they had got.** That is the journey stage — the "
-              "moment they *first* became blocked, not where it was noticed."),
-    ]:
-        st.markdown(f"**{step}.** {text}")
-
-    st.divider()
-
-    # ------------------------------------------------- categories
-    st.header(f"The {len(CATEGORY_NAMES)} categories")
     cat_counts = rel["primary_taxonomy_category"].value_counts().to_dict()
     sub_counts = rel["primary_taxonomy_subcategory"].value_counts().to_dict()
 
+    st.markdown(f'<div class="afi-card afi-section"><h2 class="afi-guide-h2">'
+                f"The {len(CATEGORY_NAMES)} categories</h2></div>",
+                unsafe_allow_html=True)
     for n, (name, block) in enumerate(TAXONOMY.items(), 1):
         count = cat_counts.get(name, 0)
-        with st.expander(
-            f"**{n}. {name}** — {count} record{'s' if count != 1 else ''} "
-            f"· {len(block['subcategories'])} subcategories"
-        ):
+        with st.expander(f"**{n}. {name}** — {count} record"
+                         f"{'s' if count != 1 else ''} · "
+                         f"{len(block['subcategories'])} subcategories"):
             st.markdown(f"**{block['plain']}**")
-            st.caption(f":material/place: Usual journey stage: `{block['default_stage']}`")
-
+            st.caption(f"Usual journey stage: `{block['default_stage']}`")
             for sub_name, sub in block["subcategories"].items():
                 sub_count = sub_counts.get(sub_name, 0)
-                st.markdown(f"##### {sub_name}  ·  {sub_count} record"
+                st.markdown(f"##### {sub_name} · {sub_count} record"
                             f"{'s' if sub_count != 1 else ''}")
                 st.markdown(sub["plain"])
                 st.markdown("**Use it for:** " + "; ".join(sub["use_for"]) + ".")
-                st.warning(f"**Do NOT use when:** {sub['avoid']}", icon=":material/block:")
+                st.warning(f"**Do NOT use when:** {sub['avoid']}",
+                           icon=":material/block:")
                 for example in sub["examples"]:
                     st.markdown(f"> {example}")
-                st.markdown("")
-
             if block["confusable"]:
-                st.info(
-                    "Most often confused with: "
-                    + ", ".join(f"**{c}**" for c in block["confusable"]),
-                    icon=":material/compare_arrows:",
-                )
+                st.info("Most often confused with: "
+                        + ", ".join(f"**{c}**" for c in block["confusable"]),
+                        icon=":material/compare_arrows:")
 
-    st.divider()
-
-    # ------------------------------------------------- stages
-    st.header(f"The {len(STAGE_NAMES)} journey stages")
-    st.caption(
-        "In the order a user meets them. Always pick the stage where the user "
-        "*first* becomes blocked."
-    )
+    st.markdown(f'<div class="afi-card afi-section"><h2 class="afi-guide-h2">'
+                f"The {len(STAGE_NAMES)} journey stages</h2>"
+                f'<p style="color:#64748b;margin:0;font-size:12px">In the order a '
+                f"user meets them. Always pick the stage where the user "
+                f"<i>first</i> becomes blocked.</p></div>",
+                unsafe_allow_html=True)
     stage_counts = rel["journey_stage"].value_counts().to_dict()
     for i, name in enumerate(STAGE_NAMES, 1):
         guide = STAGE_GUIDE[name]
         count = stage_counts.get(name, 0)
-        with st.container(border=True):
-            st.markdown(f"**{i}. {name}** · {count} record{'s' if count != 1 else ''}")
-            st.markdown(f"*The user is trying to:* {guide['user_goal']}")
-            st.markdown(f"> {guide['example']}")
+        st.markdown(
+            f'<div class="afi-card afi-section" style="margin-top:8px;padding:14px">'
+            f"<b>{i}. {name}</b> · {count} record{'s' if count != 1 else ''}"
+            f'<div style="color:#475569;margin-top:6px"><i>The user is trying to:</i> '
+            f"{guide['user_goal']}</div>"
+            f'<div class="afi-quote" style="margin-top:8px">{guide["example"]}</div>'
+            f"</div>",
+            unsafe_allow_html=True,
+        )
 
-    st.divider()
-
-    # ------------------------------------------------- worked examples
-    st.header("Worked examples")
-    st.caption("Real classification decisions, with the reasoning shown.")
+    st.markdown('<div class="afi-card afi-section" style="margin-top:16px">'
+                '<h2 class="afi-guide-h2">Worked examples</h2></div>',
+                unsafe_allow_html=True)
     for ex in WORKED_EXAMPLES:
-        with st.container(border=True):
-            st.markdown(f"> {ex['feedback']}")
-            a, b, c, d = st.columns(4)
-            a.markdown(f"🏷️ **Category**\n\n`{ex['category']}`")
-            b.markdown(f"🔎 **Subcategory**\n\n`{ex['subcategory']}`")
-            c.markdown(f"🧩 **Problem type**\n\n`{ex['problem_type']}`")
-            d.markdown(f"📍 **Stage**\n\n`{ex['stage']}`")
-            st.caption(f":material/lightbulb: {ex['why']}")
+        st.markdown(
+            f'<div class="afi-card afi-section" style="margin-top:8px;padding:14px">'
+            f'<div class="afi-quote">{ex["feedback"]}</div>'
+            f'<div class="afi-labels">'
+            f'<span class="afi-label">Category: {ex["category"]}</span>'
+            f'<span class="afi-label">Subcategory: {ex["subcategory"]}</span>'
+            f'<span class="afi-label">Problem: {ex["problem_type"]}</span>'
+            f'<span class="afi-label">Stage: {ex["stage"]}</span></div>'
+            f'<p style="color:#64748b;font-size:12px;margin:9px 0 0">{ex["why"]}</p>'
+            f"</div>",
+            unsafe_allow_html=True,
+        )
 
-    st.divider()
-
-    # ------------------------------------------------- confusion pairs
-    st.header("Commonly confused pairs")
-    st.caption(
-        "These are the decisions that go wrong most often. The difference is "
-        "always what the user is complaining about, never which words they used."
-    )
+    st.markdown('<div class="afi-card afi-section" style="margin-top:16px">'
+                '<h2 class="afi-guide-h2">Commonly confused pairs</h2></div>',
+                unsafe_allow_html=True)
     for pair in CONFUSION_PAIRS:
-        with st.container(border=True):
-            left, right = st.columns(2)
-            left.markdown(f"**{pair['left']}**\n\n{pair['left_says']}")
-            right.markdown(f"**{pair['right']}**\n\n{pair['right_says']}")
+        st.markdown(
+            f'<div class="afi-card afi-section" style="margin-top:8px;padding:14px">'
+            f'<div class="afi-comparison">'
+            f'<div class="old"><strong>{pair["left"]}</strong>'
+            f'<p style="margin:6px 0 0;color:#475569">{pair["left_says"]}</p></div>'
+            f'<div class="new"><strong>{pair["right"]}</strong>'
+            f'<p style="margin:6px 0 0;color:#475569">{pair["right_says"]}</p></div>'
+            f"</div></div>",
+            unsafe_allow_html=True,
+        )
 
-    st.divider()
-
-    # ------------------------------------------------- severity + glossary
-    st.header("Severity")
-    st.caption("How much the problem hurts, as described in the text — not how "
-               "popular the request is and not how hard it would be to build.")
-    for level in sorted(SEVERITY_SCALE, reverse=True):
-        st.markdown(f"**{level}** — {SEVERITY_SCALE[level]}")
-
-    st.divider()
-
-    st.header("Personas")
-    st.caption(
-        "Who the feedback is coming from. Independent of everything above — the "
-        "same subcategory can be a builder's problem and a developer's problem, "
-        "and those are different things to fix."
-    )
     persona_counts = rel["persona"].value_counts().to_dict()
-    for name, meaning in PERSONAS.items():
-        count = persona_counts.get(name, 0)
-        st.markdown(f"**{name}** — {meaning} *({count} record"
-                    f"{'s' if count != 1 else ''})*")
-
-    st.divider()
-
-    st.header("Secondary areas")
-    st.caption(
-        "A record names one primary area, and may name up to two more it also "
-        "touches. This exists so a permissions problem whose real complaint is "
-        "a missing explanation is visible to **both** teams. Secondary areas are "
-        "shown in the evidence table and counted in their own column — they "
-        "never enter a primary total or a ranking, so no record is counted twice."
+    severity_rows = "".join(
+        f"<li><b>{k}</b> — {SEVERITY_SCALE[k]}</li>"
+        for k in sorted(SEVERITY_SCALE, reverse=True)
     )
-    with_secondary = int(rel["secondary_categories"].apply(lambda x: bool(x)).sum())
+    persona_rows = "".join(
+        f"<li><b>{name}</b> — {meaning} "
+        f"<i>({persona_counts.get(name, 0)} records)</i></li>"
+        for name, meaning in PERSONAS.items()
+    )
     st.markdown(
-        f"**{with_secondary} of {len(rel)}** in-scope records name at least one "
-        f"secondary area."
+        f'<div class="afi-card afi-section" style="margin-top:16px">'
+        f'<h2 class="afi-guide-h2">Severity and personas</h2>'
+        f'<div class="afi-comparison">'
+        f'<div style="border:1px solid #e2e8f0;background:#f8fafc">'
+        f"<strong>Severity</strong><ul>{severity_rows}</ul></div>"
+        f'<div style="border:1px solid #e2e8f0;background:#f8fafc">'
+        f"<strong>Personas</strong><ul>{persona_rows}</ul></div>"
+        f"</div></div>",
+        unsafe_allow_html=True,
     )
 
-    st.divider()
-
-    st.header("Glossary")
-    st.caption("Every term used in this app, in plain language.")
-    terms = list(GLOSSARY.items())
-    half = (len(terms) + 1) // 2
-    left, right = st.columns(2)
-    for column, chunk in ((left, terms[:half]), (right, terms[half:])):
-        with column:
-            for term, definition in chunk:
-                st.markdown(f"**{term}** — {definition}")
+    glossary_rows = "".join(f"<li><b>{t}</b> — {d}</li>" for t, d in GLOSSARY.items())
+    st.markdown(
+        f'<div class="afi-card afi-section" style="margin-top:16px">'
+        f'<h2 class="afi-guide-h2">Glossary</h2>'
+        f'<ul style="columns:2;column-gap:28px;color:#475569;padding-left:18px">'
+        f"{glossary_rows}</ul></div>",
+        unsafe_allow_html=True,
+    )
 
 
 # ==========================================================================
-# Tabs
+# Shell
 # ==========================================================================
-tab_dashboard, tab_guide = st.tabs(["📊 Dashboard", "📖 Taxonomy & Journey Guide"])
+st.markdown(render.render_topbar(amet), unsafe_allow_html=True)
+
+# The tab widget lives inside a keyed container so the stylesheet can pin it
+# into the top bar. A sibling <div> would not wrap it: Streamlit renders each
+# call as its own node.
+with st.container(key="afi_nav"):
+    tab_dashboard, tab_guide = st.tabs(
+        ["Dashboard", "Themes & Journey Stages Guide"])
 
 with tab_dashboard:
     render_dashboard()

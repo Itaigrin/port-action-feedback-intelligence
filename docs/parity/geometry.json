@@ -1,0 +1,226 @@
+{
+  "mockup-desktop": {
+    "topbar": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 64
+    },
+    "sidebar": {
+      "x": 32,
+      "y": 88,
+      "width": 270,
+      "height": 767
+    },
+    "hero": {
+      "x": 326,
+      "y": 88,
+      "width": 1082,
+      "height": 106
+    },
+    "kpi-row": {
+      "x": 326,
+      "y": 216,
+      "width": 1082,
+      "height": 142
+    },
+    "kpi-card": {
+      "x": 326,
+      "y": 216,
+      "width": 260,
+      "height": 142
+    },
+    "actions-panel": {
+      "x": 326,
+      "y": 378,
+      "width": 690,
+      "height": 1928
+    },
+    "charts-panel": {
+      "x": 1036,
+      "y": 378,
+      "width": 372,
+      "height": 461
+    },
+    "feedback-section": {
+      "x": 326,
+      "y": 2332,
+      "width": 1082,
+      "height": 2804
+    },
+    "comparison": {
+      "x": 326,
+      "y": 5156,
+      "width": 1082,
+      "height": 214
+    }
+  },
+  "app-desktop": {
+    "topbar": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 64
+    },
+    "sidebar": {
+      "x": 32,
+      "y": 88,
+      "width": 270,
+      "height": 676
+    },
+    "hero": {
+      "x": 326,
+      "y": 88,
+      "width": 1082,
+      "height": 134
+    },
+    "kpi-row": {
+      "x": 326,
+      "y": 230,
+      "width": 1082,
+      "height": 142
+    },
+    "kpi-card": {
+      "x": 326,
+      "y": 230,
+      "width": 260,
+      "height": 142
+    },
+    "actions-panel": {
+      "x": 326,
+      "y": 378,
+      "width": 693,
+      "height": 2802
+    },
+    "charts-panel": {
+      "x": 1039,
+      "y": 378,
+      "width": 369,
+      "height": 1234
+    },
+    "feedback-section": {
+      "x": 326,
+      "y": 3192,
+      "width": 1082,
+      "height": 10223
+    },
+    "comparison": {
+      "x": 326,
+      "y": 13434,
+      "width": 1082,
+      "height": 250
+    }
+  },
+  "mockup-mobile": {
+    "topbar": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 64
+    },
+    "sidebar": {
+      "x": 18,
+      "y": 82,
+      "width": 354,
+      "height": 732
+    },
+    "hero": {
+      "x": 18,
+      "y": 838,
+      "width": 354,
+      "height": 316
+    },
+    "kpi-row": {
+      "x": 18,
+      "y": 1176,
+      "width": 354,
+      "height": 529
+    },
+    "kpi-card": {
+      "x": 18,
+      "y": 1176,
+      "width": 354,
+      "height": 122
+    },
+    "actions-panel": {
+      "x": 18,
+      "y": 1724,
+      "width": 354,
+      "height": 2649
+    },
+    "charts-panel": {
+      "x": 18,
+      "y": 4393,
+      "width": 354,
+      "height": 478
+    },
+    "feedback-section": {
+      "x": 18,
+      "y": 4898,
+      "width": 354,
+      "height": 4745
+    },
+    "comparison": {
+      "x": 18,
+      "y": 9663,
+      "width": 354,
+      "height": 551
+    }
+  },
+  "app-mobile": {
+    "topbar": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 64
+    },
+    "sidebar": {
+      "x": 18,
+      "y": 82,
+      "width": 354,
+      "height": 661
+    },
+    "hero": {
+      "x": 18,
+      "y": 767,
+      "width": 354,
+      "height": 327
+    },
+    "kpi-row": {
+      "x": 18,
+      "y": 1102,
+      "width": 354,
+      "height": 529
+    },
+    "kpi-card": {
+      "x": 18,
+      "y": 1102,
+      "width": 354,
+      "height": 122
+    },
+    "actions-panel": {
+      "x": 18,
+      "y": 1637,
+      "width": 354,
+      "height": 4970
+    },
+    "charts-panel": {
+      "x": 18,
+      "y": 6613,
+      "width": 354,
+      "height": 1254
+    },
+    "feedback-section": {
+      "x": 18,
+      "y": 7893,
+      "width": 354,
+      "height": 19577
+    },
+    "comparison": {
+      "x": 18,
+      "y": 27489,
+      "width": 354,
+      "height": 594
+    }
+  }
+}
