@@ -11,30 +11,37 @@
     "keys": [
       {
         "key": "is_critical",
+        "label": "Reported by several people and painful",
         "explanation": "Critical: at least 3 open records AND an average severity of 4 or above. Widely reported and severe, so it outranks everything below regardless of the other keys."
       },
       {
         "key": "open_records",
+        "label": "How many people asked for it",
         "explanation": "Number of distinct open feedback records asking for this change -- independent voices converging on one problem."
       },
       {
         "key": "severity_band",
+        "label": "How much it hurts, typically",
         "explanation": "Severity band (average severity, rounded) -- how much the problem hurts when it happens."
       },
       {
         "key": "max_severity",
+        "label": "The worst single case",
         "explanation": "The single worst record in the group."
       },
       {
         "key": "source_diversity",
+        "label": "How many different places it came from",
         "explanation": "How many different source systems raised it."
       },
       {
         "key": "avg_confidence",
+        "label": "How sure the AI was",
         "explanation": "Average classifier confidence, as a data-quality tie-breaker only."
       },
       {
         "key": "latest_created",
+        "label": "How recently it was raised",
         "explanation": "Recency of the newest supporting record."
       }
     ],

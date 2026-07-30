@@ -889,6 +889,8 @@ Lifecycle statuses: `Open`, `Planned`, `In progress`, `Completed`, `Closed`, `Un
 
 **Open statuses** — `In progress`, `Open`, `Planned` — are the only ones counted towards a product-action ranking. Completed and closed work is excluded so a shipped feature cannot argue for itself again; it stays visible in the evidence explorer, where "we already built this" is itself a finding.
 
+Lifecycle status also feeds the ranking's first key. An action backed by at least 3 **open** records whose average severity is 4 or above is treated as critical and outranks everything else. Both floors must be cleared; the severity test uses the raw mean rather than the rounded band, so an average of 3.5 does not qualify under a rule written as "4 and above". See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full key order.
+
 Portal statuses are normalised through this map. Anything unrecognised becomes `Unknown` rather than passing through as if it had been normalised.
 
 | Portal value | Normalised |

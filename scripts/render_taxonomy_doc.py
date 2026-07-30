@@ -16,6 +16,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from src.analysis.aggregate import (  # noqa: E402
+    CRITICAL_MIN_RECORDS,
+    CRITICAL_MIN_SEVERITY,
+)
 from src.models.taxonomy import (  # noqa: E402
     ALL_SUBCATEGORY_NAMES,
     CATEGORY_NAMES,
@@ -191,6 +195,15 @@ def render() -> str:
         "and closed work is excluded so a shipped feature cannot argue for itself "
         "again; it stays visible in the evidence explorer, where \"we already built "
         "this\" is itself a finding.")
+    add("")
+    add(f"Lifecycle status also feeds the ranking's first key. An action backed "
+        f"by at least {CRITICAL_MIN_RECORDS} **open** records whose average "
+        f"severity is {CRITICAL_MIN_SEVERITY:.0f} or above is treated as "
+        "critical and outranks everything else. Both floors must be cleared; the "
+        "severity test uses the raw mean rather than the rounded band, so an "
+        "average of 3.5 does not qualify under a rule written as "
+        f"\"{CRITICAL_MIN_SEVERITY:.0f} and above\". See "
+        "[`ARCHITECTURE.md`](ARCHITECTURE.md) for the full key order.")
     add("")
     add("Portal statuses are normalised through this map. Anything unrecognised "
         "becomes `Unknown` rather than passing through as if it had been "

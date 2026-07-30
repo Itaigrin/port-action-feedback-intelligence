@@ -530,11 +530,20 @@ def test_sidebar_ranking_note_is_generated_from_the_ranking_keys(aggregates):
 
     assert 'agg["ranking"]["keys"]' in APP, "note must read the live key list"
     assert "afi-rank-note" in APP and "afi-rank-note" in THEME
-    assert "How actions are ranked" in APP
+    assert "How the list is ordered" in APP
     # The claims the note makes must still hold.
-    assert "no weighted score" in APP
-    assert [k for k, _ in RANK_KEYS] == [
+    assert "Nothing is scored or weighted" in APP
+    assert "votes are not used" in APP
+    assert "still open" in APP
+    assert [k for k, *_ in RANK_KEYS] == [
         e["key"] for e in aggregates["ranking"]["keys"]]
+
+    # The rail shows plain labels, never field names -- "severity_band" in a
+    # sidebar is accurate and useless to the reader it is written for.
+    assert "entry['label']" in APP
+    for field, label, _ in RANK_KEYS:
+        assert label and not label.islower() or " " in label, field
+        assert f">{field}<" not in APP, f"raw field name shown in the rail: {field}"
 
 
 def test_critical_actions_are_badged():

@@ -223,23 +223,26 @@ def render_filter_panel() -> dict:
             )
 
     # How the ranking works, stated where the reader is already deciding what
-    # to trust. The key list is generated from the same constant the code ranks
-    # by, so this note cannot drift away from the actual behaviour.
-    # <ol> supplies the numbering; writing the index in as well double-numbers.
+    # to trust. The list is generated from the same constant the code sorts by,
+    # so it cannot drift -- but it shows each key's plain label rather than its
+    # field name, because a rail reading "severity_band" explains nothing to
+    # the person this guide is written for.
     keys = "".join(
-        f"<li><b>{entry['key']}</b></li>" for entry in agg["ranking"]["keys"]
+        f"<li>{entry['label']}</li>" for entry in agg["ranking"]["keys"]
     )
     st.markdown(
         '<div class="afi-rank-note">'
-        "<b>How actions are ranked</b>"
-        "<p>Only <b>open</b>, in-scope records count — completed and closed "
-        "work is excluded so shipped features cannot argue for themselves "
-        "again. Records are grouped by taxonomy subcategory, and the groups are "
-        "ordered by these keys in turn. The first key that differs decides the "
-        "position:</p>"
+        "<b>How the list is ordered</b>"
+        "<p>Only feedback that is <b>still open</b> counts. Anything already "
+        "built or closed is left out, so finished work does not compete for a "
+        "place on the list.</p>"
+        "<p>Feedback asking for the same change is grouped together. The groups "
+        "are then compared on each point below, in order — the first point "
+        "where they differ decides which comes first:</p>"
         f"<ol>{keys}</ol>"
-        "<p>There is no weighted score and nothing is ranked by votes. Every "
-        "position can be explained by naming the one key that decided it.</p>"
+        "<p>Nothing is scored or weighted, and votes are not used. Whichever "
+        "action is on top, you can always point at the one thing that put it "
+        "there.</p>"
         "</div>",
         unsafe_allow_html=True,
     )

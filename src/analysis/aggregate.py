@@ -53,23 +53,39 @@ LOW_CONFIDENCE = 0.7
 CRITICAL_MIN_RECORDS = 3
 CRITICAL_MIN_SEVERITY = 4.0
 
-# The ranking keys, applied in this order, all descending. Stated as data so
-# the dashboard can display the exact list that produced the ranking rather
-# than a prose paraphrase of it that could drift out of sync.
-RANK_KEYS: tuple[tuple[str, str], ...] = (
-    ("is_critical", f"Critical: at least {CRITICAL_MIN_RECORDS} open records "
-                    f"AND an average severity of {CRITICAL_MIN_SEVERITY:.0f} or "
-                    "above. Widely reported and severe, so it outranks "
-                    "everything below regardless of the other keys."),
-    ("open_records", "Number of distinct open feedback records asking for this "
-                     "change -- independent voices converging on one problem."),
-    ("severity_band", "Severity band (average severity, rounded) -- how much "
-                      "the problem hurts when it happens."),
-    ("max_severity", "The single worst record in the group."),
-    ("source_diversity", "How many different source systems raised it."),
-    ("avg_confidence", "Average classifier confidence, as a data-quality "
-                       "tie-breaker only."),
-    ("latest_created", "Recency of the newest supporting record."),
+# The ranking keys, applied in this order, all descending.
+#
+# Each entry is (field, plain_label, explanation). The plain label exists so
+# the dashboard can explain the ranking to a reader with no background here --
+# a sidebar listing `severity_band` and `avg_confidence` is accurate and
+# useless. Keeping the label beside the field means the readable version is
+# generated from the same source that does the sorting, and cannot drift.
+RANK_KEYS: tuple[tuple[str, str, str], ...] = (
+    ("is_critical",
+     "Reported by several people and painful",
+     f"Critical: at least {CRITICAL_MIN_RECORDS} open records AND an average "
+     f"severity of {CRITICAL_MIN_SEVERITY:.0f} or above. Widely reported and "
+     "severe, so it outranks everything below regardless of the other keys."),
+    ("open_records",
+     "How many people asked for it",
+     "Number of distinct open feedback records asking for this change -- "
+     "independent voices converging on one problem."),
+    ("severity_band",
+     "How much it hurts, typically",
+     "Severity band (average severity, rounded) -- how much the problem hurts "
+     "when it happens."),
+    ("max_severity",
+     "The worst single case",
+     "The single worst record in the group."),
+    ("source_diversity",
+     "How many different places it came from",
+     "How many different source systems raised it."),
+    ("avg_confidence",
+     "How sure the AI was",
+     "Average classifier confidence, as a data-quality tie-breaker only."),
+    ("latest_created",
+     "How recently it was raised",
+     "Recency of the newest supporting record."),
 )
 
 
@@ -162,7 +178,7 @@ def product_actions(rel: pd.DataFrame) -> pd.DataFrame:
     # so the same input always produces the same ranking -- no ties broken by
     # dict or row order.
     actions = actions.sort_values(
-        [key for key, _ in RANK_KEYS] + ["subcategory"],
+        [key for key, *_ in RANK_KEYS] + ["subcategory"],
         ascending=[False] * len(RANK_KEYS) + [True],
     ).reset_index(drop=True)
     actions["rank"] = actions.index + 1
@@ -368,7 +384,8 @@ def build_all() -> dict:
             "generated_at": meta.get("generated_at", ""),
         },
         "ranking": {
-            "keys": [{"key": k, "explanation": e} for k, e in RANK_KEYS],
+            "keys": [{"key": k, "label": lbl, "explanation": e}
+                     for k, lbl, e in RANK_KEYS],
             "explanation": (
                 "Product actions are ranked lexicographically, not by a weighted "
                 "score. Only open records count towards a ranking; completed and "

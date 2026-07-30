@@ -97,16 +97,23 @@ An earlier version ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 ×
 
 Open feedback is grouped by taxonomy subcategory, and each group becomes one candidate product action. Groups are ordered by applying these keys in sequence; the first that differs decides the position.
 
-1. **Open records** — how many distinct open records ask for this change.
-2. **Severity band** — average severity, rounded. How much it hurts when it happens.
-3. **Max severity** — the single worst record in the group.
-4. **Source diversity** — how many different source systems raised it.
-5. **Average confidence** — a data-quality tie-breaker only.
-6. **Recency** — the newest supporting record.
+1. **Critical** — a gate: at least 3 open records **and** an average severity of 4.0 or above.
+2. **Open records** — how many distinct open records ask for this change.
+3. **Severity band** — average severity, rounded. How much it hurts when it happens.
+4. **Max severity** — the single worst record in the group.
+5. **Source diversity** — how many different source systems raised it.
+6. **Average confidence** — a data-quality tie-breaker only.
+7. **Recency** — the newest supporting record.
+
+**Why a gate rather than another sort key.** Being widely reported *and* severe is the one combination that should beat a larger but milder problem, and it is not a quantity that can be traded off — an action either clears both floors or it does not. Both floors earn their place: the record floor blocks four singletons at severity 4.0, and the severity floor blocks *RBAC & dynamic permissions*, which has ten records but averages 3.5. Two of 54 actions qualify.
+
+**The gate tests the raw mean, not the rounded band.** That decides a real case rather than a hypothetical one: 3.5 rounds to a band of 4, so testing the band would admit RBAC under a rule written as "4 and above". `tests/test_pipeline.py::test_critical_gate_requires_both_floors` asserts at least one such action exists and is excluded, so the distinction cannot be lost silently.
+
+Because the severity chip on a card shows the *rounded* band, an action averaging 3.5 reads "Severity 4" while ranking below one that cleared the gate. Cards that clear it therefore carry a **Critical** badge, so the order is explicable on sight rather than looking arbitrary.
 
 A final alphabetical key makes the order **total**, so the same input always produces the same ranking rather than one that depends on row order.
 
-**Why volume leads and severity follows.** The first version of this ranking put severity first, matching the "rank by severity, break ties by count" sketch in the design write-up. Run against the full dataset it produced an indefensible list: a single severity-4 request for Vault integration outranked a problem eight independent records reported. Severity is one model's reading of one piece of text, so a lone high-severity record is a far weaker signal than several records converging. High severity is surfaced instead as its own KPI and sidebar filter, where a small number of severe records stays visible without displacing widely-reported ones.
+**Why volume leads severity below the gate.** The first version of this ranking put severity first, matching the "rank by severity, break ties by count" sketch in the design write-up. Run against the full dataset it produced an indefensible list: a single severity-4 request for Vault integration outranked a problem eight independent records reported. Severity is one model's reading of one piece of text, so a lone high-severity record is a far weaker signal than several records converging. High severity is surfaced instead as its own KPI and sidebar filter, where a small number of severe records stays visible without displacing widely-reported ones.
 
 **Only open records count.** `Completed` and `Closed` are excluded via `OPEN_STATUSES`, so shipped work cannot argue for itself again. Those records stay visible in the evidence explorer, where "we already built this" is itself a finding.
 
