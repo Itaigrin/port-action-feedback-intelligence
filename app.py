@@ -26,6 +26,7 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 from src.analysis.aggregate import (
     HIGH_SEVERITY,
@@ -33,6 +34,7 @@ from src.analysis.aggregate import (
     product_actions,
 )
 from src.models.taxonomy import (
+    CATEGORY_FOR_SUBCATEGORY,
     CATEGORY_NAMES,
     CONFUSION_PAIRS,
     GLOSSARY,
@@ -99,9 +101,57 @@ OUT_OF_SCOPE = int(len(df) - len(rel))
 # --------------------------------------------------------------------------
 # Filter panel -- column 1 of the page grid, not Streamlit's native sidebar
 # --------------------------------------------------------------------------
+# Every filter widget with the value it resets to. Kept as one mapping so the
+# reset cannot drift away from the widgets it is meant to clear.
+FILTER_DEFAULTS: dict[str, object] = {
+    "f_status": [],
+    "f_problem": [],
+    "f_stage": [],
+    "f_category": [],
+    "f_subcategory": [],
+    "f_persona": [],
+    "f_review": "All",
+    "f_search": "",
+    "f_severity": 1,
+    "f_top_n": DEFAULT_TOP_ACTIONS,
+}
+
+
+def _reset_filters() -> None:
+    """Clear every filter widget.
+
+    Two things here are load-bearing.
+
+    It runs as a button callback, which Streamlit executes *before* the next
+    script run creates any widget. Assigning a widget-bound key *after* its
+    widget exists in the same run raises StreamlitAPIException -- which is what
+    the previous inline version did, and why the button crashed.
+
+    It *assigns* defaults rather than deleting the keys. Deleting clears the
+    Python value but leaves the browser holding its own widget state, so the
+    data reset while the selected chips stayed on screen. Assigning pushes the
+    new value to the frontend as well.
+    """
+    for key, value in FILTER_DEFAULTS.items():
+        st.session_state[key] = value
+    st.session_state.pop("_applied_sub", None)
+    st.query_params.clear()
+
+
 def render_filter_panel() -> dict:
     """Render the compact filter rail and return the current selections."""
     params = st.query_params
+
+    # Seed the taxonomy filters from a subcategory click, before any widget is
+    # created -- assigning a widget key is only legal ahead of its widget.
+    # Guarded by _applied_sub so the seed happens once and the user can then
+    # clear the filter without the query parameter forcing it back.
+    pending_sub = params.get("sub")
+    if pending_sub and st.session_state.get("_applied_sub") != pending_sub:
+        if pending_sub in CATEGORY_FOR_SUBCATEGORY:
+            st.session_state["f_category"] = [CATEGORY_FOR_SUBCATEGORY[pending_sub]]
+            st.session_state["f_subcategory"] = [pending_sub]
+        st.session_state["_applied_sub"] = pending_sub
 
     st.markdown(
         '<div class="afi-panel" style="padding:17px">'
@@ -129,21 +179,19 @@ def render_filter_panel() -> dict:
         key="f_stage",
     )
 
-    # A category clicked in the chart pre-seeds this control.
+    # Clicking a category only opens its subcategories in the chart; it must
+    # not rewrite the filters, or the reader loses the selection they built.
     present_categories = [c for c in CATEGORY_NAMES
                           if c in set(rel["primary_taxonomy_category"].dropna())]
-    if params.get("cat") and params["cat"] in present_categories:
-        st.session_state.setdefault("f_category", [params["cat"]])
     category = st.multiselect("Taxonomy category", present_categories, key="f_category")
 
+    present_subs = set(rel["primary_taxonomy_subcategory"].dropna())
     sub_pool = [
         s
         for c in (category or present_categories)
         for s in SUBCATEGORY_NAMES_BY_CATEGORY[c]
-        if s in set(rel["primary_taxonomy_subcategory"].dropna())
+        if s in present_subs
     ]
-    if params.get("sub") and params["sub"] in sub_pool:
-        st.session_state.setdefault("f_subcategory", [params["sub"]])
     subcategory = st.multiselect("Taxonomy subcategory", sub_pool, key="f_subcategory")
 
     severity = st.slider("Minimum severity", 1, 5, 1, key="f_severity")
@@ -158,14 +206,7 @@ def render_filter_panel() -> dict:
         value=DEFAULT_TOP_ACTIONS, step=1, key="f_top_n",
     )
 
-    if st.button("Reset all filters", key="f_reset"):
-        for key in ("f_status", "f_problem", "f_stage", "f_category",
-                    "f_subcategory", "f_search"):
-            st.session_state.pop(key, None)
-        st.session_state["f_severity"] = 1
-        st.session_state["f_top_n"] = DEFAULT_TOP_ACTIONS
-        st.query_params.clear()
-        st.rerun()
+    st.button("Reset all filters", key="f_reset", on_click=_reset_filters)
 
     with st.expander("More filters"):
         persona = st.multiselect(
@@ -363,6 +404,25 @@ def render_dashboard() -> None:
                 ),
                 unsafe_allow_html=True,
             )
+
+            if focus:
+                # The #afi-feedback fragment alone is not enough: the browser
+                # resolves it while Streamlit is still streaming the page, so
+                # the anchor does not exist yet and the reader is left at the
+                # top wondering whether the click did anything.
+                components.html(
+                    "<script>"
+                    "let tries = 0;"
+                    "const go = () => {"
+                    "  const el = window.parent.document"
+                    f"    .getElementById('{render.FEEDBACK_ANCHOR}');"
+                    "  if (el) { el.scrollIntoView({behavior: 'smooth', block: 'start'}); }"
+                    "  else if (++tries < 20) { setTimeout(go, 150); }"
+                    "};"
+                    "setTimeout(go, 150);"
+                    "</script>",
+                    height=0,
+                )
 
         st.markdown(render.render_comparison_panel(), unsafe_allow_html=True)
 

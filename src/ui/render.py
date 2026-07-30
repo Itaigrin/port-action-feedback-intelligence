@@ -14,13 +14,33 @@ appear anywhere in this file.
 from __future__ import annotations
 
 from html import escape
+from urllib.parse import quote
 
 from ..models.taxonomy import SEVERITY_SCALE  # noqa: F401  (documents the 1-5 scale)
 from .theme import SEVERITY_BADGE
 
+# Anchor target for the feedback section, so an action link jumps to the
+# records it filtered instead of leaving the reader at the top of the page.
+FEEDBACK_ANCHOR = "afi-feedback"
+
 
 def _esc(value: object) -> str:
     return escape(str(value if value is not None else ""), quote=True)
+
+
+def _href(param: str, value: str, fragment: str = "") -> str:
+    """Build a query-parameter link.
+
+    The value must be percent-encoded, not HTML-escaped. Most taxonomy names
+    contain an ampersand ("Permissions & Approvals"); HTML-escaping produces
+    `&amp;`, the browser decodes that back to a bare `&`, and the query string
+    then splits there -- so the app received "Permissions " and matched nothing.
+    Eight of eleven categories and forty-six of fifty-four subcategories were
+    affected.
+    """
+    encoded = quote(str(value), safe="")
+    tail = f"#{fragment}" if fragment else ""
+    return f"?{param}={encoded}{tail}"
 
 
 def _plural(n: int, word: str) -> str:
@@ -123,7 +143,7 @@ def render_product_actions(actions: list[dict], limit: int) -> str:
                 f'<span class="afi-badge b-amber">'
                 f'{action["needs_review"]} flagged for review</span>'
             )
-        focus = _esc(action["subcategory"])
+        focus = _href("focus", action["subcategory"], FEEDBACK_ANCHOR)
         rows.append(
             f'<div class="{cls}">'
             f'<div class="afi-insight-top">'
@@ -131,7 +151,7 @@ def render_product_actions(actions: list[dict], limit: int) -> str:
             f'<span class="afi-badge {badge}">Severity {severity}</span></div>'
             f"<p>{_esc(signal)}</p>"
             f'<div class="afi-action-metrics">{"".join(metrics)}</div>'
-            f'<a class="afi-action-btn" href="?focus={focus}" target="_self">'
+            f'<a class="afi-action-btn" href="{focus}" target="_self">'
             f"View supporting feedback &#8595;</a>"
             "</div>"
         )
@@ -156,7 +176,7 @@ def _bar_rows(rows: list[tuple[str, int]], link: str | None) -> str:
         )
         if link:
             out.append(
-                f'<a class="afi-category-row" href="?{link}={_esc(name)}" '
+                f'<a class="afi-category-row" href="{_href(link, name)}" '
                 f'target="_self">{body}</a>'
             )
         else:
@@ -213,7 +233,7 @@ def render_feedback_cards(records: list[dict]) -> str:
         return ('<div class="afi-empty">No feedback matches these filters. '
                 "Try widening them, or clear the search box.</div>")
 
-    out = ['<div class="afi-evidence">']
+    out = [f'<div class="afi-evidence" id="{FEEDBACK_ANCHOR}">']
     for r in records:
         meta = [
             f'<span class="afi-badge b-neutral">{_esc(r["source_system"])}</span>',

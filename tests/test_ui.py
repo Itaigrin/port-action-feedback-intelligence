@@ -276,3 +276,93 @@ def test_ui_renders_pipeline_data_not_hardcoded_markup(records):
 def test_page_starts_without_an_api_key():
     assert "import anthropic" not in APP
     assert "ANTHROPIC_API_KEY" not in APP
+
+
+# --- interaction regressions ----------------------------------------------
+def test_query_links_are_url_encoded_not_html_escaped():
+    """Ampersands in taxonomy names must survive the round trip.
+
+    HTML-escaping produces `&amp;`; the browser decodes that to a bare `&`,
+    which then splits the query string. Eight of eleven categories and
+    forty-six of fifty-four subcategories contain an ampersand, so this broke
+    almost every drill-down and every action link.
+    """
+    from urllib.parse import parse_qs, urlparse
+
+    from src.models.taxonomy import ALL_SUBCATEGORY_NAMES, CATEGORY_NAMES
+    from src.ui.render import (
+        render_product_actions,
+        render_taxonomy_chart,
+    )
+
+    html = render_taxonomy_chart([(c, 1) for c in CATEGORY_NAMES], None)
+    assert "&amp;" not in re.findall(r'href="([^"]*)"', html)[0]
+    for name, href in zip(CATEGORY_NAMES, re.findall(r'href="([^"]*)"', html)):
+        assert parse_qs(urlparse(href).query)["cat"] == [name], href
+
+    action = {
+        "category": "Permissions & Approvals",
+        "subcategory": "RBAC & dynamic permissions",
+        "product_action": "Enforce RBAC on run pages.",
+        "open_records": 3, "avg_severity": 3.0, "max_severity": 4,
+        "source_diversity": 1, "needs_review": 0, "signal": "quote",
+    }
+    html = render_product_actions([action], 10)
+    href = re.search(r'class="afi-action-btn" href="([^"]+)"', html).group(1)
+    parsed = urlparse(href)
+    assert parse_qs(parsed.query)["focus"] == ["RBAC & dynamic permissions"]
+    assert parsed.fragment == "afi-feedback", "link must jump to the records"
+    assert ALL_SUBCATEGORY_NAMES  # sanity
+
+
+def test_feedback_section_carries_the_scroll_anchor():
+    from src.ui.render import FEEDBACK_ANCHOR, render_feedback_cards
+
+    record = {
+        "title": "t", "source_system": "Port portal", "lifecycle_status": "Open",
+        "created_at": "2026-01-01T00:00:00Z", "confidence": 0.9, "persona": "Unknown",
+        "needs_human_review": False, "primary_taxonomy_category": "Orchestration",
+        "primary_taxonomy_subcategory": "Timeouts", "secondary_categories": [],
+        "problem_type": "Feature gap", "journey_stage": "Timeouts",
+        "suggested_product_action": "do", "evidence_excerpt": "q",
+        "evidence_verified": True, "severity": 3, "source_url": "https://x",
+    }
+    assert f'id="{FEEDBACK_ANCHOR}"' in render_feedback_cards([record])
+
+
+def test_reset_assigns_defaults_and_never_mutates_state_mid_render():
+    """Guards the two failure modes the Reset button actually hit.
+
+    Assigning a widget key after its widget exists raises StreamlitAPIException;
+    deleting the key instead leaves the browser showing stale selections. The
+    reset therefore runs as an on_click callback and assigns defaults.
+    """
+    from app import DEFAULT_TOP_ACTIONS, FILTER_DEFAULTS
+
+    assert "on_click=_reset_filters" in APP
+    assert "st.rerun()" not in APP.split("def _reset_filters")[1].split("def ")[1]
+
+    for key in ("f_status", "f_problem", "f_stage", "f_category", "f_subcategory",
+                "f_persona", "f_review", "f_search", "f_severity", "f_top_n"):
+        assert key in FILTER_DEFAULTS, f"{key} would survive a reset"
+    assert FILTER_DEFAULTS["f_severity"] == 1
+    assert FILTER_DEFAULTS["f_top_n"] == DEFAULT_TOP_ACTIONS
+    # Deleting is what caused the frontend desync; every default is a value.
+    assert all(v is not None for v in FILTER_DEFAULTS.values())
+
+
+def test_category_click_does_not_rewrite_the_filters():
+    """A drill-down must not silently discard the selection the reader built."""
+    panel = APP[APP.index("def render_filter_panel("):APP.index("def apply_filters(")]
+    assert 'setdefault("f_category"' not in panel
+    assert 'params["cat"]' not in panel
+
+
+def test_streamlit_theme_matches_the_mockup_tokens():
+    """The reload flash must not be a different colour from the loaded page."""
+    from src.ui import theme
+
+    config = (ROOT / ".streamlit" / "config.toml").read_text(encoding="utf-8")
+    assert f'backgroundColor = "{theme.BG}"' in config
+    assert f'textColor = "{theme.INK}"' in config
+    assert f'primaryColor = "{theme.BLUE}"' in config

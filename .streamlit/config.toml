@@ -1,22 +1,24 @@
+# Theme values mirror the mockup tokens in src/ui/theme.py.
+#
+# This matters for more than tidiness. Clicking a query-parameter link reloads
+# the page, and for a moment Streamlit paints its own theme before the injected
+# stylesheet applies. When these colours disagreed with the mockup the reload
+# flashed a different background, which read as the page breaking.
 [theme]
 base = "light"
 
-# Lightly Port-inspired: indigo primary on a clean neutral canvas.
-primaryColor = "#5B4EE8"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F5F6FA"
-textColor = "#1B1C31"
-linkColor = "#5B4EE8"
-borderColor = "#E3E5ED"
+primaryColor = "#2764e7"
+backgroundColor = "#f3f6fb"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#182330"
+linkColor = "#2764e7"
+borderColor = "#e2e8f0"
 
-redColor = "#D64550"
-orangeColor = "#E08A2E"
-greenColor = "#2E9E6B"
-blueColor = "#3B82C4"
-grayColor = "#6B6F8A"
-
-# Used by the two charts. Indigo leads so the ranking reads left to right.
-chartCategoricalColors = ["#5B4EE8", "#7A6FF0", "#9A93F5", "#3B82C4", "#2E9E6B", "#E08A2E", "#6B6F8A"]
+redColor = "#c43e3e"
+orangeColor = "#aa6100"
+greenColor = "#087b61"
+blueColor = "#2764e7"
+grayColor = "#64748b"
 
 [server]
 headless = true
