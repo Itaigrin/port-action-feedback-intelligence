@@ -407,6 +407,17 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   cursor: pointer; color: #475569; font-size: 12px; font-weight: 750;
 }}
 
+/* Ranking note at the foot of the filter rail. */
+.afi-rank-note {{
+  margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--line);
+  font-size: 11px; color: var(--muted);
+}}
+.afi-rank-note b {{ color: var(--ink); font-size: 12px; }}
+.afi-rank-note p {{ margin: 6px 0; }}
+.afi-rank-note ol {{ margin: 6px 0; padding-left: 18px; }}
+.afi-rank-note li {{ margin-bottom: 2px; }}
+.afi-rank-note li b {{ font-size: 11px; font-weight: 650; }}
+
 /* Compact segmented navigation, pinned into the top bar so the main content
    still begins at the mockup's y=88 instead of being pushed down by a tab row. */
 /* Only the tab strip is lifted into the top bar. Pinning the whole container

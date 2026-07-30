@@ -512,3 +512,21 @@ def test_expanded_evidence_matches_the_count_on_the_card(records, aggregates):
         assert len(supporting) == action["open_records"]
         for record in supporting:
             assert record["lifecycle_status"] in OPEN_STATUSES
+
+
+def test_sidebar_ranking_note_is_generated_from_the_ranking_keys(aggregates):
+    """The note must be built from RANK_KEYS, not hand-copied.
+
+    A prose paraphrase of the ranking would drift the first time the keys
+    change, and the sidebar is exactly where a reader decides whether to trust
+    the order.
+    """
+    from src.analysis.aggregate import RANK_KEYS
+
+    assert 'agg["ranking"]["keys"]' in APP, "note must read the live key list"
+    assert "afi-rank-note" in APP and "afi-rank-note" in THEME
+    assert "How actions are ranked" in APP
+    # The claims the note makes must still hold.
+    assert "no weighted score" in APP
+    assert [k for k, _ in RANK_KEYS] == [
+        e["key"] for e in aggregates["ranking"]["keys"]]
