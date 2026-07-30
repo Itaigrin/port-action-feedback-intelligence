@@ -1,70 +1,48 @@
-feedback_id,title,description,source_url,model_is_relevant,model_theme,model_journey_stage,model_feedback_type,model_severity,model_confidence,human_is_relevant,human_theme,human_journey_stage,human_feedback_type,human_severity,notes
-69bd58a10abc9096ad81862e,Re-run capability for Workflow runs,"Requesting re-run button/capability for workflow runs.
+feedback_id,title,description,source_url,model_is_relevant,model_category,model_subcategory,model_problem_type,model_journey_stage,model_severity,model_confidence,human_is_relevant,human_category,human_subcategory,human_problem_type,human_journey_stage,human_severity,notes
+660da56051cc0bb9c88ec814,Terraform provider | Conditional page deletion capability,"Introduce the ability to conditionally delete pages through the Terraform provider when managing blueprints, by specifying a deletion condition (e.g., true/false) within the Blueprint JSON file.",https://roadmap.port.io/ideas/p/terraform-provider-conditional-page-deletion-capability,False,,,,,2,0.9,,,,,,,
+67ed10975a2279b95e58e906,Test connection when installing a new data source,"Enable users to validate integration setup before full installation by testing connectivity, access, and basic permissions. Reduce setup errors and improve user confidence in integration correctness during onboarding.",https://roadmap.port.io/ideas/p/test-connection-when-installing-a-new-data-source,False,,,,,2,0.85,,,,,,,
+672b5615349fd99b0f353e36,Confirmation Window for Unsaved Changes in Self-service actions GUI Mode,"Add a confirmation window in the GUI mode in Self-service action window to prompt users when they attempt to navigate away from the page without saving their changes. Currently, this confirmation prompt exists in JSON mode in Self-service action window, but it is missing in GUI mode, which can lead to accidental data loss.
 
-During development and testing, we have to create a new event every time we want to test a workflow change. Being able to re-run a previous workflow run would significantly speed up the iteration cycle.",https://roadmap.port.io/ideas/p/re-run-capability-for-workflow-runs,True,"Testing, editing & drafts","Testing, editing & publishing",Feature request,3,0.75,,,,,,
-69fce3c7aa7919d7184f46f4,Ability to limit the LLM/AI invocations per user,"Right now the limit for AI invocations are organization based, we would need to be able to set consumption/invocation limits per user",https://roadmap.port.io/ideas/p/ability-to-limit-the-llm-ai-invocations-per-user,False,"Permissions, eligibility & action visibility",Permissions & approvals,Feature request,2,0.9,,,,,,
-64a512f97525ac09ce7a21c4,Categorizing Self Service actions,Allow categorizing self service actions for ease of finding appropriate actions for your needs.,https://roadmap.port.io/ideas/p/categorizing-self-service-actions,True,Action discovery & organization,Action discovery & organization,Feature request,2,0.9,,,,,,
-68244c550f9886c27cc30388,Trigger Aggregation Property Update,"Some aggregation properties will only be updated when certain conditions are met e.g. total number of related x to y could only update for any entity change in a related x. Some aggregation properties are also usually static after an initial period of updating and will likely never be updated again. 
+Rationale:
 
-For these recalculating every 15 minutes will result in lots of unnecessary work. What if instead these aggregation properties could be triggered by an update to a downstream related entity either before or after so only have an update when necessary. So when an entity of x is updated the aggrega",https://roadmap.port.io/ideas/p/trigger-aggregation-property-update,False,Backend & invocation configuration,Backend & invocation setup,Feature request,2,0.9,,,,,,
-69a7207e9505b9d5de41736b,Include stable action_id in GET Action Runs API,Exposing the stable action_id in the action runs response will ensure long-term data consistency and reliable analytics.,https://roadmap.port.io/ideas/p/include-stable-action-id-in-get-action-runs-api,True,"Execution visibility, notifications & run control","Execution, monitoring & run control",Feature request,2,0.75,,,,,,
-693ffd899279e1a4c35ca2c0,Disallow saving actions with no execute permissions,"Currently, execute permissions can be removed entirely, which allows an action to be saved with no execute permissions at all. We need a product safeguard to prevent this by either:
+In the GUI mode, users may accidentally navigate away without saving their changes. A confirmation prompt will help prevent this, ensuring users have the chance to save their work before leaving the page. This feature is especially helpful for complex edits wher",https://roadmap.port.io/ideas/p/confirmation-window-for-unsaved-changes-in-self-service-actions-gui-mode,True,"Authoring, Testing & Management",Editing & unsaved-change safety,Feature gap,"Testing, editing & publishing",2,0.9,,,,,,,
+69aea7465215d6801a4895da,Add support for AWS::RDS::DBCluster in AWS v3 integration,"Request to add first-class support for the AWS::RDS::DBCluster resource type to the AWS v3 integration so ElastiCache clusters can be ingested as their own kind and mapped into Port blueprints.
 
-Disallowing actions from being saved without any execute permissions, or
+The feature should expose key ElastiCache cluster attributes so they can be mapped into a dedicated blueprint and used for catalog relationships and scorecards.",https://roadmap.port.io/ideas/p/add-support-for-aws-rds-dbcluster-in-aws-v3-integration,False,,,,,2,0.9,,,,,,,
+6a61eb457560de5c7714679f,HashiCorp Vault for Secrets Management in Port Actions/Workflows,"When triggering webhooks or direct orchestrator calls from Port Self-Service Actions or Workflows, Port currently requires secrets (API keys, tokens) to be stored within Port itself. For organizations with strict infosec policies — where all secrets must reside exclusively in HashiCorp Vault — this is a blocker.
 
-Automatically retaining the Admin role as a default execute permission.",https://roadmap.port.io/ideas/p/disallow-saving-actions-with-no-execute-permissions,True,"Permissions, eligibility & action visibility",Permissions & approvals,Bug,3,0.85,,,,,,
-696f2e14d1352674295c2e11,Control which Port Execution Agent deployment process which message with polling streamer,"With Port Execution Agent that use polling streamer  (https://docs.port.io/actions-and-automations/setup-backend/webhook/port-execution-agent/usage#polling-streamer), messages are acknowledged before processing and cannot be claimed by another agent once fetched.
+The workaround today is to route through a CI system (GitHub Actions, Jenkins, etc.) that handles the Vault key exchange, but this introduces an unwanted dependency for teams using a direct orchestrator pattern where the orchestrator feeds execution feedback back into Port.
 
-This allows multiple agents to run in parallel without conflicts, but requires using the same filtering logic across all agents to avoid unintended filtering.
+Requested",https://roadmap.port.io/ideas/p/hashicorp-vault-for-secrets-management-in-port-actions-workflows,True,"Identity, Secrets & Security",Credentials & secrets management,Integration or API gap,Backend & invocation setup,4,0.85,,,,,,,
+66faee7195519bf939d9fd2d,Enable Selection of Specific Events for Webhook Testing,"Currently, when a webhook integration is created and events are passed to Port, there's no option to choose the event type when clicking ""load latest event."" We need the ability to select specific events, especially when a single webhook handles multiple event types (e.g., 2 to 3 different events).",https://roadmap.port.io/ideas/p/enable-selection-of-specific-events-for-webhook-testing,False,,,,,2,0.85,,,,,,,
+656dffd9c9406ec6bc18eaa5,Hide actions from entity menu,"Currently, Actions are tied to a Blueprint, and will offer all Actions for each Entity in the Catalog menu.
 
-You cannot control which agent processes which message at the moment.
+Having the option to hide Actions on specific Entities will allow to clean up the catalog, and disable Actions on entities that should not run it.",https://roadmap.port.io/ideas/p/hide-actions-from-entity-menu,True,"Discovery, Organization & Reuse",Conditional availability & placement,Feature gap,Action discovery & organization,3,0.85,,,,,,,
+67fe69fc077f02acb331e710,Associate action with multiple blueprints,"Currently as it stands, an action can only be associated with one blueprint. It would be great to have an action be associated with multiple blueprints, for example if we want to restart a service, all catalogs will have service overview and likely this action will be associated with service overview entity. In all scenarios there will also be services from respective container orchestration (ECS/EKS) - right now as it stands an action if associated with service overview entity cant be associated with the service blueprint entity - which means a new actions should be created which can be assoc",https://roadmap.port.io/ideas/p/associate-action-with-multiple-blueprints,True,"Context, Targeting & Pre-fill",Entity and resource targeting,Feature gap,"Contextual entry, targeting & pre-fill",3,0.75,,,,,,,
+68abd0d0ab8356cd24d26bf7,Azure Live logs,"Request to have a feature where Azure Entities that support live logs can be seen from inside port. 
 
-Suggested solution:
+Intent is to help ensure that when one visits the entity page, live logs of a resource appear only upon user visit action to the live logs tab under the entity",https://roadmap.port.io/ideas/p/azure-live-logs,False,,,,,2,0.9,,,,,,,
+68405b9c4ebfd09d591cf6e6,Add uiDefault to Prevent Validation on Initial Load,"Add support for uiDefault option to apply default values at the UI level, preventing validation from triggering too soon during form initialization.",https://roadmap.port.io/ideas/p/add-uidefault-to-prevent-validation-on-initial-load,True,Form Configuration,Defaults & computed fields,Feature gap,Form & input configuration,2,0.6,,,,,,,
+6489ffa40370ff090a8af507,Show logs when hovering on an action in the side menu,"Right now when you trigger a self-service action, a menu appears on the right hand side of Port. By hovering over the running action icon, you can see some information about the action such as the title, related entity and trigger time.
 
-Set and optional ""cluster identifier"" that is evaluated when executing the run. The",https://roadmap.port.io/ideas/p/control-which-port-execution-agent-deployment-process-which-message-with-polling,True,Backend & invocation configuration,Backend & invocation setup,Feature request,3,0.85,,,,,,
-66bdca87e78e9ec286c639a3,Modify Payload/Inputs for 'Waiting for approval' Self-Service Actions,"Currently, once a user initiates a self-service action that needs approval, the action's payload or inputs are fixed. Approvers are unable to change the action's specifics and they can only accept or reject it. 
+It would be very convenient to also include a tail of the latest logs of the action as it is running in that hover. The hover view is rather small so it would probably be best to limit it to 10 log lines to avoid clutter.",https://roadmap.port.io/ideas/p/show-logs-when-hovering-on-an-action-in-the-side-menu,True,Observability & Debugging,Logs & log streaming,Feature gap,"Execution, monitoring & run control",2,0.85,,,,,,,
+66bcd5fd1f605d678af1aa7f,Expose Catalogue Usage Telemetry,"As a Platform Engineer launching a new dashboard in the Port catalogue I'd like to 1) track adoption and usage of the new dashboard/page and 2) have access to data so I can integrate my surveying tooling to survey the users who use the new dashboard.
 
-I suggest before giving final approval, approvers will be able to make any necessary changes to the payload or inputs, potentially reducing the number of rounds of back-and-forth correspondence required between initiators and approvers to modify payloads and inputs.",https://roadmap.port.io/ideas/p/modify-payload-inputs-for-waiting-for-approval-self-service-actions,True,Approval workflows & governance,Permissions & approvals,Feature request,3,0.9,,,,,,
-673cc7ccf5479baf4a9f4a75,Ability to specify the source of an API change (updatedByAlias/createdByAlias),"We now have multiple locations where we are using the API to update specific blueprints. Having all changes to blueprints made through the API under ""Rest API"" is too vague for us to know where specifically the change came from. It would be nice if we could include a name of the source in our blueprint change payload and then be able to see this reflect in the audit logs.
+For big picture context. We are also a customer of DX who have a product called PlatformX. We have integrated this into our Self Service Actions. When a user (Bob) runs a self-service action via Port an event is fired off to DX saying that Bob did X event. DX looks to see if Bob is eligible for surveying based on the action (event) taken and if v",https://roadmap.port.io/ideas/p/expose-catalogue-usage-telemetry,False,,,,,2,0.9,,,,,,,
+660d66b1dab230b40bbbfd84,Team inheritance support OR relationships,"At present it supports inheritance from a single blueprint.
 
-For example:
+Where you have multiple blueprints which a PR entity can be associated with  e.g.
 
-I change blueprint Service with a python script called ""service_changer.py"" using a POST in the script - I can also pass into the body of the POST ""updatedByAlias"":""service_changer.py""
+- Microservice
 
-And then later, I can fi",https://roadmap.port.io/ideas/p/ability-to-specify-the-source-of-an-api-change-updatedbyalias-createdbyalias,False,Backend & invocation configuration,Backend & invocation setup,Feature request,2,0.85,,,,,,
-6508161951aa0709909e3647,Add conditionals based on bool input,"I want to be able based on bool input to populate other property or hide it/grey out. For example if input1 true create array to select from in input2 else hide input2
+- Tooling
 
-This way we can add logic based on input boolean and use one action to perform complex workflows",https://roadmap.port.io/ideas/p/add-conditionals-based-on-bool-input,True,Dynamic & dependent inputs,"Validation, dependencies & conditional logic",Feature request,3,0.9,,,,,,
-684c4e772523f38ddde65e37,I want to be able to use multiple backends for one self service action,"As an example: I have different GH actions configured for provisioning resources on AWS depending on the resource requested:
+- Library
 
-- Action A: To provision an EC2 instance
+Would be nice to add OR tooling OR library where a relation doesn't exist on the initial check to complete the coverage of options for inheritance",https://roadmap.port.io/ideas/p/team-inheritance-support-or-relationships,False,,,,,2,0.85,,,,,,,
+6a0afd1159c18d657028cd5c,Disable workflow execute button while execution is in progress,"Currently, when a workflow is triggered, the execute button remains enabled. If the workflow takes time to start, users can click the button multiple times, unintentionally triggering duplicate executions.
 
-- Action B: To provision an S3 bucket
+The execute button should be disabled (greyed out) immediately after the first click and remain disabled until the workflow reaches a terminal state (SUCCESS, FAILURE, or DECLINED), preventing accidental multiple executions.
 
-- Action C: To provision an AWS user
-
-- Action D: To provision a lambda function
-
-- Action E: To provision a Postgres DB
-
-I have a single SSA, ""Provision AWS Resource"" which contains several advanced inputs which are visible or disappear based on the resource type selected. Due to Port's current setup, I have to combine these 5 GH actions into one since the SSA can only trigger one backend.",https://roadmap.port.io/ideas/p/i-want-to-be-able-to-use-multiple-backends-for-one-self-service-action,True,Multi-step & orchestration,Backend & invocation setup,Feature request,4,0.9,,,,,,
-68f64cb7d2693237fd1b30d3,Historical Reporting for Deleted Entities,"Port currently only displays entities that exist in the catalog. Users need the ability to generate historical reports that include deleted entities, particularly for:
-
-Tracking entity counts over time (including deleted entities)
-
-Visualizing entity duration/lifetime after deletion
-
-Analyzing trends for entities with timer properties that expire automatically
-
-Current Gap: Line charts and dashboards only reflect current entities; deleted entities are only available in the audit log (limited to 1,000 records) with no visualization capabilities.
-
-Requested Solution: Enable historical reporting ",https://roadmap.port.io/ideas/p/historical-reporting-for-deleted-entities,False,"Execution visibility, notifications & run control","Execution, monitoring & run control",Feature request,3,0.95,,,,,,
-660e76e9c5ad749ac2a191e0,Discussions & Comments on entities,"Ask questions, discuss, and make decisions within context. 
-
-Allow developers to discuss and comment on different entities directly in Port.",https://roadmap.port.io/ideas/p/discussions-comments-on-entities,False,Action discovery & organization,Action discovery & organization,Feature request,2,0.95,,,,,,
-67dbf184d3db9fe5bd6f51f5,Bulk self-service actions on entities,It would be great to have an option to do bulk actions(day2 and DELETE) on entities,https://roadmap.port.io/ideas/p/bulk-self-service-actions-on-entities,True,"Context, targeting & pre-fill","Contextual entry, targeting & pre-fill",Feature request,3,0.6,,,,,,
-65809c20bdd786e7c10ce20e,Steps in Port Self-Service Action Form,"As a developer using Port's self-service action form,
-
-I want the ability to collapse the form into distinct sections such as network configuration, security configuration, and IAM role,
-
-So that I can more easily navigate and digest the information, focusing on specific areas as needed based on my answers.",https://roadmap.port.io/ideas/p/steps-in-port-self-service-action-form,True,"Form structure, input types & controls",Form & input configuration,Feature request,2,0.85,,,,,,
+Users may unknowingly trigger the same workflow several times in quick succession, leading to duplicate runs and unexpected results.",https://roadmap.port.io/ideas/p/disable-workflow-execute-button-while-execution-is-in-progress,True,Execution Lifecycle,"Concurrency, rate limits & duplicate prevention",Bug / defect,"Execution, monitoring & run control",3,0.85,,,,,,,
+6481fa485cf5a50d549eaa3c,Self-service actions - controlling the payload,"Use JQ to manipulate the payload before sending it to the relevant workflow (Webhook, Kafka, GitHub Workflow, and any other invocation method)",https://roadmap.port.io/ideas/p/self-service-actions-controlling-the-payload,True,Invocation & Integrations,Payload mapping & transformation,Feature gap,Backend & invocation setup,3,0.75,,,,,,,

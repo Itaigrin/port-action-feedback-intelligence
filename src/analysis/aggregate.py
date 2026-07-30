@@ -48,10 +48,10 @@ LOW_CONFIDENCE = 0.7
 # the dashboard can display the exact list that produced the ranking rather
 # than a prose paraphrase of it that could drift out of sync.
 RANK_KEYS: tuple[tuple[str, str], ...] = (
+    ("open_records", "Number of distinct open feedback records asking for this "
+                     "change -- independent voices converging on one problem."),
     ("severity_band", "Severity band (average severity, rounded) -- how much "
                       "the problem hurts when it happens."),
-    ("open_records", "Number of distinct open feedback records asking for this "
-                     "change."),
     ("max_severity", "The single worst record in the group."),
     ("source_diversity", "How many different source systems raised it."),
     ("avg_confidence", "Average classifier confidence, as a data-quality "
@@ -314,7 +314,15 @@ def build_all() -> dict:
                 "score. Only open records count towards a ranking; completed and "
                 "closed work is excluded so shipped features cannot argue for "
                 "themselves again. Each key below is applied in order, and the "
-                "first one that differs decides the position."
+                "first one that differs decides the position.\n\n"
+                "**Evidence volume leads, severity follows.** Severity is one "
+                "model's reading of one piece of text, so a lone severity-4 "
+                "record is a far weaker signal than several independent records "
+                "converging on the same problem. Ranking severity first put "
+                "single-record requests above problems eight people reported. "
+                "High severity is surfaced instead as its own KPI and filter, "
+                "where a small number of severe records stays visible without "
+                "displacing widely-reported ones."
             ),
             "open_statuses": sorted(OPEN_STATUSES),
         },

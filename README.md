@@ -1,6 +1,6 @@
 # Port Action Feedback Intelligence
 
-**Turning 327 public feature requests into a ranked, evidence-backed view of where developers get stuck configuring Port actions.**
+**Turning 327 public feature requests into a ranked, evidence-backed list of what to build next for Port Actions — where every recommendation opens onto the records that argue for it.**
 
 > An independent take-home project for Port's Product Analyst challenge (Part 2: AI-Augmented Qualitative Analysis).
 > **Not an official Port product.** Not affiliated with or endorsed by Port. Built entirely from publicly available data.
@@ -25,82 +25,101 @@ This project reads what users actually say, and produces an answer that a produc
 
 ## What it found
 
-Running end to end on **208 relevant feature requests carrying 1,842 votes**, classified under the v2.0 taxonomy:
+Running end to end on **327 collected records**, of which **182 are in scope** for Action Configuration under the v2.0 hierarchical taxonomy. The other **145 were excluded with a stated reason** — catalog modelling, scorecards, the platform-wide audit log, data-source sync — rather than padded into the dataset to inflate the totals.
 
 | Finding | Evidence |
 |---|---|
-| **Execution visibility, notifications & run control is the single biggest gap.** It leads on both volume *and* demand, so it is not an artefact of a few loud requests. | 42 posts · 345 votes · avg severity 2.6 |
-| **Counting complaints and counting demand give different roadmaps.** *Permissions & approvals* generates the most posts, but *Action discovery & organization* attracts **2.6× the demand per post** from a fraction of the volume. | 57 posts @ 8.7 votes each vs 6 posts @ 22.7 votes each |
-| **Permissions & approvals carries the most demand of any journey stage** — and splits into two separate themes that *both* land in the top four priorities. | 494 votes across 57 posts |
+| **Permissions and approvals is the largest problem area, and it is not close.** It carries more in-scope records than the next area by 47%, and produces four of the top twelve recommended actions. | 47 records · 37 still open |
+| **The single most-supported change is a security one.** Ten open records describe users seeing action runs and entity details they should not have access to. | 10 open records · avg severity 3.5 |
+| **This board reports missing capability, not broken capability.** 128 of 182 in-scope records are feature gaps; only 7 are defects. A roadmap board is where people come to *ask for things* — Zendesk and Gong would surface the bug and usability signal this source structurally cannot. | 128 feature gap · 11 usability friction · 7 bug |
+| **Friction concentrates at three moments, not across the whole journey.** Permissions & approvals, execution/monitoring, and form configuration hold 119 of 182 records between them. | 48 · 39 · 32 records |
 
-**Priority ranking** (45% demand, 30% frequency, 25% severity):
+**Top recommended product actions** — ranked from open records only, so shipped work cannot argue for itself again:
 
-| # | Theme | Posts | Votes | Avg sev | Score |
-|---|---|---|---|---|---|
-| 1 | Execution visibility, notifications & run control | 42 | 345 | 2.6 | 0.950 |
-| 2 | Backend & invocation configuration | 38 | 275 | 3.0 | 0.859 |
-| 3 | Permissions, eligibility & action visibility | 29 | 267 | 2.9 | 0.777 |
-| 4 | Approval workflows & governance | 26 | 173 | 2.9 | 0.635 |
-| 5 | Multi-step & orchestration | 11 | 162 | 3.3 | 0.540 |
-
-**Journey stages** in lifecycle order — the two newest stages sit at positions 1–2, and both show unusually high demand density:
-
-| # | Stage | Posts | Votes | Votes/post |
+| # | Open records | Avg sev | Product action | Area |
 |---|---|---|---|---|
-| 1 | Action discovery & organization | 6 | 136 | **22.7** |
-| 2 | Contextual entry, targeting & pre-fill | 4 | 44 | 11.0 |
-| 3 | Form & input configuration | 21 | 156 | 7.4 |
-| 4 | Validation, dependencies & conditional logic | 23 | 237 | 10.3 |
-| 5 | Backend & invocation setup | 48 | 435 | 9.1 |
-| 6 | Permissions & approvals | **57** | **494** | 8.7 |
-| 7 | Testing, editing & publishing | 8 | 47 | 5.9 |
-| 8 | Execution, monitoring & run control | 41 | 293 | 7.1 |
+| 1 | **10** | 3.5 | Enforce RBAC on action run pages so users cannot view runs or entity details they lack permission to access | Permissions & Approvals › RBAC & dynamic permissions |
+| 2 | 8 | 2.8 | Enable approvers to edit action input values during the manual approval step | Permissions & Approvals › Approver experience |
+| 3 | 7 | 2.4 | Provide real-time streaming of action run logs in the UI as the run executes | Observability & Debugging › Logs & log streaming |
+| 4 | 6 | 2.3 | Show the actor (user, integration, or system) behind each run on the run page and in the audit log | Observability & Debugging › Run history & audit |
+| 5 | 6 | 2.5 | Add further file formats and free-text/markdown input types to action form fields | Form Configuration › Input types & controls |
+
+54 recommended actions in total, each traceable to its supporting records.
+
+**Where the problems sit** — 11 product areas, in-scope records:
+
+| Category | Records | Open |
+|---|---|---|
+| Permissions & Approvals | **47** | 37 |
+| Form Configuration | 32 | 25 |
+| Observability & Debugging | 27 | 24 |
+| Invocation & Integrations | 17 | 14 |
+| Identity, Secrets & Security | 11 | 11 |
+| Discovery, Organization & Reuse | 10 | 10 |
+| Execution Lifecycle | 10 | 9 |
+| Validation & Rules | 9 | 9 |
+| Authoring, Testing & Management | 7 | 7 |
+| Context, Targeting & Pre-fill | 7 | 5 |
+| Orchestration | 5 | 4 |
+
+**Journey stages** in lifecycle order — *where* users get stuck, as opposed to *what* needs building:
+
+| # | Stage | Records | Open |
+|---|---|---|---|
+| 1 | Action discovery & organization | 10 | 10 |
+| 2 | Contextual entry, targeting & pre-fill | 6 | 4 |
+| 3 | Form & input configuration | 32 | 25 |
+| 4 | Validation, dependencies & conditional logic | 9 | 9 |
+| 5 | Backend & invocation setup | 31 | 27 |
+| 6 | Permissions & approvals | **48** | 38 |
+| 7 | Testing, editing & publishing | 7 | 7 |
+| 8 | Execution, monitoring & run control | 39 | 35 |
 
 ---
 
 ## The app
 
-Two tabs. **Dashboard** — the analysis, five sections, understandable in about two minutes. **Themes & Journey Stages Guide** — a plain-language reference so a non-technical reader can check the classifications rather than take them on trust.
+Two tabs. **Dashboard** — ranked product actions, each opening onto its supporting feedback, plus distribution charts and a full evidence explorer. **Taxonomy & Journey Guide** — a plain-language reference so a non-technical reader can check the classifications rather than take them on trust.
 
 ### Tab 1 — Dashboard
 
 ![Executive summary](docs/screenshots/01-executive-summary.png)
 
-*Five KPIs, then three findings — each stating its own sample size.*
+*Four KPIs. Scope is stated up front — 327 collected, 182 in scope, 145 excluded — so the denominator behind every later figure is visible before any chart is.*
 
-![Main feedback themes](docs/screenshots/02-themes.png)
+![Recommended product actions](docs/screenshots/02-product-actions.png)
 
-*Themes ordered by how often they are raised, with votes alongside — the two do not always agree.*
+*Ranked product actions, each stating its open-record count and severity, each naming its category and subcategory, and each expanding to the verified quotes behind it. The ranking keys are rendered from the same constant the code ranks by, so the explanation cannot drift from the behaviour.*
 
-![Action Configuration journey](docs/screenshots/03-journey.png)
+![Where problems concentrate](docs/screenshots/03-categories.png)
 
-*Vote-weighted demand across the eight stages of setting up an action, in chronological lifecycle order.*
+*The 11 product areas ordered by how often they are raised, with a live drill-down into whichever of the 63 subcategories appear inside the selected one.*
 
-![Product priorities](docs/screenshots/04-priorities.png)
+![Action Configuration journey](docs/screenshots/04-journey.png)
 
-*Ranked themes with the scoring formula stated in one sentence. Computed numbers and analyst judgment are visually separated.*
+*Where friction falls across the eight stages of setting up an action, in chronological lifecycle order. Stages with no feedback are shown rather than dropped — an empty stage is a finding, not a gap in the chart.*
 
-![Supporting evidence](docs/screenshots/05-evidence.png)
+![Evidence explorer](docs/screenshots/05-evidence.png)
 
-*Every insight traces to these records. Filterable, with a verbatim quote and a clickable link to the original request on Port's portal. Journey-stage filter options appear in chronological lifecycle order, not alphabetically.*
+*Every figure traces to these records: AI summary, suggested change, all four labels, and a verbatim quote with a clickable link to the original request on Port's portal.*
 
-### Tab 2 — Themes & Journey Stages Guide
+### Tab 2 — Taxonomy & Journey Guide
 
 ![Guide introduction](docs/screenshots/06-guide-intro.png)
 
-*Explains what an Action is, and why every record carries two labels rather than one.*
+*Explains what an Action is, why every record carries four independent labels rather than one, and how to place a record in four steps.*
 
-![Themes](docs/screenshots/07-guide-themes.png)
+![Categories](docs/screenshots/07-guide-categories.png)
 
-*All 11 themes, each with a plain-language meaning, use-when and do-not-use-when criteria, two real examples, and its usual journey stage.*
+*All 11 categories and their 63 subcategories, each with a plain-language meaning, use-for triggers, an explicit do-not-use-when rule surfaced as a warning, real examples, and live record counts from the current dataset.*
 
-![Journey stage timeline](docs/screenshots/08-guide-stage-timeline.png)
+![Journey stages](docs/screenshots/08-guide-stages.png)
 
-*The 8 stages as a numbered timeline in lifecycle order, with live post counts from the current dataset.*
+*The 8 stages as a numbered timeline in lifecycle order, each with what the user was trying to do and a live record count.*
 
-![Worked examples](docs/screenshots/09-guide-classification.png)
+![Worked examples](docs/screenshots/09-guide-examples.png)
 
-*Four worked classification examples, plus the side-by-side pairs that are most commonly confused.*
+*Eight worked classification examples with the reasoning shown, plus the eight side-by-side pairs that are most commonly confused.*
 
 ---
 
@@ -126,7 +145,7 @@ Two tabs. **Dashboard** — the analysis, five sections, understandable in about
 | Concern | Owner |
 |---|---|
 | Reading, summarising, categorising feedback | **LLM** |
-| Counts, totals, averages, rankings, priority scores | **Plain Python** |
+| Counts, totals, averages, rankings | **Plain Python** |
 
 No number in the dashboard was produced by a language model.
 
@@ -158,23 +177,32 @@ Search was decisive: candidates went from **141 → 327**, and Self-service acti
 
 ## How the LLM categorised it
 
-Each post is classified independently against a **taxonomy defined before any data was scored** (see [`TAXONOMY.md`](TAXONOMY.md)): **11 themes × 8 journey stages × 5 feedback types**, plus a 1–5 severity scale.
+Each record is classified independently against a **taxonomy defined before any data was scored** (see [`TAXONOMY.md`](TAXONOMY.md), which is *generated from the taxonomy module* so it cannot describe a scheme the code does not implement).
 
-A **theme** answers *what product problem is this?*; a **journey stage** answers *where in the action lifecycle does the user hit it?* Stages are in chronological lifecycle order and mirror Port's own self-service flow, so a finding like *"friction concentrates in permissions and approvals"* points at a surface the team already owns.
+**Four independent dimensions**, and the reason there are four rather than one is the central design point:
 
-Each relevant record gets exactly **one** theme and **one** stage — no secondary classifications. Where a record could reasonably go two ways, eleven documented tie-break rules decide, and residual uncertainty is reported through `confidence` rather than hidden.
+| Dimension | Question | Count |
+|---|---|---|
+| Taxonomy category | *Which broad product area?* | 11 |
+| Taxonomy subcategory | *Which specific part of it?* | 63 |
+| Problem type | *What kind of problem?* | 14 |
+| Journey stage | *Where in the lifecycle?* | 8 |
 
-The app's second tab, **Themes & Journey Stages Guide**, explains all of this in plain language for readers with no software or DevOps background.
+A dynamic-permission failure belongs to **Permissions & Approvals** while its problem *type* is **Poor error message**. Folding those into one field makes both unusable for counting and quietly forces the analyst to discard one of the two facts. Severity, persona, lifecycle status and source system are further independent dimensions, never folded into a category name.
 
-The model returns 9 fields under a strict schema: `is_relevant`, `primary_theme`, `journey_stage`, `feedback_type`, `severity`, `short_summary`, `user_need`, `confidence`, `evidence_excerpt`.
+Stages are in chronological lifecycle order and mirror Port's own self-service flow, so a finding like *"friction concentrates in permissions and approvals"* points at a surface the team already owns.
+
+Each relevant record gets exactly **one** primary category/subcategory pair, one problem type and one stage. **At most two secondary assignments** are allowed for records that genuinely span areas — 102 of 182 carry one — and secondaries never affect any count or ranking, so adding one cannot inflate a total. Where a record could reasonably go two ways, thirteen documented tie-break rules decide, and residual uncertainty is reported through `confidence` and `needs_human_review` rather than hidden.
+
+The app's second tab, **Taxonomy & Journey Guide**, explains all of this in plain language for readers with no software or DevOps background.
 
 ### Three controls that keep it honest
 
-**1. Closed enums.** Every categorical field is a Pydantic `Literal` built from the taxonomy. An invented label fails validation rather than quietly entering the dataset. Verified: made-up themes, severity 9, confidence 1.4, and even a stage name with a trailing space are all rejected.
+**1. Closed enums, plus a hierarchy check.** Every categorical field is a Pydantic `Literal` built from the taxonomy, so an invented label fails validation rather than quietly entering the dataset. A two-level taxonomy adds a second failure mode worth closing: a *real* subcategory paired with the *wrong* parent category. A model validator rejects that pair, so the model cannot assemble a plausible-looking but impossible classification. Scope is enforced structurally too — when `is_relevant` is false the validator *clears* the taxonomy fields, so out-of-scope feedback is incapable of reaching any total.
 
-**2. Quote grounding.** Every `evidence_excerpt` is checked **in Python** as an exact substring of the source text. Only the verified portion is stored, so anything displayed is guaranteed verbatim. **The model cannot attribute a complaint to a customer who never made it, because it cannot produce a quote that is not in the source.** Result: 206 of 208 relevant records carry a verified quote; the 2 that failed are excluded from display, not shown.
+**2. Quote grounding.** Every `evidence_excerpt` is checked **in Python** as an exact substring of the source text. Only the verified portion is stored, so anything displayed is guaranteed verbatim. **The model cannot attribute a complaint to a customer who never made it, because it cannot produce a quote that is not in the source.** Result: 181 of 182 in-scope records carry a verified quote; the 1 that failed is excluded from display, not shown.
 
-**3. Confidence never affects priority.** It measures the model's certainty, not how much a problem matters. Letting it raise a score would mean well-phrased feedback outranks urgent-but-ambiguous feedback. It is reported separately as a quality signal; 13 records fall below 0.7 and are flagged rather than hidden.
+**3. Confidence is a quality signal, not a ranking input.** It measures the model's certainty, not how much a problem matters. Letting it drive ranking would mean well-phrased feedback outranks urgent-but-ambiguous feedback. It appears only as the fifth tie-breaker, used when four earlier keys are already identical; 18 records fall below 0.7 and 26 are flagged for human review — surfaced, not hidden.
 
 **Reproducibility, stated honestly.** `temperature` no longer exists on current models, so run-to-run identical output is not achievable. Consistency comes from a fixed versioned prompt, closed enums, and low effort — and the real guarantee is that **classification results are committed to the repo**. The dashboard replays stored results rather than re-running the model.
 
@@ -184,23 +212,32 @@ The model returns 9 fields under a strict schema: `is_relevant`, `primary_theme`
 
 Everything below is plain pandas over the classified records — deterministic and reproducible.
 
-**Priority score:**
+**Ranking — deliberately not a formula.**
 
-```
-priority = 0.45 × demand + 0.30 × frequency + 0.25 × severity
-```
+An earlier version of this project ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 × severity`. Both halves of that were wrong, and both were removed rather than retuned.
 
-Each component is scaled so the leading theme = 1.0. Worked example:
+*The weights were indefensible.* Multiplying unlike signals by invented coefficients produces a number that looks precise and collapses the moment someone asks why 0.45 rather than 0.4.
 
-> **Execution visibility, notifications & run control** — votes 345/345 = 1.000 × 0.45 = **0.450** · posts 42/42 = 1.000 × 0.30 = **0.300** · severity 2.62/3.27 = 0.800 × 0.25 = **0.200** → **0.950**
->
-> (The 3.27 severity denominator is *Multi-step & orchestration*, the highest-severity theme — each component is scaled against whichever theme leads on that component.)
+*Votes do not generalise.* A vote total means something inside one feedback portal and nothing across Slack, Zendesk and Gong — there is nothing to vote with in a support ticket or a sales call. Ranking on a signal only one of four sources can produce would systematically bury every problem arriving through the other three. Votes are still collected and preserved as evidence; nothing is ranked by them.
 
-**Vote scaling is chosen by the data, not by hand.** A rule fixed in advance says: use a log scale if the top theme has more than 10× the median theme's votes. Measured ratio is **2.03×**, so a linear scale applies — and the dashboard says so. The code measures and reports the ratio either way, so the scale cannot be picked to flatter a chart.
+What replaced it is **lexicographic ranking**. Open records are grouped by subcategory, and groups are ordered by six keys applied in sequence — the first that differs decides the position:
 
-**Share-of-max, not min-max.** Min-max would force the lowest theme to exactly 0 on every axis, manufacturing spread that isn't there — severity only ranges 2.3–3.1, so min-max would turn a trivial gap into the difference between 0 and 1.
+1. **Open records** — how many distinct open records ask for this change
+2. **Severity band** — average severity, rounded
+3. **Max severity** — the single worst record in the group
+4. **Source diversity** — how many different source systems raised it
+5. **Average confidence** — a data-quality tie-breaker only
+6. **Recency** — the newest supporting record
 
-All 12 scores were recomputed independently of the scoring code: **0 mismatches to 9 decimal places, 0 monotonicity violations.**
+A final alphabetical key makes the order **total**, so the same input always produces the same ranking. Every position can be explained by naming the one key that decided it.
+
+**Volume leads and severity follows — and that order was corrected, not assumed.** Ranking severity first is the obvious reading of "rank by severity, break ties by count", but run against the real dataset it put a single severity-4 request for Vault integration above a problem eight independent records reported. Severity is one model's reading of one piece of text; convergence across records is the stronger signal at this sample size. High severity is surfaced as its own KPI and sidebar filter instead, so severe-but-rare problems stay visible without displacing widely-reported ones.
+
+**Only open demand is ranked.** `Completed` and `Closed` records are excluded, so shipped work cannot argue for itself again — while staying visible in the evidence explorer, where "we already built this" is itself a finding.
+
+**Grouping is by subcategory, not by the text of the suggested action.** Two records asking for the same change rarely phrase it identically, so text grouping would shatter real demand into singletons. Each group's displayed label is one real record's wording, chosen deterministically and stored with that record's id — so a label on the dashboard always traces to the feedback it came from.
+
+The counts behind all 54 ranked actions were recomputed by hand from the raw records, independently of the aggregation code, and the order is asserted lexicographic and total (`tests/test_pipeline.py`).
 
 ---
 
@@ -218,9 +255,10 @@ With 15 records this is a **sanity check, not a statistically robust evaluation*
 
 Worth reading before believing any of the findings.
 
-- **A feature-request board shapes what you find.** 185 of 208 relevant records (88%) are feature requests; only 14 are bugs and 7 usability friction. People come to a roadmap board to *ask for things*, not to report friction. Zendesk tickets and Gong calls would surface bug and usability signal this source structurally cannot.
-- **Votes measure vocal demand, not revenue or customer count.** One vote from an enterprise account counts the same as one from a trial user.
-- **Severity is judged from text alone** and clusters at 3 (111 of 208), so it discriminates weakly here.
+- **A feature-request board shapes what you find.** 128 of 182 in-scope records (70%) are feature gaps; only 7 are defects and 11 usability friction. People come to a roadmap board to *ask for things*, not to report friction. Zendesk tickets and Gong calls would surface the bug and usability signal this source structurally cannot.
+- **One source means source diversity is constant.** It is ranked on and reported, but with a single collected source it can never break a tie here. It exists because production ingests four sources through the same schema — and a test asserts no record ever claims a source it did not come from.
+- **Severity is judged from text alone** and clusters at 3 (100 of 182), so it discriminates weakly — which is part of why evidence volume ranks ahead of it.
+- **44% of collected records were out of scope.** That is a property of a general feedback board, not a failure. Each exclusion carries a stated reason and none of them reach a category total.
 - **Parent posts are sometimes written by Port staff**, not customers — curated roll-ups that read like product copy, with the genuine customer voice in the merged child requests. The classifier is told to categorise the underlying problem and prefer quoting problem statements, but the collector currently captures parent posts only. Vote totals already aggregate merged children, so demand signal is unaffected.
 - **Public feedback cannot prove causation.** It explains why users *say* they struggle. It cannot prove that is why they drop off.
 - **327 posts is a POC, not Port's full feedback volume.**

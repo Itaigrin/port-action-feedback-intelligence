@@ -97,14 +97,16 @@ An earlier version ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 ×
 
 Open feedback is grouped by taxonomy subcategory, and each group becomes one candidate product action. Groups are ordered by applying these keys in sequence; the first that differs decides the position.
 
-1. **Severity band** — average severity, rounded. How much it hurts when it happens.
-2. **Open records** — how many distinct open records ask for this change.
+1. **Open records** — how many distinct open records ask for this change.
+2. **Severity band** — average severity, rounded. How much it hurts when it happens.
 3. **Max severity** — the single worst record in the group.
 4. **Source diversity** — how many different source systems raised it.
 5. **Average confidence** — a data-quality tie-breaker only.
 6. **Recency** — the newest supporting record.
 
 A final alphabetical key makes the order **total**, so the same input always produces the same ranking rather than one that depends on row order.
+
+**Why volume leads and severity follows.** The first version of this ranking put severity first, matching the "rank by severity, break ties by count" sketch in the design write-up. Run against the full dataset it produced an indefensible list: a single severity-4 request for Vault integration outranked a problem eight independent records reported. Severity is one model's reading of one piece of text, so a lone high-severity record is a far weaker signal than several records converging. High severity is surfaced instead as its own KPI and sidebar filter, where a small number of severe records stays visible without displacing widely-reported ones.
 
 **Only open records count.** `Completed` and `Closed` are excluded via `OPEN_STATUSES`, so shipped work cannot argue for itself again. Those records stay visible in the evidence explorer, where "we already built this" is itself a finding.
 

@@ -65,7 +65,8 @@ def classify_one(client, model: str, effort: str, title: str,
                  source_system: str | None = None,
                  retries: int = 3) -> tuple[FeedbackClassification | None, str | None]:
     """Classify one record. Returns (classification, error_reason)."""
-    user_prompt = build_user_prompt(title, description, category, source_system)
+    base_prompt = build_user_prompt(title, description, category, source_system)
+    correction = ""
 
     for attempt in range(retries):
         try:
@@ -79,7 +80,7 @@ def classify_one(client, model: str, effort: str, title: str,
                     "cache_control": {"type": "ephemeral"},
                 }],
                 output_config={"effort": effort},
-                messages=[{"role": "user", "content": user_prompt}],
+                messages=[{"role": "user", "content": base_prompt + correction}],
                 output_format=FeedbackClassification,
             )
             # Safety classifiers can decline; check before reading content.
@@ -93,6 +94,20 @@ def classify_one(client, model: str, effort: str, title: str,
         except Exception as exc:                      # noqa: BLE001
             name = type(exc).__name__
             message = str(exc)
+
+            # A schema violation retried verbatim produces the same violation --
+            # the model has no way to learn what it got wrong. Feed the
+            # validation error back so the retry is actually a correction. The
+            # constraint itself is never relaxed: a summary that will not fit in
+            # 200 characters is not a summary.
+            if name == "ValidationError":
+                correction = (
+                    "\n\nYour previous answer failed schema validation:\n"
+                    f"{message[:400]}\n"
+                    "Return the same classification with that field corrected to "
+                    "satisfy the constraint. Do not change any other field."
+                )
+
             # Most 400s mean the request itself is wrong, so retrying is pointless.
             # "Grammar compilation timed out" is the exception: it is a transient
             # server-side hiccup while compiling the structured-output schema, and
