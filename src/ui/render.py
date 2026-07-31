@@ -37,6 +37,7 @@ NAV_FOCUS = "afinav_focus"
 NAV_BACK = "afinav_back"
 NAV_UNFOCUS = "afinav_unfocus"
 NAV_SEV = "afinav_sev"
+NAV_EDIT = "afinav_edit"
 
 
 def _esc(value: object) -> str:
@@ -469,7 +470,7 @@ def render_feedback_cards(records: list[dict]) -> str:
                 "Try widening them, or clear the search box.</div>")
 
     out = [f'<div class="afi-evidence" id="{FEEDBACK_ANCHOR}">']
-    for r in records:
+    for index, r in enumerate(records):
         meta = [
             f'<span class="afi-badge b-neutral">{_esc(r["source_system"])}</span>',
             f'<span class="afi-badge b-blue">{_esc(r["lifecycle_status"])}</span>',
@@ -484,6 +485,11 @@ def render_feedback_cards(records: list[dict]) -> str:
         meta.append(f'<span class="afi-badge b-purple">{_esc(r["persona"])}</span>')
         if r.get("needs_human_review"):
             meta.append('<span class="afi-badge b-amber">Needs human review</span>')
+        # A reader must be able to tell a human label from a model one, so an
+        # edited record says so on its face rather than only in the file.
+        if r.get("manually_edited"):
+            meta.append('<span class="afi-badge b-green">Labels edited by a '
+                        "reviewer</span>")
 
         labels = [
             f'<span class="afi-label">Primary: '
@@ -509,8 +515,11 @@ def render_feedback_cards(records: list[dict]) -> str:
             f'<div class="afi-feedback-meta">{"".join(meta)}</div>'
             f"{quote}"
             f'<div class="afi-labels">{"".join(labels)}</div>'
-            f'<p style="margin:10px 0 0"><a class="afi-source" target="_blank" '
-            f'href="{_esc(r["source_url"])}">Open original source ↗</a></p>'
+            f'<div class="afi-feedback-foot">'
+            f'<a class="afi-source" target="_blank" '
+            f'href="{_esc(r["source_url"])}">Open original source ↗</a>'
+            f'<a class="afi-edit-link" {_click(f"{NAV_EDIT}_{index}")}>'
+            f"Edit labels</a></div>"
             "</div>"
         )
     out.append("</div>")

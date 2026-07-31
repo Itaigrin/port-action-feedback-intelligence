@@ -440,7 +440,12 @@ def test_hidden_nav_buttons_are_created_for_every_proxy():
     for wired in ("on_click=handler", "on_click=_clear_drill",
                   "on_click=_clear_focus", "on_click=_focus_on"):
         assert wired in APP, wired
-    assert "st.rerun()" not in APP, "callbacks rerun on their own"
+    # Scoped to the navigation callbacks, which is what this rule is about: a
+    # callback already reruns, so calling st.rerun() inside one is a second
+    # run doing the same work. The label editor below them is exempt on
+    # purpose -- a Streamlit dialog only closes on an explicit rerun.
+    nav_block = APP[APP.index("def _drill_into("):APP.index("def _open_editor(")]
+    assert "st.rerun()" not in nav_block, "nav callbacks rerun on their own"
 
 
 def test_markdown_negative_margin_is_neutralised():

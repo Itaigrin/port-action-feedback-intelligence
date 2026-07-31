@@ -359,6 +359,24 @@ Implementation: [`src/assistant/analytics.py`](src/assistant/analytics.py), [`sr
 
 ---
 
+## Correcting a label by hand
+
+Every card under **Feedback behind recommended actions** carries an **Edit labels** button. It opens the four labels a reviewer can judge by reading the feedback — category, subcategory, problem type and journey stage — each as a dropdown of the legal values, with **Save** and **Cancel**.
+
+Three things make this safe to use on a dataset the rest of the app counts:
+
+- **The model's output is never overwritten.** `analyzed.json` stays exactly as the classifier produced it. Corrections live in `data/processed/overrides.json`, keyed by `feedback_id`, storing the reviewer's values *and* the model's original values side by side. Every edited record shows a **Labels edited by a reviewer** badge, and the editor offers **Revert to the model's labels**.
+- **A correction cannot break the taxonomy.** The subcategory list is filtered to the chosen category, so an illegal pairing cannot be selected; and every write is validated again before it lands. An overrides file that is hand-edited into an illegal state falls back to the model's labels rather than pushing a bad value into the charts.
+- **One edit moves everything at once.** Corrections are layered onto the records before anything derives from them, so a re-categorised record moves in the charts, the filters, the product-action grouping and the assistant in the same rerun — not just on the card.
+
+Severity, confidence and the evidence quote are deliberately **not** editable: the first two are the model's own judgement of the record and the third belongs to the source. Editing those would not be correcting a classification, it would be rewriting the evidence.
+
+`overrides.json` is gitignored — one reader's corrections are local review state, not project data. On Streamlit Cloud the filesystem is ephemeral, so edits last for the session; a deployment that needs them to persist would point `OVERRIDES_FILE` at real storage.
+
+Implementation: [`src/analysis/overrides.py`](src/analysis/overrides.py). Tests: [`tests/test_overrides.py`](tests/test_overrides.py).
+
+---
+
 ## Evaluation
 
 A reproducible 15-record sample (fixed seed, 9 relevant + 6 irrelevant) sits at [`data/evaluation/review_sample.csv`](data/evaluation/review_sample.csv) for manual checking.
@@ -446,7 +464,7 @@ app.py                     Streamlit app: Dashboard tab + Guide tab
 src/
   collectors/              portal fetch, slug discovery, parsing
   models/                  taxonomy, Pydantic schema, versioned prompt
-  analysis/                clean, classify, aggregate, evaluate
+  analysis/                clean, classify, aggregate, evaluate, overrides
   assistant/               the ten predefined questions and their calculations
   ui/                      markup, design tokens, assistant panel
 data/

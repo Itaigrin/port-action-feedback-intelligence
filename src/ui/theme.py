@@ -384,6 +384,16 @@ a.afi-category-row:hover strong {{ color: var(--blue) !important; }}
   color: var(--blue) !important; text-decoration: none !important;
   font-weight: 650; font-size: 12px;
 }}
+/* Source link and the label editor share the card's last row. */
+.afi-feedback-foot {{
+  display: flex; align-items: center; gap: 14px; margin-top: 10px;
+}}
+.afi-edit-link, .afi-edit-link:visited, .afi-edit-link:hover {{
+  color: #475569 !important; text-decoration: none !important;
+  font-weight: 650; font-size: 12px;
+  border: 1px solid #cbd5e1; border-radius: 7px; padding: 4px 9px;
+}}
+.afi-edit-link:hover {{ border-color: var(--blue); color: var(--blue) !important; }}
 .afi-crumb a, .afi-crumb a:visited {{
   color: var(--blue) !important; text-decoration: none !important;
 }}
@@ -557,7 +567,7 @@ header[data-testid="stHeader"] {{ display: none !important; }}
 /* Hidden proxies for the mockup's HTML controls. Positioned off-screen rather
    than display:none -- a programmatic .click() must still reach a live button,
    and aria-hidden keeps them out of the accessibility tree and tab order. */
-.st-key-afi_hidden_nav {{
+.st-key-afi_hidden_nav, .st-key-afi_hidden_edit {{
   position: absolute !important; width: 1px; height: 1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }}

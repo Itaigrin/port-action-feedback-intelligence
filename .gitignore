@@ -49,9 +49,12 @@ docs/PRESENTATION_OUTLINE.md
 # depends on. Do not add them here.
 #
 # The only data excluded is the local LLM response cache (a working artifact,
-# regenerable, and potentially large).
+# regenerable, and potentially large) and one reader's own label corrections,
+# which are local review state rather than project data -- committing them
+# would ship one person's edits to everyone who clones the repo.
 # ---------------------------------------------------------------------------
 data/cache/
+data/processed/overrides.json
 *.tmp
 
 # Removed from the public repo by request; kept locally only.

@@ -37,6 +37,7 @@ from src.analysis.aggregate import (
     paired_insights,
     product_actions,
 )
+from src.analysis import overrides
 from src.models.taxonomy import (
     CATEGORY_FOR_SUBCATEGORY,
     CATEGORY_NAMES,
@@ -126,6 +127,12 @@ except FileNotFoundError:
         "python -m src.analysis.aggregate\n```"
     )
     st.stop()
+
+# Reviewer corrections are layered on here, outside the cache and before
+# anything derives from the records, so a corrected label reaches the charts,
+# the filters, the grouping and the assistant in the same run. Inside load()
+# it would be frozen by the cache and an edit would not show until restart.
+df = overrides.apply_overrides(df)
 
 # The dashboard is permanently restricted to in-scope records. There is no
 # Scope control: a toggle that could fold out-of-scope feedback back into a
@@ -429,6 +436,112 @@ def _set_severity(level: int) -> None:
     st.session_state["f_severity"] = level
 
 
+def _open_editor(feedback_id: str) -> None:
+    """Open the label editor on one record.
+
+    The editor's own widget keys are cleared first. They are keyed per record,
+    but a reader who opens a record, changes a dropdown, cancels, and opens the
+    same record again would otherwise be shown the abandoned draft rather than
+    what is actually saved. Runs as a button callback, before any widget for
+    this run exists, which is what makes deleting the keys legal.
+    """
+    for key in [k for k in st.session_state if k.startswith("afi_edit_")]:
+        del st.session_state[key]
+    st.session_state["afi_editing"] = str(feedback_id)
+
+
+def _close_editor() -> None:
+    st.session_state["afi_editing"] = None
+
+
+# on_dismiss clears the state the dialog opens from. Without it the native
+# close button leaves afi_editing set, and the editor reopens on the next
+# rerun -- so dismissing it would look like it had not closed at all.
+@st.dialog("Edit labels", on_dismiss=_close_editor)
+def _render_editor(record: dict) -> None:
+    """The four labels a reviewer can judge by reading the feedback.
+
+    Severity, confidence and the evidence quote are deliberately absent:
+    severity and confidence are the model's own judgement of the record, and
+    the quote belongs to the source. Editing those would not be correcting a
+    classification, it would be rewriting the evidence.
+    """
+    feedback_id = str(record["feedback_id"])
+    st.markdown(f'**{record["title"]}**')
+    st.caption("The model's original labels are kept in the data. Saving "
+               "records your correction on top of them.")
+
+    current = record[overrides.CATEGORY_FIELD]
+    category = st.selectbox(
+        "Category", CATEGORY_NAMES,
+        index=CATEGORY_NAMES.index(current) if current in CATEGORY_NAMES else 0,
+        key=f"afi_edit_cat_{feedback_id}")
+
+    # The subcategory list is whatever the chosen category allows, and the
+    # widget is keyed by that category: changing the category makes this a new
+    # widget, which re-initialises from index instead of holding a value that
+    # no longer belongs to the category on screen.
+    subcategories = SUBCATEGORY_NAMES_BY_CATEGORY[category]
+    current = record[overrides.SUBCATEGORY_FIELD]
+    subcategory = st.selectbox(
+        "Subcategory", subcategories,
+        index=subcategories.index(current) if current in subcategories else 0,
+        key=f"afi_edit_sub_{feedback_id}_{category}")
+
+    current = record[overrides.PROBLEM_FIELD]
+    problem_type = st.selectbox(
+        "Problem type", PROBLEM_TYPE_NAMES,
+        index=(PROBLEM_TYPE_NAMES.index(current)
+               if current in PROBLEM_TYPE_NAMES else 0),
+        key=f"afi_edit_problem_{feedback_id}")
+
+    current = record[overrides.STAGE_FIELD]
+    journey_stage = st.selectbox(
+        "Journey stage", STAGE_NAMES,
+        index=STAGE_NAMES.index(current) if current in STAGE_NAMES else 0,
+        key=f"afi_edit_stage_{feedback_id}")
+
+    saved = overrides.load_overrides().get(feedback_id)
+    if saved:
+        model_values = saved.get("model_values") or {}
+        st.caption("The model originally said: "
+                   + " · ".join(
+                       f"{overrides.FIELD_LABELS[field]}: "
+                       f"{model_values.get(field) or 'unknown'}"
+                       for field in overrides.EDITABLE_FIELDS))
+
+    save, cancel = st.columns(2)
+    if save.button("Save", type="primary", width="stretch",
+                   key=f"afi_edit_save_{feedback_id}"):
+        error = overrides.save_override(
+            feedback_id,
+            values={
+                overrides.CATEGORY_FIELD: category,
+                overrides.SUBCATEGORY_FIELD: subcategory,
+                overrides.PROBLEM_FIELD: problem_type,
+                overrides.STAGE_FIELD: journey_stage,
+            },
+            original={field: record.get(field)
+                      for field in overrides.EDITABLE_FIELDS},
+        )
+        if error:
+            st.error(error)
+        else:
+            _close_editor()
+            st.rerun()
+
+    if cancel.button("✕ Cancel", width="stretch",
+                     key=f"afi_edit_cancel_{feedback_id}"):
+        _close_editor()
+        st.rerun()
+
+    if saved and st.button("Revert to the model's labels",
+                           key=f"afi_edit_revert_{feedback_id}"):
+        overrides.clear_override(feedback_id)
+        _close_editor()
+        st.rerun()
+
+
 def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
                       actions: list[dict]) -> None:
     """Render the buttons the HTML proxies target. Hidden, never tabbed to."""
@@ -611,14 +724,32 @@ def render_dashboard() -> None:
                 ),
                 unsafe_allow_html=True,
             )
-            st.markdown(
-                render.render_feedback_cards(
-                    (shown.sort_values(["severity", "confidence"],
-                                       ascending=[False, False])
-                     if len(shown) else shown).head(40).to_dict("records")
-                ),
-                unsafe_allow_html=True,
-            )
+            # Built once and reused: the Edit proxies are keyed by position in
+            # this list, so the buttons behind them must be built from the same
+            # list in the same order or a click would edit the wrong record.
+            cards = ((shown.sort_values(["severity", "confidence"],
+                                        ascending=[False, False])
+                      if len(shown) else shown).head(40).to_dict("records"))
+
+            st.markdown(render.render_feedback_cards(cards),
+                        unsafe_allow_html=True)
+
+            with st.container(key="afi_hidden_edit"):
+                for index, card in enumerate(cards):
+                    st.button("go", key=f"{render.NAV_EDIT}_{index}",
+                              on_click=_open_editor,
+                              args=(str(card["feedback_id"]),))
+
+            editing = st.session_state.get("afi_editing")
+            if editing:
+                record = next((c for c in cards
+                               if str(c["feedback_id"]) == editing), None)
+                if record is None:
+                    # The record fell out of the filtered view -- editing it
+                    # from here would be editing something off screen.
+                    _close_editor()
+                else:
+                    _render_editor(record)
 
             if focus:
                 # Take the reader to the evidence they asked for. A rerun
