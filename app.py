@@ -697,37 +697,38 @@ def render_guide() -> None:
     st.markdown(f'<div class="afi-card afi-section"><h2 class="afi-guide-h2">'
                 f"The {len(CATEGORY_NAMES)} categories</h2></div>",
                 unsafe_allow_html=True)
-    for n, (name, block) in enumerate(TAXONOMY.items(), 1):
-        count = cat_counts.get(name, 0)
-        with st.expander(f"**{n}. {name}** - {count} record"
-                         f"{'s' if count != 1 else ''} · "
-                         f"{len(block['subcategories'])} subcategories"):
-            st.markdown(f"**{block['plain']}**")
-            st.caption(f"Usual journey stage: `{block['default_stage']}`")
-            for sub_name, sub in block["subcategories"].items():
-                sub_count = sub_counts.get(sub_name, 0)
-                use_for = "; ".join(sub["use_for"]) + "."
-                examples_html = "".join(
-                    f'<div class="afi-subcat-example">{example}</div>'
-                    for example in sub["examples"]
-                )
-                st.markdown(
-                    '<div class="afi-subcat">'
-                    '<div class="afi-subcat-head">'
-                    f'<span class="afi-subcat-name">{sub_name}</span>'
-                    f'<span class="afi-subcat-count">{sub_count} record'
-                    f'{"s" if sub_count != 1 else ""}</span>'
-                    "</div>"
-                    f'<p class="afi-subcat-desc">{sub["plain"]}</p>'
-                    f'<p class="afi-subcat-usefor"><b>Use it for:</b> {use_for}</p>'
-                    f'<div class="afi-subcat-examples">{examples_html}</div>'
-                    "</div>",
-                    unsafe_allow_html=True,
-                )
-            if block["confusable"]:
-                st.info("Most often confused with: "
-                        + ", ".join(f"**{c}**" for c in block["confusable"]),
-                        icon=":material/compare_arrows:")
+    with st.container(key="afi_guide_cats"):
+        for n, (name, block) in enumerate(TAXONOMY.items(), 1):
+            count = cat_counts.get(name, 0)
+            with st.expander(f"**{n}. {name}** - {count} record"
+                             f"{'s' if count != 1 else ''} · "
+                             f"{len(block['subcategories'])} subcategories"):
+                st.markdown(f"**{block['plain']}**")
+                st.caption(f"Usual journey stage: `{block['default_stage']}`")
+                for sub_name, sub in block["subcategories"].items():
+                    sub_count = sub_counts.get(sub_name, 0)
+                    use_for = "; ".join(sub["use_for"]) + "."
+                    examples_html = "".join(
+                        f'<div class="afi-subcat-example">{example}</div>'
+                        for example in sub["examples"]
+                    )
+                    st.markdown(
+                        '<div class="afi-subcat">'
+                        '<div class="afi-subcat-head">'
+                        f'<span class="afi-subcat-name">{sub_name}</span>'
+                        f'<span class="afi-subcat-count">{sub_count} record'
+                        f'{"s" if sub_count != 1 else ""}</span>'
+                        "</div>"
+                        f'<p class="afi-subcat-desc">{sub["plain"]}</p>'
+                        f'<p class="afi-subcat-usefor"><b>Use it for:</b> {use_for}</p>'
+                        f'<div class="afi-subcat-examples">{examples_html}</div>'
+                        "</div>",
+                        unsafe_allow_html=True,
+                    )
+                if block["confusable"]:
+                    st.info("Most often confused with: "
+                            + ", ".join(f"**{c}**" for c in block["confusable"]),
+                            icon=":material/compare_arrows:")
 
     st.markdown(f'<div class="afi-card afi-section"><h2 class="afi-guide-h2">'
                 f"The {len(STAGE_NAMES)} journey stages</h2>"

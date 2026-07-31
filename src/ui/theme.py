@@ -479,7 +479,8 @@ header[data-testid="stHeader"] {{ display: none !important; }}
    <p>, so there is nothing to pull back over and the negative margin drags the
    following element 14px into this one -- which is what made the filter-state
    line overlap the section caption. */
-.st-key-afi_page [data-testid="stMarkdownContainer"] {{ margin-bottom: 0 !important; }}
+.st-key-afi_page [data-testid="stMarkdownContainer"],
+.st-key-afi_guide_cats [data-testid="stMarkdownContainer"] {{ margin-bottom: 0 !important; }}
 [data-testid="stVerticalBlockBorderWrapper"] {{ gap: 0 !important; }}
 [data-testid="stElementContainer"] {{ margin: 0 !important; }}
 
