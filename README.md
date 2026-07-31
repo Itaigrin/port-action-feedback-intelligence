@@ -81,6 +81,8 @@ Running end to end on **327 collected records**, of which **182 are in scope** f
 
 Two tabs. **Dashboard** — ranked product actions, each opening onto its supporting feedback, plus distribution charts and a full evidence explorer. **Taxonomy & Journey Guide** — a plain-language reference so a non-technical reader can check the classifications rather than take them on trust.
 
+A floating **Product Data Assistant** sits over both, answering ten predefined questions with deterministic Python — no model, no tokens. See [Deterministic Product Data Assistant](#deterministic-product-data-assistant).
+
 ### Tab 1 — Dashboard
 
 ![Executive summary](docs/screenshots/01-executive-summary.png)
@@ -320,6 +322,43 @@ The counts behind the ranked actions are recomputed by hand from the raw records
 
 ---
 
+## Deterministic Product Data Assistant
+
+A robot button sits fixed in the bottom-right of both tabs. It opens a **Product Data Assistant** that answers **ten predefined questions** about the classified feedback.
+
+**It calls no model.** Every answer is pandas arithmetic over the records already committed in `data/processed/analyzed.json`. There is no API key, no network call and no token cost at runtime, and the assistant keeps working offline. The panel says so on screen rather than leaving the reader to guess whether a number was computed or generated.
+
+There is **no free-text box**, and no disabled one pretending to be coming soon. Ten fixed questions map to ten fixed Python handlers, so there is no path from user text to generated code.
+
+**Why it exists.** The dashboard answers "what should we build next". These are the questions a PM asks *around* that decision — what has been waiting longest, what keeps coming back, what is severe but under-reported, what needs checking before anyone acts on it. Several of them read fields the dashboard never displays (`comments_count`, `needs_human_review`, `secondary_assignments`), which is the point: the classified data holds more than one screen can show.
+
+**Scope.** Default is all in-scope feedback. A second option reuses the dashboard's own `apply_filters` — not a second filter implementation — so an answer can be narrowed to whatever the reader has selected. Each answer states its denominator (`Based on all 185 in-scope feedback records`) so an invisible filter can never quietly change a number.
+
+**Evidence.** Every ranked row carries the exact `feedback_id` list it was computed from, and `View supporting records` opens those records — title, source, status, date, severity, confidence, verified quote and the original link. Never a category-wide match standing in for a group.
+
+### The ten questions
+
+| # | Question | How it is calculated |
+|---|---|---|
+| 1 | Which open Product Actions have been waiting the longest? | Earliest `created_at` among each action's exact open supporting records; age measured against the newest date in the dataset, not today. Actions with no dated open record are excluded, not ranked. |
+| 2 | Which Product Actions show recurring demand over the longest period? | Span between first and last open `created_at`. Requires **two or more** dated open records — one record is a report, not a recurrence. |
+| 3 | Which open Product Actions have generated the most discussion in the Port portal? | Sum of `comments_count` across the action's open portal records. Engagement only — never enters the official ranking, because the other sources have no equivalent metric. |
+| 4 | Which high-severity Product Actions are supported by only one open record? | `open_supporting_record_count = 1` and `severity_band ≥ 4`. Surfaces what a volume-led ranking buries, worded so one record is never read as broad demand. |
+| 5 | Which Product Actions need the most human review before prioritization? | Count and share of `needs_human_review` among the action's open records, plus average confidence. Flags classification uncertainty, not a wrong product action. |
+| 6 | Which Subcategories have the highest share of high-severity negative feedback? | `severity ≥ 4` ÷ all open Negative records in the subcategory. Minimum denominator of **three** — a share out of one is not a rate. Primary assignments only. |
+| 7 | Which Categories have the highest unresolved-demand rate? | Open records ÷ all in-scope records in the category, minimum five records. A backlog measure — not churn, not conversion. |
+| 8 | Which Journey Stages contain the most bugs, validation gaps, and poor error messages? | Open Negative records in exactly three problem types. Feature-gap demand is excluded: this asks what is broken, not what is missing. |
+| 9 | Which Categories most often appear as secondary dependencies? | Distinct records naming the category in `secondary_assignments`, counted once per record, plus its most common primary partner. Kept out of primary totals so nothing is counted twice. |
+| 10 | Which Subcategories have the most feedback already marked Planned or In progress? | Planned + In progress counts and their share of the subcategory. Lifecycle status describes the source record, not full coverage of the related product action. |
+
+All ten use `created_at` for anything time-based — never `analyzed_at` or `retrieved_at`, which would say the same thing about every record and call it recency.
+
+**If AI is added later**, it belongs on free-text questions and cross-record synthesis that deterministic analysis genuinely cannot answer — and it must still cite the exact records behind its answer. A model that narrates over these numbers instead of computing them would trade the one property that makes this checkable.
+
+Implementation: [`src/assistant/analytics.py`](src/assistant/analytics.py), [`src/assistant/questions.py`](src/assistant/questions.py), [`src/ui/data_assistant.py`](src/ui/data_assistant.py). Tests: [`tests/test_assistant.py`](tests/test_assistant.py) — which sabotages every AI client constructor and the socket layer before running all ten handlers, so a stray runtime call fails the suite rather than quietly costing tokens.
+
+---
+
 ## Evaluation
 
 A reproducible 15-record sample (fixed seed, 9 relevant + 6 irrelevant) sits at [`data/evaluation/review_sample.csv`](data/evaluation/review_sample.csv) for manual checking.
@@ -408,6 +447,8 @@ src/
   collectors/              portal fetch, slug discovery, parsing
   models/                  taxonomy, Pydantic schema, versioned prompt
   analysis/                clean, classify, aggregate, evaluate
+  assistant/               the ten predefined questions and their calculations
+  ui/                      markup, design tokens, assistant panel
 data/
   raw/                     immutable snapshot -- write once
   processed/               clean + analysed data (the app's only input)
@@ -416,7 +457,7 @@ tests/                     essential checks
 docs/                      collection feasibility report
 ```
 
-Nothing under `src/` imports Streamlit, so all analysis logic is testable without running the app.
+No analysis module imports Streamlit — `collectors/`, `models/`, `analysis/` and `assistant/analytics.py` are all testable without running the app. Streamlit appears only in `app.py` and `src/ui/data_assistant.py`, which render and hold session state but calculate nothing.
 
 ---
 

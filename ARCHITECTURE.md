@@ -59,6 +59,8 @@ CSV and JSON in `data/`. At ~60 records a database adds operational surface with
 
 This is a hard contract. It means the demo cannot fail on someone else's machine, pages load instantly, and a reviewer without an API key sees the complete application. Verified by a test that loads the data with the environment stripped.
 
+The Product Data Assistant (D-8) is inside this contract, not an exception to it.
+
 ### D-3 — Native structured outputs, not `instructor`
 The Anthropic SDK enforces a Pydantic schema during generation:
 
@@ -90,6 +92,17 @@ An earlier version ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 ×
 **The weights were indefensible.** Multiplying unlike signals by invented coefficients produces a number that looks precise and collapses the moment someone asks why 0.45 rather than 0.4. Ranking is now **lexicographic**: an explicit ordered list of tie-breakers, where every position can be explained by naming the single key that decided it.
 
 **Votes do not generalise.** A vote total is meaningful inside one feedback portal and meaningless across Slack, Zendesk and Gong — there is nothing to vote with in a support ticket or a sales call. Ranking on a signal only one of four sources can produce would systematically bury every problem arriving through the other three. Votes are still collected and preserved as evidence; nothing is ranked by them.
+
+### D-8 — The assistant computes; it does not narrate
+The floating **Product Data Assistant** answers ten predefined questions. Each maps to one Python handler in `src/assistant/analytics.py`; there is no free-text input, so there is no path from user text to generated SQL or code, and nothing to send to a model.
+
+**Why predefined rather than a chatbot.** A model that answers questions over this dataset would produce fluent text whose relationship to the records is unverifiable. A handler produces a number, the exact `feedback_id` list behind it, and a note saying how it was calculated — which a reader can disagree with. The panel says "prototype mode" on screen rather than letting a reader assume the numbers were generated.
+
+**Where AI would genuinely help**, and where a production version should add it: free-text questions the ten cannot express, and synthesis across records. Constrained to citing the exact records it used, and invoked only when deterministic analysis cannot answer — a model summarising numbers a `groupby` already produced adds a failure mode and nothing else.
+
+**Reuse, not reimplementation.** The assistant imports `product_actions()`, `COUNTED_STATUSES`, `CATEGORY_FOR_SUBCATEGORY` and `STAGE_NAMES`. A second copy of the grouping or the lifecycle rules would be free to disagree with the dashboard, and eventually would. The `Use current Dashboard filters` scope calls the dashboard's own `apply_filters` — via the filtered id list recorded in session state, since the assistant renders at shell level and cannot import `app.py` back into itself.
+
+**Fields the dashboard does not show.** Several questions read `comments_count`, `needs_human_review` and `secondary_assignments`. The classified data holds more than one screen can display, which is most of why the assistant is worth having.
 
 ---
 
@@ -137,15 +150,19 @@ src/
                         categories, subcategories, stages, problem types,
                         lifecycle statuses and guide metadata)
   analysis/             clean, dedupe, classify, aggregate, score, evaluate
+  assistant/            the ten predefined questions + their deterministic
+                        handlers (questions.py is the registry, analytics.py
+                        the calculations)
+  ui/                   markup builders, design tokens, assistant panel
 data/
   raw/                  immutable snapshots — write once
   processed/            clean + analysed  ← the app's only input
   evaluation/           manual review sample
-tests/                  7 essential checks
+tests/                  essential checks, including the assistant's
 docs/                   feasibility report, architecture diagram, screenshots
 ```
 
-Nothing under `src/` imports Streamlit, so all analysis logic is testable without running the app.
+No analysis module imports Streamlit — `collectors/`, `models/`, `analysis/` and `assistant/` are testable without running the app. Streamlit appears only in `app.py` and `src/ui/data_assistant.py`, which render and hold session state but calculate nothing.
 
 ---
 
@@ -176,6 +193,8 @@ Nothing under `src/` imports Streamlit, so all analysis logic is testable withou
 7. The ranking is recomputed by hand from raw records, and asserted to be lexicographic and total
 8. No record claims a source system it did not come from
 9. The Streamlit app starts, and works from cached results with no API key
+10. The assistant's ten handlers run with every AI client constructor **and the socket layer** monkeypatched to raise — a stray runtime model call fails the suite rather than quietly costing tokens
+11. Each assistant answer's rows carry exact product-action membership, and open-only questions return nothing outside `Open`
 
 All offline. No test makes a network or API call.
 

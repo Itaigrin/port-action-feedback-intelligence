@@ -53,7 +53,7 @@ from src.models.taxonomy import (
     TAXONOMY,
     WORKED_EXAMPLES,
 )
-from src.ui import render
+from src.ui import data_assistant, render
 from src.ui.theme import CSS
 
 ROOT = Path(__file__).parent
@@ -468,6 +468,12 @@ def render_dashboard() -> None:
         search = st.session_state.get("f_search", "")
         view = apply_filters(filters, search)
 
+        # The assistant renders at shell level, after both tabs, so it cannot
+        # call apply_filters itself without importing app.py back into itself.
+        # Recording the ids here hands it the same filtered scope without a
+        # second filter implementation.
+        st.session_state["afi_view_ids"] = list(view["feedback_id"])
+
         # Every product action in view, and the subset with live demand. Both
         # are counted here so the two KPIs are genuinely different numbers.
         # Both KPIs come from the action groups themselves. "Product actions"
@@ -811,3 +817,13 @@ with tab_dashboard:
 
 with tab_guide:
     render_guide()
+
+# The assistant is drawn once, outside both tabs, so the launcher and the
+# conversation are the same object on the Dashboard and the Guide rather than
+# two instances with diverging state.
+#
+# It answers with deterministic pandas over these records. No model is called
+# here, so the app still starts and the assistant still works with no API key.
+_view_ids = st.session_state.get("afi_view_ids")
+_filtered = rel if _view_ids is None else rel[rel["feedback_id"].isin(_view_ids)]
+data_assistant.render(rel, _filtered, forwarder=CLICK_FORWARDER)

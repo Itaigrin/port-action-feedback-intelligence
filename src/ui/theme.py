@@ -596,5 +596,235 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   .afi-comparison {{ grid-template-columns: 1fr; }}
   .afi-search {{ margin-top: 10px; }}
 }}
+
+/* =========================================================================
+   PRODUCT DATA ASSISTANT — floating launcher and panel
+   ========================================================================= */
+/* Both are keyed containers pinned to the viewport, so they survive scrolling
+   and appear identically on the Dashboard and the Guide. They are rendered
+   once at shell level, outside both tabs. */
+.st-key-afi_assistant_launcher {{
+  position: fixed !important; right: 24px; bottom: 76px; z-index: 1200;
+  width: 58px; height: 58px;
+}}
+.st-key-afi_assistant_launcher [data-testid="stElementContainer"],
+.st-key-afi_assistant_launcher [data-testid="stButton"] {{
+  width: 58px !important; margin: 0 !important;
+}}
+.st-key-afi_assistant_launcher button {{
+  width: 58px !important; height: 58px !important; border-radius: 50% !important;
+  background: var(--blue) !important; color: #fff !important;
+  border: 1px solid {BLUE} !important; padding: 0 !important;
+  font-size: 25px !important; line-height: 1 !important;
+  box-shadow: 0 10px 26px rgba(39, 100, 231, .34) !important;
+  transition: transform .15s ease, box-shadow .15s ease;
+}}
+.st-key-afi_assistant_launcher button:hover {{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(39, 100, 231, .42) !important;
+}}
+.st-key-afi_assistant_launcher button:focus-visible {{
+  outline: 3px solid rgba(39, 100, 231, .35) !important; outline-offset: 2px;
+}}
+
+.st-key-afi_assistant_panel {{
+  position: fixed !important; right: 24px; bottom: 146px; z-index: 1199;
+  width: 420px; max-width: calc(100vw - 32px);
+  /* Bottom offset (146) + the pinned top bar (~66) subtracted, so a tall
+     conversation scrolls inside the panel instead of pushing its header up
+     behind the top bar. */
+  max-height: calc(100vh - 212px); overflow-y: auto; overflow-x: hidden;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; box-shadow: 0 18px 44px rgba(15, 23, 42, .18);
+  padding: 16px 16px 14px !important;
+}}
+.st-key-afi_assistant_panel [data-testid="stMarkdownContainer"] {{
+  margin-bottom: 0 !important;
+}}
+
+.afi-bot-head {{ display: flex; gap: 10px; align-items: center; }}
+.afi-bot-avatar, .afi-bot-mark {{
+  width: 34px; height: 34px; flex: none; border-radius: 10px;
+  background: var(--blue-soft); color: var(--blue);
+  display: inline-flex; align-items: center; justify-content: center;
+}}
+.afi-bot-avatar svg, .afi-bot-mark svg {{ width: 20px; height: 20px; }}
+.afi-bot-title {{ font-weight: 750; font-size: 14.5px; color: var(--ink); }}
+.afi-bot-sub {{ font-size: 11.5px; color: var(--muted); margin-top: 1px; }}
+
+/* The close control is a real button so it is keyboard reachable; CSS lifts it
+   into the header rather than spending a column layout on it. */
+.st-key-afi_assistant_close {{
+  position: absolute !important; top: 14px; right: 14px; width: 30px;
+}}
+.st-key-afi_assistant_close button {{
+  width: 30px !important; height: 30px !important; min-height: 30px !important;
+  padding: 0 !important; border-radius: 8px !important;
+  border: 1px solid var(--line) !important; background: #fff !important;
+  color: var(--muted) !important; font-size: 13px !important;
+}}
+.st-key-afi_assistant_close button:hover {{ color: var(--ink) !important; }}
+
+.st-key-afi_assistant_scope_box {{
+  margin-top: 12px !important; padding: 9px 11px !important;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+}}
+.st-key-afi_assistant_scope_box [data-testid="stWidgetLabel"] p {{
+  font-size: 11px !important; font-weight: 700 !important;
+  color: #475569 !important; margin-bottom: 2px !important;
+}}
+.st-key-afi_assistant_scope_box label p {{ font-size: 12px !important; }}
+.st-key-afi_assistant_scope_box [data-testid="stElementContainer"] {{
+  margin-bottom: 0 !important;
+}}
+
+.afi-bot-body {{ margin-top: 12px; }}
+.afi-bot-proto {{
+  font-size: 11.5px; line-height: 1.5; color: #475569;
+  background: var(--blue-soft); border: 1px solid #d6e4ff;
+  border-radius: 10px; padding: 9px 11px; margin-bottom: 10px;
+}}
+.afi-bot-msg {{
+  font-size: 12.5px; line-height: 1.55; border-radius: 12px;
+  padding: 9px 11px; margin-bottom: 9px;
+}}
+.afi-bot-bot {{ background: var(--bg); color: var(--ink); }}
+.afi-bot-user {{
+  background: var(--blue); color: #fff; font-weight: 600;
+  margin-left: 34px; border-bottom-right-radius: 4px;
+}}
+.afi-bot-answer {{
+  background: #fff; border: 1px solid var(--line); color: var(--ink);
+  border-bottom-left-radius: 4px;
+}}
+.afi-bot-scope {{
+  font-size: 11px; color: var(--muted); font-weight: 650;
+  text-transform: none; margin-bottom: 6px;
+}}
+.afi-bot-finding {{ font-size: 12.5px; font-weight: 650; margin-bottom: 9px; }}
+.afi-bot-empty {{ font-size: 12.5px; color: var(--muted); }}
+
+.afi-bot-row {{
+  display: flex; gap: 9px; padding: 8px 0;
+  border-top: 1px solid var(--line);
+}}
+.afi-bot-rank {{
+  width: 19px; height: 19px; flex: none; border-radius: 6px;
+  background: var(--blue-soft); color: var(--blue);
+  font-size: 11px; font-weight: 750; text-align: center; line-height: 19px;
+}}
+.afi-bot-rowbody {{ min-width: 0; flex: 1 1 auto; }}
+.afi-bot-rowtitle {{ font-size: 12.5px; font-weight: 650; line-height: 1.4; }}
+.afi-bot-rowsub {{ font-size: 11px; color: var(--muted); margin-top: 1px; }}
+.afi-bot-cells {{ display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }}
+.afi-bot-cell {{
+  background: var(--bg); border: 1px solid var(--line); border-radius: 7px;
+  padding: 3px 7px; font-size: 10.5px; line-height: 1.35;
+}}
+.afi-bot-cell em {{ display: block; font-style: normal; color: var(--muted); }}
+.afi-bot-cell b {{ color: var(--ink); font-weight: 700; }}
+.afi-bot-evidence-link {{
+  display: inline-block; margin-top: 7px; font-size: 11.5px;
+  font-weight: 650; color: var(--blue); text-decoration: none;
+}}
+.afi-bot-evidence-link:hover {{ text-decoration: underline; }}
+.afi-bot-note {{
+  font-size: 11px; line-height: 1.5; color: var(--muted);
+  border-top: 1px solid var(--line); margin-top: 9px; padding-top: 8px;
+}}
+
+.afi-bot-ev {{
+  border: 1px solid var(--line); border-radius: 11px;
+  background: var(--bg); padding: 10px; margin-bottom: 9px;
+}}
+.afi-bot-ev-head {{
+  display: flex; justify-content: space-between; gap: 8px;
+  font-size: 11px; font-weight: 750; color: #475569; margin-bottom: 8px;
+}}
+.afi-bot-ev-head span {{ color: var(--muted); font-weight: 600; flex: none; }}
+.afi-bot-ev-card {{
+  background: #fff; border: 1px solid var(--line); border-radius: 9px;
+  padding: 9px 10px; margin-bottom: 7px;
+}}
+.afi-bot-ev-card:last-child {{ margin-bottom: 0; }}
+.afi-bot-ev-title {{ font-size: 12px; font-weight: 650; line-height: 1.4; }}
+.afi-bot-ev-meta {{
+  display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0;
+}}
+.afi-bot-ev-quote {{
+  font-size: 11.5px; line-height: 1.5; color: #334155; font-style: italic;
+  border-left: 2px solid var(--blue); padding-left: 8px; margin-bottom: 6px;
+}}
+.afi-bot-ev-card .afi-source {{ font-size: 11px; }}
+
+.afi-bot-qhead {{
+  font-size: 11px; font-weight: 750; color: #475569;
+  text-transform: uppercase; letter-spacing: .04em; margin: 14px 0 7px;
+}}
+/* Question buttons: full-width cards, wrapping rather than truncating, so the
+   exact question a reader clicks is the exact question they read. */
+.st-key-afi_assistant_questions [data-testid="stElementContainer"] {{
+  margin-bottom: 6px !important;
+}}
+.st-key-afi_assistant_questions button {{
+  width: 100% !important; text-align: left !important;
+  justify-content: flex-start !important;
+  white-space: normal !important; height: auto !important;
+  min-height: 0 !important; padding: 8px 11px !important;
+  border: 1px solid var(--line) !important; border-radius: 10px !important;
+  background: #fff !important; color: var(--ink) !important;
+}}
+.st-key-afi_assistant_questions button p {{
+  font-size: 12px !important; font-weight: 600 !important;
+  line-height: 1.45 !important; text-align: left !important;
+}}
+.st-key-afi_assistant_questions button:hover {{
+  border-color: var(--blue) !important; background: var(--blue-soft) !important;
+}}
+
+.st-key-afi_assistant_controls [data-testid="stElementContainer"],
+[class*="st-key-afi_assistant_evctl_"] [data-testid="stElementContainer"] {{
+  margin-bottom: 6px !important;
+}}
+.st-key-afi_assistant_controls button,
+[class*="st-key-afi_assistant_evctl_"] button {{
+  border-radius: 9px !important; border: 1px solid var(--line) !important;
+  background: #fff !important; padding: 5px 11px !important;
+  min-height: 0 !important;
+}}
+.st-key-afi_assistant_controls button p,
+[class*="st-key-afi_assistant_evctl_"] button p {{
+  font-size: 11.5px !important; font-weight: 650 !important;
+}}
+.st-key-afi_assistant_controls {{ margin-top: 10px !important; }}
+
+.afi-bot-foot {{
+  margin-top: 14px; border-top: 1px solid var(--line); padding-top: 10px;
+}}
+.afi-bot-foot-title {{
+  font-size: 10.5px; font-weight: 750; color: var(--blue);
+  text-transform: uppercase; letter-spacing: .04em;
+}}
+.afi-bot-foot p {{
+  font-size: 10.5px !important; line-height: 1.55; color: var(--muted);
+  margin: 4px 0 0 !important;
+}}
+
+/* Hidden proxies for the "View supporting records" links, off-screen for the
+   same reason as the dashboard's: a programmatic click must reach a live
+   button, and these must stay out of the tab order. */
+[class*="st-key-afi_assistant_ev_"] {{
+  position: absolute !important; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}}
+
+@media (max-width: 650px) {{
+  .st-key-afi_assistant_launcher {{ right: 16px; bottom: 72px; }}
+  .st-key-afi_assistant_panel {{
+    right: 8px; left: 8px; bottom: 140px;
+    width: auto; max-width: calc(100vw - 16px);
+    max-height: min(78vh, calc(100vh - 206px));
+  }}
+}}
 </style>
 """
