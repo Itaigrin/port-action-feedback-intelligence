@@ -215,7 +215,7 @@ def render_filter_panel() -> dict:
     # not rewrite the filters, or the reader loses the selection they built.
     present_categories = [c for c in CATEGORY_NAMES
                           if c in set(rel["primary_taxonomy_category"].dropna())]
-    category = st.multiselect("Taxonomy category", present_categories, key="f_category")
+    category = st.multiselect("Category", present_categories, key="f_category")
 
     present_subs = set(rel["primary_taxonomy_subcategory"].dropna())
     sub_pool = [
@@ -224,7 +224,7 @@ def render_filter_panel() -> dict:
         for s in SUBCATEGORY_NAMES_BY_CATEGORY[c]
         if s in present_subs
     ]
-    subcategory = st.multiselect("Taxonomy subcategory", sub_pool, key="f_subcategory")
+    subcategory = st.multiselect("Subcategory", sub_pool, key="f_subcategory")
 
     severity = int(st.session_state.get("f_severity", 1))
     st.markdown(

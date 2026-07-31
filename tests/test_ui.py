@@ -49,7 +49,7 @@ ALLOWED_DASHBOARD_HEADINGS = {
     "High severity",
     "Needs human review",
     "Recommended product actions",
-    "Matching feedback by taxonomy category",
+    "Matching feedback by category",
     "Matching feedback by Journey stage",
     "Feedback behind recommended actions",
     "Where users struggle most",
@@ -123,7 +123,7 @@ def test_no_legacy_kpi_rendered():
 def test_chart_titles_are_exact():
     from src.ui.render import render_journey_chart, render_taxonomy_chart
 
-    assert "<h2>Matching feedback by taxonomy category</h2>" in \
+    assert "<h2>Matching feedback by category</h2>" in \
         render_taxonomy_chart([("A", 1)], None)
     assert "<h2>Matching feedback by Journey stage</h2>" in \
         render_journey_chart([("A", 1)])
@@ -145,17 +145,45 @@ def test_no_old_theme_chart_and_no_plotly():
     assert "afi-bar" in THEME
 
 
-def test_journey_chart_keeps_chronological_order():
+def _stage_positions(html: str, names) -> list[int]:
+    from html import escape
+
+    return [html.index(f"<strong>{escape(name, quote=True)}</strong>")
+            for name in names]
+
+
+def test_journey_chart_orders_stages_by_volume():
     from src.models.taxonomy import STAGE_NAMES
     from src.ui.render import render_journey_chart
 
-    from html import escape
-
     rows = [(name, i) for i, name in enumerate(STAGE_NAMES)]
     html = render_journey_chart(rows)
-    positions = [html.index(f"<strong>{escape(name, quote=True)}</strong>")
-                 for name in STAGE_NAMES]
-    assert positions == sorted(positions), "journey stages were reordered"
+    positions = _stage_positions(html, reversed(STAGE_NAMES))
+    assert positions == sorted(positions), "stages were not ordered by volume"
+
+
+def test_journey_chart_breaks_ties_chronologically():
+    """Equal counts keep the order a user meets the stages in."""
+    from src.models.taxonomy import STAGE_NAMES
+    from src.ui.render import render_journey_chart
+
+    rows = [(name, 4) for name in STAGE_NAMES]
+    html = render_journey_chart(rows)
+    positions = _stage_positions(html, STAGE_NAMES)
+    assert positions == sorted(positions), "a tie reordered the stages"
+
+
+def test_journey_chart_keeps_empty_stages():
+    """An empty stage is a finding; sorting must not turn it into a gap."""
+    from src.models.taxonomy import STAGE_NAMES
+    from src.ui.render import render_journey_chart
+
+    rows = [(name, 0) for name in STAGE_NAMES]
+    rows[3] = (STAGE_NAMES[3], 9)
+    html = render_journey_chart(rows)
+    positions = _stage_positions(html, STAGE_NAMES)
+    assert len(positions) == len(STAGE_NAMES)
+    assert positions[3] == min(positions), "the only populated stage is not first"
 
 
 def test_dashboard_section_order():
@@ -176,8 +204,8 @@ def test_dashboard_section_order():
 
 
 def test_category_and_subcategory_are_separate_controls():
-    assert 'st.multiselect("Taxonomy category"' in APP
-    assert 'st.multiselect("Taxonomy subcategory"' in APP
+    assert 'st.multiselect("Category"' in APP
+    assert 'st.multiselect("Subcategory"' in APP
 
 
 def test_top_recommended_actions_defaults_to_ten():
@@ -195,7 +223,7 @@ def test_filter_panel_order_matches_the_mockup():
     """
     panel = APP[APP.index("def render_filter_panel("):APP.index("def apply_filters(")]
     expected = ["Lifecycle status", "Problem type", "Journey stage",
-                "Taxonomy category", "Taxonomy subcategory", "Minimum severity",
+                "Category", "Subcategory", "Minimum severity",
                 "Top Recommended product actions", "Reset all filters",
                 "More filters", "Persona", "Confidence / review state",
                 "View full taxonomy"]

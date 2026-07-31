@@ -99,7 +99,7 @@ A floating **Product Data Assistant** sits over both, answering ten predefined q
 
 ![Action Configuration journey](docs/screenshots/04-journey.png)
 
-*Where friction falls across the eight stages of setting up an action, in chronological lifecycle order. Stages with no feedback are shown rather than dropped — an empty stage is a finding, not a gap in the chart.*
+*Where friction falls across the eight stages of setting up an action, heaviest stage first. Stages on the same count stay in chronological lifecycle order, and stages with no feedback are shown rather than dropped — an empty stage is a finding, not a gap in the chart.*
 
 ![Persona and secondary areas](docs/screenshots/05-persona-secondary.png)
 
@@ -189,14 +189,14 @@ Each record is classified independently against a **taxonomy defined before any 
 
 | Dimension | Question | Count |
 |---|---|---|
-| Taxonomy category | *Which broad product area?* | 11 |
-| Taxonomy subcategory | *Which specific part of it?* | 63 |
+| Category | *Which broad product area?* | 11 |
+| Subcategory | *Which specific part of it?* | 63 |
 | Problem type | *What kind of problem?* | 14 |
 | Journey stage | *Where in the lifecycle?* | 8 |
 
 A dynamic-permission failure belongs to **Permissions & Approvals** while its problem *type* is **Poor error message**. Folding those into one field makes both unusable for counting and quietly forces the analyst to discard one of the two facts. Severity, persona, lifecycle status and source system are further independent dimensions, never folded into a category name.
 
-Stages are in chronological lifecycle order and mirror Port's own self-service flow, so a finding like *"friction concentrates in permissions and approvals"* points at a surface the team already owns.
+The stages mirror Port's own self-service flow, so a finding like *"friction concentrates in permissions and approvals"* points at a surface the team already owns. Chronological order is the canonical order in `taxonomy.py` and still governs the guide, the trend legend and every tie; only the distribution chart sorts by volume, so the heaviest stage is the first thing read.
 
 Each relevant record gets exactly **one** primary category/subcategory pair, one problem type and one stage. **At most two secondary assignments** are allowed for records that genuinely span areas — 102 of 182 carry one — and secondaries never affect any count or ranking, so adding one cannot inflate a total. Where a record could reasonably go two ways, thirteen documented tie-break rules decide, and residual uncertainty is reported through `confidence` and `needs_human_review` rather than hidden.
 

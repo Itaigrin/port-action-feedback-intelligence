@@ -432,19 +432,27 @@ def render_taxonomy_chart(rows: list[tuple[str, int]],
     return (
         '<div class="afi-card afi-section" style="box-shadow:none">'
         '<div class="afi-section-head"><div>'
-        "<h2>Matching feedback by taxonomy category</h2>"
+        "<h2>Matching feedback by category</h2>"
         f"<p>{desc}</p></div></div>{crumb}{chart}</div>"
     )
 
 
 def render_journey_chart(rows: list[tuple[str, int]]) -> str:
-    """Chronological order is preserved by the caller; never sorted by size."""
+    """Stages ordered by volume, highest first.
+
+    Journey order is still what the caller passes in, and it decides ties, so
+    two stages on the same count stay in the order a user meets them. Stages
+    with no feedback are kept rather than dropped -- an empty stage is a
+    finding, and sorting must not turn it into a missing row.
+    """
+    ordered = sorted(rows, key=lambda row: -row[1])
     return (
         '<div class="afi-card afi-section" style="box-shadow:none;margin-top:20px">'
         '<div class="afi-section-head"><div>'
         "<h2>Matching feedback by Journey stage</h2>"
-        "<p>In the order a user meets them, not by volume.</p></div></div>"
-        + _bar_rows(rows, None)
+        "<p>Ordered by volume, highest first. Stages with no feedback are "
+        "kept, not dropped.</p></div></div>"
+        + _bar_rows(ordered, None)
         + "</div>"
     )
 
