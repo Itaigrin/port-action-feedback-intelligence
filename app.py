@@ -372,13 +372,11 @@ if (!doc.__afiClickBound) {
   // The commit is debounced on 'input' rather than fired on 'change'. A range
   // inside injected markup does not deliver 'change' to this listener -- only
   // 'input' arrives -- so the debounce is what stands in for "the value has
-  // settled": the pill tracks the handle immediately, and the app reruns once
-  // the user stops moving it.
+  // settled": the thumb tracks the handle immediately (native, no JS needed),
+  // and the app reruns once the user stops moving it.
   doc.addEventListener('input', (event) => {
     const slider = event.target.closest('[data-afi-sev]');
     if (!slider) return;
-    const pill = slider.parentElement.querySelector('.afi-range-value');
-    if (pill) pill.textContent = slider.value;
     const level = slider.value;
     clearTimeout(doc.__afiSevTimer);
     doc.__afiSevTimer = setTimeout(() => {

@@ -252,11 +252,11 @@ def test_severity_uses_the_mockup_range_not_the_streamlit_slider():
     assert 'min="1"' in html and 'max="5"' in html and 'value="3"' in html
     assert f'data-afi-sev="{NAV_SEV}"' in html
     assert 'aria-label="Minimum severity"' in html
-    # The value row reads low, current, high -- left to right, as in the mockup.
-    low = html.index("<span>1</span>")
-    pill = html.index("afi-range-value")
-    high = html.index("<span>5</span>")
-    assert low < pill < high
+    # No current-value pill: the thumb's own position is the only indicator.
+    assert "afi-range-value" not in html
+    # A ruler tick for every step, low to high, left to right.
+    positions = [html.index(f"<span>{n}</span>") for n in range(1, 6)]
+    assert positions == sorted(positions)
 
     # One hidden button per level, and the CSS pins direction explicitly.
     for level in range(1, 6):

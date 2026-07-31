@@ -528,7 +528,7 @@ def render_feedback_cards(records: list[dict]) -> str:
 
 
 def render_severity_slider(value: int, minimum: int = 1, maximum: int = 5) -> str:
-    """The mockup's severity control: a native range input with a value pill.
+    """The mockup's severity control: a native range input with a tick ruler.
 
     Streamlit's own slider is not used here. Its thumb rendered at left:100%
     while reporting value 1, so the handle sat at the maximum end for the
@@ -536,19 +536,21 @@ def render_severity_slider(value: int, minimum: int = 1, maximum: int = 5) -> st
     what the mockup specifies, so replacing it fixes the behaviour and the
     appearance in one move.
 
+    The current value used to also show as a pill above the track. Removed:
+    the thumb's own position already says which value is selected, and the
+    ruler below the track now labels every step, not just the ends.
+
     The input proxies to hidden Streamlit buttons, one per severity level --
     the same mechanism the chart rows and action buttons already use.
     """
+    ticks = "".join(f"<span>{n}</span>"
+                    for n in range(minimum, maximum + 1))
     return (
         '<div class="afi-sev">'
-        '<div class="afi-range-row">'
-        f"<span>{minimum}</span>"
-        f'<output class="afi-range-value">{value}</output>'
-        f"<span>{maximum}</span>"
-        "</div>"
         f'<input type="range" min="{minimum}" max="{maximum}" step="1" '
         f'value="{value}" data-afi-sev="{NAV_SEV}" '
         'aria-label="Minimum severity" />'
+        f'<div class="afi-range-row">{ticks}</div>'
         "</div>"
     )
 

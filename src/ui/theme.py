@@ -596,22 +596,21 @@ header[data-testid="stHeader"] {{ display: none !important; }}
 .afi-filters [data-testid="stSlider"] {{ padding-top: 2px !important; }}
 .afi-filters .afi-rubric {{ margin: 0 0 14px !important; }}
 
-/* Severity control, lifted from the mockup: a value row above a native range
-   input. Streamlit's slider is not used -- it rendered its thumb at left:100%
-   while reporting value 1, so the handle sat at the maximum end for the
-   minimum value. */
+/* Severity control, lifted from the mockup: a native range input with a tick
+   ruler below it labelling every step. Streamlit's slider is not used -- it
+   rendered its thumb at left:100% while reporting value 1, so the handle sat
+   at the maximum end for the minimum value.
+
+   There used to also be a pill above the track showing the current value in
+   blue. Removed: the thumb's own position already shows the selection, and a
+   second, separately-updating indicator was redundant with it. */
 .afi-filter-label {{
   display: block; margin: 16px 0 6px; color: #475569;
   font-weight: 650; font-size: 12px;
 }}
 .afi-range-row {{
   display: flex; justify-content: space-between; align-items: center;
-  margin-top: 4px; color: var(--muted); font-size: 12px;
-}}
-.afi-range-value {{
-  min-width: 26px; text-align: center; border-radius: 999px;
-  background: var(--blue-soft); color: var(--blue); font-weight: 800;
-  padding: 2px 7px; font-size: 12px;
+  margin-top: 6px; color: var(--muted); font-size: 12px;
 }}
 .afi-sev input[type="range"] {{
   width: 100%; accent-color: var(--blue); margin: 2px 0 0; cursor: pointer;
