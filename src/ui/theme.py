@@ -416,6 +416,26 @@ a.afi-category-row:hover strong {{ color: var(--blue) !important; }}
 /* -------------------------------------------------------------- guide tab */
 .afi-guide-h2 {{ font-size: 20px; letter-spacing: -.02em; margin: 0 0 6px; }}
 
+/* One shared card behind the whole "N categories" section -- the heading
+   and every category row -- instead of a card behind just the title with
+   separately-boxed expanders below it. Matches the single-surface look of
+   the "N journey stages" section below it. Each expander is stripped of
+   its own Streamlit chrome (border/background/shadow) and turned into a
+   row inside the shared card, separated by a hairline like .afi-subcat. */
+.st-key-afi_guide_cats {{
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; box-shadow: var(--shadow); padding: 19px 19px 8px;
+}}
+.st-key-afi_guide_cats [data-testid="stExpander"],
+.st-key-afi_guide_cats [data-testid="stExpander"] details {{
+  background: transparent !important; border: none !important;
+  box-shadow: none !important; border-radius: 0 !important;
+}}
+.st-key-afi_guide_cats [data-testid="stExpander"] {{
+  border-top: 1px solid var(--line) !important;
+  margin-top: 4px !important; padding-top: 4px !important;
+}}
+
 /* Subcategory blocks inside each category's expander. One block per
    subcategory, each separated by a hairline so the eye has a clear stopping
    point between them instead of everything running together. */

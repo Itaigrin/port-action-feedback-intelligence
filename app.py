@@ -694,10 +694,10 @@ def render_guide() -> None:
     cat_counts = rel["primary_taxonomy_category"].value_counts().to_dict()
     sub_counts = rel["primary_taxonomy_subcategory"].value_counts().to_dict()
 
-    st.markdown(f'<div class="afi-card afi-section"><h2 class="afi-guide-h2">'
-                f"The {len(CATEGORY_NAMES)} categories</h2></div>",
-                unsafe_allow_html=True)
     with st.container(key="afi_guide_cats"):
+        st.markdown(f'<h2 class="afi-guide-h2">'
+                    f"The {len(CATEGORY_NAMES)} categories</h2>",
+                    unsafe_allow_html=True)
         for n, (name, block) in enumerate(TAXONOMY.items(), 1):
             count = cat_counts.get(name, 0)
             with st.expander(f"**{n}. {name}** - {count} record"
