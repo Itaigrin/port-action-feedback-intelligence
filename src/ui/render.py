@@ -263,7 +263,7 @@ def render_trend_chart(trend: dict) -> str:
         return head + ('<div class="afi-empty">No negative feedback in this '
                        "period for the current filters.</div></div>")
 
-    width, height = 640, 210
+    width, height = 640, 230
     pad_l, pad_r, pad_t, pad_b = 30, 8, 12, 26
     peak = max((max(s["points"]) for s in series), default=0) or 1
     span = max(len(weeks) - 1, 1)
@@ -296,9 +296,7 @@ def render_trend_chart(trend: dict) -> str:
             if value:
                 parts.append(
                     f'<circle cx="{x(i):.1f}" cy="{y(value):.1f}" r="2.6" '
-                    f'fill="{colour}"><title>Week of {_esc(weeks[i])} · '
-                    f'{_esc(entry["stage"])} · {_plural(value, "record")}'
-                    "</title></circle>")
+                    f'fill="{colour}" />')
 
     # Every third week label, so the axis stays readable at this width.
     for i, week in enumerate(weeks):
@@ -306,6 +304,75 @@ def render_trend_chart(trend: dict) -> str:
             parts.append(f'<text x="{x(i):.1f}" y="{height - 8}" '
                          f'class="afi-trend-axis" text-anchor="middle">'
                          f"{_esc(week[5:])}</text>")
+
+    # --- shared hover -----------------------------------------------------
+    # One invisible column per week. Hovering anywhere in it reveals a guide
+    # line and a single panel listing every stage at that week -- reading one
+    # week across all lines is the question this chart exists to answer, and
+    # per-point tooltips could not answer it: they required hitting a 2.6px
+    # dot, and a stage sitting at zero had no dot to hit.
+    #
+    # Pure SVG and CSS. A scripted tooltip would have to live in a component
+    # iframe, which cannot draw over the page.
+    half = (width - pad_l - pad_r) / max(len(weeks) - 1, 1) / 2
+    # Baselines, not box tops. The header needs a full line of clearance or it
+    # sits on top of the first row.
+    row_h = 15
+    head_baseline = 15
+    first_row_baseline = 33
+    tip_w = 246
+
+    for i, week in enumerate(weeks):
+        cx = x(i)
+        # Only stages that actually have feedback this week. Listing every
+        # stage with a zero filled the panel with rows that said nothing and
+        # buried the one or two that mattered.
+        present = [(index, entry) for index, entry in enumerate(series)
+                   if entry["points"][i]]
+        tip_h = (first_row_baseline + row_h * (len(present) - 1) + 11
+                 if present else first_row_baseline + 4)
+
+        # Flip the panel to the left once the column is past the midpoint, so
+        # it never runs off the edge.
+        flip = cx > width / 2
+        tip_x = cx - tip_w - 10 if flip else cx + 10
+        tip_x = max(pad_l, min(tip_x, width - pad_r - tip_w))
+        tip_y = pad_t + 2
+
+        rows = []
+        for slot, (index, entry) in enumerate(present):
+            colour = TREND_COLOURS[index % len(TREND_COLOURS)]
+            ry = tip_y + first_row_baseline + row_h * slot
+            rows.append(
+                f'<rect x="{tip_x + 9:.1f}" y="{ry - 7:.1f}" width="8" '
+                f'height="3" rx="1.5" fill="{colour}" />'
+                f'<text x="{tip_x + 22:.1f}" y="{ry:.1f}" '
+                f'class="afi-trend-tip-row">{_esc(entry["stage"])}</text>'
+                f'<text x="{tip_x + tip_w - 10:.1f}" y="{ry:.1f}" '
+                f'class="afi-trend-tip-val" text-anchor="end">'
+                f'{entry["points"][i]}</text>'
+            )
+        if not present:
+            rows.append(
+                f'<text x="{tip_x + 10:.1f}" '
+                f'y="{tip_y + first_row_baseline - 6:.1f}" '
+                'class="afi-trend-tip-row">No negative feedback this week</text>'
+            )
+
+        parts.append(
+            f'<g class="afi-trend-col">'
+            f'<rect x="{cx - half:.1f}" y="{pad_t}" width="{half * 2:.1f}" '
+            f'height="{height - pad_t - pad_b}" fill="transparent" />'
+            f'<line class="afi-trend-guide" x1="{cx:.1f}" y1="{pad_t}" '
+            f'x2="{cx:.1f}" y2="{height - pad_b}" />'
+            f'<g class="afi-trend-tip">'
+            f'<rect x="{tip_x:.1f}" y="{tip_y:.1f}" width="{tip_w}" '
+            f'height="{tip_h}" rx="8" class="afi-trend-tip-bg" />'
+            f'<text x="{tip_x + 10:.1f}" y="{tip_y + head_baseline:.1f}" '
+            f'class="afi-trend-tip-head">Week of {_esc(week)}</text>'
+            f'{"".join(rows)}</g></g>'
+        )
+
     parts.append("</svg>")
 
     legend = "".join(

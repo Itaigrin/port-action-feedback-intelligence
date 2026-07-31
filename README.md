@@ -310,7 +310,9 @@ A weekly line chart below the cards, `Negative feedback by Journey stage — las
 
 **Date window:** the rolling three months ending today. If the newest record is more than 14 days old the dataset is a historical snapshot, so the window ends at the newest known `created_at` instead and the chart says so — rendering an empty chart against today's date would look like a bug rather than a property of the data.
 
-It is inline SVG, not Plotly: re-adding a plotting library for one line chart would bring back the canvas, toolbar, font and margin conflicts that removing it solved.
+**Hovering anywhere in a week** reveals a guide line and one panel listing every stage that has feedback that week, with its count. Reading one week across all the lines is the question the chart exists to answer, and per-point tooltips could not answer it — they needed a 2.6px dot, and a stage with no dot that week had nothing to hover. Stages sitting at zero are left out of the panel rather than listed as `0`: a row that says nothing buries the ones that matter. A week with no negative feedback says so.
+
+It is inline SVG with a CSS-only hover, not Plotly: re-adding a plotting library for one line chart would bring back the canvas, toolbar, font and margin conflicts that removing it solved, and a scripted tooltip would have to live in a component iframe that cannot draw over the page.
 
 ### Verification### Verification
 

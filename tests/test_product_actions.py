@@ -11,6 +11,7 @@ ids, and the count is the length of that list.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -556,3 +557,94 @@ def test_insight_cards_are_equal_height_by_construction():
     assert "align-items: start" not in rule
     assert ".afi-insight-examples { margin-top: auto" in CSS.replace("\n", " ") \
         or "margin-top: auto" in CSS, "the list must absorb the slack"
+
+
+# --- trend hover ------------------------------------------------------------
+def _trend(points_by_stage: dict[str, list[int]]) -> dict:
+    weeks = ["2026-05-04", "2026-05-11", "2026-05-18"]
+    return {
+        "weeks": weeks,
+        "series": [{"stage": s, "points": p, "total": sum(p)}
+                   for s, p in points_by_stage.items()],
+        "window_start": weeks[0], "window_end": weeks[-1],
+        "is_historical_snapshot": False,
+    }
+
+
+def _columns(html: str) -> list[str]:
+    return re.findall(r'<g class="afi-trend-col">.*?</g></g>', html)
+
+
+def test_hover_shows_every_stage_at_that_week():
+    """Reading one week across all lines is the question this chart answers.
+
+    Per-point tooltips could not: they needed a 2.6px dot, and a stage with no
+    dot that week had nothing to hover.
+    """
+    from src.ui.render import render_trend_chart
+
+    html = render_trend_chart(_trend({
+        "Backend & invocation setup": [1, 0, 2],
+        "Permissions & approvals": [3, 0, 1],
+    }))
+    columns = _columns(html)
+    assert len(columns) == 3, "one hover column per week"
+
+    first = columns[0]
+    assert "Backend &amp; invocation setup" in first
+    assert "Permissions &amp; approvals" in first
+    assert "Week of 2026-05-04" in first
+
+
+def test_hover_omits_stages_with_no_feedback_that_week():
+    """A row reading zero says nothing and buries the ones that matter."""
+    from src.ui.render import render_trend_chart
+
+    html = render_trend_chart(_trend({
+        "Backend & invocation setup": [1, 0, 0],
+        "Permissions & approvals": [0, 0, 0],
+        "Execution, monitoring & run control": [2, 0, 0],
+    }))
+    first, second, _ = _columns(html)
+
+    rows = re.findall(r'class="afi-trend-tip-row">([^<]+)<', first)
+    assert "Permissions &amp; approvals" not in rows, "a zero stage was listed"
+    assert len(rows) == 2
+    assert ">0<" not in first, "no zero value should be rendered"
+
+    # A week where nothing happened says so rather than showing an empty box.
+    assert "No negative feedback this week" in second
+
+
+def test_hover_is_css_only_with_no_native_tooltip():
+    """A native <title> waits about a second and cannot be styled."""
+    from src.ui.render import render_trend_chart
+    from src.ui.theme import CSS
+
+    html = render_trend_chart(_trend({"Backend & invocation setup": [1, 2, 3]}))
+    assert "<title>" not in html
+    assert ".afi-trend-col:hover .afi-trend-tip" in CSS.replace("\n", " ")
+    assert "afi-trend-guide" in html, "the hovered week needs a guide line"
+
+
+def test_hover_panel_stays_inside_the_chart():
+    """It flips side past the midpoint rather than running off the edge."""
+    from src.ui.render import render_trend_chart
+
+    html = render_trend_chart(_trend({"Backend & invocation setup": [1, 1, 1]}))
+    for column in _columns(html):
+        panel = re.search(r'<rect x="([-\d.]+)"[^>]*class="afi-trend-tip-bg"',
+                          column)
+        assert panel, "every column needs a panel"
+        assert float(panel.group(1)) >= 0, column[:90]
+
+
+def test_hover_header_clears_the_first_row():
+    """The header used to sit on top of the first stage."""
+    from src.ui import render
+
+    assert render.__dict__ is not None
+    source = (ROOT / "src" / "ui" / "render.py").read_text(encoding="utf-8")
+    assert "head_baseline = 15" in source
+    assert "first_row_baseline = 33" in source, (
+        "the first row must clear the header by a full line")

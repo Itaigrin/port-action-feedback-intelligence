@@ -233,6 +233,28 @@ body {{ overflow-x: hidden; }}
 .afi-trend-svg {{ width: 100%; height: auto; display: block; }}
 .afi-trend-grid {{ stroke: #eef2f7; stroke-width: 1; }}
 .afi-trend-axis {{ fill: var(--muted); font-size: 9px; }}
+/* Shared hover: one column per week reveals a guide line and a panel listing
+   every stage at that week. CSS-only, so it appears instantly -- a native
+   <title> waits about a second and cannot be styled. */
+.afi-trend-guide {{
+  stroke: #cbd5e1; stroke-width: 1; stroke-dasharray: 3 3; opacity: 0;
+}}
+.afi-trend-tip {{ opacity: 0; pointer-events: none; }}
+.afi-trend-col:hover .afi-trend-guide,
+.afi-trend-col:hover .afi-trend-tip {{ opacity: 1; }}
+/* The hovered column paints last, so its panel is never covered by a
+   neighbouring column drawn after it. */
+.afi-trend-col:hover {{ isolation: isolate; }}
+.afi-trend-tip-bg {{
+  fill: #ffffff; stroke: var(--line); stroke-width: 1;
+  filter: drop-shadow(0 6px 16px rgba(15, 23, 42, .14));
+}}
+.afi-trend-tip-head {{
+  fill: var(--ink); font-size: 10.5px; font-weight: 750;
+}}
+.afi-trend-tip-row {{ fill: #475569; font-size: 10px; }}
+.afi-trend-tip-val {{ fill: var(--ink); font-size: 10px; font-weight: 750; }}
+
 .afi-trend-legend {{
   display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
 }}
