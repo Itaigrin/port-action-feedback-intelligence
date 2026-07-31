@@ -31,6 +31,7 @@ import streamlit.components.v1 as components
 from src.analysis.aggregate import (
     HIGH_SEVERITY,
     OPEN_STATUSES,
+    RANK_KEYS,
     product_actions,
 )
 from src.models.taxonomy import (
@@ -70,14 +71,22 @@ st.markdown(CSS, unsafe_allow_html=True)
 # Data
 # --------------------------------------------------------------------------
 @st.cache_data
-def load() -> tuple[pd.DataFrame, dict, dict]:
+def load() -> tuple[pd.DataFrame, dict]:
+    """Load the classified records.
+
+    aggregates.json is deliberately not read here. The dashboard recomputes
+    product actions from the records so that filters work, and the ranking
+    labels come from RANK_KEYS -- so the app depends on the committed records
+    plus this code, and nothing else. Reading presentation text out of a
+    generated artifact meant a deploy that shipped new code against an older
+    artifact crashed on a missing key.
+    """
     analyzed = json.loads((PROC / "analyzed.json").read_text(encoding="utf-8"))
-    aggregates = json.loads((PROC / "aggregates.json").read_text(encoding="utf-8"))
-    return pd.DataFrame(analyzed["records"]), aggregates, analyzed["meta"]
+    return pd.DataFrame(analyzed["records"]), analyzed["meta"]
 
 
 try:
-    df, agg, amet = load()
+    df, amet = load()
 except FileNotFoundError:
     st.error(
         "Processed data not found. Run the pipeline first:\n\n"
@@ -223,13 +232,15 @@ def render_filter_panel() -> dict:
             )
 
     # How the ranking works, stated where the reader is already deciding what
-    # to trust. The list is generated from the same constant the code sorts by,
-    # so it cannot drift -- but it shows each key's plain label rather than its
-    # field name, because a rail reading "severity_band" explains nothing to
-    # the person this guide is written for.
-    keys = "".join(
-        f"<li>{entry['label']}</li>" for entry in agg["ranking"]["keys"]
-    )
+    # to trust. The list comes straight from RANK_KEYS -- the same constant the
+    # sort uses -- so it cannot drift, and it shows each key's plain label
+    # rather than its field name, because a rail reading "severity_band"
+    # explains nothing to the person this guide is written for.
+    #
+    # Read from the code, not from aggregates.json. That artifact is regenerated
+    # by the pipeline, so a deploy carrying new code alongside an older artifact
+    # would raise KeyError on a field the old file never had.
+    keys = "".join(f"<li>{label}</li>" for _key, label, _why in RANK_KEYS)
     st.markdown(
         '<div class="afi-rank-note">'
         "<b>How the list is ordered</b>"
