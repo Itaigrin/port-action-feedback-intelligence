@@ -773,16 +773,59 @@ def render_dashboard() -> None:
                 #
                 # Retry: Streamlit streams the page, so the section may not
                 # exist yet when the script first runs.
+                #
+                # scrollIntoView is deliberately not used. It scrolls *every*
+                # scrollable ancestor, and an overflow:hidden element is still
+                # programmatically scrollable -- it just has no scrollbar. So
+                # it silently scrolled stAppViewContainer, the app shell, which
+                # is overflow:hidden and 5014px of content in a 627px box. The
+                # shell stayed displaced with no scrollbar to bring it back:
+                # the top of the page went off screen and an equal band of
+                # blank white appeared at the bottom, worsening with each
+                # click. That is the "screen is cut in half" report.
+                #
+                # Instead: find the one real scroller and move only that, then
+                # force every overflow:hidden ancestor back to zero in case
+                # something else displaced it. The scroller is located by
+                # walking up for a genuinely scrollable overflow auto/scroll
+                # ancestor rather than by test id, so a Streamlit release that
+                # renames stMain degrades to no jump rather than to a broken
+                # page.
                 nonce = st.session_state.get("afi_scroll_nonce", 0)
                 components.html(
                     f"<script>const jump = {nonce};"
                     "let tries = 0;"
+                    "const doc = window.parent.document;"
+                    "const view = window.parent;"
+                    "const scrollerFor = (node) => {"
+                    "  let el = node.parentElement;"
+                    "  while (el) {"
+                    "    const oy = view.getComputedStyle(el).overflowY;"
+                    "    if ((oy === 'auto' || oy === 'scroll')"
+                    "        && el.scrollHeight > el.clientHeight) return el;"
+                    "    el = el.parentElement;"
+                    "  }"
+                    "  return null;"
+                    "};"
+                    "const unshift = (node) => {"
+                    "  let el = node.parentElement;"
+                    "  while (el) {"
+                    "    if (view.getComputedStyle(el).overflowY === 'hidden'"
+                    "        && el.scrollTop) el.scrollTop = 0;"
+                    "    el = el.parentElement;"
+                    "  }"
+                    "};"
                     "const go = () => {"
-                    "  const el = window.parent.document"
-                    "    .querySelector('.st-key-afi_feedback');"
-                    "  if (el) {"
-                    "    el.scrollIntoView({behavior: 'smooth', block: 'start'});"
-                    "  } else if (++tries < 25) { setTimeout(go, 120); }"
+                    "  const el = doc.querySelector('.st-key-afi_feedback');"
+                    "  if (!el) { if (++tries < 25) setTimeout(go, 120); return; }"
+                    "  const scroller = scrollerFor(el);"
+                    "  if (scroller) {"
+                    "    const top = el.getBoundingClientRect().top"
+                    "      - scroller.getBoundingClientRect().top"
+                    "      + scroller.scrollTop;"
+                    "    scroller.scrollTo({top: top - 8, behavior: 'smooth'});"
+                    "  }"
+                    "  unshift(el);"
                     "};"
                     "setTimeout(go, 120);"
                     "</script>",

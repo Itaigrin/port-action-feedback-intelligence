@@ -658,6 +658,26 @@ def test_scroll_fires_on_every_selection_not_just_the_first():
     assert 'st.session_state.get("afi_scroll_nonce", 0)' in APP
 
 
+def test_the_jump_never_scrolls_an_overflow_hidden_ancestor():
+    """scrollIntoView displaced the app shell and cut the page in half.
+
+    It scrolls every scrollable ancestor, and overflow:hidden elements are
+    still programmatically scrollable -- they just have no scrollbar to undo
+    it. stAppViewContainer is overflow:hidden with ~5000px of content in a
+    ~630px box, so each click pushed the whole app up with no way back.
+    """
+    block = APP[APP.index("nonce = st.session_state.get"):]
+    block = block[:block.index("height=0")]
+    assert "scrollIntoView" not in block, (
+        "scrollIntoView also scrolls overflow:hidden ancestors")
+    assert "scrollTo(" in block, "the jump must move one chosen scroller"
+    # The scroller is found by walking for a real one, not by test id, so a
+    # Streamlit rename degrades to no jump rather than to a broken page.
+    assert "overflowY" in block and "scrollHeight > el.clientHeight" in block
+    # And anything overflow:hidden that did get displaced is put back.
+    assert "el.scrollTop = 0" in block
+
+
 def test_pressing_the_selected_action_again_clears_the_selection():
     """The button is a toggle, and its selected state must be readable.
 
