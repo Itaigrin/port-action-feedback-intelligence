@@ -244,16 +244,11 @@ def render_filter_panel() -> dict:
     st.markdown(
         '<div class="afi-rank-note">'
         "<b>How the list is ordered</b>"
-        "<p>Only feedback that is <b>still open</b> counts. Anything already "
-        "built or closed is left out, so finished work does not compete for a "
-        "place on the list.</p>"
+        "<p>Only feedback that is <b>still open</b> counts.</p>"
         "<p>Feedback asking for the same change is grouped together. The groups "
         "are then compared on each point below, in order — the first point "
         "where they differ decides which comes first:</p>"
         f"<ol>{keys}</ol>"
-        "<p>Nothing is scored or weighted, and votes are not used. Whichever "
-        "action is on top, you can always point at the one thing that put it "
-        "there.</p>"
         "</div>",
         unsafe_allow_html=True,
     )

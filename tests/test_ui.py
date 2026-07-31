@@ -537,8 +537,6 @@ def test_sidebar_ranking_note_is_generated_from_the_ranking_keys(aggregates):
     assert "afi-rank-note" in APP and "afi-rank-note" in THEME
     assert "How the list is ordered" in APP
     # The claims the note makes must still hold.
-    assert "Nothing is scored or weighted" in APP
-    assert "votes are not used" in APP
     assert "still open" in APP
     assert [k for k, *_ in RANK_KEYS] == [
         e["key"] for e in aggregates["ranking"]["keys"]]
@@ -615,3 +613,5 @@ def test_app_does_not_read_the_aggregates_artifact_at_runtime():
         field, label, explanation = entry
         assert label.strip() and explanation.strip(), field
         assert "_" not in label, f"{field} label reads like a field name: {label}"
+        # Labels lead with the readable field name, then the plain meaning.
+        assert "—" in label, f"{field} label is missing its plain gloss: {label}"

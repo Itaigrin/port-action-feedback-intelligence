@@ -62,29 +62,30 @@ CRITICAL_MIN_SEVERITY = 4.0
 # generated from the same source that does the sorting, and cannot drift.
 RANK_KEYS: tuple[tuple[str, str, str], ...] = (
     ("is_critical",
-     "Reported by several people and painful",
+     "It's critical — at least 3 open records and an average severity "
+     "of 4 or above",
      f"Critical: at least {CRITICAL_MIN_RECORDS} open records AND an average "
      f"severity of {CRITICAL_MIN_SEVERITY:.0f} or above. Widely reported and "
      "severe, so it outranks everything below regardless of the other keys."),
     ("open_records",
-     "How many people asked for it",
+     "Open records — how many people asked for it",
      "Number of distinct open feedback records asking for this change -- "
      "independent voices converging on one problem."),
     ("severity_band",
-     "How much it hurts, typically",
+     "Severity band — how much it hurts, typically",
      "Severity band (average severity, rounded) -- how much the problem hurts "
      "when it happens."),
     ("max_severity",
-     "The worst single case",
+     "Max severity — the worst single case",
      "The single worst record in the group."),
     ("source_diversity",
-     "How many different places it came from",
+     "Source diversity — how many different sources it came from",
      "How many different source systems raised it."),
     ("avg_confidence",
-     "How sure the AI was",
+     "Avg confidence — how sure the AI was",
      "Average classifier confidence, as a data-quality tie-breaker only."),
     ("latest_created",
-     "How recently it was raised",
+     "Latest created — how recently it was raised",
      "Recency of the newest supporting record."),
 )
 
