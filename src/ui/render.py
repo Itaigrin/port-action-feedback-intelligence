@@ -73,10 +73,10 @@ def render_topbar(meta: dict) -> str:
 
 
 def render_hero(meta: dict, in_scope: int, excluded: int) -> str:
-    model = _esc(meta.get("model_name", "—"))
-    prompt = _esc(meta.get("prompt_version", "—"))
-    taxonomy = _esc(meta.get("taxonomy_version", "—"))
-    run_id = _esc(meta.get("analysis_run_id", "—"))
+    model = _esc(meta.get("model_name", "-"))
+    prompt = _esc(meta.get("prompt_version", "-"))
+    taxonomy = _esc(meta.get("taxonomy_version", "-"))
+    run_id = _esc(meta.get("analysis_run_id", "-"))
     return (
         '<div class="afi-hero"><div>'
         '<div class="afi-eyebrow">Action Configuration feedback</div>'
@@ -255,7 +255,7 @@ def render_trend_chart(trend: dict) -> str:
     head = (
         '<div class="afi-card afi-section afi-trend">'
         '<div class="afi-section-head"><div>'
-        "<h2>Negative feedback by Journey stage — last 3 months</h2>"
+        "<h2>Negative feedback by Journey stage - last 3 months</h2>"
         f'<p>Weekly, by the date the feedback was raised · {_esc(window)}'
         f"{_esc(note)}</p></div></div>"
     )

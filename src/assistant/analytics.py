@@ -106,7 +106,7 @@ def _actions_with_records(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
 
 
 def _pct(part: int, whole: int) -> str:
-    return f"{(part / whole * 100):.0f}%" if whole else "—"
+    return f"{(part / whole * 100):.0f}%" if whole else "-"
 
 
 # --- question 1 ------------------------------------------------------------
@@ -149,7 +149,7 @@ def oldest_unresolved_actions(frame: pd.DataFrame) -> Answer:
             feedback_ids=ids,
         ))
 
-    finding = (f"“{out[0].label}” has been open longest — "
+    finding = (f"“{out[0].label}” has been open longest - "
                f"{out[0].values['age']} since its earliest open record."
                if out else "")
     return Answer(
@@ -247,7 +247,7 @@ def most_discussed_in_portal(frame: pd.DataFrame) -> Answer:
         feedback_ids=ids,
     ) for total, commented, action, ids in rows[:TOP_N]]
 
-    finding = (f"“{out[0].label}” has drawn the most portal discussion — "
+    finding = (f"“{out[0].label}” has drawn the most portal discussion - "
                f"{out[0].values['comments']} comments." if out else "")
     return Answer(
         finding=finding,
@@ -288,7 +288,7 @@ def high_severity_single_signals(frame: pd.DataFrame) -> Answer:
                      f"{record.get('primary_taxonomy_subcategory', '')}",
             values={
                 "severity": str(action["severity_band"]),
-                "created": action["latest_created_at"] or "—",
+                "created": action["latest_created_at"] or "-",
                 "confidence": f"{action['average_confidence']:.2f}",
             },
             feedback_ids=ids,
@@ -345,7 +345,7 @@ def needs_most_human_review(frame: pd.DataFrame) -> Answer:
     ) for count, share, conf, action, ids in rows[:TOP_N]]
 
     finding = (f"“{out[0].label}” carries the most unresolved classification "
-               f"uncertainty — {out[0].values['flagged']} of its supporting "
+               f"uncertainty - {out[0].values['flagged']} of its supporting "
                f"records are flagged." if out else "")
     return Answer(
         finding=finding,
@@ -433,7 +433,7 @@ def unresolved_demand_rate(frame: pd.DataFrame) -> Answer:
         feedback_ids=ids,
     ) for rate, open_count, total, name, ids in rows[:TOP_N]]
 
-    finding = (f"{out[0].label} has the highest unresolved-demand rate — "
+    finding = (f"{out[0].label} has the highest unresolved-demand rate - "
                f"{out[0].values['rate']} of its feedback is still open."
                if out else "")
     return Answer(
@@ -480,7 +480,7 @@ def defects_by_journey_stage(frame: pd.DataFrame) -> Answer:
         feedback_ids=ids,
     ) for total, severe, _pos, name, counts, ids in rows[:TOP_N]]
 
-    finding = (f"{out[0].label} carries the most operational defects — "
+    finding = (f"{out[0].label} carries the most operational defects - "
                f"{out[0].values['total']} open records." if out else "")
     return Answer(
         finding=finding,
@@ -525,7 +525,7 @@ def cross_cutting_dependencies(frame: pd.DataFrame) -> Answer:
         values={
             "records": str(count),
             "linked": str(linked),
-            "partner": partner or "—",
+            "partner": partner or "-",
         },
         feedback_ids=ids,
     ) for count, linked, secondary, partner, ids in rows[:TOP_N]]
@@ -579,7 +579,7 @@ def work_already_committed(frame: pd.DataFrame) -> Answer:
         feedback_ids=ids,
     ) for count, _share, planned, progress, total, name, ids in rows[:TOP_N]]
 
-    finding = (f"{out[0].label} has the most work already committed — "
+    finding = (f"{out[0].label} has the most work already committed - "
                f"{out[0].values['committed']} records planned or in progress."
                if out else "")
     return Answer(

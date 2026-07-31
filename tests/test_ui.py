@@ -53,7 +53,7 @@ ALLOWED_DASHBOARD_HEADINGS = {
     "Matching feedback by Journey stage",
     "Feedback behind recommended actions",
     "Where users struggle most",
-    "Negative feedback by Journey stage — last 3 months",
+    "Negative feedback by Journey stage - last 3 months",
 }
 
 # Headings from the previous dashboard. Any of these reappearing means a legacy

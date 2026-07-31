@@ -44,7 +44,7 @@ INTRO = ("Choose one of the questions below. Every answer is calculated from "
 # room for what it does.
 
 PRODUCTION_NOTE = (
-    "Optional AI could add free-text questions and cross-record synthesis — "
+    "Optional AI could add free-text questions and cross-record synthesis - "
     "still citing the exact records it used, and only where deterministic "
     "analysis falls short."
 )
@@ -190,7 +190,7 @@ def render_answer(entry: dict, index: int) -> str:
         for position, row in enumerate(answer.rows):
             cells = "".join(
                 f'<span class="afi-bot-cell"><em>{_esc(head)}</em>'
-                f"<b>{_esc(row.values.get(field, '—'))}</b></span>"
+                f"<b>{_esc(row.values.get(field, '-'))}</b></span>"
                 for field, head in answer.columns
             )
             sub = (f'<div class="afi-bot-rowsub">{_esc(row.sublabel)}</div>'

@@ -67,11 +67,11 @@ DEFAULT_TOP_ACTIONS = 10
 RANKING_HELP = """
 Only **open** feedback counts. Feedback asking for the same change is grouped
 together, and groups are ranked by typical severity, open records, average
-confidence, source diversity and recency — in that order.
+confidence, source diversity and recency - in that order.
 
 - **Typical severity** is the *median* of the supporting records, not the worst
   one, so a single severe report cannot make a mild request look like a blocker.
-- **Open records** are the exact records supporting that action — not everything
+- **Open records** are the exact records supporting that action - not everything
   sharing its category or subcategory.
 - **Average confidence** is how sure the classifier was, used only to separate
   otherwise equal actions.
@@ -282,7 +282,7 @@ def render_filter_panel() -> dict:
         "<b>How the list is ordered</b>"
         "<p>Only feedback that is <b>still open</b> counts.</p>"
         "<p>Feedback asking for the same change is grouped together. The groups "
-        "are then compared on each point below, in order — the first point "
+        "are then compared on each point below, in order - the first point "
         "where they differ decides which comes first:</p>"
         f"<ol>{keys}</ol>"
         "</div>",
@@ -701,7 +701,7 @@ def render_guide() -> None:
                 unsafe_allow_html=True)
     for n, (name, block) in enumerate(TAXONOMY.items(), 1):
         count = cat_counts.get(name, 0)
-        with st.expander(f"**{n}. {name}** — {count} record"
+        with st.expander(f"**{n}. {name}** - {count} record"
                          f"{'s' if count != 1 else ''} · "
                          f"{len(block['subcategories'])} subcategories"):
             st.markdown(f"**{block['plain']}**")
@@ -775,11 +775,11 @@ def render_guide() -> None:
 
     persona_counts = rel["persona"].value_counts().to_dict()
     severity_rows = "".join(
-        f"<li><b>{k}</b> — {SEVERITY_SCALE[k]}</li>"
+        f"<li><b>{k}</b> - {SEVERITY_SCALE[k]}</li>"
         for k in sorted(SEVERITY_SCALE, reverse=True)
     )
     persona_rows = "".join(
-        f"<li><b>{name}</b> — {meaning} "
+        f"<li><b>{name}</b> - {meaning} "
         f"<i>({persona_counts.get(name, 0)} records)</i></li>"
         for name, meaning in PERSONAS.items()
     )
@@ -795,7 +795,7 @@ def render_guide() -> None:
         unsafe_allow_html=True,
     )
 
-    glossary_rows = "".join(f"<li><b>{t}</b> — {d}</li>" for t, d in GLOSSARY.items())
+    glossary_rows = "".join(f"<li><b>{t}</b> - {d}</li>" for t, d in GLOSSARY.items())
     st.markdown(
         f'<div class="afi-card afi-section" style="margin-top:16px">'
         f'<h2 class="afi-guide-h2">Glossary</h2>'
