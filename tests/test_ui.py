@@ -103,17 +103,18 @@ def test_scope_filter_is_not_rendered():
 def test_exactly_four_kpis_with_approved_labels():
     from src.ui.render import render_kpis
 
-    html = render_kpis(54, 37, 23, 26)
+    html = render_kpis(54, 37, 23, 26, total_feedback=185)
     assert html.count('class="afi-card afi-kpi"') == 4
     for label in ("Product actions", "Open product actions",
                   "High severity", "Needs human review"):
         assert f">{label}<" in html
+    assert "54 out of 185 feedback responses" in html
 
 
 def test_no_legacy_kpi_rendered():
     from src.ui.render import render_kpis
 
-    html = render_kpis(1, 1, 1, 1)
+    html = render_kpis(1, 1, 1, 1, total_feedback=1)
     for banned in ("Total votes", "Relevant feedback", "Average confidence",
                    "Completed demand", "Total sources", "Matching feedback",
                    "Feedback records analysed", "In scope for Action Configuration"):

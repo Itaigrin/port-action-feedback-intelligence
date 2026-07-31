@@ -626,6 +626,7 @@ def render_dashboard() -> None:
                 open_actions=len(actions),
                 high_severity=int(view["is_high_severity"].sum()),
                 needs_review=int(view["needs_human_review"].sum()),
+                total_feedback=len(view),
             ),
             unsafe_allow_html=True,
         )

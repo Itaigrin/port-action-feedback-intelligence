@@ -95,10 +95,11 @@ def render_hero(meta: dict, in_scope: int, excluded: int) -> str:
 
 
 def render_kpis(product_actions: int, open_actions: int,
-                high_severity: int, needs_review: int) -> str:
+                high_severity: int, needs_review: int,
+                total_feedback: int) -> str:
     cards = [
         ("Product actions", product_actions,
-         "Distinct changes being asked for", ""),
+         f"{product_actions:,} out of {total_feedback:,} feedback responses", ""),
         ("Open product actions", open_actions,
          "Still backed by at least one open record", "good"),
         ("High severity", high_severity,
