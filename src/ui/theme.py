@@ -203,10 +203,17 @@ body {{ overflow-x: hidden; }}
 /* Reuses the existing surface, radius, border, shadow and badge system --
    nothing new is introduced, so the section reads as part of the same page. */
 .afi-struggle {{ margin-bottom: 20px; }}
+/* stretch, not start: the two cards must be the same height whatever their
+   content, or the pair reads as one of them having failed to load. */
 .afi-insight-grid {{
-  display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  align-items: stretch;
 }}
-.afi-insight-card {{ padding: 16px; }}
+.afi-insight-card {{
+  padding: 16px; display: flex; flex-direction: column;
+}}
+/* The example list takes the slack, so the cards end level. */
+.afi-insight-examples {{ margin-top: auto; }}
 .afi-insight-label {{
   display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px;
 }}

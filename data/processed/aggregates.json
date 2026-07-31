@@ -4815,19 +4815,19 @@
       "recommended_focus": "Mostly feature gap, then configuration complexity.",
       "examples": [
         {
-          "text": "Users can view action run pages and entity details for actions/entities they…",
+          "text": "Users can view action run pages and entity details for actions/entities they don't have permission to access",
           "supporting_feedback_ids": [
             "6826b40db0070616c963e9bf"
           ]
         },
         {
-          "text": "Action builders can accidentally remove all execute permissions from an action, leaving…",
+          "text": "Action builders can accidentally remove all execute permissions from an action",
           "supporting_feedback_ids": [
             "693ffd899279e1a4c35ca2c0"
           ]
         },
         {
-          "text": "Organizations with more than 1,000 users cannot get a complete list of…",
+          "text": "Organizations with more than 1,000 users cannot get a complete list of eligible approvers",
           "supporting_feedback_ids": [
             "6925812013fb0ed2240adb99"
           ]
@@ -4896,19 +4896,19 @@
       "recommended_focus": "Also worth attention: reusability or maintainability issue and security or privacy concern.",
       "examples": [
         {
-          "text": "Users can view action run pages and entity details for actions/entities they…",
+          "text": "Users can view action run pages and entity details for actions/entities they don't have permission to access",
           "supporting_feedback_ids": [
             "6826b40db0070616c963e9bf"
           ]
         },
         {
-          "text": "Admins cannot restrict which channels, such as MCP versus the UI, are…",
+          "text": "Admins cannot restrict which channels, such as MCP versus the UI, are allowed to trigger a given action",
           "supporting_feedback_ids": [
             "69f84ce3477db7829b2e1f27"
           ]
         },
         {
-          "text": "Admins want to grant certain users the ability to create or edit…",
+          "text": "Admins want to grant certain users the ability to create or edit self-service actions",
           "supporting_feedback_ids": [
             "699328e947c850515815cb26",
             "69fcfc2d78f2a5775788b55d"

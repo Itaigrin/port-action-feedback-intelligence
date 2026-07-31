@@ -290,6 +290,10 @@ Each shows a count, a recommended focus assembled from the problem types actuall
 
 **When both cards would say the same thing**, the subcategory card is re-pointed at the next problem type it actually contains, and only if it has none left does the journey card move instead. Two identical sentences side by side read as a failed render rather than as a finding — but if neither area has anything further, both keep the shared line, because repeating a true sentence beats inventing a distinguishing one. Examples are de-duplicated first so three phrasings of one complaint cannot fill the card, then ranked by severity, supporting count, confidence, recency and text. Every example keeps its supporting feedback ids for traceability.
 
+**Examples are condensed at clause boundaries, never by word count.** Counting off a dozen words ended sentences mid-thought behind an ellipsis, which made the cards unreadable. A line is now shortened only by dropping a trailing explanation (`because …`, `so …`, `leaving …`), and a comma that opens an aside — `, such as MCP versus the UI,` — is not a cut point, because cutting there strands the sentence before it says anything. If no boundary yields a self-contained phrase, the full sentence is kept: a long line that reads beats a short one that stops halfway.
+
+The two cards are always the same height, whatever their content. Uneven cards read as one of them having failed to load.
+
 Both cards follow the filters. Selecting exactly one journey stage or subcategory shows that one, even if another leads globally — a card that ignores the filter beside it is worse than no card. `Top Recommended product actions` does not affect them: it limits how many actions are listed, not which feedback exists.
 
 Subcategory counts use **primary** assignments only, so a record with a secondary assignment is not counted twice.

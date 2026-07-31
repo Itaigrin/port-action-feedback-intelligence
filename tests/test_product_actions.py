@@ -500,3 +500,59 @@ def test_real_cards_do_not_repeat_the_same_focus(aggregates):
         if len(ranking) > 2:
             assert journey != subcategory, (
                 "the subcategory had a third problem type available")
+
+
+# --- example wording --------------------------------------------------------
+def test_examples_are_never_cut_mid_sentence():
+    """Counting off N words ended sentences mid-thought behind an ellipsis.
+
+    Condensation now cuts at a clause boundary or not at all, so nothing on a
+    card trails off.
+    """
+    from src.analysis.aggregate import _example_text
+
+    long_summary = _record(short_summary=(
+        "Organizations with more than 1,000 users cannot get a complete list "
+        "of eligible approvers because the dynamic approval policy caps query "
+        "results at 1,000 entities"))
+    text = _example_text(long_summary)
+    assert "…" not in text and "..." not in text
+    assert text == ("Organizations with more than 1,000 users cannot get a "
+                    "complete list of eligible approvers")
+
+
+def test_a_parenthetical_comma_is_not_a_cut_point():
+    """Cutting at the aside strands the sentence before it says anything."""
+    from src.analysis.aggregate import _example_text
+
+    text = _example_text(_record(short_summary=(
+        "Admins cannot restrict which channels, such as MCP versus the UI, "
+        "are allowed to trigger a given action, leaving actions exposed")))
+    assert text.startswith("Admins cannot restrict which channels, such as MCP")
+    assert "leaving" not in text, "the trailing explanation should still go"
+
+
+def test_a_short_summary_is_left_whole():
+    from src.analysis.aggregate import _example_text
+
+    text = _example_text(_record(short_summary="Runs cannot be cancelled"))
+    assert text == "Runs cannot be cancelled"
+
+
+def test_no_example_anywhere_trails_off(aggregates):
+    for key in ("journey_stage", "subcategory"):
+        for example in aggregates["insights"][key]["examples"]:
+            assert "…" not in example["text"], example["text"]
+            assert not example["text"].endswith(","), example["text"]
+
+
+def test_insight_cards_are_equal_height_by_construction():
+    """Uneven cards read as one having failed to load."""
+    from src.ui.theme import CSS
+
+    marker = CSS.index(".afi-insight-grid {")
+    rule = CSS[marker:CSS.index("}", marker)]
+    assert "align-items: stretch" in rule, "cards must stretch to match"
+    assert "align-items: start" not in rule
+    assert ".afi-insight-examples { margin-top: auto" in CSS.replace("\n", " ") \
+        or "margin-top: auto" in CSS, "the list must absorb the slack"

@@ -372,19 +372,57 @@ def negative_only(rel: pd.DataFrame) -> pd.DataFrame:
     return rel[rel["feedback_polarity"] == "Negative"].copy()
 
 
-def _example_text(record: dict, limit: int = 12) -> str:
-    """One short line naming the problem, taken from the record's own summary.
+# Boundaries that introduce a trailing *explanation*, so dropping everything
+# after them shortens the line without losing the problem itself. Coordinating
+# words like "and" are deliberately absent: cutting there would silently drop
+# half of what the record actually says.
+_CLAUSE_BOUNDARIES = (
+    ", ", " because ", " so that ", " so ", " without ", " leaving ",
+    " while ", " which ", " unless ", " when ", " since ", " due to ",
+    " -- ", " — ",
+)
+# A comma followed by one of these opens a parenthetical aside rather than a
+# trailing explanation. Cutting there strands the sentence mid-thought --
+# "Admins cannot restrict which channels" drops the very thing being described.
+_PARENTHETICAL_OPENERS = (
+    "such as", "including", "for example", "for instance", "e.g", "like ",
+    "particularly", "especially", "namely",
+)
+_MIN_EXAMPLE_WORDS = 5
 
-    Trimmed to roughly a dozen words. Nothing is invented: this is the model's
-    summary of that record, and the record's id travels with it.
+
+def _example_text(record: dict) -> str:
+    """One short line naming the problem, from the record's own summary.
+
+    Condensed by cutting at the first clause boundary that still leaves a
+    self-contained phrase -- never by counting off N words, which ended
+    sentences mid-thought behind an ellipsis and made the cards unreadable.
+
+    If no boundary yields a usable phrase the full sentence is kept. A long
+    line that reads is better than a short one that stops halfway, and the
+    cards are equal height regardless.
+
+    Nothing is invented: this is the model's summary of that record, and the
+    record's id travels with it.
     """
     text = str(record.get("short_summary") or record.get("title") or "").strip()
-    words = text.rstrip(".").split()
-    if len(words) > limit:
-        text = " ".join(words[:limit]) + "…"
-    else:
-        text = " ".join(words)
-    return text[:1].upper() + text[1:] if text else ""
+    text = text.rstrip(". ")
+    if not text:
+        return ""
+
+    lowered = text.lower()
+    cuts = [lowered.find(b) for b in _CLAUSE_BOUNDARIES]
+    cuts = [c for c in cuts if c > 0]
+    for cut in sorted(cuts):
+        tail = lowered[cut:].lstrip(", ").lstrip()
+        if tail.startswith(_PARENTHETICAL_OPENERS):
+            continue
+        head = text[:cut].rstrip(", ").strip()
+        if len(head.split()) >= _MIN_EXAMPLE_WORDS:
+            text = head
+            break
+
+    return text[:1].upper() + text[1:]
 
 
 def _insight_examples(records: list[dict]) -> list[dict]:
