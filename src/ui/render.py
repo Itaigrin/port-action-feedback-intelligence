@@ -99,7 +99,7 @@ def render_kpis(product_actions: int, open_actions: int,
                 total_feedback: int) -> str:
     cards = [
         ("Product actions", product_actions,
-         f"{product_actions:,} out of {total_feedback:,} feedback responses", ""),
+         f"out of {total_feedback:,} feedback responses", ""),
         ("Open product actions", open_actions,
          "Still backed by at least one open record", "good"),
         ("High severity", high_severity,
