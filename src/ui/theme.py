@@ -162,7 +162,9 @@ body {{ overflow-x: hidden; }}
   padding: 16px; box-shadow: none; background: rgba(255,255,255,.78);
   border: 1px solid var(--line); border-radius: 14px;
 }}
-.afi-kpi .label {{ color: var(--muted); font-size: 12px; }}
+/* The label naming each card reads as a heading, so it sits above the 12px
+   used for the supporting detail underneath rather than level with it. */
+.afi-kpi .label {{ color: var(--muted); font-size: 13.5px; font-weight: 600; }}
 .afi-kpi .value {{
   display: block; font-size: 27px; font-weight: 750;
   letter-spacing: -.04em; margin: 4px 0;
@@ -257,7 +259,8 @@ body {{ overflow-x: hidden; }}
 /* The example list takes the slack, so the cards end level. */
 .afi-insight-examples {{ margin-top: auto; }}
 .afi-insight-label {{
-  display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px;
+  display: block; color: var(--muted); font-size: 13.5px;
+  font-weight: 600; margin-bottom: 6px;
 }}
 .afi-insight-name {{
   font-size: 17px; font-weight: 750; letter-spacing: -.02em; color: var(--ink);
