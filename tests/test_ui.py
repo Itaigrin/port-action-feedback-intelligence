@@ -42,8 +42,8 @@ def aggregates() -> dict:
 # --- whitelist -------------------------------------------------------------
 ALLOWED_DASHBOARD_HEADINGS = {
     "Action Configuration feedback",
-    "Turn feedback into decisions that retain the original evidence.",
-    "Evidence filters",
+    "AI-Augmented Qualitative Analysis",
+    "Filters",
     "Product actions",
     "Open product actions",
     "High severity",
@@ -226,7 +226,7 @@ def test_filter_panel_order_matches_the_mockup():
                 "Category", "Subcategory", "Minimum severity",
                 "Top Recommended product actions", "Reset all filters",
                 "More filters", "Persona", "Confidence / review state",
-                "View full taxonomy"]
+                "View full Category - Subcategory"]
     # "Minimum severity" sits inside an HTML label, not a quoted widget arg.
     positions = [panel.index(label) for label in expected]
     assert positions == sorted(positions), (
@@ -615,7 +615,7 @@ def test_sidebar_ranking_note_is_generated_from_the_ranking_keys(aggregates):
     # the actual read rather than any mention of the filename)
     assert "RANK_KEYS" in APP, "note must read the live key list"
     assert "afi-rank-note" in APP and "afi-rank-note" in THEME
-    assert "How the list is ordered" in APP
+    assert "How the recommended product actions are ordered" in APP
     # The claims the note makes must still hold.
     assert "still open" in APP
     assert [k for k, *_ in RANK_KEYS] == [

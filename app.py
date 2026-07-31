@@ -188,7 +188,7 @@ def render_filter_panel() -> dict:
     st.markdown(
         '<div class="afi-panel" style="padding:17px">'
         '<h2 style="font-size:17px;letter-spacing:-.02em;margin:0 0 6px">'
-        "Evidence filters</h2>"
+        "Filters</h2>"
         '<p style="margin:0 0 14px;color:#64748b;font-size:12px">'
         "Filters affect the recommended actions, the charts and the records "
         "together.</p></div>",
@@ -255,7 +255,7 @@ def render_filter_panel() -> dict:
             key="f_review",
         )
 
-    with st.expander("View full taxonomy"):
+    with st.expander("View full Category - Subcategory"):
         for name, block in TAXONOMY.items():
             subs = "".join(f"<li>{s}</li>" for s in block["subcategories"])
             st.markdown(
@@ -279,7 +279,7 @@ def render_filter_panel() -> dict:
     keys = "".join(f"<li>{label}</li>" for _key, label, _why in RANK_KEYS)
     st.markdown(
         '<div class="afi-rank-note">'
-        "<b>How the list is ordered</b>"
+        "<b>How the recommended product actions are ordered</b>"
         "<p>Only feedback that is <b>still open</b> counts.</p>"
         "<p>Feedback asking for the same change is grouped together. The groups "
         "are then compared on each point below, in order - the first point "
