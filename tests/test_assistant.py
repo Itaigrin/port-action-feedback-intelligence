@@ -30,7 +30,7 @@ PROC = ROOT / "data" / "processed"
 
 from src.assistant import QUESTIONS, QUESTIONS_BY_ID, answer  # noqa: E402
 from src.assistant import analytics  # noqa: E402
-from src.ui import data_assistant  # noqa: E402
+from src.ui import data_assistant, theme  # noqa: E402
 from src.ui.theme import CSS  # noqa: E402
 
 EXPECTED_LABELS = {
@@ -578,9 +578,23 @@ def test_conflicting_filters_give_an_empty_state_not_a_crash(rel):
 # UI
 # ==========================================================================
 def test_the_launcher_is_rendered_and_carries_a_robot_mark():
-    markup = data_assistant.render_launcher_icon()
-    assert "afi-bot-mark" in markup
-    assert "<svg" in markup
+    """The mark is painted by CSS -- an st.button label cannot hold an <svg>."""
+    block = CSS.split(".st-key-afi_assistant_launcher button {")[1].split("}")[0]
+    assert "background-image: url(" in block
+    assert "data:image/svg+xml" in block
+    assert "svg" in theme.robot_data_uri()
+
+
+def test_the_robot_mark_is_self_contained():
+    """No request to make, so nothing to 404 on a cold deploy.
+
+    The SVG namespace is an identifier, not a fetch, so the check is that
+    nothing *loads* from a host -- not that the string omits "http".
+    """
+    uri = theme.robot_data_uri()
+    assert uri.startswith('url("data:image/svg+xml,')
+    for fetch in ("<image", "xlink:href", "src=", "url(http", "@import"):
+        assert fetch not in uri
 
 
 def test_the_launcher_is_fixed_in_the_bottom_right():
@@ -611,12 +625,17 @@ def test_the_assistant_has_no_free_text_input():
         assert widget not in source
 
 
-def test_the_prototype_and_production_messages_are_present():
-    assert "does not call an AI model or consume tokens" in \
-        data_assistant.PROTOTYPE_NOTE
-    assert "Production extension" in data_assistant.render_footer()
-    assert "should still cite the exact feedback records used" in \
-        data_assistant.PRODUCTION_NOTE
+def test_the_production_message_is_present_and_compact():
+    footer = data_assistant.render_footer()
+    assert "Production extension" in footer
+    assert "citing the exact records it used" in data_assistant.PRODUCTION_NOTE
+    assert len(data_assistant.PRODUCTION_NOTE) < 200
+
+
+def test_the_panel_still_says_the_answers_use_no_ai():
+    """The long prototype paragraph is gone; the guarantee is not."""
+    assert "without using AI" in data_assistant.INTRO
+    assert not hasattr(data_assistant, "PROTOTYPE_NOTE")
 
 
 def test_closing_the_panel_keeps_the_conversation(monkeypatch):

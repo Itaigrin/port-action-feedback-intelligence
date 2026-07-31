@@ -38,34 +38,15 @@ EV_CLICK = "afiev"
 INTRO = ("Choose one of the questions below. Every answer is calculated from "
          "the existing feedback data without using AI.")
 
-PROTOTYPE_NOTE = (
-    "Prototype mode: this assistant answers predefined questions using "
-    "deterministic Python calculations and does not call an AI model or "
-    "consume tokens. A production version could optionally add AI for deeper "
-    "free-text analysis and synthesis, while keeping every answer grounded in "
-    "the underlying feedback."
-)
+# The longer "prototype mode" paragraph that used to sit above the intro is
+# gone. It said the same thing as the intro line and the production footer
+# between them, and three explanations of what the assistant is not left less
+# room for what it does.
 
 PRODUCTION_NOTE = (
-    "In a production version, optional AI could support deeper free-text "
-    "questions, cross-record synthesis, and follow-up analysis. Any AI answer "
-    "should still cite the exact feedback records used and should be invoked "
-    "only when deterministic analysis cannot answer the question."
-)
-
-# The robot mark. Inline SVG rather than an emoji so it inherits currentColor
-# and renders identically on every platform.
-ROBOT_SVG = (
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-    'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" '
-    'aria-hidden="true">'
-    '<rect x="4" y="8" width="16" height="12" rx="3"></rect>'
-    '<path d="M12 8V4"></path><circle cx="12" cy="3" r="1.4"></circle>'
-    '<path d="M2 13v3"></path><path d="M22 13v3"></path>'
-    '<circle cx="9" cy="13.5" r="1.2"></circle>'
-    '<circle cx="15" cy="13.5" r="1.2"></circle>'
-    '<path d="M9.5 17h5"></path>'
-    "</svg>"
+    "Optional AI could add free-text questions and cross-record synthesis — "
+    "still citing the exact records it used, and only where deterministic "
+    "analysis falls short."
 )
 
 LAUNCHER_LABEL = "Open Product Data Assistant"
@@ -178,14 +159,11 @@ def resolve_scope(full: pd.DataFrame, filtered: pd.DataFrame,
 
 
 # --- markup ----------------------------------------------------------------
-def render_launcher_icon() -> str:
-    return f'<span class="afi-bot-mark">{ROBOT_SVG}</span>'
-
-
 def render_header() -> str:
+    """The robot mark is painted by CSS -- see theme.robot_data_uri."""
     return (
         '<div class="afi-bot-head">'
-        f'<span class="afi-bot-avatar">{ROBOT_SVG}</span>'
+        '<span class="afi-bot-avatar" aria-hidden="true"></span>'
         '<div class="afi-bot-heading">'
         '<div class="afi-bot-title">Product Data Assistant</div>'
         '<div class="afi-bot-sub">Explore the feedback with predefined analyses</div>'
@@ -336,12 +314,8 @@ def render(full: pd.DataFrame, filtered: pd.DataFrame,
             st.radio("Data scope", SCOPE_OPTIONS, key="afi_assistant_scope",
                      horizontal=False)
 
-        st.markdown(
-            f'<div class="afi-bot-body">'
-            f'<div class="afi-bot-proto">{_esc(PROTOTYPE_NOTE)}</div>'
-            f"{render_bubble(INTRO)}</div>",
-            unsafe_allow_html=True,
-        )
+        st.markdown(f'<div class="afi-bot-body">{render_bubble(INTRO)}</div>',
+                    unsafe_allow_html=True)
 
         _render_history(history, full)
 

@@ -8,6 +8,8 @@ that is the part most likely to break on a Streamlit upgrade.
 
 from __future__ import annotations
 
+from urllib.parse import quote
+
 # --- tokens ----------------------------------------------------------------
 INK = "#182330"
 MUTED = "#64748b"
@@ -27,6 +29,46 @@ PURPLE_SOFT = "#f2ebff"
 SHADOW = "0 8px 24px rgba(15, 23, 42, .06)"
 
 SEVERITY_BADGE = {5: "b-red", 4: "b-red", 3: "b-amber", 2: "b-neutral", 1: "b-neutral"}
+
+
+# --- the assistant's robot mark --------------------------------------------
+# Painted as a background image rather than placed in the markup: the launcher
+# is an st.button, whose label is plain text, so there is nowhere to put an
+# <svg>. A data URI keeps it self-contained -- no request, nothing to 404 on a
+# cold deploy, and it renders identically on every platform, which an emoji
+# does not.
+#
+# Two-tone by construction: the white head is drawn over the button's blue,
+# and the face is repainted in that same blue so the eyes read as cut-outs.
+# Both surfaces that carry the mark are therefore blue.
+_ROBOT_SVG = (
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>"
+    "<g fill='%(w)s'>"
+    "<circle cx='12' cy='3.15' r='1.55'/>"
+    "<rect x='11.45' y='4.3' width='1.1' height='2.4' rx='.55'/>"
+    "<rect x='3.9' y='6.2' width='16.2' height='12.1' rx='4.7'/>"
+    "<rect x='1.75' y='10.3' width='2.7' height='4.6' rx='1.35'/>"
+    "<rect x='19.55' y='10.3' width='2.7' height='4.6' rx='1.35'/>"
+    "<path d='M9.5 16.6h4.9l-4.6 4.9z'/>"
+    "</g>"
+    "<rect x='6.55' y='8.55' width='10.9' height='7.5' rx='2.9' fill='%(f)s'/>"
+    "<g fill='%(w)s'>"
+    "<ellipse cx='9.75' cy='12.3' rx='.95' ry='1.5'/>"
+    "<ellipse cx='14.25' cy='12.3' rx='.95' ry='1.5'/>"
+    "</g></svg>"
+)
+
+
+def robot_data_uri(face: str = BLUE, white: str = "#ffffff") -> str:
+    """The mark as a CSS url(), with the face painted to match its surface."""
+    svg = _ROBOT_SVG % {"w": white, "f": face}
+    # `<`, `>`, `#` and `%` are the characters that actually break a data URI
+    # inside url(). Everything else is left readable rather than encoded into
+    # an unreviewable blob.
+    return 'url("data:image/svg+xml,' + quote(svg, safe="/:=' ,.") + '")'
+
+
+ROBOT_ON_BLUE = robot_data_uri()
 
 
 CSS = f"""
@@ -613,11 +655,19 @@ header[data-testid="stHeader"] {{ display: none !important; }}
 }}
 .st-key-afi_assistant_launcher button {{
   width: 58px !important; height: 58px !important; border-radius: 50% !important;
-  background: var(--blue) !important; color: #fff !important;
+  background-color: var(--blue) !important;
+  background-image: {ROBOT_ON_BLUE} !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 32px 32px !important;
   border: 1px solid {BLUE} !important; padding: 0 !important;
-  font-size: 25px !important; line-height: 1 !important;
   box-shadow: 0 10px 26px rgba(39, 100, 231, .34) !important;
   transition: transform .15s ease, box-shadow .15s ease;
+}}
+/* The emoji is the button's accessible text; the mark is painted over it, so
+   the label stays in the tree for a screen reader and off the screen. */
+.st-key-afi_assistant_launcher button p {{
+  opacity: 0 !important; font-size: 0 !important;
 }}
 .st-key-afi_assistant_launcher button:hover {{
   transform: translateY(-2px);
@@ -643,12 +693,13 @@ header[data-testid="stHeader"] {{ display: none !important; }}
 }}
 
 .afi-bot-head {{ display: flex; gap: 10px; align-items: center; }}
-.afi-bot-avatar, .afi-bot-mark {{
+.afi-bot-avatar {{
   width: 34px; height: 34px; flex: none; border-radius: 10px;
-  background: var(--blue-soft); color: var(--blue);
-  display: inline-flex; align-items: center; justify-content: center;
+  background-color: var(--blue);
+  background-image: {ROBOT_ON_BLUE};
+  background-repeat: no-repeat; background-position: center;
+  background-size: 23px 23px;
 }}
-.afi-bot-avatar svg, .afi-bot-mark svg {{ width: 20px; height: 20px; }}
 .afi-bot-title {{ font-weight: 750; font-size: 14.5px; color: var(--ink); }}
 .afi-bot-sub {{ font-size: 11.5px; color: var(--muted); margin-top: 1px; }}
 
@@ -679,11 +730,6 @@ header[data-testid="stHeader"] {{ display: none !important; }}
 }}
 
 .afi-bot-body {{ margin-top: 12px; }}
-.afi-bot-proto {{
-  font-size: 11.5px; line-height: 1.5; color: #475569;
-  background: var(--blue-soft); border: 1px solid #d6e4ff;
-  border-radius: 10px; padding: 9px 11px; margin-bottom: 10px;
-}}
 .afi-bot-msg {{
   font-size: 12.5px; line-height: 1.55; border-radius: 12px;
   padding: 9px 11px; margin-bottom: 9px;
