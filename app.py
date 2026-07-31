@@ -346,8 +346,14 @@ def _focus_on(subcategory: str) -> None:
     Not a toggle. The button's job is to take the reader to the evidence, so
     pressing it again should land them there again rather than silently
     clearing the selection. "Back to filtered view" is what clears it.
+
+    The nonce is bumped on *every* press, including a repeat press on the
+    already-selected action. It is what makes the scroll fire again -- see
+    the scroll block in render_dashboard.
     """
     st.session_state["afi_focus"] = subcategory
+    st.session_state["afi_scroll_nonce"] = (
+        st.session_state.get("afi_scroll_nonce", 0) + 1)
 
 
 def _clear_focus() -> None:
@@ -512,10 +518,19 @@ def render_dashboard() -> None:
                 # Take the reader to the evidence they asked for. A rerun
                 # replaces the DOM and drops the scroll offset, so this both
                 # performs the jump and stops the page landing at the top.
+                #
+                # The nonce is load-bearing. Streamlit reuses an element whose
+                # content is unchanged, and this markup does not mention which
+                # action is selected -- so from the second click onward the
+                # iframe was never remounted and the script never ran again.
+                # The selection and the section updated; only the jump was
+                # missing. Varying the content forces a fresh mount every time.
+                #
                 # Retry: Streamlit streams the page, so the section may not
                 # exist yet when the script first runs.
+                nonce = st.session_state.get("afi_scroll_nonce", 0)
                 components.html(
-                    "<script>"
+                    f"<script>const jump = {nonce};"
                     "let tries = 0;"
                     "const go = () => {"
                     "  const el = window.parent.document"

@@ -565,3 +565,25 @@ def test_critical_actions_are_badged():
 
     gated = render_product_actions([dict(base, is_critical=1)], 10)
     assert ">Critical<" in gated
+
+
+def test_scroll_fires_on_every_selection_not_just_the_first():
+    """The scroll component must be a new element on each click.
+
+    Streamlit reuses an element whose content is unchanged. The scroll markup
+    does not mention which action is selected, so without a varying value the
+    iframe was never remounted after the first click and the script never ran
+    again: the selection and the section updated, but the page did not move.
+    """
+    focus_fn = APP[APP.index("def _focus_on("):APP.index("def _clear_focus(")]
+    assert 'st.session_state["afi_scroll_nonce"]' in focus_fn, (
+        "every press must bump the nonce, including a repeat press")
+
+    # The nonce must reach the rendered markup, or it changes nothing.
+    block = APP[APP.index("nonce = st.session_state.get"):]
+    block = block[:block.index("height=0")]
+    assert "{nonce}" in block, "the component content must vary per click"
+    assert block.lstrip().startswith("nonce = st.session_state.get")
+
+    # And it must be read back with a default, so a first render cannot crash.
+    assert 'st.session_state.get("afi_scroll_nonce", 0)' in APP
