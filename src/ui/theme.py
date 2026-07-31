@@ -618,7 +618,7 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   width: 100%; accent-color: var(--blue); margin: 2px 0 0; cursor: pointer;
   direction: ltr;
 }}
-.afi-rubric {{ color: var(--muted); font-size: 10px; margin: 4px 0 0; }}
+.afi-rubric {{ color: var(--muted); font-size: 11px; margin: 4px 0 0; }}
 .afi-filters .stButton > button {{
   width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px;
   background: #fff; color: #475569; font-weight: 700; font-size: 13px;
