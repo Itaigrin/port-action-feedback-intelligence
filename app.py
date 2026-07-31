@@ -40,7 +40,6 @@ from src.analysis.aggregate import (
 from src.models.taxonomy import (
     CATEGORY_FOR_SUBCATEGORY,
     CATEGORY_NAMES,
-    GLOSSARY,
     LIFECYCLE_STATUSES,
     PERSONA_NAMES,
     PERSONAS,
@@ -769,15 +768,6 @@ def render_guide() -> None:
         f'<div style="border:1px solid #e2e8f0;background:#f8fafc">'
         f"<strong>Personas</strong><ul>{persona_rows}</ul></div>"
         f"</div></div>",
-        unsafe_allow_html=True,
-    )
-
-    glossary_rows = "".join(f"<li><b>{t}</b> - {d}</li>" for t, d in GLOSSARY.items())
-    st.markdown(
-        f'<div class="afi-card afi-section" style="margin-top:16px">'
-        f'<h2 class="afi-guide-h2">Glossary</h2>'
-        f'<ul style="columns:2;column-gap:28px;color:#475569;padding-left:18px">'
-        f"{glossary_rows}</ul></div>",
         unsafe_allow_html=True,
     )
 
