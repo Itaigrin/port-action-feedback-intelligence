@@ -16,10 +16,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.analysis.aggregate import (  # noqa: E402
-    CRITICAL_MIN_RECORDS,
-    CRITICAL_MIN_SEVERITY,
-)
 from src.models.taxonomy import (  # noqa: E402
     ALL_SUBCATEGORY_NAMES,
     CATEGORY_NAMES,
@@ -29,6 +25,7 @@ from src.models.taxonomy import (  # noqa: E402
     LIFECYCLE_STATUSES,
     OPEN_STATUSES,
     PERSONAS,
+    POLARITIES,
     PORTAL_STATUS_MAP,
     PROBLEM_TYPES,
     SEVERITY_SCALE,
@@ -176,6 +173,20 @@ def render() -> str:
         add(f"| **{level}** | {SEVERITY_SCALE[level]} |")
     add("")
 
+    # --- polarity
+    add(f"## Feedback polarity ({len(POLARITIES)})")
+    add("")
+    add("What the customer was expressing, judged from the text. Deliberately "
+        "independent of lifecycle status: a completed roadmap item still "
+        "records the pain that prompted it, so a shipped request is not "
+        "automatically positive.")
+    add("")
+    add("| Polarity | Meaning |")
+    add("|---|---|")
+    for name, meaning in POLARITIES.items():
+        add(f"| **{name}** | {meaning} |")
+    add("")
+
     # --- personas
     add(f"## Personas ({len(PERSONAS)})")
     add("")
@@ -196,14 +207,18 @@ def render() -> str:
         "again; it stays visible in the evidence explorer, where \"we already built "
         "this\" is itself a finding.")
     add("")
-    add(f"Lifecycle status also feeds the ranking's first key. An action backed "
-        f"by at least {CRITICAL_MIN_RECORDS} **open** records whose average "
-        f"severity is {CRITICAL_MIN_SEVERITY:.0f} or above is treated as "
-        "critical and outranks everything else. Both floors must be cleared; the "
-        "severity test uses the raw mean rather than the rounded band, so an "
-        "average of 3.5 does not qualify under a rule written as "
-        f"\"{CRITICAL_MIN_SEVERITY:.0f} and above\". See "
-        "[`ARCHITECTURE.md`](ARCHITECTURE.md) for the full key order.")
+    add("Only `Open` counts towards a product action's supporting count or its "
+        "ranking. Planned and In progress mean the work is already committed, "
+        "so counting them as demand would argue for building something that is "
+        "already being built. They stay visible in the evidence section, "
+        "labelled with their status.")
+    add("")
+    add("Product actions are **not** taxonomy subcategories. Feedback is "
+        "grouped by the change it asks for, and each group stores the exact "
+        "feedback ids supporting it -- one subcategory routinely holds several "
+        "genuinely different requests. See "
+        "[`ARCHITECTURE.md`](ARCHITECTURE.md) for the grouping and the full "
+        "ranking key order.")
     add("")
     add("Portal statuses are normalised through this map. Anything unrecognised "
         "becomes `Unknown` rather than passing through as if it had been "

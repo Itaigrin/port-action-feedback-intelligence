@@ -93,37 +93,41 @@ An earlier version ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 ×
 
 ---
 
-## Ranking product actions
+## Product actions
 
-Open feedback is grouped by taxonomy subcategory, and each group becomes one candidate product action. Groups are ordered by applying these keys in sequence; the first that differs decides the position.
+### Grouping
 
-1. **Critical** — a gate: at least 3 open records **and** an average severity of 4.0 or above.
-2. **Open records** — how many distinct open records ask for this change.
-3. **Severity band** — average severity, rounded. How much it hurts when it happens.
-4. **Max severity** — the single worst record in the group.
-5. **Source diversity** — how many different source systems raised it.
-6. **Average confidence** — a data-quality tie-breaker only.
-7. **Recency** — the newest supporting record.
+Feedback is grouped by the change it asks for, in `src/analysis/grouping.py`, and each group stores its members explicitly.
 
-**Why a gate rather than another sort key.** Being widely reported *and* severe is the one combination that should beat a larger but milder problem, and it is not a quantity that can be traded off — an action either clears both floors or it does not. Both floors earn their place: the record floor blocks four singletons at severity 4.0, and the severity floor blocks *RBAC & dynamic permissions*, which has ten records but averages 3.5. Two of 54 actions qualify.
+This replaces grouping by taxonomy subcategory, which was a defect rather than a simplification: the subcategory *was* the group, so a card's count was the size of the whole subcategory and its drill-down opened onto all of it. One subcategory routinely holds several genuinely different requests.
 
-**The gate tests the raw mean, not the rounded band.** That decides a real case rather than a hypothetical one: 3.5 rounds to a band of 4, so testing the band would admit RBAC under a rule written as "4 and above". `tests/test_pipeline.py::test_critical_gate_requires_both_floors` asserts at least one such action exists and is excluded, so the distinction cannot be lost silently.
+Clustering normalises the suggested change, drops verbs that every suggestion shares, and agglomerates on the overlap coefficient — not Jaccard, which punishes a long phrasing paired with a terse one even when the terse one is contained in it. Merging is confined to a single subcategory, which acts as a fence rather than as the group. The threshold was tuned by sweeping against the real corpus and reading every merge it produced.
 
-Because the severity chip on a card shows the *rounded* band, an action averaging 3.5 reads "Severity 4" while ranking below one that cleared the gate. Cards that clear it therefore carry a **Critical** badge, so the order is explicable on sight rather than looking arbitrary.
+**Membership is the contract.** `open_supporting_record_count == len(open_supporting_feedback_ids)`, and the drill-down resolves by id. The count shown and the records opened are the same set by construction, not by two code paths that happen to agree.
 
-A final alphabetical key makes the order **total**, so the same input always produces the same ranking rather than one that depends on row order.
+### Ranking
 
-**Why volume leads severity below the gate.** The first version of this ranking put severity first, matching the "rank by severity, break ties by count" sketch in the design write-up. Run against the full dataset it produced an indefensible list: a single severity-4 request for Vault integration outranked a problem eight independent records reported. Severity is one model's reading of one piece of text, so a lone high-severity record is a far weaker signal than several records converging. High severity is surfaced instead as its own KPI and sidebar filter, where a small number of severe records stays visible without displacing widely-reported ones.
+Lexicographic over five keys; the first that differs decides the position.
 
-**Only open records count.** `Completed` and `Closed` are excluded via `OPEN_STATUSES`, so shipped work cannot argue for itself again. Those records stay visible in the evidence explorer, where "we already built this" is itself a finding.
+1. **Severity band** — the *median* severity of the open supporting records. A higher band always ranks first, regardless of record count.
+2. **Open records** — distinct open records supporting this exact action.
+3. **Average confidence** — mean classification confidence.
+4. **Source diversity** — distinct source systems.
+5. **Latest created** — newest `created_at`; unknown dates rank last.
 
-**Grouping is by subcategory, not by the text of `suggested_product_action`.** Two records asking for the same change rarely phrase it identically, so text grouping would shatter real demand into singletons. The subcategory is the closed key the model was constrained to, and is therefore the only grouping that counts reliably. Each group's displayed label is one real record's wording, chosen deterministically and stored alongside that record's id — so a label on the dashboard always traces to the feedback it came from.
+A sixth alphabetical key on the title makes the order total.
 
-**Explicitly a POC method.** Real prioritization would also weigh customer segment, revenue impact, churn risk, strategic alignment, and engineering effort. Stated on the dashboard, not buried.
+**Median, not maximum.** One unusually severe report should not make an otherwise mild request look critical. **No blended score:** each key is applied in turn, so no later key can override an earlier one, and every position can be explained by naming the single key that decided it.
 
----
+**Only `Open` counts.** Planned and In progress mean the work is already committed; counting them as demand argues for building something already being built. They stay visible in the evidence section, labelled with their status.
 
-## Layout
+## Feedback polarity
+
+`feedback_polarity` is classified from the feedback text as `Negative`, `Positive` or `Neutral`, and is deliberately independent of `lifecycle_status`. A completed roadmap item still records the pain that prompted it, so deriving polarity from status would erase the original signal for everything already shipped.
+
+It drives the two "where users struggle most" cards and the three-month trend chart, both of which count only Negative records — answering *where is the pain* rather than *where is the volume*.
+
+## Layout## Layout
 
 ```
 app.py                  Streamlit app -- Dashboard tab + Taxonomy & Journey Guide tab

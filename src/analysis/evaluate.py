@@ -28,11 +28,18 @@ SAMPLE_FILE = EVAL_DIR / "review_sample.csv"
 SEED = 42
 SAMPLE_SIZE = 15
 
-MODEL_COLS = ["model_is_relevant", "model_category", "model_subcategory",
-              "model_problem_type", "model_journey_stage", "model_severity",
-              "model_confidence"]
-HUMAN_COLS = ["human_is_relevant", "human_category", "human_subcategory",
-              "human_problem_type", "human_journey_stage", "human_severity"]
+MODEL_COLS = ["model_is_relevant", "model_polarity", "model_category",
+              "model_subcategory", "model_problem_type", "model_journey_stage",
+              "model_product_action", "model_severity", "model_confidence"]
+HUMAN_COLS = ["human_is_relevant", "human_polarity", "human_category",
+              "human_subcategory", "human_problem_type", "human_journey_stage",
+              "human_severity"]
+
+# Free-text judgements about the grouping, which has no single right answer a
+# reviewer can tick. They are collected but never scored, so nothing here can
+# turn into an accuracy figure.
+GROUPING_COLS = ["human_supports_product_action", "human_group_too_broad",
+                 "human_group_too_narrow", "human_excerpt_supports_group"]
 
 # Fields compared. Severity is deliberately excluded from "agreement" headline
 # numbers -- it is an ordinal judgment where a 3-vs-4 disagreement is not the
@@ -44,6 +51,7 @@ HUMAN_COLS = ["human_is_relevant", "human_category", "human_subcategory",
 # that distinction.
 COMPARED = [
     ("relevance", "model_is_relevant", "human_is_relevant"),
+    ("polarity", "model_polarity", "human_polarity"),
     ("category", "model_category", "human_category"),
     ("subcategory", "model_subcategory", "human_subcategory"),
     ("problem_type", "model_problem_type", "human_problem_type"),
@@ -90,14 +98,16 @@ def build_sample() -> pd.DataFrame:
         "description": sample["description"].fillna("").str.slice(0, 600),
         "source_url": sample["source_url"],
         "model_is_relevant": sample["is_relevant"],
+        "model_polarity": sample.get("feedback_polarity", ""),
         "model_category": sample["primary_taxonomy_category"],
         "model_subcategory": sample["primary_taxonomy_subcategory"],
         "model_problem_type": sample["problem_type"],
         "model_journey_stage": sample["journey_stage"],
+        "model_product_action": sample["suggested_product_action"],
         "model_severity": sample["severity"],
         "model_confidence": sample["confidence"],
     })
-    for col in HUMAN_COLS:
+    for col in HUMAN_COLS + GROUPING_COLS:
         out[col] = ""
     out["notes"] = ""
     return out

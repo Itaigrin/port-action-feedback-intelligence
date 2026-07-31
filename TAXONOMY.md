@@ -8,7 +8,7 @@ How every piece of feedback is categorised. Defined **before** any data was clas
 
 Single source of truth: [`src/models/taxonomy.py`](src/models/taxonomy.py). The classifier, the Pydantic schema, the dashboard, the in-app guide and this document all read from it. This file is generated from that module, so it cannot describe a taxonomy the code does not implement.
 
-> **Version v2.0.** The flat theme list was replaced by a two-level structure of 11 categories and 63 subcategories, with problem type, persona, lifecycle status and source system split out as independent dimensions. Because the change is semantic rather than cosmetic, every record was **reclassified** rather than relabelled — the classification cache is keyed on the taxonomy version precisely so that a revision cannot replay old labels.
+> **Version v2.1.** The flat theme list was replaced by a two-level structure of 11 categories and 63 subcategories, with problem type, persona, lifecycle status and source system split out as independent dimensions. Because the change is semantic rather than cosmetic, every record was **reclassified** rather than relabelled — the classification cache is keyed on the taxonomy version precisely so that a revision cannot replay old labels.
 
 ---
 
@@ -873,6 +873,16 @@ How much the problem hurts **as described in the text** — not how popular the 
 | **2** | Minor. Noticeable friction with an easy workaround. |
 | **1** | Nice to have. A polish or convenience request. |
 
+## Feedback polarity (3)
+
+What the customer was expressing, judged from the text. Deliberately independent of lifecycle status: a completed roadmap item still records the pain that prompted it, so a shipped request is not automatically positive.
+
+| Polarity | Meaning |
+|---|---|
+| **Negative** | Describes a problem, unmet need, blocker, friction, failure or difficulty -- including a feature request clearly motivated by current pain or an inability to finish a task. |
+| **Positive** | Expresses satisfaction, praise, a successful outcome, or confirms that a shipped capability solved the problem. |
+| **Neutral** | Primarily informational, descriptive, a factual question or a technical clarification, with no clear praise or pain. |
+
 ## Personas (5)
 
 | Persona | Who they are |
@@ -889,7 +899,9 @@ Lifecycle statuses: `Open`, `Planned`, `In progress`, `Completed`, `Closed`, `Un
 
 **Open statuses** — `In progress`, `Open`, `Planned` — are the only ones counted towards a product-action ranking. Completed and closed work is excluded so a shipped feature cannot argue for itself again; it stays visible in the evidence explorer, where "we already built this" is itself a finding.
 
-Lifecycle status also feeds the ranking's first key. An action backed by at least 3 **open** records whose average severity is 4 or above is treated as critical and outranks everything else. Both floors must be cleared; the severity test uses the raw mean rather than the rounded band, so an average of 3.5 does not qualify under a rule written as "4 and above". See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full key order.
+Only `Open` counts towards a product action's supporting count or its ranking. Planned and In progress mean the work is already committed, so counting them as demand would argue for building something that is already being built. They stay visible in the evidence section, labelled with their status.
+
+Product actions are **not** taxonomy subcategories. Feedback is grouped by the change it asks for, and each group stores the exact feedback ids supporting it -- one subcategory routinely holds several genuinely different requests. See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the grouping and the full ranking key order.
 
 Portal statuses are normalised through this map. Anything unrecognised becomes `Unknown` rather than passing through as if it had been normalised.
 

@@ -224,63 +224,91 @@ Everything below is plain pandas over the classified records — deterministic a
 
 | Filter | Effect |
 |---|---|
-| In scope only (`is_relevant`) | 182 of 327 records |
-| Open only — `Open`, `Planned`, `In progress` | `Completed` and `Closed` are excluded, so shipped work cannot argue for itself again |
+| In scope only (`is_relevant`) | Out-of-scope feedback cannot reach any total |
+| **`Open` only** | `Planned` and `In progress` mean the work is already committed; `Completed` and `Closed` have shipped or been dropped |
 
-Excluded records are not deleted. They stay in the evidence section, where *"we already built this"* is itself a finding.
+Only `Open` counts. Planned and In progress used to count as demand, which argued for building something Port had already started. Excluded records are not deleted — they stay in the evidence section, labelled with their status, where *"we already built this"* is itself a finding.
 
-### Step 2 — how records become one action
+### Step 2 — how records become one product action
 
-Open records are grouped by **taxonomy subcategory** — the closed key the model was constrained to — not by the text of `suggested_product_action`. Two records asking for the same change rarely phrase it identically, so text grouping would shatter real demand into singletons.
+Feedback is grouped by **the change it asks for**, not by where it sits in the taxonomy.
 
-Each group's displayed label is **one real record's wording**, picked deterministically (highest severity, then highest confidence, then lowest id) and stored with that record's id. A label on the dashboard always traces back to the feedback it came from.
+This is the correction of a real defect. Product actions used to *be* taxonomy subcategories, so a card reading "4 open supporting records" opened onto every record in its subcategory. `Authentication & delegated execution` holds OAuth delegation, service accounts, JWT forwarding and impersonation controls — four different product changes presented as one recommendation.
 
-### Step 3 — the seven ranking keys
+Grouping now happens in [`src/analysis/grouping.py`](src/analysis/grouping.py): normalise the suggested change, then agglomerate on token overlap, **within a single subcategory**. The subcategory is no longer the group — it is a fence that stops "templates for approval policies" merging with "templates for form layouts" on the shared word *templates*.
 
-Groups are ordered **lexicographically**: each key is applied in turn, and the first one that differs decides the position. All descending.
+Every group stores its membership explicitly:
+
+| Field | Meaning |
+|---|---|
+| `product_action_id` | Stable slug, used by the drill-down |
+| `product_action_title` | One real record's wording, never a synthesis |
+| `supporting_feedback_ids` | Every record in the group, whatever its status |
+| `open_supporting_feedback_ids` | The subset that is `Open` |
+| `open_supporting_record_count` | **Exactly** `len(open_supporting_feedback_ids)` |
+
+The count on a card and the records its drill-down opens are the same set **by construction**, and a test asserts the invariant. Evidence is never fetched by category, subcategory, journey stage or label text.
+
+### Step 3 — the five ranking keys
+
+Groups are ordered **lexicographically**: each key is applied in turn, and the first one that differs decides the position. No later key can override an earlier one, and there is no blended score.
 
 | # | Key | What it measures |
 |---|---|---|
-| 1 | `is_critical` | **Gate** — at least 3 open records **and** average severity ≥ 4.0 |
-| 2 | `open_records` | How many distinct open records ask for this change |
-| 3 | `severity_band` | Average severity, rounded to a whole number |
-| 4 | `max_severity` | The single worst record in the group |
-| 5 | `source_diversity` | How many different source systems raised it |
-| 6 | `avg_confidence` | Classifier confidence — **tie-breaker only** |
-| 7 | `latest_created` | The newest supporting record |
+| 1 | `severity_band` | **Median** severity of the open supporting records |
+| 2 | `open_supporting_record_count` | Distinct open records supporting this exact action |
+| 3 | `average_confidence` | Mean classification confidence |
+| 4 | `source_diversity` | Distinct source systems |
+| 5 | `latest_created_sort` | Newest `created_at`; unknown dates rank last |
 
-An eighth alphabetical key (`subcategory`) makes the order **total**, so the same input always produces the same ranking rather than one that depends on row order. Every position can be explained by naming the single key that decided it.
+A sixth alphabetical key (`product_action_title`) makes the order **total**, so the same input always produces the same ranking.
 
-#### The critical gate
-
-Being widely reported *and* severe is the one combination that should outrank a larger but milder problem, so it is tested first. It is a **gate, not a score**: an action either clears both floors or it does not, and there is no partial credit that could be traded off against volume.
-
-Both floors earn their place in the current data — 2 of 54 actions clear it:
-
-| Floor | What it stops | Blocked in practice |
-|---|---|---|
-| ≥ 3 open records | A single severe voice topping the roadmap | 4 actions at severity 4.0 backed by 1 record each |
-| avg severity ≥ 4.0 | Sheer volume presenting as urgency | *RBAC & dynamic permissions* — 10 records, but averaging 3.5 |
-
-**The severity floor uses the raw mean, not `severity_band`.** That distinction decides a real case: RBAC averages 3.5, which *rounds to 4*. Testing the rounded band would have admitted it under a rule written as "4 and above". The unrounded test keeps it at rank 3, where its ten records still place it above everything milder.
+**Severity is the median, not the maximum.** One unusually severe report should not make an otherwise mild request look like a blocker. A higher band always ranks first regardless of record count — being severe is not something volume can outvote.
 
 ### Why there is no weighted score
 
-An earlier version ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 × severity`. Both halves of that were wrong, and both were removed rather than retuned.
+An earlier version ranked by `0.45 × votes + 0.30 × frequency + 0.25 × severity`. Both halves were wrong and both were removed rather than retuned. The weights were indefensible — multiplying unlike signals by invented coefficients produces a number that collapses the moment someone asks why 0.45. And votes do not generalise: a vote total means something inside one portal and nothing across Slack, Zendesk and Gong, so ranking on it would bury every problem arriving through the other three.
 
-*The weights were indefensible.* Multiplying unlike signals by invented coefficients produces a number that looks precise and collapses the moment someone asks why 0.45 rather than 0.4.
+---
 
-*Votes do not generalise.* A vote total means something inside one feedback portal and nothing across Slack, Zendesk and Gong — there is nothing to vote with in a support ticket or a sales call. Ranking on a signal only one of four sources can produce would systematically bury every problem arriving through the other three. Votes are still collected and preserved as evidence; nothing is ranked by them.
+## Feedback polarity
 
-### Why volume leads severity below the gate
+Every classified record carries `feedback_polarity` — `Negative`, `Positive` or `Neutral` — judged from the feedback text.
 
-Below `is_critical`, this order was **corrected, not assumed**. Ranking severity first is the obvious reading of *"rank by severity, break ties by count"*, but run against the real dataset it put a single severity-4 request for Vault integration above a problem eight independent records reported.
+**Deliberately independent of lifecycle status.** A completed roadmap item still records the pain that prompted it, so a shipped request is not automatically positive. Reading polarity off the status would erase the original signal for everything already delivered, and a test asserts that completed records are not uniformly Positive.
 
-Severity is one model's reading of one piece of text; convergence across independent records is the stronger signal at this sample size. High severity is surfaced as its own KPI and sidebar filter instead, so severe-but-rare problems stay visible without displacing widely-reported ones.
+Most product feedback is Negative, including feature requests: asking for a capability because you cannot finish a task is a description of being blocked. `Neutral` is for genuinely informational records — a question, a description — and is never a soft landing for feedback that is hard to read.
 
-### Verification
+## Where users struggle most
 
-The counts behind all 54 ranked actions are recomputed by hand from the raw records, independently of the aggregation code, and the order is asserted lexicographic and total — `tests/test_pipeline.py::test_ranking_recomputed_by_hand` and `::test_ranking_is_lexicographic_and_total`. Implementation: [`src/analysis/aggregate.py`](src/analysis/aggregate.py) → `RANK_KEYS` and `product_actions()`.
+Two cards above the recommendations, counting **only** Negative feedback:
+
+- **Journey stage with most negative feedback** — where the pain concentrates in the lifecycle
+- **Subcategory with most negative feedback** — and which product area owns it
+
+Each shows a count, a recommended focus assembled from the problem types actually present, and up to three concise problem examples. Examples are de-duplicated first so three phrasings of one complaint cannot fill the card, then ranked by severity, supporting count, confidence, recency and text. Every example keeps its supporting feedback ids for traceability.
+
+Both cards follow the filters. Selecting exactly one journey stage or subcategory shows that one, even if another leads globally — a card that ignores the filter beside it is worse than no card. `Top Recommended product actions` does not affect them: it limits how many actions are listed, not which feedback exists.
+
+Subcategory counts use **primary** assignments only, so a record with a secondary assignment is not counted twice.
+
+## Negative feedback trend
+
+A weekly line chart below the cards, `Negative feedback by Journey stage — last 3 months`.
+
+- Counts distinct `feedback_id`, Negative only
+- Uses `created_at` — when the customer raised it — never the analysis or retrieval timestamp, which would cluster every record onto the day the pipeline last ran
+- Weeks start Monday; missing weeks are zero, not gaps
+- Stages stay in chronological journey order in the legend, never sorted by volume
+- Respects every dashboard filter
+
+**Date window:** the rolling three months ending today. If the newest record is more than 14 days old the dataset is a historical snapshot, so the window ends at the newest known `created_at` instead and the chart says so — rendering an empty chart against today's date would look like a bug rather than a property of the data.
+
+It is inline SVG, not Plotly: re-adding a plotting library for one line chart would bring back the canvas, toolbar, font and margin conflicts that removing it solved.
+
+### Verification### Verification
+
+The counts behind the ranked actions are recomputed by hand from the raw records, independently of the aggregation code, and the order is asserted lexicographic and total — `tests/test_pipeline.py::test_ranking_recomputed_by_hand` and `::test_ranking_is_lexicographic_and_total`. Implementation: [`src/analysis/aggregate.py`](src/analysis/aggregate.py) → `RANK_KEYS` and `product_actions()`.
 
 ---
 

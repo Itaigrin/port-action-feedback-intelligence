@@ -22,6 +22,7 @@ from __future__ import annotations
 from .taxonomy import (
     JOURNEY_STAGES,
     PERSONAS,
+    POLARITIES,
     PROBLEM_TYPES,
     SEVERITY_SCALE,
     TAXONOMY,
@@ -29,11 +30,15 @@ from .taxonomy import (
     WORKED_EXAMPLES,
 )
 
+# v4.0 -- adds feedback_polarity, judged from the text rather than from
+# lifecycle status. Bumping this reclassifies every record, which is required:
+# polarity cannot be back-filled from any field already stored.
+#
 # v3.0 -- hierarchical taxonomy (11 categories / 63 subcategories), independent
 # problem type, persona, secondary assignments and a grouping-oriented
 # suggested_product_action. Bumping this invalidates every cache key, which is
 # intended: v2.0 labels are not translatable into this structure.
-PROMPT_VERSION = "v3.0"
+PROMPT_VERSION = "v4.0"
 
 _NL = chr(10)
 
@@ -121,6 +126,22 @@ where the user's friction FIRST begins.
 ## Personas
 {_numbered(PERSONAS)}
 
+## Feedback polarity -- what the customer was EXPRESSING
+{_numbered(POLARITIES)}
+
+Judge polarity from the feedback text, never from whether the request was
+built. A completed roadmap item still records the pain that prompted it, so a
+shipped request is not automatically positive.
+
+Most product feedback is NEGATIVE, including feature requests: asking for a
+capability because you cannot finish a task is a description of being blocked.
+Only call something Positive when the text actually expresses satisfaction,
+praise or a confirmed fix. Only call it Neutral when it is genuinely
+informational -- a question, a description, a status note -- with no praise and
+no pain. Do NOT use Neutral as a soft landing for feedback you find hard to
+read; if it describes friction, it is Negative, and if you truly cannot tell,
+set needs_human_review.
+
 ## Taxonomy -- 11 categories, 63 subcategories
 
 Choose exactly ONE primary category and ONE subcategory that belongs to it.
@@ -197,6 +218,10 @@ rejected.
     actually solve the user's problem, then pick that category and
     subcategory. Read the "Do NOT use when" line before committing: most wrong
     answers are the neighbouring subcategory it names.
+
+11. POLARITY IS ABOUT THE CUSTOMER'S SIGNAL, not about the product's current
+    state and not about how politely it is worded. Give polarity_reason as one
+    short clause naming the phrase that decided it.
 
 Return only the structured fields requested."""
 

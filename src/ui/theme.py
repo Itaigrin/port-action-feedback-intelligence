@@ -154,6 +154,16 @@ body {{ overflow-x: hidden; }}
   color: #173f8a; font-size: 20px; margin-bottom: 5px;
 }}
 .afi-action-list {{ display: grid; gap: 10px; }}
+/* The ranking explainer sits inside the blue panel and must not read as a
+   card of its own. */
+.st-key-afi_rank_help {{ margin-top: 12px; }}
+.st-key-afi_rank_help summary {{
+  color: #41669f !important; font-size: 12px !important; font-weight: 650;
+}}
+.st-key-afi_rank_help [data-testid="stExpander"] details {{
+  border: 1px solid #cfddf5 !important; border-radius: 8px !important;
+  background: rgba(255,255,255,.6) !important;
+}}
 .afi-insight {{
   border: 1px solid #d5e0f0; border-left: 4px solid var(--blue);
   border-radius: 11px; padding: 14px; background: #fff;
@@ -187,6 +197,44 @@ body {{ overflow-x: hidden; }}
 }}
 .afi-action-btn.is-selected:hover {{
   background: #1d54c9; border-color: #1d54c9; color: #fff !important;
+}}
+
+/* --------------------------------------------- where users struggle most */
+/* Reuses the existing surface, radius, border, shadow and badge system --
+   nothing new is introduced, so the section reads as part of the same page. */
+.afi-struggle {{ margin-bottom: 20px; }}
+.afi-insight-grid {{
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start;
+}}
+.afi-insight-card {{ padding: 16px; }}
+.afi-insight-label {{
+  display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px;
+}}
+.afi-insight-name {{
+  font-size: 17px; font-weight: 750; letter-spacing: -.02em; color: var(--ink);
+}}
+.afi-insight-parent {{ color: var(--muted); font-size: 12px; margin-top: 2px; }}
+.afi-insight-count {{ margin: 9px 0 8px; }}
+.afi-insight-focus {{ margin: 0 0 8px; color: #475569; font-size: 13px; }}
+.afi-insight-examples {{
+  margin: 0; padding-left: 17px; color: #475569; font-size: 12px;
+}}
+.afi-insight-examples li {{ margin-bottom: 3px; }}
+
+/* ---------------------------------------------------------- trend chart */
+.afi-trend {{ margin-bottom: 20px; box-shadow: none; }}
+.afi-trend-svg {{ width: 100%; height: auto; display: block; }}
+.afi-trend-grid {{ stroke: #eef2f7; stroke-width: 1; }}
+.afi-trend-axis {{ fill: var(--muted); font-size: 9px; }}
+.afi-trend-legend {{
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
+}}
+.afi-trend-key {{
+  display: inline-flex; align-items: center; gap: 5px;
+  color: #475569; font-size: 11px;
+}}
+.afi-trend-key i {{
+  width: 9px; height: 3px; border-radius: 2px; display: inline-block;
 }}
 
 /* ----------------------------------------------------------- CSS bar chart */
@@ -507,6 +555,7 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   }}
   .afi-kpis {{ grid-template-columns: repeat(2, 1fr); }}
   .afi-content-grid {{ grid-template-columns: 1fr; }}
+  .afi-insight-grid {{ grid-template-columns: 1fr; }}
 }}
 @media (max-width: 650px) {{
   .afi-topbar {{ padding: 0 16px; }}
@@ -514,6 +563,7 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   .afi-section-head {{ display: block; }}
   .afi-run-meta {{ margin-top: 12px; }}
   .afi-kpis {{ grid-template-columns: 1fr; }}
+  .afi-insight-grid {{ grid-template-columns: 1fr; }}
   .afi-comparison {{ grid-template-columns: 1fr; }}
   .afi-search {{ margin-top: 10px; }}
 }}

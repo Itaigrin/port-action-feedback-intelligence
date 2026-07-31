@@ -124,6 +124,7 @@ def test_classified_fields_within_taxonomy(relevant):
     from src.models.taxonomy import (
         CATEGORY_NAMES,
         PERSONA_NAMES,
+        POLARITY_NAMES,
         PROBLEM_TYPE_NAMES,
         STAGE_NAMES,
         is_valid_pair,
@@ -139,6 +140,7 @@ def test_classified_fields_within_taxonomy(relevant):
         assert r["persona"] in PERSONA_NAMES, r["persona"]
         assert 1 <= r["severity"] <= 5
         assert 0.0 <= r["confidence"] <= 1.0
+        assert r["feedback_polarity"] in POLARITY_NAMES, r["feedback_polarity"]
 
 
 def test_lifecycle_statuses_are_normalized(records):
@@ -345,14 +347,24 @@ def test_default_stage_mapping_is_complete_and_valid():
         assert stage in STAGE_NAMES, stage
 
 
-def test_open_statuses_exclude_completed_work():
-    """Shipped work must not be able to argue for itself again."""
-    from src.models.taxonomy import LIFECYCLE_STATUSES, OPEN_STATUSES
+def test_only_open_counts_towards_demand():
+    """Planned and In progress mean the work is already committed.
 
-    assert OPEN_STATUSES <= set(LIFECYCLE_STATUSES)
-    assert "Completed" not in OPEN_STATUSES
-    assert "Closed" not in OPEN_STATUSES
-    assert OPEN_STATUSES == {"Open", "Planned", "In progress"}
+    Counting them as open demand argues for building something that is already
+    being built, so only `Open` feeds a count or a ranking. They stay in
+    OPEN_STATUSES, which the evidence explorer still uses to separate live work
+    from work that shipped or was dropped.
+    """
+    from src.models.taxonomy import (
+        COUNTED_STATUSES,
+        LIFECYCLE_STATUSES,
+        OPEN_STATUSES,
+    )
+
+    assert COUNTED_STATUSES == {"Open"}
+    assert COUNTED_STATUSES <= OPEN_STATUSES <= set(LIFECYCLE_STATUSES)
+    for shipped in ("Completed", "Closed"):
+        assert shipped not in OPEN_STATUSES and shipped not in COUNTED_STATUSES
 
 
 def test_portal_status_map_produces_only_known_statuses():
@@ -469,54 +481,22 @@ def test_grounding_rejects_fabricated_quote():
 
 
 # --- 5. Ranking ------------------------------------------------------------
-def test_product_actions_exclude_completed_work(relevant, aggregates):
-    """A ranked action must be supported only by records still open."""
-    open_ids = {
-        r["feedback_id"] for r in relevant
-        if r["lifecycle_status"] in set(aggregates["ranking"]["open_statuses"])
-    }
+# The detailed ranking and membership contracts live in
+# tests/test_product_actions.py, which owns the v2.1 product-action model.
+# What remains here is the invariant the dashboard's headline claim rests on.
+def test_product_action_counts_match_their_own_id_lists(aggregates):
     for action in aggregates["product_actions"]:
-        assert set(action["record_ids"]) <= open_ids, action["subcategory"]
-        assert action["open_records"] == len(action["record_ids"])
+        ids = action["open_supporting_feedback_ids"]
+        assert action["open_supporting_record_count"] == len(set(ids)), \
+            action["product_action_id"]
 
 
-def test_ranking_recomputed_by_hand(relevant, aggregates):
-    """Recompute the counts independently of the aggregation code."""
-    from collections import defaultdict
-
-    open_statuses = set(aggregates["ranking"]["open_statuses"])
-    counts: dict[tuple[str, str], list[dict]] = defaultdict(list)
-    for r in relevant:
-        if r["lifecycle_status"] in open_statuses:
-            counts[(r["primary_taxonomy_category"],
-                    r["primary_taxonomy_subcategory"])].append(r)
-
-    assert len(aggregates["product_actions"]) == len(counts)
+def test_only_open_records_reach_a_ranking(relevant, aggregates):
+    open_ids = {r["feedback_id"] for r in relevant
+                if r["lifecycle_status"] == "Open"}
     for action in aggregates["product_actions"]:
-        group = counts[(action["category"], action["subcategory"])]
-        assert action["open_records"] == len(group)
-        assert action["max_severity"] == max(r["severity"] for r in group)
-        expected_avg = sum(r["severity"] for r in group) / len(group)
-        assert abs(action["avg_severity"] - expected_avg) < 0.01
-
-
-def test_ranking_is_lexicographic_and_total(aggregates):
-    """Every adjacent pair must be ordered by the stated keys, in order."""
-    keys = [entry["key"] for entry in aggregates["ranking"]["keys"]]
-    rows = aggregates["product_actions"]
-    assert [r["rank"] for r in rows] == list(range(1, len(rows) + 1))
-
-    for a, b in zip(rows, rows[1:]):
-        for key in keys:
-            if a[key] != b[key]:
-                assert a[key] > b[key], (
-                    f"rank {a['rank']} loses to rank {b['rank']} on {key}"
-                )
-                break
-        else:
-            # All ranking keys equal -- the alphabetical key must decide, so
-            # the order is total and reruns cannot shuffle it.
-            assert a["subcategory"] < b["subcategory"]
+        assert set(action["open_supporting_feedback_ids"]) <= open_ids, \
+            action["product_action_id"]
 
 
 def test_no_weighted_score_survives(aggregates):
@@ -527,13 +507,13 @@ def test_no_weighted_score_survives(aggregates):
         assert banned not in text, f"{banned} still present in aggregates"
 
 
-def test_product_action_labels_trace_to_a_real_record(relevant, aggregates):
+def test_product_action_titles_trace_to_a_real_record(relevant, aggregates):
     """A label on the dashboard must be one record's words, not a synthesis."""
     by_id = {r["feedback_id"]: r for r in relevant}
     for action in aggregates["product_actions"]:
         source = by_id[action["product_action_source_id"]]
-        assert source["suggested_product_action"] == action["product_action"]
-        assert action["product_action_source_id"] in action["record_ids"]
+        assert source["suggested_product_action"] == action["product_action_title"]
+        assert action["product_action_source_id"] in action["supporting_feedback_ids"]
 
 
 # --- Edge cases ------------------------------------------------------------
@@ -634,47 +614,3 @@ def test_streamlit_app_starts():
             proc.wait(timeout=15)
         except subprocess.TimeoutExpired:
             proc.kill()
-
-
-def test_critical_gate_requires_both_floors(aggregates):
-    """`is_critical` must need volume AND severity, and must not round.
-
-    Rounding matters here rather than in theory: an action averaging 3.5 rounds
-    to a severity band of 4, so a gate written against the band would admit it
-    under a rule that says "4 and above".
-    """
-    from src.analysis.aggregate import CRITICAL_MIN_RECORDS, CRITICAL_MIN_SEVERITY
-
-    assert CRITICAL_MIN_RECORDS == 3
-    assert CRITICAL_MIN_SEVERITY == 4.0
-
-    # The gate is the first key applied.
-    assert aggregates["ranking"]["keys"][0]["key"] == "is_critical"
-
-    rounds_up_but_excluded = 0
-    for action in aggregates["product_actions"]:
-        expected = int(action["open_records"] >= CRITICAL_MIN_RECORDS
-                       and action["avg_severity"] >= CRITICAL_MIN_SEVERITY)
-        assert action["is_critical"] == expected, action["subcategory"]
-
-        if action["is_critical"]:
-            assert action["open_records"] >= CRITICAL_MIN_RECORDS
-            assert action["avg_severity"] >= CRITICAL_MIN_SEVERITY
-        elif (action["open_records"] >= CRITICAL_MIN_RECORDS
-              and action["severity_band"] >= CRITICAL_MIN_SEVERITY):
-            # Enough records, band rounds to 4, raw mean below 4 -> excluded.
-            assert action["avg_severity"] < CRITICAL_MIN_SEVERITY
-            rounds_up_but_excluded += 1
-
-    assert rounds_up_but_excluded, (
-        "expected at least one action whose band rounds to 4 while its raw mean "
-        "does not -- that case is what the unrounded test exists for"
-    )
-
-
-def test_critical_actions_outrank_everything_else(aggregates):
-    rows = aggregates["product_actions"]
-    ranks = [r["rank"] for r in rows if r["is_critical"]]
-    if ranks:
-        assert ranks == list(range(1, len(ranks) + 1)), (
-            "critical actions must occupy the top ranks")

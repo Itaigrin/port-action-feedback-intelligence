@@ -30,8 +30,8 @@ from __future__ import annotations
 
 # Bumping these invalidates the classification cache, which is what forces a
 # genuine reclassification rather than a label rename.
-TAXONOMY_VERSION = "v2.0"
-SCHEMA_VERSION = "v2.0"
+TAXONOMY_VERSION = "v2.1"
+SCHEMA_VERSION = "v3.0"
 
 
 # ===========================================================================
@@ -1184,12 +1184,39 @@ PERSONAS: dict[str, str] = {
 
 SOURCE_SYSTEMS: tuple[str, ...] = ("Slack", "Zendesk", "Gong", "Port portal")
 
+# --- feedback polarity -----------------------------------------------------
+# What the customer was expressing, judged from the text itself.
+#
+# Deliberately independent of lifecycle_status. A Completed roadmap item still
+# records the pain that prompted it, so a shipped request is not automatically
+# positive; classifying from status rather than text would erase the original
+# signal and make "what hurts" unanswerable for anything already delivered.
+POLARITIES: dict[str, str] = {
+    "Negative": "Describes a problem, unmet need, blocker, friction, failure "
+                "or difficulty -- including a feature request clearly motivated "
+                "by current pain or an inability to finish a task.",
+    "Positive": "Expresses satisfaction, praise, a successful outcome, or "
+                "confirms that a shipped capability solved the problem.",
+    "Neutral": "Primarily informational, descriptive, a factual question or a "
+               "technical clarification, with no clear praise or pain.",
+}
+POLARITY_NAMES: tuple[str, ...] = tuple(POLARITIES)
+
 LIFECYCLE_STATUSES: tuple[str, ...] = (
     "Open", "Planned", "In progress", "Completed", "Closed", "Unknown",
 )
 
-# Statuses representing live, unmet demand. Completed/Closed deliberately
-# excluded: shipped work must never inflate open product-action ranking.
+# Statuses representing live, unmet demand.
+#
+# Only "Open" counts. Planned and In progress were previously included, but
+# both mean Port has already committed to the work -- counting them as open
+# demand argues for building something that is already being built. They stay
+# visible through the lifecycle filter and are labelled with their status; they
+# simply do not add to a product action's supporting count or its ranking.
+COUNTED_STATUSES: frozenset[str] = frozenset({"Open"})
+
+# Retained for the evidence explorer, which still distinguishes work that is
+# live in some form from work that has shipped or been dropped.
 OPEN_STATUSES: frozenset[str] = frozenset({"Open", "Planned", "In progress"})
 
 # Port portal raw status -> normalized lifecycle status.

@@ -52,6 +52,8 @@ ALLOWED_DASHBOARD_HEADINGS = {
     "Matching feedback by taxonomy category",
     "Matching feedback by Journey stage",
     "Feedback behind recommended actions",
+    "Where users struggle most",
+    "Negative feedback by Journey stage — last 3 months",
 }
 
 # Headings from the previous dashboard. Any of these reappearing means a legacy
@@ -128,9 +130,17 @@ def test_chart_titles_are_exact():
 
 
 def test_no_old_theme_chart_and_no_plotly():
-    """The mockup's charts are CSS bars; Plotly would fight the surrounding design."""
-    assert "plotly" not in APP.lower()
-    assert "plotly" not in RENDER_SRC.lower()
+    """Charts are CSS bars and one inline SVG line chart.
+
+    Re-adding Plotly for the trend chart would bring back every canvas,
+    toolbar, font and margin conflict that removing it solved, so the line
+    chart is hand-drawn SVG in the same design language.
+    """
+    for source in (APP, RENDER_SRC):
+        assert "import plotly" not in source
+        assert "plotly.express" not in source
+        assert "plotly.graph_objects" not in source
+    assert "afi-trend-svg" in THEME, "the trend chart is inline SVG"
     assert "primary_theme" not in APP
     assert "afi-bar" in THEME
 
@@ -153,6 +163,8 @@ def test_dashboard_section_order():
     order = [
         "render_hero",
         "render_kpis",
+        "render_insight_cards",
+        "render_trend_chart",
         "render_product_actions",
         "render_taxonomy_chart",
         "render_journey_chart",
@@ -349,10 +361,10 @@ def test_interactions_do_not_navigate_the_browser():
     )
 
     action = {
-        "category": "Permissions & Approvals",
-        "subcategory": "RBAC & dynamic permissions",
-        "product_action": "Enforce RBAC on run pages.",
-        "open_records": 3, "avg_severity": 3.0, "max_severity": 4,
+        "product_action_id": "enforce-rbac-run-pages",
+        "product_action_title": "Enforce RBAC on run pages.",
+        "primary_categories": ["Permissions & Approvals"],
+        "open_supporting_record_count": 3, "severity_band": 4,
         "source_diversity": 1, "needs_review": 0, "signal": "quote",
     }
     blocks = [
@@ -478,10 +490,10 @@ def test_action_card_never_renders_its_own_evidence():
     from src.ui.render import render_product_actions
 
     action = {
-        "category": "Permissions & Approvals",
-        "subcategory": "RBAC & dynamic permissions",
-        "product_action": "Enforce RBAC on run pages.",
-        "open_records": 2, "avg_severity": 3.0, "max_severity": 4,
+        "product_action_id": "enforce-rbac-run-pages",
+        "product_action_title": "Enforce RBAC on run pages.",
+        "primary_categories": ["Permissions & Approvals"],
+        "open_supporting_record_count": 2, "severity_band": 4,
         "source_diversity": 1, "needs_review": 0, "signal": "quote",
     }
 
@@ -490,7 +502,8 @@ def test_action_card_never_renders_its_own_evidence():
     assert "afi-feedback" not in plain, "no record markup belongs in a card"
     assert "View supporting feedback" in plain
 
-    selected = render_product_actions([action], 10, selected=action["subcategory"])
+    selected = render_product_actions([action], 10,
+                                      selected=action["product_action_id"])
     assert "afi-feedback" not in selected, "selecting must not expand anything"
     assert "is-selected" in selected, "the chosen card should be identifiable"
     assert 'aria-current="true"' in selected
@@ -515,8 +528,9 @@ def test_selecting_an_action_narrows_the_feedback_section():
 
 
 def test_selection_drives_the_section_and_scrolls_to_it():
-    assert 'st.session_state["afi_focus"] = subcategory' in APP
-    assert 'selected_action["record_ids"]' in APP,         "the section must show the records the action was ranked from"
+    assert 'st.session_state["afi_focus"] = action_id' in APP
+    assert "open_supporting_feedback_ids" in APP,         "the section must show the action's own supporting records"
+    assert "evidence_for_action(" in APP, "drill-down must resolve by id"
     assert "render.render_product_actions(" in APP
     assert "selected=focus" in APP
     # The jump targets the section container, not a card.
@@ -545,16 +559,16 @@ def test_section_shows_exactly_the_records_behind_the_selected_action(
     reading "N open supporting records", so the list would contradict its own
     count.
     """
-    assert 'view["feedback_id"].isin(' in APP
+    assert "evidence_for_action(" in APP
 
-    from src.models.taxonomy import OPEN_STATUSES
+    from src.models.taxonomy import COUNTED_STATUSES
 
     by_id = {r["feedback_id"]: r for r in records}
     for action in aggregates["product_actions"][:10]:
-        supporting = [by_id[i] for i in action["record_ids"]]
-        assert len(supporting) == action["open_records"]
+        supporting = [by_id[i] for i in action["open_supporting_feedback_ids"]]
+        assert len(supporting) == action["open_supporting_record_count"]
         for record in supporting:
-            assert record["lifecycle_status"] in OPEN_STATUSES
+            assert record["lifecycle_status"] in COUNTED_STATUSES
 
 
 def test_sidebar_ranking_note_is_generated_from_the_ranking_keys(aggregates):
@@ -578,6 +592,7 @@ def test_sidebar_ranking_note_is_generated_from_the_ranking_keys(aggregates):
     assert "still open" in APP
     assert [k for k, *_ in RANK_KEYS] == [
         e["key"] for e in aggregates["ranking"]["keys"]]
+    assert [k for k, *_ in RANK_KEYS][0] == "severity_band"
 
     # The rail shows plain labels, never field names -- "severity_band" in a
     # sidebar is accurate and useless to the reader it is written for.
@@ -585,27 +600,6 @@ def test_sidebar_ranking_note_is_generated_from_the_ranking_keys(aggregates):
     for field, label, _ in RANK_KEYS:
         assert label and not label.islower() or " " in label, field
         assert f">{field}<" not in APP, f"raw field name shown in the rail: {field}"
-
-
-def test_critical_actions_are_badged():
-    """The severity chip rounds; the gate does not. Without a badge, an action
-    averaging 3.5 reads "Severity 4" yet ranks below one that cleared the gate,
-    and the order looks arbitrary."""
-    from src.ui.render import render_product_actions
-
-    base = {
-        "category": "Permissions & Approvals",
-        "subcategory": "RBAC & dynamic permissions",
-        "product_action": "Enforce RBAC.", "open_records": 10,
-        "avg_severity": 3.5, "max_severity": 5, "source_diversity": 1,
-        "needs_review": 0, "signal": "quote", "is_critical": 0,
-    }
-    not_gated = render_product_actions([base], 10)
-    assert ">Critical<" not in not_gated
-    assert "Severity 4" in not_gated, "the chip still rounds 3.5 up"
-
-    gated = render_product_actions([dict(base, is_critical=1)], 10)
-    assert ">Critical<" in gated
 
 
 def test_scroll_fires_on_every_selection_not_just_the_first():
@@ -640,6 +634,7 @@ def test_app_does_not_read_the_aggregates_artifact_at_runtime():
     that class of failure is gone.
     """
     assert 'PROC / "aggregates.json"' not in APP
+    assert "COUNTED_STATUSES" in APP, "only Open records may count"
     assert 'agg["ranking"]' not in APP
     assert "RANK_KEYS" in APP
 
@@ -651,5 +646,3 @@ def test_app_does_not_read_the_aggregates_artifact_at_runtime():
         field, label, explanation = entry
         assert label.strip() and explanation.strip(), field
         assert "_" not in label, f"{field} label reads like a field name: {label}"
-        # Labels lead with the readable field name, then the plain meaning.
-        assert "—" in label, f"{field} label is missing its plain gloss: {label}"

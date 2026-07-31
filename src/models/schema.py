@@ -23,6 +23,7 @@ from .taxonomy import (
     ALL_SUBCATEGORY_NAMES,
     CATEGORY_NAMES,
     PERSONA_NAMES,
+    POLARITY_NAMES,
     PROBLEM_TYPE_NAMES,
     STAGE_NAMES,
     is_valid_pair,
@@ -34,6 +35,7 @@ TaxonomySubcategory = Literal[ALL_SUBCATEGORY_NAMES]  # type: ignore[valid-type]
 JourneyStage = Literal[STAGE_NAMES]               # type: ignore[valid-type]
 ProblemType = Literal[PROBLEM_TYPE_NAMES]         # type: ignore[valid-type]
 Persona = Literal[PERSONA_NAMES]                  # type: ignore[valid-type]
+Polarity = Literal[POLARITY_NAMES]                # type: ignore[valid-type]
 
 MAX_SECONDARY_ASSIGNMENTS = 2
 
@@ -118,6 +120,23 @@ class FeedbackClassification(BaseModel):
     severity: int = Field(
         ge=1, le=5,
         description="1 = nice to have, 5 = blocking with no workaround."
+    )
+    feedback_polarity: Polarity = Field(
+        default="Neutral",
+        description="What the customer was expressing, judged from the text "
+                    "itself. Negative = a problem, unmet need, blocker, "
+                    "friction or difficulty, including a feature request "
+                    "clearly motivated by current pain. Positive = "
+                    "satisfaction, praise, or confirmation that something "
+                    "shipped solved the problem. Neutral = informational or a "
+                    "factual question. Judge the original signal, never the "
+                    "lifecycle status: a completed request may still record "
+                    "negative feedback."
+    )
+    polarity_reason: str = Field(
+        default="", max_length=160,
+        description="One short clause naming the phrase that decided the "
+                    "polarity. Leave empty only if the text gives nothing."
     )
 
     # --- narrative ----------------------------------------------------------
@@ -223,6 +242,7 @@ class AnalyzedRecord(BaseModel):
 
     classification: FeedbackClassification
 
+    feedback_polarity: str
     # provenance -- recorded so any figure can be traced to what produced it
     model_name: str
     prompt_version: str

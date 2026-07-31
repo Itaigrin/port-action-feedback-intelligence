@@ -97,9 +97,9 @@ def render_kpis(product_actions: int, open_actions: int,
                 high_severity: int, needs_review: int) -> str:
     cards = [
         ("Product actions", product_actions,
-         "Distinct taxonomy subcategories in view", ""),
+         "Distinct changes being asked for", ""),
         ("Open product actions", open_actions,
-         "Entirely unmet — nothing shipped in this area yet", "good"),
+         "Still backed by at least one open record", "good"),
         ("High severity", high_severity,
          "Matching records at severity 4+", "warning"),
         ("Needs human review", needs_review,
@@ -121,16 +121,16 @@ def render_product_actions(actions: list[dict], limit: int,
                            selected: str | None = None) -> str:
     """Ranked action cards.
 
-    The card never holds its own evidence. Its button selects the action and
-    the reader is taken to "Feedback behind recommended actions", which is the
-    one place records are listed -- so there is a single rendering path for a
-    feedback record rather than two that can drift apart.
+    Every figure comes from the action's own supporting-id list, so the count
+    shown here is by construction the number of records the drill-down opens.
+    It used to be the size of the whole taxonomy subcategory, which is why a
+    card could claim four records and open onto fourteen.
     """
     head = (
         '<div class="afi-actions"><div class="afi-section-head"><div>'
         "<h2>Recommended product actions</h2>"
-        "<p>Derived from open, in-scope feedback. Open an action to inspect its "
-        "evidence.</p></div></div>"
+        "<p>Feedback asking for the same change, grouped together. Only open "
+        "records count.</p></div></div>"
     )
     if not actions:
         return (
@@ -142,47 +142,39 @@ def render_product_actions(actions: list[dict], limit: int,
 
     rows = ['<div class="afi-action-list">']
     for index, action in enumerate(actions[:limit]):
-        severity = int(round(action["avg_severity"]))
-        cls = "afi-insight afi-insight-high" if action["max_severity"] >= 4 else "afi-insight"
-        badge = SEVERITY_BADGE.get(severity, "b-neutral")
+        band = int(action.get("severity_band") or 0)
+        count = int(action.get("open_supporting_record_count") or 0)
+        cls = ("afi-insight afi-insight-high" if band >= 4
+               else "afi-insight")
+        badge = SEVERITY_BADGE.get(band, "b-neutral")
         signal = action.get("signal") or ""
-        metrics = []
-        # Without this badge the top of the list looks arbitrary: the severity
-        # chip shows a rounded band, so an action averaging 3.5 also reads
-        # "Severity 4" while failing a gate that tests the raw mean. The badge
-        # is what makes "why is that one above this one" answerable on sight.
-        if action.get("is_critical"):
-            metrics.append(
-                '<span class="afi-badge b-red" '
-                'title="At least 3 open records and an average severity of 4.0 '
-                'or above">Critical</span>'
-            )
-        metrics += [
+
+        metrics = [
             f'<span class="afi-badge b-blue">'
-            f'{_plural(action["open_records"], "open supporting record")}</span>',
-            f'<span class="afi-badge b-neutral">{_esc(action["category"])}</span>',
+            f'{_plural(count, "open supporting record")}</span>',
         ]
-        if action.get("source_diversity", 1) > 1:
+        for category in (action.get("primary_categories") or [])[:1]:
+            metrics.append(f'<span class="afi-badge b-neutral">{_esc(category)}</span>')
+        if int(action.get("source_diversity") or 0) > 1:
             metrics.append(
                 f'<span class="afi-badge b-green">'
-                f'{_plural(action["source_diversity"], "source")}</span>'
-            )
+                f'{_plural(int(action["source_diversity"]), "source")}</span>')
         if action.get("needs_review"):
             metrics.append(
                 f'<span class="afi-badge b-amber">'
-                f'{action["needs_review"]} flagged for review</span>'
-            )
-        # Mark the card whose records the section is currently showing, so it
-        # is obvious which of ten buttons produced what is on screen.
-        is_selected = selected is not None and action["subcategory"] == selected
+                f'{action["needs_review"]} flagged for review</span>')
+
+        is_selected = (selected is not None
+                       and action.get("product_action_id") == selected)
         btn_class = "afi-action-btn is-selected" if is_selected else "afi-action-btn"
         label = ("Showing its feedback below &#8595;" if is_selected
                  else "View supporting feedback &#8595;")
         rows.append(
             f'<div class="{cls}">'
             f'<div class="afi-insight-top">'
-            f'<h3 class="afi-action-title">{_esc(action["product_action"])}</h3>'
-            f'<span class="afi-badge {badge}">Severity {severity}</span></div>'
+            f'<h3 class="afi-action-title">'
+            f'{_esc(action["product_action_title"])}</h3>'
+            f'<span class="afi-badge {badge}">Severity {band}</span></div>'
             f"<p>{_esc(signal)}</p>"
             f'<div class="afi-action-metrics">{"".join(metrics)}</div>'
             f'<a class="{btn_class}" {_click(f"{NAV_FOCUS}_{index}")}'
@@ -193,6 +185,140 @@ def render_product_actions(actions: list[dict], limit: int,
     return head + "".join(rows) + "</div>"
 
 
+# --------------------------------------------------------------------------
+def render_insight_cards(journey: dict, subcategory: dict) -> str:
+    """The two "where users struggle most" cards.
+
+    Both count only records the classifier judged Negative, so they answer
+    "where is the pain" rather than "where is the volume" -- a subcategory can
+    be busy with neutral questions and still be nobody's problem.
+    """
+
+    def card(data: dict, label: str) -> str:
+        name = data.get("group_name") or ""
+        count = int(data.get("negative_feedback_count") or 0)
+        if not name or not count:
+            return (
+                '<div class="afi-card afi-insight-card">'
+                f'<span class="afi-insight-label">{_esc(label)}</span>'
+                '<div class="afi-empty" style="margin-top:10px">'
+                "No negative feedback matches these filters.</div></div>"
+            )
+
+        parent = data.get("parent_category") or ""
+        parent_html = (f'<div class="afi-insight-parent">{_esc(parent)}</div>'
+                       if parent else "")
+        examples = "".join(
+            f"<li>{_esc(ex['text'])}</li>" for ex in data.get("examples", []))
+        return (
+            '<div class="afi-card afi-insight-card">'
+            f'<span class="afi-insight-label">{_esc(label)}</span>'
+            f'<div class="afi-insight-name">{_esc(name)}</div>'
+            f"{parent_html}"
+            f'<div class="afi-insight-count">'
+            f'<span class="afi-badge b-red">{_plural(count, "negative feedback record")}'
+            f"</span></div>"
+            f'<p class="afi-insight-focus"><b>Recommended focus:</b> '
+            f'{_esc(data.get("recommended_focus", ""))}</p>'
+            f"<ul class=\"afi-insight-examples\">{examples}</ul>"
+            "</div>"
+        )
+
+    return (
+        '<div class="afi-struggle">'
+        '<div class="afi-section-head"><div>'
+        "<h2>Where users struggle most</h2>"
+        "<p>Counting only feedback that describes a problem, under the current "
+        "filters.</p></div></div>"
+        '<div class="afi-insight-grid">'
+        + card(journey, "Journey stage with most negative feedback")
+        + card(subcategory, "Subcategory with most negative feedback")
+        + "</div></div>"
+    )
+
+
+# --- trend chart -----------------------------------------------------------
+# Inline SVG rather than a plotting library: the dashboard's other charts are
+# CSS bars, and adding Plotly back for one line chart would reintroduce every
+# canvas, toolbar and font conflict that removing it solved.
+TREND_COLOURS = ("#2764e7", "#6d43b8", "#087b61", "#c43e3e", "#aa6100",
+                 "#0e7490", "#9333ea", "#475569")
+
+
+def render_trend_chart(trend: dict) -> str:
+    weeks = trend.get("weeks") or []
+    series = trend.get("series") or []
+    window = f'{trend.get("window_start", "")} to {trend.get("window_end", "")}'
+    note = (" · latest available data, not the current date"
+            if trend.get("is_historical_snapshot") else "")
+
+    head = (
+        '<div class="afi-card afi-section afi-trend">'
+        '<div class="afi-section-head"><div>'
+        "<h2>Negative feedback by Journey stage — last 3 months</h2>"
+        f'<p>Weekly, by the date the feedback was raised · {_esc(window)}'
+        f"{_esc(note)}</p></div></div>"
+    )
+    if not series or not weeks:
+        return head + ('<div class="afi-empty">No negative feedback in this '
+                       "period for the current filters.</div></div>")
+
+    width, height = 640, 210
+    pad_l, pad_r, pad_t, pad_b = 30, 8, 12, 26
+    peak = max((max(s["points"]) for s in series), default=0) or 1
+    span = max(len(weeks) - 1, 1)
+
+    def x(i: int) -> float:
+        return pad_l + i * (width - pad_l - pad_r) / span
+
+    def y(v: int) -> float:
+        return pad_t + (1 - v / peak) * (height - pad_t - pad_b)
+
+    parts = [f'<svg class="afi-trend-svg" viewBox="0 0 {width} {height}" '
+             f'role="img" aria-label="Negative feedback per week by journey stage">']
+    # Horizontal guides plus the value axis.
+    for step in range(4):
+        value = round(peak * (3 - step) / 3)
+        gy = y(value)
+        parts.append(f'<line x1="{pad_l}" y1="{gy:.1f}" x2="{width - pad_r}" '
+                     f'y2="{gy:.1f}" class="afi-trend-grid" />')
+        parts.append(f'<text x="{pad_l - 6}" y="{gy + 3:.1f}" '
+                     f'class="afi-trend-axis" text-anchor="end">{value}</text>')
+
+    for index, entry in enumerate(series):
+        colour = TREND_COLOURS[index % len(TREND_COLOURS)]
+        points = " ".join(f"{x(i):.1f},{y(v):.1f}"
+                          for i, v in enumerate(entry["points"]))
+        parts.append(f'<polyline points="{points}" fill="none" '
+                     f'stroke="{colour}" stroke-width="2" '
+                     'stroke-linejoin="round" stroke-linecap="round" />')
+        for i, value in enumerate(entry["points"]):
+            if value:
+                parts.append(
+                    f'<circle cx="{x(i):.1f}" cy="{y(value):.1f}" r="2.6" '
+                    f'fill="{colour}"><title>Week of {_esc(weeks[i])} · '
+                    f'{_esc(entry["stage"])} · {_plural(value, "record")}'
+                    "</title></circle>")
+
+    # Every third week label, so the axis stays readable at this width.
+    for i, week in enumerate(weeks):
+        if i % 3 == 0 or i == len(weeks) - 1:
+            parts.append(f'<text x="{x(i):.1f}" y="{height - 8}" '
+                         f'class="afi-trend-axis" text-anchor="middle">'
+                         f"{_esc(week[5:])}</text>")
+    parts.append("</svg>")
+
+    legend = "".join(
+        f'<span class="afi-trend-key">'
+        f'<i style="background:{TREND_COLOURS[i % len(TREND_COLOURS)]}"></i>'
+        f'{_esc(entry["stage"])}</span>'
+        for i, entry in enumerate(series)
+    )
+    return (head + "".join(parts)
+            + f'<div class="afi-trend-legend">{legend}</div></div>')
+
+
+# --------------------------------------------------------------------------
 # --------------------------------------------------------------------------
 def _bar_rows(rows: list[tuple[str, int]], click_prefix: str | None) -> str:
     """Shared CSS-bar markup. The mockup charts are bars, not a plotting library."""

@@ -29,9 +29,12 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 from src.analysis.aggregate import (
+    COUNTED_STATUSES,
     HIGH_SEVERITY,
-    OPEN_STATUSES,
     RANK_KEYS,
+    evidence_for_action,
+    negative_insight,
+    negative_trend,
     product_actions,
 )
 from src.models.taxonomy import (
@@ -57,6 +60,31 @@ ROOT = Path(__file__).parent
 PROC = ROOT / "data" / "processed"
 
 DEFAULT_TOP_ACTIONS = 10
+
+# The detail behind the one-line summary on the actions panel. Kept as a
+# constant so the copy is readable, and shown in an expander rather than on the
+# cards: the ranking has to be checkable, but it should not compete with the
+# recommendations for attention.
+RANKING_HELP = """
+Only **open** feedback counts. Feedback asking for the same change is grouped
+together, and groups are ranked by typical severity, open records, average
+confidence, source diversity and recency — in that order.
+
+- **Typical severity** is the *median* of the supporting records, not the worst
+  one, so a single severe report cannot make a mild request look like a blocker.
+- **Open records** are the exact records supporting that action — not everything
+  sharing its category or subcategory.
+- **Average confidence** is how sure the classifier was, used only to separate
+  otherwise equal actions.
+- **Source diversity** counts distinct sources, so one source repeating itself
+  does not count twice.
+- **Recency** uses the date the feedback was raised, not the date it was
+  analysed.
+
+The ranking is **hierarchical, not a blended score**: each point is applied in
+turn and the first one that differs decides the position, so no later point can
+override an earlier one.
+"""
 
 st.set_page_config(
     page_title="Action Feedback Intelligence",
@@ -101,7 +129,7 @@ except FileNotFoundError:
 # Scope control: a toggle that could fold out-of-scope feedback back into a
 # demand ranking is an invitation to misread it.
 rel = df[df["is_relevant"]].copy()
-rel["is_open"] = rel["lifecycle_status"].isin(OPEN_STATUSES)
+rel["is_open"] = rel["lifecycle_status"].isin(COUNTED_STATUSES)
 rel["is_high_severity"] = rel["severity"] >= HIGH_SEVERITY
 
 OUT_OF_SCOPE = int(len(df) - len(rel))
@@ -147,6 +175,7 @@ def _reset_filters() -> None:
     # dashboard returns to the state a first-time visitor sees.
     st.session_state["afi_drill"] = None
     st.session_state["afi_focus"] = None
+    st.session_state["afi_scroll_nonce"] = 0
 
 
 def render_filter_panel() -> dict:
@@ -369,8 +398,12 @@ def _select_subcategory(subcategory: str) -> None:
     st.session_state["afi_drill"] = None
 
 
-def _focus_on(subcategory: str) -> None:
-    """Select an action; the feedback section then shows only its records.
+def _focus_on(action_id: str) -> None:
+    """Select a product action by its stable id.
+
+    The id, not a subcategory: selecting a subcategory is what made the
+    drill-down show every record in it rather than the ones supporting the
+    action the reader clicked.
 
     Not a toggle. The button's job is to take the reader to the evidence, so
     pressing it again should land them there again rather than silently
@@ -380,7 +413,7 @@ def _focus_on(subcategory: str) -> None:
     already-selected action. It is what makes the scroll fire again -- see
     the scroll block in render_dashboard.
     """
-    st.session_state["afi_focus"] = subcategory
+    st.session_state["afi_focus"] = action_id
     st.session_state["afi_scroll_nonce"] = (
         st.session_state.get("afi_scroll_nonce", 0) + 1)
 
@@ -411,7 +444,7 @@ def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
                       on_click=_set_severity, args=(level,))
         for index, action in enumerate(actions):
             st.button("go", key=f"{render.NAV_FOCUS}_{index}",
-                      on_click=_focus_on, args=(action["subcategory"],))
+                      on_click=_focus_on, args=(action["product_action_id"],))
 
 
 # ==========================================================================
@@ -437,23 +470,20 @@ def render_dashboard() -> None:
 
         # Every product action in view, and the subset with live demand. Both
         # are counted here so the two KPIs are genuinely different numbers.
-        grouped = view.groupby(
-            ["primary_taxonomy_category", "primary_taxonomy_subcategory"]
-        )
-        all_groups = grouped.size()
-        # "Open" means the whole group is still unmet: nothing in it has been
-        # completed or closed. Counting groups that merely contain an open
-        # record would return the same number as the total and say nothing.
-        fully_open = int(grouped["is_open"].all().sum())
+        # Both KPIs come from the action groups themselves. "Product actions"
+        # counts every distinct requested change in view; "open" counts those
+        # with at least one record still Open, which is what gets ranked.
         actions_df = product_actions(view)
         actions = actions_df.to_dict("records") if len(actions_df) else []
 
-        # Attach the strongest verified quote as each action's evidence signal.
+        # The quote shown on a card must come from that action's own records,
+        # selected by id -- picking by subcategory would quote a record the
+        # action does not include.
         for action in actions:
             supporting = view[
-                (view["primary_taxonomy_category"] == action["category"])
-                & (view["primary_taxonomy_subcategory"] == action["subcategory"])
-                & (view["evidence_verified"])
+                view["feedback_id"].astype(str).isin(
+                    action["open_supporting_feedback_ids"])
+                & view["evidence_verified"]
             ].sort_values("severity", ascending=False)
             action["signal"] = (f'“{supporting.iloc[0]["evidence_excerpt"]}”'
                                 if len(supporting) else "")
@@ -462,13 +492,31 @@ def render_dashboard() -> None:
                     unsafe_allow_html=True)
         st.markdown(
             render.render_kpis(
-                product_actions=int(len(all_groups)),
-                open_actions=fully_open,
+                product_actions=int(actions_df.attrs.get("total_groups",
+                                                         len(actions))),
+                open_actions=len(actions),
                 high_severity=int(view["is_high_severity"].sum()),
                 needs_review=int(view["needs_human_review"].sum()),
             ),
             unsafe_allow_html=True,
         )
+
+        # --- where users struggle most ------------------------------------
+        # Built from the filtered frame, so both cards and the trend move with
+        # every filter. "Top recommended product actions" is deliberately not
+        # applied: it limits how many actions are listed, not which feedback
+        # exists.
+        st.markdown(
+            render.render_insight_cards(
+                negative_insight(view, "journey_stage",
+                                 selected=filters["stage"]),
+                negative_insight(view, "subcategory",
+                                 selected=filters["subcategory"]),
+            ),
+            unsafe_allow_html=True,
+        )
+        st.markdown(render.render_trend_chart(negative_trend(view)),
+                    unsafe_allow_html=True)
 
         # Chart rows are computed before the grid so the hidden nav buttons and
         # the rendered bars are built from one list and cannot fall out of step.
@@ -494,6 +542,13 @@ def render_dashboard() -> None:
                 unsafe_allow_html=True,
             )
 
+            # The detail behind the one-line summary on the panel. An expander
+            # rather than card copy: the ranking has to be checkable, but it
+            # should not compete with the recommendations for attention.
+            with st.container(key="afi_rank_help"):
+                with st.expander("How this ranking works"):
+                    st.markdown(RANKING_HELP)
+
         with right, st.container(key="afi_charts"):
             st.markdown(render.render_taxonomy_chart(bar_rows, drilled),
                         unsafe_allow_html=True)
@@ -509,12 +564,17 @@ def render_dashboard() -> None:
         # Filtering by subcategory instead would list completed work under a
         # card reading "N open supporting records".
         shown = view
+        selected_action = None
         if focus:
             selected_action = next(
-                (a for a in actions if a["subcategory"] == focus), None)
-            shown = (view[view["feedback_id"].isin(selected_action["record_ids"])]
-                     if selected_action
-                     else view[view["primary_taxonomy_subcategory"] == focus])
+                (a for a in actions if a["product_action_id"] == focus), None)
+            if selected_action:
+                # Exactly the ids the card counted -- never the subcategory.
+                shown = pd.DataFrame(
+                    evidence_for_action(
+                        view, selected_action["open_supporting_feedback_ids"]))
+            else:
+                shown = view.iloc[0:0]
 
         with st.container(key="afi_feedback"):
             head, tools = st.columns([1, 0.32], gap="small")
@@ -538,15 +598,17 @@ def render_dashboard() -> None:
                 render.render_filter_state(
                     shown=len(shown), total=len(rel),
                     open_count=int(shown["is_open"].sum()),
-                    min_severity=filters["severity"], focus=focus,
+                    min_severity=filters["severity"],
+                    focus=(selected_action["product_action_title"]
+                           if selected_action else None),
                 ),
                 unsafe_allow_html=True,
             )
             st.markdown(
                 render.render_feedback_cards(
-                    shown.sort_values(["severity", "confidence"],
-                                      ascending=[False, False])
-                         .head(40).to_dict("records")
+                    (shown.sort_values(["severity", "confidence"],
+                                       ascending=[False, False])
+                     if len(shown) else shown).head(40).to_dict("records")
                 ),
                 unsafe_allow_html=True,
             )
