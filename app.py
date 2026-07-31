@@ -53,8 +53,7 @@ from src.models.taxonomy import (
     TAXONOMY,
     WORKED_EXAMPLES,
 )
-from src.ui import data_assistant, render
-from src.ui.theme import CSS
+from src.ui import data_assistant, render, theme
 
 ROOT = Path(__file__).parent
 PROC = ROOT / "data" / "processed"
@@ -92,7 +91,13 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed",
 )
-st.markdown(CSS, unsafe_allow_html=True)
+# theme.CSS, not a `from theme import CSS` value binding. `from X import VALUE`
+# copies the string into this module's globals at import time, so a hot reload
+# that refreshes the theme module leaves this copy pointing at the old
+# stylesheet -- which is how a deploy ended up running new Python against the
+# previous release's CSS, with the assistant rendered but unstyled. Reading the
+# attribute follows the reload.
+st.markdown(theme.CSS, unsafe_allow_html=True)
 
 
 # --------------------------------------------------------------------------
