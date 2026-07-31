@@ -42,7 +42,7 @@ def aggregates() -> dict:
 # --- whitelist -------------------------------------------------------------
 ALLOWED_DASHBOARD_HEADINGS = {
     "Action Configuration feedback",
-    "AI-Augmented Qualitative Analysis",
+    "Action Feedback Analyzer",
     "Filters",
     "Product actions",
     "Open product actions",

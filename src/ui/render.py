@@ -80,7 +80,7 @@ def render_hero(meta: dict, in_scope: int, excluded: int) -> str:
     return (
         '<div class="afi-hero"><div>'
         '<div class="afi-eyebrow">Action Configuration feedback</div>'
-        "<h1>AI-Augmented Qualitative Analysis</h1>"
+        "<h1>Action Feedback Analyzer</h1>"
         f'<p>{in_scope} in-scope records, categorised under a closed taxonomy and '
         f"counted in Python. {excluded} out-of-scope records are excluded from "
         "every figure.</p>"
