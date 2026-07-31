@@ -176,13 +176,51 @@ def test_top_recommended_actions_defaults_to_ten():
 
 
 def test_filter_panel_order_matches_the_mockup():
-    labels = re.findall(r'st\.(?:multiselect|slider|number_input|selectbox)\(\s*"([^"]+)"',
-                        APP)
+    """Order is checked by position in the panel, not by widget call.
+
+    "Minimum severity" is no longer a Streamlit widget -- it is the mockup's
+    native range input -- so scanning only st.* calls would silently skip it.
+    """
+    panel = APP[APP.index("def render_filter_panel("):APP.index("def apply_filters(")]
     expected = ["Lifecycle status", "Problem type", "Journey stage",
                 "Taxonomy category", "Taxonomy subcategory", "Minimum severity",
-                "Top Recommended product actions", "Persona",
-                "Confidence / review state"]
-    assert labels[:len(expected)] == expected, labels[:len(expected)]
+                "Top Recommended product actions", "Reset all filters",
+                "More filters", "Persona", "Confidence / review state",
+                "View full taxonomy"]
+    # "Minimum severity" sits inside an HTML label, not a quoted widget arg.
+    positions = [panel.index(label) for label in expected]
+    assert positions == sorted(positions), (
+        "filter panel is out of order: "
+        + str(sorted(zip(positions, expected))))
+
+
+def test_severity_uses_the_mockup_range_not_the_streamlit_slider():
+    """Streamlit's slider rendered its thumb at left:100% for value 1.
+
+    The handle sat at the maximum end for the minimum value, so the control
+    read right-to-left. The mockup specifies a native range input, which fixes
+    the direction and the appearance together.
+    """
+    from src.ui.render import NAV_SEV, render_severity_slider
+
+    assert 'st.slider("Minimum severity"' not in APP, "the broken slider is back"
+    assert "st.slider(" not in APP
+
+    html = render_severity_slider(3)
+    assert 'type="range"' in html
+    assert 'min="1"' in html and 'max="5"' in html and 'value="3"' in html
+    assert f'data-afi-sev="{NAV_SEV}"' in html
+    assert 'aria-label="Minimum severity"' in html
+    # The value row reads low, current, high -- left to right, as in the mockup.
+    low = html.index("<span>1</span>")
+    pill = html.index("afi-range-value")
+    high = html.index("<span>5</span>")
+    assert low < pill < high
+
+    # One hidden button per level, and the CSS pins direction explicitly.
+    for level in range(1, 6):
+        assert f'f"{{render.NAV_SEV}}_{{level}}"' in APP or NAV_SEV in APP
+    assert "direction: ltr" in THEME
 
 
 def test_feedback_cards_show_source_status_and_created_date_separately(records):

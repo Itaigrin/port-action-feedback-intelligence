@@ -36,6 +36,7 @@ NAV_SUB = "afinav_sub"
 NAV_FOCUS = "afinav_focus"
 NAV_BACK = "afinav_back"
 NAV_UNFOCUS = "afinav_unfocus"
+NAV_SEV = "afinav_sev"
 
 
 def _esc(value: object) -> str:
@@ -313,6 +314,32 @@ def render_feedback_cards(records: list[dict]) -> str:
         )
     out.append("</div>")
     return "".join(out)
+
+
+def render_severity_slider(value: int, minimum: int = 1, maximum: int = 5) -> str:
+    """The mockup's severity control: a native range input with a value pill.
+
+    Streamlit's own slider is not used here. Its thumb rendered at left:100%
+    while reporting value 1, so the handle sat at the maximum end for the
+    minimum value and the control read right-to-left. A native input is also
+    what the mockup specifies, so replacing it fixes the behaviour and the
+    appearance in one move.
+
+    The input proxies to hidden Streamlit buttons, one per severity level --
+    the same mechanism the chart rows and action buttons already use.
+    """
+    return (
+        '<div class="afi-sev">'
+        '<div class="afi-range-row">'
+        f"<span>{minimum}</span>"
+        f'<output class="afi-range-value">{value}</output>'
+        f"<span>{maximum}</span>"
+        "</div>"
+        f'<input type="range" min="{minimum}" max="{maximum}" step="1" '
+        f'value="{value}" data-afi-sev="{NAV_SEV}" '
+        'aria-label="Minimum severity" />'
+        "</div>"
+    )
 
 
 def render_filter_state(shown: int, total: int, open_count: int,

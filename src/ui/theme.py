@@ -398,6 +398,29 @@ header[data-testid="stHeader"] {{ display: none !important; }}
 .afi-filters [data-testid="stElementContainer"] {{ margin-bottom: 10px !important; }}
 .afi-filters [data-testid="stSlider"] {{ padding-top: 2px !important; }}
 .afi-filters .afi-rubric {{ margin: 0 0 14px !important; }}
+
+/* Severity control, lifted from the mockup: a value row above a native range
+   input. Streamlit's slider is not used -- it rendered its thumb at left:100%
+   while reporting value 1, so the handle sat at the maximum end for the
+   minimum value. */
+.afi-filter-label {{
+  display: block; margin: 16px 0 6px; color: #475569;
+  font-weight: 650; font-size: 12px;
+}}
+.afi-range-row {{
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 4px; color: var(--muted); font-size: 12px;
+}}
+.afi-range-value {{
+  min-width: 26px; text-align: center; border-radius: 999px;
+  background: var(--blue-soft); color: var(--blue); font-weight: 800;
+  padding: 2px 7px; font-size: 12px;
+}}
+.afi-sev input[type="range"] {{
+  width: 100%; accent-color: var(--blue); margin: 2px 0 0; cursor: pointer;
+  direction: ltr;
+}}
+.afi-rubric {{ color: var(--muted); font-size: 10px; margin: 4px 0 0; }}
 .afi-filters .stButton > button {{
   width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px;
   background: #fff; color: #475569; font-weight: 700; font-size: 13px;

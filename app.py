@@ -192,10 +192,12 @@ def render_filter_panel() -> dict:
     ]
     subcategory = st.multiselect("Taxonomy subcategory", sub_pool, key="f_subcategory")
 
-    severity = st.slider("Minimum severity", 1, 5, 1, key="f_severity")
+    severity = int(st.session_state.get("f_severity", 1))
     st.markdown(
-        '<p class="afi-rubric" style="color:#64748b;font-size:10px">'
-        "1 = minor friction · 3 = meaningful workaround · 5 = blocker</p>",
+        '<label class="afi-filter-label">Minimum severity</label>'
+        + render.render_severity_slider(severity)
+        + '<p class="afi-rubric">1 = minor friction · 3 = meaningful '
+          "workaround · 5 = blocker</p>",
         unsafe_allow_html=True,
     )
 
@@ -326,6 +328,27 @@ if (!doc.__afiClickBound) {
       '.st-key-' + trigger.dataset.afiClick + ' button');
     if (button) button.click();
   }, true);
+
+  // The severity range proxies to one hidden button per level.
+  //
+  // The commit is debounced on 'input' rather than fired on 'change'. A range
+  // inside injected markup does not deliver 'change' to this listener -- only
+  // 'input' arrives -- so the debounce is what stands in for "the value has
+  // settled": the pill tracks the handle immediately, and the app reruns once
+  // the user stops moving it.
+  doc.addEventListener('input', (event) => {
+    const slider = event.target.closest('[data-afi-sev]');
+    if (!slider) return;
+    const pill = slider.parentElement.querySelector('.afi-range-value');
+    if (pill) pill.textContent = slider.value;
+    const level = slider.value;
+    clearTimeout(doc.__afiSevTimer);
+    doc.__afiSevTimer = setTimeout(() => {
+      const button = doc.querySelector(
+        '.st-key-' + slider.dataset.afiSev + '_' + level + ' button');
+      if (button) button.click();
+    }, 300);
+  }, true);
 }
 </script>
 """
@@ -366,6 +389,11 @@ def _clear_focus() -> None:
     st.session_state["afi_focus"] = None
 
 
+def _set_severity(level: int) -> None:
+    """Severity has no Streamlit widget, so this key is ours to assign freely."""
+    st.session_state["f_severity"] = level
+
+
 def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
                       actions: list[dict]) -> None:
     """Render the buttons the HTML proxies target. Hidden, never tabbed to."""
@@ -378,6 +406,9 @@ def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
                       on_click=handler, args=(name,))
         st.button("go", key=render.NAV_BACK, on_click=_clear_drill)
         st.button("go", key=render.NAV_UNFOCUS, on_click=_clear_focus)
+        for level in range(1, 6):
+            st.button("go", key=f"{render.NAV_SEV}_{level}",
+                      on_click=_set_severity, args=(level,))
         for index, action in enumerate(actions):
             st.button("go", key=f"{render.NAV_FOCUS}_{index}",
                       on_click=_focus_on, args=(action["subcategory"],))
