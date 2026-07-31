@@ -431,21 +431,53 @@ def _insight_examples(records: list[dict]) -> list[dict]:
     return out
 
 
-def _recommended_focus(records: list[dict]) -> str:
+def _problem_type_ranking(records: list[dict]) -> list[str]:
+    """Problem types present, most common first. Ties resolve alphabetically."""
+    counts = Counter(str(r.get("problem_type") or "") for r in records)
+    return [name.lower() for name, _ in
+            sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])) if name]
+
+
+def _recommended_focus(names: list[str]) -> str:
     """A one-line focus, built from the problem types actually present.
 
     Assembled from counted fields rather than written by the model, so it
     cannot assert something the records do not show.
     """
-    if not records:
-        return ""
-    top = Counter(str(r.get("problem_type") or "") for r in records).most_common(2)
-    names = [name.lower() for name, _ in top if name]
     if not names:
         return "Reduce the friction reported here."
     if len(names) == 1:
         return f"Mostly {names[0]}."
     return f"Mostly {names[0]}, then {names[1]}."
+
+
+def resolve_focus_collision(journey: dict, subcategory: dict) -> None:
+    """Stop the two cards repeating the same focus line.
+
+    The two areas often share their top two problem types, which is accurate
+    but reads as a bug -- two cards side by side saying the identical sentence
+    look like one of them failed to load.
+
+    When they collide, the subcategory card is re-pointed at the next problem
+    type it actually contains, and only if it has none left does the journey
+    card get the same treatment. If neither has anything further, both keep the
+    shared line: repeating a true sentence is better than inventing a
+    distinguishing one.
+    """
+    shared = journey.get("recommended_focus")
+    if not shared or shared != subcategory.get("recommended_focus"):
+        return
+
+    already_named = set(journey.get("problem_type_ranking", [])[:2])
+    for card in (subcategory, journey):
+        remaining = [n for n in card.get("problem_type_ranking", [])
+                     if n not in already_named]
+        if remaining:
+            extra = remaining[:2]
+            card["recommended_focus"] = (
+                f"Also worth attention: {extra[0]}." if len(extra) == 1
+                else f"Also worth attention: {extra[0]} and {extra[1]}.")
+            return
 
 
 def negative_insight(rel: pd.DataFrame, group_type: str,
@@ -464,6 +496,7 @@ def negative_insight(rel: pd.DataFrame, group_type: str,
     if negative.empty:
         return {"group_type": group_type, "group_name": "",
                 "negative_feedback_count": 0, "recommended_focus": "",
+                "problem_type_ranking": [],
                 "examples": [], "parent_category": ""}
 
     counts = negative[column].value_counts()
@@ -478,7 +511,8 @@ def negative_insight(rel: pd.DataFrame, group_type: str,
         "parent_category": (CATEGORY_FOR_SUBCATEGORY.get(str(name), "")
                             if group_type == "subcategory" else ""),
         "negative_feedback_count": len(members),
-        "recommended_focus": _recommended_focus(members),
+        "problem_type_ranking": _problem_type_ranking(members),
+        "recommended_focus": _recommended_focus(_problem_type_ranking(members)),
         "examples": _insight_examples(members),
         "supporting_feedback_ids": sorted({str(r["feedback_id"])
                                            for r in members}),
@@ -594,6 +628,16 @@ def polarity_table(rel: pd.DataFrame) -> pd.DataFrame:
     return g.sort_values("records", ascending=False).reset_index(drop=True)
 
 
+def paired_insights(rel: pd.DataFrame,
+                     stages: list[str] | None = None,
+                     subcategories: list[str] | None = None) -> dict:
+    """Both insight cards, with any duplicate focus line resolved."""
+    journey = negative_insight(rel, "journey_stage", selected=stages)
+    subcategory = negative_insight(rel, "subcategory", selected=subcategories)
+    resolve_focus_collision(journey, subcategory)
+    return {"journey_stage": journey, "subcategory": subcategory}
+
+
 def build_all() -> dict:
     df = load_records()
     meta = df.attrs.get("meta", {})
@@ -634,10 +678,7 @@ def build_all() -> dict:
         },
         "kpis": kpis(df, rel, actions),
         "product_actions": action_rows,
-        "insights": {
-            "journey_stage": negative_insight(rel, "journey_stage"),
-            "subcategory": negative_insight(rel, "subcategory"),
-        },
+        "insights": paired_insights(rel),
         "negative_trend": negative_trend(rel),
         "categories": category_table(rel).to_dict("records"),
         "subcategories": subcategory_table(rel).to_dict("records"),

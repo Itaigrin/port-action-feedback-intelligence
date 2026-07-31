@@ -186,7 +186,7 @@ def render_product_actions(actions: list[dict], limit: int,
 
 
 # --------------------------------------------------------------------------
-def render_insight_cards(journey: dict, subcategory: dict) -> str:
+def render_insight_cards(journey_stage: dict, subcategory: dict) -> str:
     """The two "where users struggle most" cards.
 
     Both count only records the classifier judged Negative, so they answer
@@ -231,7 +231,7 @@ def render_insight_cards(journey: dict, subcategory: dict) -> str:
         "<p>Counting only feedback that describes a problem, under the current "
         "filters.</p></div></div>"
         '<div class="afi-insight-grid">'
-        + card(journey, "Journey stage with most negative feedback")
+        + card(journey_stage, "Journey stage with most negative feedback")
         + card(subcategory, "Subcategory with most negative feedback")
         + "</div></div>"
     )

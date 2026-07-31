@@ -4799,6 +4799,19 @@
       "group_name": "Permissions & approvals",
       "parent_category": "",
       "negative_feedback_count": 46,
+      "problem_type_ranking": [
+        "feature gap",
+        "configuration complexity",
+        "bug / defect",
+        "observability or debugging gap",
+        "usability friction",
+        "integration or api gap",
+        "performance or scalability limitation",
+        "poor error message",
+        "reusability or maintainability issue",
+        "security or privacy concern",
+        "validation gap"
+      ],
       "recommended_focus": "Mostly feature gap, then configuration complexity.",
       "examples": [
         {
@@ -4874,7 +4887,13 @@
       "group_name": "RBAC & dynamic permissions",
       "parent_category": "Permissions & Approvals",
       "negative_feedback_count": 14,
-      "recommended_focus": "Mostly feature gap, then configuration complexity.",
+      "problem_type_ranking": [
+        "feature gap",
+        "configuration complexity",
+        "reusability or maintainability issue",
+        "security or privacy concern"
+      ],
+      "recommended_focus": "Also worth attention: reusability or maintainability issue and security or privacy concern.",
       "examples": [
         {
           "text": "Users can view action run pages and entity details for actions/entities they…",

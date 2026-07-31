@@ -33,8 +33,8 @@ from src.analysis.aggregate import (
     HIGH_SEVERITY,
     RANK_KEYS,
     evidence_for_action,
-    negative_insight,
     negative_trend,
+    paired_insights,
     product_actions,
 )
 from src.models.taxonomy import (
@@ -507,12 +507,11 @@ def render_dashboard() -> None:
         # applied: it limits how many actions are listed, not which feedback
         # exists.
         st.markdown(
-            render.render_insight_cards(
-                negative_insight(view, "journey_stage",
-                                 selected=filters["stage"]),
-                negative_insight(view, "subcategory",
-                                 selected=filters["subcategory"]),
-            ),
+            render.render_insight_cards(**paired_insights(
+                view,
+                stages=filters["stage"],
+                subcategories=filters["subcategory"],
+            )),
             unsafe_allow_html=True,
         )
         st.markdown(render.render_trend_chart(negative_trend(view)),

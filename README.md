@@ -286,7 +286,9 @@ Two cards above the recommendations, counting **only** Negative feedback:
 - **Journey stage with most negative feedback** — where the pain concentrates in the lifecycle
 - **Subcategory with most negative feedback** — and which product area owns it
 
-Each shows a count, a recommended focus assembled from the problem types actually present, and up to three concise problem examples. Examples are de-duplicated first so three phrasings of one complaint cannot fill the card, then ranked by severity, supporting count, confidence, recency and text. Every example keeps its supporting feedback ids for traceability.
+Each shows a count, a recommended focus assembled from the problem types actually present, and up to three concise problem examples.
+
+**When both cards would say the same thing**, the subcategory card is re-pointed at the next problem type it actually contains, and only if it has none left does the journey card move instead. Two identical sentences side by side read as a failed render rather than as a finding — but if neither area has anything further, both keep the shared line, because repeating a true sentence beats inventing a distinguishing one. Examples are de-duplicated first so three phrasings of one complaint cannot fill the card, then ranked by severity, supporting count, confidence, recency and text. Every example keeps its supporting feedback ids for traceability.
 
 Both cards follow the filters. Selecting exactly one journey stage or subcategory shows that one, even if another leads globally — a card that ignores the filter beside it is worse than no card. `Top Recommended product actions` does not affect them: it limits how many actions are listed, not which feedback exists.
 

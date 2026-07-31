@@ -423,3 +423,80 @@ def test_trend_fills_missing_weeks_with_zero():
     for entry in trend["series"]:
         assert len(entry["points"]) == TREND_WEEKS
         assert entry["points"].count(0) == TREND_WEEKS - 1
+
+
+# --- duplicate focus lines --------------------------------------------------
+def _card(name: str, ranking: list[str], focus: str) -> dict:
+    return {"group_name": name, "problem_type_ranking": ranking,
+            "recommended_focus": focus}
+
+
+def test_duplicate_focus_is_resolved_on_the_subcategory_first():
+    """Two identical sentences side by side read as a failed render.
+
+    The subcategory card is re-pointed at the next problem type it actually
+    contains, so the difference is still something the records show.
+    """
+    from src.analysis.aggregate import resolve_focus_collision
+
+    shared = "Mostly feature gap, then configuration complexity."
+    journey = _card("Permissions & approvals",
+                    ["feature gap", "configuration complexity"], shared)
+    subcategory = _card("RBAC & dynamic permissions",
+                        ["feature gap", "configuration complexity",
+                         "security or privacy concern"], shared)
+
+    resolve_focus_collision(journey, subcategory)
+    assert journey["recommended_focus"] == shared, "the journey card is left alone"
+    assert subcategory["recommended_focus"] != shared
+    assert "security or privacy concern" in subcategory["recommended_focus"]
+
+
+def test_duplicate_focus_falls_back_to_the_journey_card():
+    """Only when the subcategory has nothing further to say."""
+    from src.analysis.aggregate import resolve_focus_collision
+
+    shared = "Mostly feature gap, then configuration complexity."
+    journey = _card("Permissions & approvals",
+                    ["feature gap", "configuration complexity",
+                     "usability friction"], shared)
+    subcategory = _card("RBAC & dynamic permissions",
+                        ["feature gap", "configuration complexity"], shared)
+
+    resolve_focus_collision(journey, subcategory)
+    assert subcategory["recommended_focus"] == shared
+    assert "usability friction" in journey["recommended_focus"]
+
+
+def test_duplicate_focus_is_kept_when_neither_card_has_more():
+    """Repeating a true sentence beats inventing a distinguishing one."""
+    from src.analysis.aggregate import resolve_focus_collision
+
+    shared = "Mostly feature gap, then configuration complexity."
+    ranking = ["feature gap", "configuration complexity"]
+    journey = _card("Permissions & approvals", list(ranking), shared)
+    subcategory = _card("RBAC & dynamic permissions", list(ranking), shared)
+
+    resolve_focus_collision(journey, subcategory)
+    assert journey["recommended_focus"] == shared
+    assert subcategory["recommended_focus"] == shared
+
+
+def test_distinct_focus_lines_are_left_untouched():
+    from src.analysis.aggregate import resolve_focus_collision
+
+    journey = _card("A", ["feature gap"], "Mostly feature gap.")
+    subcategory = _card("B", ["bug / defect"], "Mostly bug / defect.")
+    resolve_focus_collision(journey, subcategory)
+    assert journey["recommended_focus"] == "Mostly feature gap."
+    assert subcategory["recommended_focus"] == "Mostly bug / defect."
+
+
+def test_real_cards_do_not_repeat_the_same_focus(aggregates):
+    journey = aggregates["insights"]["journey_stage"]["recommended_focus"]
+    subcategory = aggregates["insights"]["subcategory"]["recommended_focus"]
+    if journey and subcategory:
+        ranking = aggregates["insights"]["subcategory"]["problem_type_ranking"]
+        if len(ranking) > 2:
+            assert journey != subcategory, (
+                "the subcategory had a third problem type available")
