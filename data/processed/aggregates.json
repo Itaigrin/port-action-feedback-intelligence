@@ -4812,7 +4812,7 @@
         "security or privacy concern",
         "validation gap"
       ],
-      "recommended_focus": "Mostly feature gap, then configuration complexity.",
+      "recommended_focus": "Mostly feature gap. Unusually concentrated here: configuration complexity (3 records, 4.3x elsewhere).",
       "examples": [
         {
           "text": "Users can view action run pages and entity details for actions/entities they don't have permission to access",
@@ -4893,7 +4893,7 @@
         "reusability or maintainability issue",
         "security or privacy concern"
       ],
-      "recommended_focus": "Also worth attention: reusability or maintainability issue and security or privacy concern.",
+      "recommended_focus": "Mostly feature gap, and no problem type stands out against the rest.",
       "examples": [
         {
           "text": "Users can view action run pages and entity details for actions/entities they don't have permission to access",

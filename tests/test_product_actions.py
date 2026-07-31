@@ -426,6 +426,102 @@ def test_trend_fills_missing_weeks_with_zero():
         assert entry["points"].count(0) == TREND_WEEKS - 1
 
 
+# --- what the focus line points at ------------------------------------------
+def _mix(stage: str, types: dict[str, int], start: int = 0) -> list[dict]:
+    """Records for one stage with a given problem-type mix."""
+    out, n = [], start
+    for problem, count in types.items():
+        for _ in range(count):
+            n += 1
+            out.append(_record(feedback_id=f"m{n}", journey_stage=stage,
+                               problem_type=problem))
+    return out
+
+
+def test_focus_names_what_is_concentrated_here_not_just_what_is_common():
+    """The whole point: frequency alone says the same thing on every card.
+
+    Feature gap leads every journey stage in the real data, so a line built
+    on the most common type cannot tell two stages apart. The distinctive
+    type is measured against the records outside the group.
+    """
+    from src.analysis.aggregate import _distinctive_problem_type
+
+    here = _mix("A", {"Feature gap": 20, "Security or privacy concern": 5})
+    others = _mix("B", {"Feature gap": 95, "Security or privacy concern": 5}, 100)
+
+    found = _distinctive_problem_type(here, others)
+    assert found is not None
+    name, count, lift = found
+    # 5/25 = 20% here against 5/100 = 5% elsewhere.
+    assert name == "security or privacy concern"
+    assert count == 5
+    assert lift == pytest.approx(4.0)
+
+
+def test_a_thin_count_is_never_called_distinctive():
+    """A 2-record spike produces a huge ratio and means nothing.
+
+    This is the guard that keeps the real subcategory card honest: its
+    highest-lift type sits at 7.8x on two records, and the card says nothing
+    stands out rather than headlining that.
+    """
+    from src.analysis.aggregate import MIN_DISTINCTIVE_COUNT, _distinctive_problem_type
+
+    here = _mix("A", {"Feature gap": 20, "Bug / defect": MIN_DISTINCTIVE_COUNT - 1})
+    others = _mix("B", {"Feature gap": 100}, 100)
+    assert _distinctive_problem_type(here, others) is None
+
+
+def test_a_marginal_lift_is_never_called_distinctive():
+    from src.analysis.aggregate import _distinctive_problem_type
+
+    # 10% here against 9% elsewhere -- present, but not worth pointing at.
+    here = _mix("A", {"Feature gap": 90, "Bug / defect": 10})
+    others = _mix("B", {"Feature gap": 91, "Bug / defect": 9}, 200)
+    assert _distinctive_problem_type(here, others) is None
+
+
+def test_nothing_is_distinctive_without_something_to_compare_against():
+    """Filtering to one group leaves no baseline; the claim becomes meaningless."""
+    from src.analysis.aggregate import _distinctive_problem_type
+
+    here = _mix("A", {"Feature gap": 20, "Bug / defect": 5})
+    assert _distinctive_problem_type(here, []) is None
+
+
+def test_focus_falls_back_to_frequency_when_nothing_stands_out():
+    """It must not invent a distinction that the records do not show."""
+    from src.analysis.aggregate import _recommended_focus
+
+    here = _mix("A", {"Feature gap": 90, "Bug / defect": 10})
+    others = _mix("B", {"Feature gap": 91, "Bug / defect": 9}, 200)
+    line = _recommended_focus(["feature gap", "bug / defect"], here, others)
+    assert "feature gap" in line
+    assert "stands out" in line, line
+
+
+def test_focus_reports_a_type_absent_elsewhere_without_a_fake_multiple():
+    """A ratio against zero is not a number and must not be printed as one."""
+    from src.analysis.aggregate import _recommended_focus
+
+    here = _mix("A", {"Feature gap": 20, "Validation gap": 5})
+    others = _mix("B", {"Feature gap": 100}, 100)
+    line = _recommended_focus(["feature gap", "validation gap"], here, others)
+    assert "nowhere else" in line, line
+    assert "infx" not in line and "inf" not in line.replace("information", "")
+
+
+def test_focus_is_deterministic_across_identical_inputs():
+    """Two runs on the same records must not produce different cards."""
+    from src.analysis.aggregate import _recommended_focus
+
+    here = _mix("A", {"Feature gap": 20, "Bug / defect": 4, "Validation gap": 4})
+    others = _mix("B", {"Feature gap": 100, "Bug / defect": 5, "Validation gap": 5}, 200)
+    lines = {_recommended_focus(["feature gap"], here, others) for _ in range(5)}
+    assert len(lines) == 1
+
+
 # --- duplicate focus lines --------------------------------------------------
 def _card(name: str, ranking: list[str], focus: str) -> dict:
     return {"group_name": name, "problem_type_ranking": ranking,

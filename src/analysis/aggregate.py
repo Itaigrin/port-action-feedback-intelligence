@@ -476,17 +476,94 @@ def _problem_type_ranking(records: list[dict]) -> list[str]:
             sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])) if name]
 
 
-def _recommended_focus(names: list[str]) -> str:
+# A problem type must clear both bars before a card calls it distinctive.
+# Two records at four times the base rate is noise wearing a statistic, and a
+# type only marginally above the rest is not worth pointing at.
+MIN_DISTINCTIVE_COUNT = 3
+MIN_DISTINCTIVE_LIFT = 1.5
+
+
+def _distinctive_problem_type(
+        members: list[dict], others: list[dict]) -> tuple[str, int, float] | None:
+    """The problem type most over-represented here versus everywhere else.
+
+    Returns (name, count, lift), or None when nothing clears the bars.
+
+    Frequency alone cannot answer "what is different about this stage".
+    Feature gap is roughly three quarters of all negative feedback and ranks
+    first in every single journey stage, so a line built on the most common
+    type says the same sentence on every card -- true each time, and useless
+    for telling the stages apart. Over-representation is what separates them.
+
+    The baseline is the records *outside* this group, not the whole dataset.
+    Including the group in its own baseline dampens exactly the signal being
+    measured, and "more common here than elsewhere" should mean what it says.
+    """
+    if not members or not others:
+        # Nothing to compare against. Happens when the reader has filtered to
+        # this one group: "more than elsewhere" has no meaning then.
+        return None
+
+    here = Counter(str(r.get("problem_type") or "") for r in members)
+    rest = Counter(str(r.get("problem_type") or "") for r in others)
+    n_here, n_rest = len(members), len(others)
+
+    candidates = []
+    for name, count in here.items():
+        if not name or count < MIN_DISTINCTIVE_COUNT:
+            continue
+        base = rest.get(name, 0) / n_rest
+        # A type absent everywhere else has no finite ratio. It is still the
+        # most concentrated thing here, so it ranks top and is reported
+        # without a multiple rather than with a fabricated one.
+        lift = (count / n_here) / base if base else float("inf")
+        if lift < MIN_DISTINCTIVE_LIFT:
+            continue
+        candidates.append((name.lower(), count, lift))
+
+    if not candidates:
+        return None
+    # Highest lift, then most records, then alphabetical -- so the same data
+    # always produces the same card.
+    candidates.sort(key=lambda c: (-c[2], -c[1], c[0]))
+    return candidates[0]
+
+
+def _recommended_focus(names: list[str], members: list[dict] | None = None,
+                       others: list[dict] | None = None) -> str:
     """A one-line focus, built from the problem types actually present.
 
     Assembled from counted fields rather than written by the model, so it
     cannot assert something the records do not show.
+
+    Two facts, in order: what most of the volume is, then what is unusually
+    concentrated here. The second is the one that differs between cards --
+    see _distinctive_problem_type for why the first cannot carry a card
+    on its own.
     """
     if not names:
         return "Reduce the friction reported here."
-    if len(names) == 1:
-        return f"Mostly {names[0]}."
-    return f"Mostly {names[0]}, then {names[1]}."
+
+    lead = f"Mostly {names[0]}"
+    if members is None or others is None:
+        # No comparison population supplied: frequency is all that can be
+        # honestly reported, which is what this said before lift existed.
+        return f"{lead}." if len(names) == 1 else f"{lead}, then {names[1]}."
+
+    distinctive = _distinctive_problem_type(members, others)
+    if distinctive is None:
+        if not others:
+            return f"{lead}." if len(names) == 1 else f"{lead}, then {names[1]}."
+        return f"{lead}, and no problem type stands out against the rest."
+
+    name, count, lift = distinctive
+    share = "seen nowhere else" if lift == float("inf") else f"{lift:.1f}x elsewhere"
+    if name == names[0]:
+        # The most common type is also the most concentrated. One fact, said
+        # once, with the multiple that makes it worth saying.
+        return f"{lead} -- and it runs {share} ({count} records)."
+    return (f"{lead}. Unusually concentrated here: {name} "
+            f"({count} records, {share}).")
 
 
 def resolve_focus_collision(journey: dict, subcategory: dict) -> None:
@@ -543,6 +620,9 @@ def negative_insight(rel: pd.DataFrame, group_type: str,
     name = sorted(n for n, c in counts.items() if int(c) == top_count)[0]
 
     members = negative[negative[column] == name].to_dict("records")
+    # Everything negative in scope that is *not* this group -- the baseline the
+    # focus line measures over-representation against.
+    others = negative[negative[column] != name].to_dict("records")
     return {
         "group_type": group_type,
         "group_name": str(name),
@@ -550,7 +630,8 @@ def negative_insight(rel: pd.DataFrame, group_type: str,
                             if group_type == "subcategory" else ""),
         "negative_feedback_count": len(members),
         "problem_type_ranking": _problem_type_ranking(members),
-        "recommended_focus": _recommended_focus(_problem_type_ranking(members)),
+        "recommended_focus": _recommended_focus(
+            _problem_type_ranking(members), members, others),
         "examples": _insight_examples(members),
         "supporting_feedback_ids": sorted({str(r["feedback_id"])
                                            for r in members}),
