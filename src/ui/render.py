@@ -94,9 +94,47 @@ def render_hero(meta: dict, in_scope: int, excluded: int) -> str:
     )
 
 
+def render_growth_kpi(title: str, growth: dict) -> str:
+    """One fastest-growing card: the group name over three compact stats.
+
+    The numbers are red because the card only ever reports negative feedback
+    increasing -- it is a warning, and colouring it like the neutral counts
+    beside it would bury that.
+    """
+    if not growth.get("has_data"):
+        return (f'<div class="afi-card afi-kpi afi-kpi-growth">'
+                f'<span class="label">{_esc(title)}</span>'
+                f'<span class="afi-growth-empty">No recent negative trend</span>'
+                f"</div>")
+
+    if growth.get("is_new_spike"):
+        # Nothing in the baseline: a percentage against zero is not a number.
+        change = "New spike"
+    else:
+        change = f'{growth["growth_pct"]:+.0f}%'
+
+    return (
+        f'<div class="afi-card afi-kpi afi-kpi-growth">'
+        f'<span class="label">{_esc(title)}</span>'
+        f'<span class="afi-growth-name">{_esc(growth["name"])}</span>'
+        f'<span class="afi-growth-stat">Prev 3-week avg: '
+        f'<b>{growth["previous_average"]:g}</b></span>'
+        f'<span class="afi-growth-stat">Last full week: '
+        f'<b>{growth["last_week_count"]}</b></span>'
+        f'<span class="afi-growth-stat">Growth: <b>{_esc(change)}</b></span>'
+        f"</div>"
+    )
+
+
 def render_kpis(product_actions: int, open_actions: int,
-                high_severity: int, needs_review: int,
-                total_feedback: int) -> str:
+                high_severity: int, total_feedback: int,
+                fastest_subcategory: dict, fastest_stage: dict) -> str:
+    """The top row: three counts, then the two fastest-growing cards.
+
+    "Needs human review" used to sit here. It is still computed and still
+    filterable from the rail -- only its card is gone, to make room for the
+    two growth cards without a sixth column squeezing all five.
+    """
     cards = [
         ("Product actions", product_actions,
          f"out of {total_feedback:,} feedback responses", ""),
@@ -104,8 +142,6 @@ def render_kpis(product_actions: int, open_actions: int,
          "Still backed by at least one open record", "good"),
         ("High severity", high_severity,
          "Matching records at severity 4+", "warning"),
-        ("Needs human review", needs_review,
-         "Ambiguous or low-confidence classification", ""),
     ]
     html = ['<div class="afi-kpis">']
     for label, value, detail, tone in cards:
@@ -114,6 +150,10 @@ def render_kpis(product_actions: int, open_actions: int,
             f'<span class="value">{value:,}</span>'
             f'<span class="detail {tone}">{_esc(detail)}</span></div>'
         )
+    html.append(render_growth_kpi(
+        "Fastest-growing negative subcategory", fastest_subcategory))
+    html.append(render_growth_kpi(
+        "Fastest-growing negative Journey Stage", fastest_stage))
     html.append("</div>")
     return "".join(html)
 

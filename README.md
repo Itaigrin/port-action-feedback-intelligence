@@ -87,7 +87,23 @@ A floating **Product Data Assistant** sits over both, answering ten predefined q
 
 ![Executive summary](docs/screenshots/01-executive-summary.png)
 
-*Four KPIs. Scope is stated up front — 327 collected, 182 in scope, 145 excluded — so the denominator behind every later figure is visible before any chart is.*
+*Five KPIs. Scope is stated up front — 327 collected, 182 in scope, 145 excluded — so the denominator behind every later figure is visible before any chart is. (Screenshot predates the two growth cards described below.)*
+
+**The last two cards report what is accelerating, not what is large.** *Fastest-growing negative subcategory* and *Fastest-growing negative Journey Stage* each compare the **last completed Monday–Sunday week** against the **average of the three completed weeks before it**, counting only Negative records by `created_at`, and following the dashboard filters like everything else.
+
+The week in progress is deliberately excluded. Counting a partial week against full ones would report a collapse every Monday and a surge every Sunday — an artefact of when the page was opened, not a trend.
+
+Three cases the arithmetic cannot express are handled rather than printed:
+
+| Situation | Shown |
+|---|---|
+| Baseline is 0, last week > 0 | **New spike** — a ratio against zero is not a number, and it ranks above every percentage |
+| Zero in both windows | Not surfaced — the group has not grown, it is absent |
+| No negative records in scope | *No recent negative trend* |
+
+Values are red because these cards only ever report negative feedback rising. The counts are shown next to the percentage on purpose: at this dataset's weekly volume a "spike" can be a single record, and the reader can see that for themselves rather than being handed a bare multiple.
+
+**"Needs human review" no longer has a card here.** The classification is unchanged — the rail still filters on it and the feedback cards still badge it — but a sixth column would have squeezed all five.
 
 ![Recommended product actions](docs/screenshots/02-product-actions.png)
 

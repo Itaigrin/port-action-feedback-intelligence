@@ -639,6 +639,23 @@ def negative_insight(rel: pd.DataFrame, group_type: str,
 
 
 # --- trend -----------------------------------------------------------------
+def parse_created(values) -> pd.Series:
+    """Parse `created_at` as UTC, tolerating varying ISO precision.
+
+    format="ISO8601" is load-bearing, not decoration. Left to infer, pandas
+    locks onto the shape of the first value and coerces everything that does
+    not match to NaT -- so a column mixing "…:28.553110+00:00" with
+    "…:00+00:00" silently loses every record of the second shape. They do not
+    error, they just stop existing, which is the worst way for a count to be
+    wrong.
+
+    The collected portal data is uniform today, so nothing is currently
+    mis-parsed. It stops being uniform the moment a second source lands, and
+    the schema is explicitly meant to take Slack, Zendesk and Gong.
+    """
+    return pd.to_datetime(values, errors="coerce", utc=True, format="ISO8601")
+
+
 def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
     """The rolling three-month window, and whether it had to fall back.
 
@@ -647,7 +664,7 @@ def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
     empty chart that looks like a bug -- so the window ends at the newest known
     created_at instead, and the caller labels it as such.
     """
-    created = pd.to_datetime(rel.get("created_at"), errors="coerce", utc=True)
+    created = parse_created(rel.get("created_at"))
     today = pd.Timestamp.now(tz="UTC").normalize()
     newest = created.max()
     historical = bool(
@@ -657,6 +674,93 @@ def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
     end_week = end - pd.Timedelta(days=int(end.dayofweek))
     start_week = end_week - pd.Timedelta(weeks=TREND_WEEKS - 1)
     return start_week, end_week, historical
+
+
+# The baseline for the growth cards: the three full weeks before the last one.
+FASTEST_BASELINE_WEEKS = 3
+
+
+def week_anchor(rel: pd.DataFrame) -> pd.Timestamp:
+    """The date "now" means when cutting weekly windows.
+
+    Today normally. If the newest record is older than RECENT_DATA_DAYS the
+    dataset is a snapshot, and anchoring to today would leave every weekly
+    window empty -- which reads as a broken card rather than as an absence of
+    data. Same policy and threshold as trend_window(), deliberately: two
+    different definitions of "now" on one screen is a defect waiting to be
+    reported.
+    """
+    created = parse_created(rel.get("created_at"))
+    today = pd.Timestamp.now(tz="UTC").normalize()
+    newest = created.max() if len(created) else pd.NaT
+    if pd.isna(newest) or (today - newest).days <= RECENT_DATA_DAYS:
+        return today
+    return newest.normalize()
+
+
+def full_week_bounds(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp]:
+    """Start of the last *completed* Monday-Sunday week, and of the baseline.
+
+    Returns (last_week_start, baseline_start). The week containing the anchor
+    is still running, so it is excluded: a partial week counted against full
+    ones would report a fall every Monday and a rise every Sunday.
+    """
+    anchor = week_anchor(rel)
+    this_monday = anchor - pd.Timedelta(days=int(anchor.dayofweek))
+    last_week_start = this_monday - pd.Timedelta(weeks=1)
+    baseline_start = last_week_start - pd.Timedelta(weeks=FASTEST_BASELINE_WEEKS)
+    return last_week_start, baseline_start
+
+
+def fastest_growing_negative(rel: pd.DataFrame, column: str) -> dict:
+    """The group whose negative feedback grew fastest in the last full week.
+
+    Growth compares one completed week against the average of the three
+    completed weeks before it. Only Negative records count, and only
+    `created_at` -- the date the customer raised it. Ranking by analysis
+    timestamps would say the same thing about every record and call it a trend.
+
+    A group that went from nothing to something has no finite growth rate, so
+    it is reported as a spike and ranked above every percentage rather than
+    given a fabricated number. A group that is zero in both windows is not
+    surfaced at all: it has not grown, it is simply absent.
+    """
+    empty = {"name": "", "previous_average": 0.0, "last_week_count": 0,
+             "growth_pct": None, "is_new_spike": False, "has_data": False}
+
+    negative = negative_only(rel)
+    if negative.empty or column not in negative.columns:
+        return empty
+
+    created = parse_created(negative["created_at"])
+    last_start, base_start = full_week_bounds(rel)
+
+    in_last = (created >= last_start) & (created < last_start + pd.Timedelta(weeks=1))
+    in_base = (created >= base_start) & (created < last_start)
+
+    ranked = []
+    for name in negative[column].dropna().unique():
+        rows = negative[column] == name
+        last_count = int((rows & in_last).sum())
+        base_count = int((rows & in_base).sum())
+        if not last_count and not base_count:
+            continue
+        average = base_count / FASTEST_BASELINE_WEEKS
+        spike = average == 0 and last_count > 0
+        growth = None if spike else (last_count - average) / average * 100
+        # Spikes outrank every percentage; then growth, then volume, then name
+        # so the same records always name the same winner.
+        ranked.append((0 if spike else 1, -(growth or 0.0), -last_count,
+                       str(name), average, last_count, spike, growth))
+
+    if not ranked:
+        return empty
+
+    ranked.sort(key=lambda r: r[:4])
+    _, _, _, name, average, last_count, spike, growth = ranked[0]
+    return {"name": name, "previous_average": round(average, 2),
+            "last_week_count": last_count, "growth_pct": growth,
+            "is_new_spike": spike, "has_data": True}
 
 
 def negative_trend(rel: pd.DataFrame) -> dict:
@@ -674,8 +778,7 @@ def negative_trend(rel: pd.DataFrame) -> dict:
     series: list[dict] = []
     if not negative.empty:
         frame = negative.copy()
-        frame["_created"] = pd.to_datetime(frame["created_at"],
-                                           errors="coerce", utc=True)
+        frame["_created"] = parse_created(frame["created_at"])
         frame = frame.dropna(subset=["_created"])
         frame["_week"] = (frame["_created"].dt.normalize()
                           - pd.to_timedelta(frame["_created"].dt.dayofweek, unit="D"))

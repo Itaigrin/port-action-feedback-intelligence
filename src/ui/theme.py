@@ -154,13 +154,17 @@ body {{ overflow-x: hidden; }}
 .afi-run-meta b {{ color: var(--ink); }}
 
 /* -------------------------------------------------------------------- KPI */
+/* minmax(0, 1fr), not 1fr: a grid track's default min-width is auto, so a
+   long unbroken subcategory name would widen its own column and push the row
+   past the page instead of wrapping inside the card. */
 .afi-kpis {{
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 14px; margin-bottom: 20px;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px; margin-bottom: 20px; align-items: stretch;
 }}
 .afi-kpi {{
   padding: 16px; box-shadow: none; background: rgba(255,255,255,.78);
   border: 1px solid var(--line); border-radius: 14px;
+  min-width: 0; overflow-wrap: anywhere;
 }}
 /* The label naming each card reads as a heading, so it sits above the 12px
    used for the supporting detail underneath rather than level with it. */
@@ -172,6 +176,25 @@ body {{ overflow-x: hidden; }}
 .afi-kpi .detail {{ font-size: 12px; color: var(--muted); }}
 .afi-kpi .detail.good {{ color: var(--green); }}
 .afi-kpi .detail.warning {{ color: var(--amber); }}
+
+/* The two fastest-growing cards. A column so the stats stack under the name
+   and the card grows downward rather than sideways; the row's align-items
+   already stretches all five to a common height. Type is a step down from the
+   counting cards -- these carry four facts where those carry one. */
+.afi-kpi-growth {{ display: flex; flex-direction: column; }}
+.afi-growth-name {{
+  display: block; font-size: 15px; font-weight: 750; letter-spacing: -.02em;
+  margin: 5px 0 7px; line-height: 1.25; color: var(--ink);
+  /* Long names wrap instead of clipping or spilling past the border. */
+  overflow-wrap: anywhere; hyphens: auto;
+}}
+.afi-growth-stat {{
+  display: block; font-size: 11.5px; color: var(--muted); line-height: 1.5;
+}}
+.afi-growth-stat b {{ color: var(--red); font-weight: 750; }}
+.afi-growth-empty {{
+  display: block; margin-top: 6px; font-size: 12px; color: var(--muted);
+}}
 
 /* ----------------------------------------------------------------- badges */
 .afi-badge {{
@@ -711,7 +734,7 @@ header[data-testid="stHeader"] {{ display: none !important; }}
     width: 100% !important; flex: 1 1 100% !important; min-width: 100% !important;
     position: static !important;
   }}
-  .afi-kpis {{ grid-template-columns: repeat(2, 1fr); }}
+  .afi-kpis {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
   .afi-content-grid {{ grid-template-columns: 1fr; }}
   .afi-insight-grid {{ grid-template-columns: 1fr; }}
 }}
@@ -720,7 +743,7 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   .afi-hero {{ display: block; }}
   .afi-section-head {{ display: block; }}
   .afi-run-meta {{ margin-top: 12px; }}
-  .afi-kpis {{ grid-template-columns: 1fr; }}
+  .afi-kpis {{ grid-template-columns: minmax(0, 1fr); }}
   .afi-insight-grid {{ grid-template-columns: 1fr; }}
   .afi-comparison {{ grid-template-columns: 1fr; }}
   .afi-search {{ margin-top: 10px; }}

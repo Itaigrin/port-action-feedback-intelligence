@@ -100,25 +100,90 @@ def test_scope_filter_is_not_rendered():
     assert 'df[df["is_relevant"]]' in APP
 
 
-def test_exactly_four_kpis_with_approved_labels():
+def _growth(**overrides) -> dict:
+    base = {"name": "RBAC & dynamic permissions", "previous_average": 0.33,
+            "last_week_count": 4, "growth_pct": 1100.0,
+            "is_new_spike": False, "has_data": True}
+    base.update(overrides)
+    return base
+
+
+def test_exactly_five_kpis_with_approved_labels():
     from src.ui.render import render_kpis
 
-    html = render_kpis(54, 37, 23, 26, total_feedback=185)
-    assert html.count('class="afi-card afi-kpi"') == 4
-    for label in ("Product actions", "Open product actions",
-                  "High severity", "Needs human review"):
+    html = render_kpis(54, 37, 23, total_feedback=185,
+                       fastest_subcategory=_growth(),
+                       fastest_stage=_growth(name="Backend & invocation setup"))
+    assert html.count('class="afi-card afi-kpi') == 5
+    for label in ("Product actions", "Open product actions", "High severity",
+                  "Fastest-growing negative subcategory",
+                  "Fastest-growing negative Journey Stage"):
         assert f">{label}<" in html
     assert "out of 185 feedback responses" in html
+
+
+def test_needs_human_review_is_gone_from_the_kpi_row():
+    """Its card made way for the two growth cards.
+
+    The classification itself stays -- the rail still filters on it and the
+    feedback cards still badge it -- so this checks the row, not the concept.
+    """
+    from src.ui.render import render_kpis
+
+    html = render_kpis(1, 1, 1, total_feedback=1,
+                       fastest_subcategory=_growth(), fastest_stage=_growth())
+    assert "Needs human review" not in html
+    assert "needs_human_review" in APP, "the filter must still exist"
 
 
 def test_no_legacy_kpi_rendered():
     from src.ui.render import render_kpis
 
-    html = render_kpis(1, 1, 1, 1, total_feedback=1)
+    html = render_kpis(1, 1, 1, total_feedback=1,
+                       fastest_subcategory=_growth(), fastest_stage=_growth())
     for banned in ("Total votes", "Relevant feedback", "Average confidence",
                    "Completed demand", "Total sources", "Matching feedback",
                    "Feedback records analysed", "In scope for Action Configuration"):
         assert banned not in html, f"legacy KPI rendered: {banned}"
+
+
+def test_growth_cards_show_all_three_stats_and_the_name():
+    from src.ui.render import render_growth_kpi
+
+    html = render_growth_kpi("T", _growth())
+    assert "RBAC &amp; dynamic permissions" in html, "names must be escaped"
+    assert "Prev 3-week avg: <b>0.33</b>" in html
+    assert "Last full week: <b>4</b>" in html
+    assert "Growth: <b>+1100%</b>" in html
+
+
+def test_a_zero_baseline_reads_as_a_spike_not_a_percentage():
+    from src.ui.render import render_growth_kpi
+
+    html = render_growth_kpi("T", _growth(previous_average=0.0, growth_pct=None,
+                                          is_new_spike=True, last_week_count=1))
+    assert "New spike" in html
+    assert "%" not in html, "a ratio against zero must never print as one"
+
+
+def test_growth_card_has_a_compact_empty_state():
+    from src.ui.render import render_growth_kpi
+
+    html = render_growth_kpi("T", {"has_data": False})
+    assert "No recent negative trend" in html
+    assert "Prev 3-week avg" not in html
+
+
+def test_growth_values_are_red_and_the_row_cannot_overflow():
+    """Red because the card only ever reports negative feedback rising.
+
+    minmax(0, 1fr) is load-bearing: a grid track defaults to min-width auto,
+    so one long unbroken subcategory name would widen its column and push the
+    whole row past the page instead of wrapping inside its card.
+    """
+    assert ".afi-growth-stat b" in THEME and "color: var(--red)" in THEME
+    assert "repeat(5, minmax(0, 1fr))" in THEME
+    assert "overflow-wrap: anywhere" in THEME
 
 
 def test_chart_titles_are_exact():

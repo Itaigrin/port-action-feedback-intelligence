@@ -33,6 +33,7 @@ from src.analysis.aggregate import (
     HIGH_SEVERITY,
     RANK_KEYS,
     evidence_for_action,
+    fastest_growing_negative,
     negative_trend,
     paired_insights,
     product_actions,
@@ -623,8 +624,13 @@ def render_dashboard() -> None:
                                                          len(actions))),
                 open_actions=len(actions),
                 high_severity=int(view["is_high_severity"].sum()),
-                needs_review=int(view["needs_human_review"].sum()),
                 total_feedback=len(view),
+                # Both growth cards read the filtered view, so they answer
+                # "fastest-growing in what I am looking at" rather than
+                # contradicting the filters set beside them.
+                fastest_subcategory=fastest_growing_negative(
+                    view, "primary_taxonomy_subcategory"),
+                fastest_stage=fastest_growing_negative(view, "journey_stage"),
             ),
             unsafe_allow_html=True,
         )

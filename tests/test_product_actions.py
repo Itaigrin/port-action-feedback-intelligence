@@ -426,6 +426,121 @@ def test_trend_fills_missing_weeks_with_zero():
         assert entry["points"].count(0) == TREND_WEEKS - 1
 
 
+# --- fastest-growing negative cards -----------------------------------------
+def _dated(stage: str, when: str, n: int, start: int = 0) -> list[dict]:
+    """n negative records for one stage, all created on the same day."""
+    return [_record(feedback_id=f"g{start + i}", journey_stage=stage,
+                    feedback_polarity="Negative", created_at=when)
+            for i in range(n)]
+
+
+def _weeks_from_now() -> tuple[str, str, str]:
+    """(inside last full week, inside baseline, inside the running week).
+
+    Anchored off today so the test moves with the calendar rather than
+    pinning a date that would quietly stop exercising the boundary.
+    """
+    today = pd.Timestamp.now(tz="UTC").normalize()
+    this_monday = today - pd.Timedelta(days=int(today.dayofweek))
+    last_week = this_monday - pd.Timedelta(weeks=1)
+    baseline = last_week - pd.Timedelta(weeks=2)
+    return (last_week.isoformat(), baseline.isoformat(), this_monday.isoformat())
+
+
+def test_the_running_week_is_never_counted():
+    """Counting a partial week against full ones reports a fall every Monday."""
+    from src.analysis.aggregate import fastest_growing_negative
+
+    last, base, running = _weeks_from_now()
+    frame = pd.DataFrame(_dated("A", base, 3) + _dated("A", running, 50, 100))
+    out = fastest_growing_negative(frame, "journey_stage")
+    assert out["last_week_count"] == 0, "the in-progress week leaked in"
+
+
+def test_growth_is_last_full_week_against_the_three_week_average():
+    from src.analysis.aggregate import fastest_growing_negative
+
+    last, base, _ = _weeks_from_now()
+    # 3 records across the baseline -> average 1.0; 4 in the last full week.
+    frame = pd.DataFrame(_dated("A", base, 3) + _dated("A", last, 4, 100))
+    out = fastest_growing_negative(frame, "journey_stage")
+    assert out["name"] == "A"
+    assert out["previous_average"] == pytest.approx(1.0)
+    assert out["last_week_count"] == 4
+    assert out["growth_pct"] == pytest.approx(300.0)
+    assert out["is_new_spike"] is False
+
+
+def test_a_zero_baseline_is_a_spike_and_outranks_any_percentage():
+    """A ratio against zero is not a number, and must not be invented."""
+    from src.analysis.aggregate import fastest_growing_negative
+
+    last, base, _ = _weeks_from_now()
+    frame = pd.DataFrame(
+        # B grows hugely but from a real baseline; A comes from nothing.
+        _dated("A", last, 1)
+        + _dated("B", base, 3, 100) + _dated("B", last, 40, 200))
+    out = fastest_growing_negative(frame, "journey_stage")
+    assert out["name"] == "A"
+    assert out["is_new_spike"] is True
+    assert out["growth_pct"] is None
+
+
+def test_a_group_absent_from_both_windows_is_never_the_winner():
+    from src.analysis.aggregate import fastest_growing_negative
+
+    last, base, _ = _weeks_from_now()
+    old = (pd.Timestamp.now(tz="UTC") - pd.Timedelta(weeks=40)).isoformat()
+    frame = pd.DataFrame(_dated("Stale", old, 5) + _dated("A", last, 1, 100))
+    out = fastest_growing_negative(frame, "journey_stage")
+    assert out["name"] == "A"
+
+
+def test_no_negative_records_reports_no_data_rather_than_a_zero():
+    from src.analysis.aggregate import fastest_growing_negative
+
+    frame = pd.DataFrame([_record(feedback_polarity="Positive")])
+    assert fastest_growing_negative(frame, "journey_stage")["has_data"] is False
+
+
+def test_positive_records_never_count_towards_growth():
+    from src.analysis.aggregate import fastest_growing_negative
+
+    last, base, _ = _weeks_from_now()
+    frame = pd.DataFrame(
+        _dated("A", last, 1)
+        + [_record(feedback_id=f"p{i}", journey_stage="B",
+                   feedback_polarity="Positive", created_at=last)
+           for i in range(40)])
+    out = fastest_growing_negative(frame, "journey_stage")
+    assert out["name"] == "A", "a positive surge was ranked as negative growth"
+
+
+def test_mixed_iso_precision_does_not_silently_drop_records():
+    """Records must not vanish because one timestamp lacks microseconds.
+
+    Left to infer a format, pandas locks onto the shape of the first value and
+    coerces every other shape to NaT -- no error, the rows just stop counting.
+    The portal data is uniform today; the schema is meant to take Slack,
+    Zendesk and Gong too, and this is how that would first go wrong.
+    """
+    from src.analysis.aggregate import parse_created
+
+    parsed = parse_created(pd.Series(["2026-07-20T00:00:00.123456+00:00",
+                                      "2026-07-21T00:00:00+00:00"]))
+    assert parsed.notna().all(), "a valid ISO timestamp was coerced to NaT"
+
+
+def test_the_winner_is_stable_when_groups_tie():
+    from src.analysis.aggregate import fastest_growing_negative
+
+    last, _, _ = _weeks_from_now()
+    frame = pd.DataFrame(_dated("Zebra", last, 1) + _dated("Alpha", last, 1, 100))
+    names = {fastest_growing_negative(frame, "journey_stage")["name"]
+             for _ in range(5)}
+    assert names == {"Alpha"}, "ties must resolve the same way every run"
+
+
 # --- what the focus line points at ------------------------------------------
 def _mix(stage: str, types: dict[str, int], start: int = 0) -> list[dict]:
     """Records for one stage with a given problem-type mix."""
