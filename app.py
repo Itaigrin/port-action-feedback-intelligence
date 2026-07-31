@@ -363,55 +363,24 @@ if (!doc.__afiClickBound) {
 
   // The severity range proxies to one hidden button per level.
   //
-  // A commit click reruns the script, and the rerun replaces this <input>
-  // with a freshly rendered one -- st.markdown() re-emits the whole element,
-  // it does not patch the existing DOM node. Committing on every 'input'
-  // (debounced or not) meant that a drag slower than the debounce -- any
-  // ordinary human drag -- got its node swapped out from under the pointer
-  // while the mouse button was still down. The browser's implicit pointer
-  // capture was on the node that just got removed, so the thumb stopped
-  // following the cursor for the rest of that gesture. Arrow keys never hold
-  // the pointer down, so they never hit this and always looked fine.
-  //
-  // The fix is to never commit while the pointer is down. The pill still
-  // updates live on every 'input' (pure client-side, no rerun), so dragging
-  // tracks the cursor the whole way; the commit itself waits for the
-  // pointer to come back up. Keyboard stepping has no pointerdown to wait
-  // for, so it keeps the debounce -- a range inside injected markup does not
-  // deliver 'change' to this listener, only 'input', so the debounce is
-  // still what stands in for "the value has settled" there.
-  let sevDragSlider = null;
-
-  doc.addEventListener('pointerdown', (event) => {
-    const slider = event.target.closest('[data-afi-sev]');
-    if (slider) sevDragSlider = slider;
-  }, true);
-
-  const commitSeverity = (slider) => {
-    const button = doc.querySelector(
-      '.st-key-' + slider.dataset.afiSev + '_' + slider.value + ' button');
-    if (button) button.click();
-  };
-
+  // The commit is debounced on 'input' rather than fired on 'change'. A range
+  // inside injected markup does not deliver 'change' to this listener -- only
+  // 'input' arrives -- so the debounce is what stands in for "the value has
+  // settled": the pill tracks the handle immediately, and the app reruns once
+  // the user stops moving it.
   doc.addEventListener('input', (event) => {
     const slider = event.target.closest('[data-afi-sev]');
     if (!slider) return;
     const pill = slider.parentElement.querySelector('.afi-range-value');
     if (pill) pill.textContent = slider.value;
-    if (sevDragSlider === slider) return;
+    const level = slider.value;
     clearTimeout(doc.__afiSevTimer);
-    doc.__afiSevTimer = setTimeout(() => commitSeverity(slider), 300);
+    doc.__afiSevTimer = setTimeout(() => {
+      const button = doc.querySelector(
+        '.st-key-' + slider.dataset.afiSev + '_' + level + ' button');
+      if (button) button.click();
+    }, 300);
   }, true);
-
-  const endSevDrag = () => {
-    if (!sevDragSlider) return;
-    const slider = sevDragSlider;
-    sevDragSlider = null;
-    clearTimeout(doc.__afiSevTimer);
-    commitSeverity(slider);
-  };
-  doc.addEventListener('pointerup', endSevDrag, true);
-  doc.addEventListener('pointercancel', endSevDrag, true);
 }
 </script>
 """
