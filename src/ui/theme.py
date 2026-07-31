@@ -608,9 +608,11 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   display: block; margin: 16px 0 6px; color: #475569;
   font-weight: 650; font-size: 12px;
 }}
+/* Pulled up against the track: the ticks label the steps, so they have to
+   read as part of the control rather than as a caption under it. */
 .afi-range-row {{
   display: flex; justify-content: space-between; align-items: center;
-  margin-top: 6px; color: var(--muted); font-size: 12px;
+  margin-top: -4px; color: var(--muted); font-size: 12px;
 }}
 .afi-sev input[type="range"] {{
   width: 100%; accent-color: var(--blue); margin: 2px 0 0; cursor: pointer;
