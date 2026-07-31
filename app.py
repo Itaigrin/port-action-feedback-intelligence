@@ -414,14 +414,22 @@ def _focus_on(action_id: str) -> None:
     drill-down show every record in it rather than the ones supporting the
     action the reader clicked.
 
-    Not a toggle. The button's job is to take the reader to the evidence, so
-    pressing it again should land them there again rather than silently
-    clearing the selection. "Back to filtered view" is what clears it.
+    A toggle: pressing the already-selected action clears the selection and
+    puts the section back to the filtered view. The button labels itself
+    "Showing its feedback below" once selected, so it reads as a state that
+    can be turned off, and "Back to filtered view" is no longer the only way
+    out of a selection.
 
-    The nonce is bumped on *every* press, including a repeat press on the
-    already-selected action. It is what makes the scroll fire again -- see
-    the scroll block in render_dashboard.
+    The nonce is bumped when a selection is *made*, which is what makes the
+    scroll fire again on a repeat press of a different action -- see the
+    scroll block in render_dashboard. Clearing does not bump it: there is
+    nothing to scroll to, and the reader is already looking at the card they
+    just pressed.
     """
+    if st.session_state.get("afi_focus") == action_id:
+        st.session_state["afi_focus"] = None
+        return
+
     st.session_state["afi_focus"] = action_id
     st.session_state["afi_scroll_nonce"] = (
         st.session_state.get("afi_scroll_nonce", 0) + 1)

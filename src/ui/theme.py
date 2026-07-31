@@ -235,11 +235,19 @@ body {{ overflow-x: hidden; }}
 .afi-action-btn:hover {{
   border-color: #9fb8df; background: #f1f6ff; color: #234f91;
 }}
-/* The card whose records the feedback section is currently showing. */
-.afi-action-btn.is-selected {{
+/* The card whose records the feedback section is currently showing.
+   :visited is spelled out rather than left to the base rule below. The button
+   is an <a href="#">, so the browser counts it as visited the moment the page
+   is loaded, and `.afi-action-btn:visited` further down is the same
+   specificity as `.afi-action-btn.is-selected` -- being later in the file, it
+   won the tie and painted the label dark blue on the blue fill. Naming
+   :visited here raises this to three classes, so it wins wherever it sits. */
+.afi-action-btn.is-selected,
+.afi-action-btn.is-selected:visited {{
   background: var(--blue); border-color: var(--blue); color: #fff !important;
 }}
-.afi-action-btn.is-selected:hover {{
+.afi-action-btn.is-selected:hover,
+.afi-action-btn.is-selected:visited:hover {{
   background: #1d54c9; border-color: #1d54c9; color: #fff !important;
 }}
 

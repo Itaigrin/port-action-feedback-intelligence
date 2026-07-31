@@ -645,7 +645,8 @@ def test_scroll_fires_on_every_selection_not_just_the_first():
     """
     focus_fn = APP[APP.index("def _focus_on("):APP.index("def _clear_focus(")]
     assert 'st.session_state["afi_scroll_nonce"]' in focus_fn, (
-        "every press must bump the nonce, including a repeat press")
+        "selecting an action must bump the nonce, including a press that "
+        "moves the selection from one action to another")
 
     # The nonce must reach the rendered markup, or it changes nothing.
     block = APP[APP.index("nonce = st.session_state.get"):]
@@ -655,6 +656,24 @@ def test_scroll_fires_on_every_selection_not_just_the_first():
 
     # And it must be read back with a default, so a first render cannot crash.
     assert 'st.session_state.get("afi_scroll_nonce", 0)' in APP
+
+
+def test_pressing_the_selected_action_again_clears_the_selection():
+    """The button is a toggle, and its selected state must be readable.
+
+    Both halves matter. Clearing has to happen before the assignment, or the
+    early return can never be reached. And the selected label is painted on a
+    blue fill, so it must stay white through :visited -- the button is an
+    <a href="#">, which the browser treats as visited immediately, and the
+    base .afi-action-btn:visited rule is otherwise specific enough to win.
+    """
+    focus_fn = APP[APP.index("def _focus_on("):APP.index("def _clear_focus(")]
+    assert 'st.session_state.get("afi_focus") == action_id' in focus_fn
+    assert focus_fn.index('st.session_state["afi_focus"] = None') < focus_fn.index(
+        'st.session_state["afi_focus"] = action_id'), "the toggle must return early"
+
+    assert ".afi-action-btn.is-selected:visited" in THEME, (
+        "the selected label must survive the :visited rule")
 
 
 def test_app_does_not_read_the_aggregates_artifact_at_runtime():
