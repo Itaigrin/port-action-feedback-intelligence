@@ -713,20 +713,28 @@ def full_week_bounds(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp]:
 
 
 def fastest_growing_negative(rel: pd.DataFrame, column: str) -> dict:
-    """The group whose negative feedback grew fastest in the last full week.
+    """The group with the largest absolute rise in negative feedback.
 
-    Growth compares one completed week against the average of the three
-    completed weeks before it. Only Negative records count, and only
-    `created_at` -- the date the customer raised it. Ranking by analysis
-    timestamps would say the same thing about every record and call it a trend.
+    absolute_increase = last_full_week_count - previous_3_week_average
 
-    A group that went from nothing to something has no finite growth rate, so
-    it is reported as a spike and ranked above every percentage rather than
-    given a fabricated number. A group that is zero in both windows is not
-    surfaced at all: it has not grown, it is simply absent.
+    Ranked by that difference, not by percentage. A percentage lift treats a
+    group going from 1 record to 4 (a real but tiny signal) as a bigger story
+    than one going from 20 to 30 -- ten more real complaints, reported as a
+    smaller number because the group started larger. Absolute increase is
+    the one a reader would actually act on first.
+
+    Only Negative records count, and only `created_at` -- the date the
+    customer raised it. Ranking by analysis timestamps would say the same
+    thing about every record and call it a trend.
+
+    Growth percentage is still computed and returned when the baseline is
+    above zero, but only as context on the card -- it never decides the
+    ranking. A group with no positive increase is not surfaced: a flat or
+    falling count is not "growing feedback" by any reading of the phrase.
     """
     empty = {"name": "", "previous_average": 0.0, "last_week_count": 0,
-             "growth_pct": None, "is_new_spike": False, "has_data": False}
+             "absolute_increase": 0.0, "growth_pct": None,
+             "is_new_spike": False, "has_data": False}
 
     negative = negative_only(rel)
     if negative.empty or column not in negative.columns:
@@ -743,24 +751,26 @@ def fastest_growing_negative(rel: pd.DataFrame, column: str) -> dict:
         rows = negative[column] == name
         last_count = int((rows & in_last).sum())
         base_count = int((rows & in_base).sum())
-        if not last_count and not base_count:
-            continue
         average = base_count / FASTEST_BASELINE_WEEKS
-        spike = average == 0 and last_count > 0
+        increase = last_count - average
+        if increase <= 0:
+            continue
+        spike = average == 0
         growth = None if spike else (last_count - average) / average * 100
-        # Spikes outrank every percentage; then growth, then volume, then name
+        # Largest increase first; then largest last-week volume; then name,
         # so the same records always name the same winner.
-        ranked.append((0 if spike else 1, -(growth or 0.0), -last_count,
-                       str(name), average, last_count, spike, growth))
+        ranked.append((-increase, -last_count, str(name),
+                       average, last_count, increase, spike, growth))
 
     if not ranked:
         return empty
 
-    ranked.sort(key=lambda r: r[:4])
-    _, _, _, name, average, last_count, spike, growth = ranked[0]
+    ranked.sort(key=lambda r: r[:3])
+    _, _, name, average, last_count, increase, spike, growth = ranked[0]
     return {"name": name, "previous_average": round(average, 2),
-            "last_week_count": last_count, "growth_pct": growth,
-            "is_new_spike": spike, "has_data": True}
+            "last_week_count": last_count,
+            "absolute_increase": round(increase, 2),
+            "growth_pct": growth, "is_new_spike": spike, "has_data": True}
 
 
 def negative_trend(rel: pd.DataFrame) -> dict:

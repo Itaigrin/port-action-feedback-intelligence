@@ -467,23 +467,55 @@ def test_growth_is_last_full_week_against_the_three_week_average():
     assert out["name"] == "A"
     assert out["previous_average"] == pytest.approx(1.0)
     assert out["last_week_count"] == 4
+    assert out["absolute_increase"] == pytest.approx(3.0)
     assert out["growth_pct"] == pytest.approx(300.0)
     assert out["is_new_spike"] is False
 
 
-def test_a_zero_baseline_is_a_spike_and_outranks_any_percentage():
-    """A ratio against zero is not a number, and must not be invented."""
+def test_ranking_is_by_absolute_increase_not_percentage_lift():
+    """The whole point of this change: percentage rewards a small group for
+    being small. A -> a spike from nothing, huge percentage, tiny in real
+    terms. B -> a real baseline that grew by far more in absolute terms but a
+    smaller percentage. B must win.
+    """
     from src.analysis.aggregate import fastest_growing_negative
 
     last, base, _ = _weeks_from_now()
     frame = pd.DataFrame(
-        # B grows hugely but from a real baseline; A comes from nothing.
-        _dated("A", last, 1)
-        + _dated("B", base, 3, 100) + _dated("B", last, 40, 200))
+        _dated("A", last, 1, 0)                              # 0 -> 1: spike
+        + _dated("B", base, 60, 100) + _dated("B", last, 40, 300))  # 20 -> 40
+    out = fastest_growing_negative(frame, "journey_stage")
+    assert out["name"] == "B"
+    assert out["absolute_increase"] == pytest.approx(20.0)
+    assert out["growth_pct"] == pytest.approx(100.0)
+
+
+def test_a_zero_baseline_is_still_reported_as_a_spike():
+    """Ranking no longer special-cases a spike, but the display still must:
+    a ratio against zero is not a number, and must not be invented."""
+    from src.analysis.aggregate import fastest_growing_negative
+
+    last, _, _ = _weeks_from_now()
+    frame = pd.DataFrame(_dated("A", last, 1))
     out = fastest_growing_negative(frame, "journey_stage")
     assert out["name"] == "A"
     assert out["is_new_spike"] is True
     assert out["growth_pct"] is None
+    assert out["absolute_increase"] == pytest.approx(1.0)
+
+
+def test_a_declining_group_is_never_surfaced():
+    """Not just the (0, 0) case -- any non-positive increase is excluded.
+
+    A flat or falling count is not "growing feedback" by any reading of the
+    phrase, whatever the earlier lift-based logic would have called it.
+    """
+    from src.analysis.aggregate import fastest_growing_negative
+
+    last, base, _ = _weeks_from_now()
+    frame = pd.DataFrame(_dated("Falling", base, 6) + _dated("Falling", last, 1, 100))
+    out = fastest_growing_negative(frame, "journey_stage")
+    assert out["has_data"] is False
 
 
 def test_a_group_absent_from_both_windows_is_never_the_winner():

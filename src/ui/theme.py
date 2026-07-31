@@ -154,17 +154,15 @@ body {{ overflow-x: hidden; }}
 .afi-run-meta b {{ color: var(--ink); }}
 
 /* -------------------------------------------------------------------- KPI */
-/* minmax(0, 1fr), not 1fr: a grid track's default min-width is auto, so a
-   long unbroken subcategory name would widen its own column and push the row
-   past the page instead of wrapping inside the card. */
+/* The original four-card row. Unchanged since before the trend cards existed
+   -- they now live in their own row, .afi-trend-row, below this one. */
 .afi-kpis {{
-  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px; margin-bottom: 20px; align-items: stretch;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 14px; margin-bottom: 20px;
 }}
 .afi-kpi {{
   padding: 16px; box-shadow: none; background: rgba(255,255,255,.78);
   border: 1px solid var(--line); border-radius: 14px;
-  min-width: 0; overflow-wrap: anywhere;
 }}
 /* The label naming each card reads as a heading, so it sits above the 12px
    used for the supporting detail underneath rather than level with it. */
@@ -177,11 +175,25 @@ body {{ overflow-x: hidden; }}
 .afi-kpi .detail.good {{ color: var(--green); }}
 .afi-kpi .detail.warning {{ color: var(--amber); }}
 
-/* The two fastest-growing cards. A column so the stats stack under the name
-   and the card grows downward rather than sideways; the row's align-items
-   already stretches all five to a common height. Type is a step down from the
-   counting cards -- these carry four facts where those carry one. */
-.afi-kpi-growth {{ display: flex; flex-direction: column; }}
+/* The two largest-increase cards, in their own row below the four KPIs.
+   Two columns whose combined width, gap included, equals the row above:
+   two of four equal tracks plus the gap between them is exactly what two
+   equal tracks in a row of the same total width work out to, so no
+   fractional math is needed to make the rows line up.
+   minmax(0, 1fr), not 1fr: a grid track's default min-width is auto, so one
+   long unbroken subcategory name would widen its own column and push the
+   row past the page instead of wrapping inside the card. */
+.afi-trend-row {{
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px; margin-bottom: 20px; align-items: stretch;
+}}
+.afi-kpi-growth {{
+  display: flex; flex-direction: column;
+  padding: 16px; box-shadow: none; background: rgba(255,255,255,.78);
+  border: 1px solid var(--line); border-radius: 14px;
+  min-width: 0; overflow-wrap: anywhere;
+}}
+.afi-kpi-growth .label {{ color: var(--muted); font-size: 13.5px; font-weight: 600; }}
 .afi-growth-name {{
   display: block; font-size: 15px; font-weight: 750; letter-spacing: -.02em;
   margin: 5px 0 7px; line-height: 1.25; color: var(--ink);
@@ -191,7 +203,12 @@ body {{ overflow-x: hidden; }}
 .afi-growth-stat {{
   display: block; font-size: 11.5px; color: var(--muted); line-height: 1.5;
 }}
-.afi-growth-stat b {{ color: var(--red); font-weight: 750; }}
+/* The increase is the number the ranking is built on; growth % is only ever
+   context beside it, so it stays muted and unbolded even inside a red row. */
+.afi-growth-increase {{ color: var(--red); font-weight: 750; }}
+.afi-growth-pct {{
+  color: var(--muted); font-weight: 600; margin-left: 4px; font-size: 11px;
+}}
 .afi-growth-empty {{
   display: block; margin-top: 6px; font-size: 12px; color: var(--muted);
 }}
@@ -734,7 +751,8 @@ header[data-testid="stHeader"] {{ display: none !important; }}
     width: 100% !important; flex: 1 1 100% !important; min-width: 100% !important;
     position: static !important;
   }}
-  .afi-kpis {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+  .afi-kpis {{ grid-template-columns: repeat(2, 1fr); }}
+  .afi-trend-row {{ grid-template-columns: minmax(0, 1fr); }}
   .afi-content-grid {{ grid-template-columns: 1fr; }}
   .afi-insight-grid {{ grid-template-columns: 1fr; }}
 }}
@@ -743,7 +761,8 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   .afi-hero {{ display: block; }}
   .afi-section-head {{ display: block; }}
   .afi-run-meta {{ margin-top: 12px; }}
-  .afi-kpis {{ grid-template-columns: minmax(0, 1fr); }}
+  .afi-kpis {{ grid-template-columns: 1fr; }}
+  .afi-trend-row {{ grid-template-columns: minmax(0, 1fr); }}
   .afi-insight-grid {{ grid-template-columns: 1fr; }}
   .afi-comparison {{ grid-template-columns: 1fr; }}
   .afi-search {{ margin-top: 10px; }}

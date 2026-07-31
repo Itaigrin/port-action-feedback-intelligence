@@ -94,47 +94,10 @@ def render_hero(meta: dict, in_scope: int, excluded: int) -> str:
     )
 
 
-def render_growth_kpi(title: str, growth: dict) -> str:
-    """One fastest-growing card: the group name over three compact stats.
-
-    The numbers are red because the card only ever reports negative feedback
-    increasing -- it is a warning, and colouring it like the neutral counts
-    beside it would bury that.
-    """
-    if not growth.get("has_data"):
-        return (f'<div class="afi-card afi-kpi afi-kpi-growth">'
-                f'<span class="label">{_esc(title)}</span>'
-                f'<span class="afi-growth-empty">No recent negative trend</span>'
-                f"</div>")
-
-    if growth.get("is_new_spike"):
-        # Nothing in the baseline: a percentage against zero is not a number.
-        change = "New spike"
-    else:
-        change = f'{growth["growth_pct"]:+.0f}%'
-
-    return (
-        f'<div class="afi-card afi-kpi afi-kpi-growth">'
-        f'<span class="label">{_esc(title)}</span>'
-        f'<span class="afi-growth-name">{_esc(growth["name"])}</span>'
-        f'<span class="afi-growth-stat">Prev 3-week avg: '
-        f'<b>{growth["previous_average"]:g}</b></span>'
-        f'<span class="afi-growth-stat">Last full week: '
-        f'<b>{growth["last_week_count"]}</b></span>'
-        f'<span class="afi-growth-stat">Growth: <b>{_esc(change)}</b></span>'
-        f"</div>"
-    )
-
-
 def render_kpis(product_actions: int, open_actions: int,
-                high_severity: int, total_feedback: int,
-                fastest_subcategory: dict, fastest_stage: dict) -> str:
-    """The top row: three counts, then the two fastest-growing cards.
-
-    "Needs human review" used to sit here. It is still computed and still
-    filterable from the rail -- only its card is gone, to make room for the
-    two growth cards without a sixth column squeezing all five.
-    """
+                high_severity: int, needs_review: int,
+                total_feedback: int) -> str:
+    """The original four-card top row, unchanged by the trend cards below it."""
     cards = [
         ("Product actions", product_actions,
          f"out of {total_feedback:,} feedback responses", ""),
@@ -142,6 +105,8 @@ def render_kpis(product_actions: int, open_actions: int,
          "Still backed by at least one open record", "good"),
         ("High severity", high_severity,
          "Matching records at severity 4+", "warning"),
+        ("Needs human review", needs_review,
+         "Ambiguous or low-confidence classification", ""),
     ]
     html = ['<div class="afi-kpis">']
     for label, value, detail, tone in cards:
@@ -150,12 +115,62 @@ def render_kpis(product_actions: int, open_actions: int,
             f'<span class="value">{value:,}</span>'
             f'<span class="detail {tone}">{_esc(detail)}</span></div>'
         )
-    html.append(render_growth_kpi(
-        "Fastest-growing negative subcategory", fastest_subcategory))
-    html.append(render_growth_kpi(
-        "Fastest-growing negative Journey Stage", fastest_stage))
     html.append("</div>")
     return "".join(html)
+
+
+def render_growth_kpi(title: str, growth: dict) -> str:
+    """One largest-increase card: the group name over its four stats.
+
+    The absolute increase is the number in red -- it is what decided the
+    ranking. Growth percentage is present only as context, shown lighter and
+    only when the baseline is above zero; a percentage against a zero
+    baseline is not a number and is never printed as one.
+    """
+    if not growth.get("has_data"):
+        return (f'<div class="afi-card afi-kpi-growth">'
+                f'<span class="label">{_esc(title)}</span>'
+                f'<span class="afi-growth-empty">No recent negative trend</span>'
+                f"</div>")
+
+    increase = f'+{growth["absolute_increase"]:g} records'
+    if growth.get("is_new_spike"):
+        headline = f"New spike · {increase}"
+        pct = ""
+    else:
+        headline = increase
+        pct = (f'<span class="afi-growth-pct">({growth["growth_pct"]:+.0f}%)</span>'
+               if growth.get("growth_pct") is not None else "")
+
+    return (
+        f'<div class="afi-card afi-kpi-growth">'
+        f'<span class="label">{_esc(title)}</span>'
+        f'<span class="afi-growth-name">{_esc(growth["name"])}</span>'
+        f'<span class="afi-growth-stat">Prev 3-week avg: '
+        f'<b>{growth["previous_average"]:g}</b></span>'
+        f'<span class="afi-growth-stat">Last full week: '
+        f'<b>{growth["last_week_count"]}</b></span>'
+        f'<span class="afi-growth-stat">Increase: '
+        f'<b class="afi-growth-increase">{_esc(headline)}</b>{pct}</span>'
+        f"</div>"
+    )
+
+
+def render_trend_cards(fastest_stage: dict, fastest_subcategory: dict) -> str:
+    """The two largest-increase cards, in their own row below the KPIs.
+
+    Journey Stage on the left, Subcategory on the right -- a fixed reading
+    order, not a ranking between the two cards.
+    """
+    return (
+        '<div class="afi-trend-row">'
+        + render_growth_kpi(
+            "Largest increase in negative feedback - Journey Stage", fastest_stage)
+        + render_growth_kpi(
+            "Largest increase in negative feedback - Subcategory",
+            fastest_subcategory)
+        + "</div>"
+    )
 
 
 # --------------------------------------------------------------------------
