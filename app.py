@@ -40,7 +40,6 @@ from src.analysis.aggregate import (
 from src.models.taxonomy import (
     CATEGORY_FOR_SUBCATEGORY,
     CATEGORY_NAMES,
-    CONFUSION_PAIRS,
     GLOSSARY,
     LIFECYCLE_STATUSES,
     PERSONA_NAMES,
@@ -51,7 +50,6 @@ from src.models.taxonomy import (
     STAGE_NAMES,
     SUBCATEGORY_NAMES_BY_CATEGORY,
     TAXONOMY,
-    WORKED_EXAMPLES,
 )
 from src.ui import data_assistant, render, theme
 
@@ -708,14 +706,24 @@ def render_guide() -> None:
             st.caption(f"Usual journey stage: `{block['default_stage']}`")
             for sub_name, sub in block["subcategories"].items():
                 sub_count = sub_counts.get(sub_name, 0)
-                st.markdown(f"##### {sub_name} · {sub_count} record"
-                            f"{'s' if sub_count != 1 else ''}")
-                st.markdown(sub["plain"])
-                st.markdown("**Use it for:** " + "; ".join(sub["use_for"]) + ".")
-                st.warning(f"**Do NOT use when:** {sub['avoid']}",
-                           icon=":material/block:")
-                for example in sub["examples"]:
-                    st.markdown(f"> {example}")
+                use_for = "; ".join(sub["use_for"]) + "."
+                examples_html = "".join(
+                    f'<div class="afi-subcat-example">{example}</div>'
+                    for example in sub["examples"]
+                )
+                st.markdown(
+                    '<div class="afi-subcat">'
+                    '<div class="afi-subcat-head">'
+                    f'<span class="afi-subcat-name">{sub_name}</span>'
+                    f'<span class="afi-subcat-count">{sub_count} record'
+                    f'{"s" if sub_count != 1 else ""}</span>'
+                    "</div>"
+                    f'<p class="afi-subcat-desc">{sub["plain"]}</p>'
+                    f'<p class="afi-subcat-usefor"><b>Use it for:</b> {use_for}</p>'
+                    f'<div class="afi-subcat-examples">{examples_html}</div>'
+                    "</div>",
+                    unsafe_allow_html=True,
+                )
             if block["confusable"]:
                 st.info("Most often confused with: "
                         + ", ".join(f"**{c}**" for c in block["confusable"]),
@@ -738,38 +746,6 @@ def render_guide() -> None:
             f"{guide['user_goal']}</div>"
             f'<div class="afi-quote" style="margin-top:8px">{guide["example"]}</div>'
             f"</div>",
-            unsafe_allow_html=True,
-        )
-
-    st.markdown('<div class="afi-card afi-section" style="margin-top:16px">'
-                '<h2 class="afi-guide-h2">Worked examples</h2></div>',
-                unsafe_allow_html=True)
-    for ex in WORKED_EXAMPLES:
-        st.markdown(
-            f'<div class="afi-card afi-section" style="margin-top:8px;padding:14px">'
-            f'<div class="afi-quote">{ex["feedback"]}</div>'
-            f'<div class="afi-labels">'
-            f'<span class="afi-label">Category: {ex["category"]}</span>'
-            f'<span class="afi-label">Subcategory: {ex["subcategory"]}</span>'
-            f'<span class="afi-label">Problem: {ex["problem_type"]}</span>'
-            f'<span class="afi-label">Stage: {ex["stage"]}</span></div>'
-            f'<p style="color:#64748b;font-size:12px;margin:9px 0 0">{ex["why"]}</p>'
-            f"</div>",
-            unsafe_allow_html=True,
-        )
-
-    st.markdown('<div class="afi-card afi-section" style="margin-top:16px">'
-                '<h2 class="afi-guide-h2">Commonly confused pairs</h2></div>',
-                unsafe_allow_html=True)
-    for pair in CONFUSION_PAIRS:
-        st.markdown(
-            f'<div class="afi-card afi-section" style="margin-top:8px;padding:14px">'
-            f'<div class="afi-comparison">'
-            f'<div class="old"><strong>{pair["left"]}</strong>'
-            f'<p style="margin:6px 0 0;color:#475569">{pair["left_says"]}</p></div>'
-            f'<div class="new"><strong>{pair["right"]}</strong>'
-            f'<p style="margin:6px 0 0;color:#475569">{pair["right_says"]}</p></div>'
-            f"</div></div>",
             unsafe_allow_html=True,
         )
 

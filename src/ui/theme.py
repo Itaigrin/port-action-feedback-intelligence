@@ -403,9 +403,9 @@ a.afi-category-row:hover strong {{ color: var(--blue) !important; }}
 }}
 
 /* ---- two-column compare blocks -----------------------------------------
-   Still used by the Guide for confusion pairs and the severity/persona split.
-   The dashboard's comparison panel was removed as a product decision and its
-   wrapper rule went with it; these shared rules did not. */
+   Still used by the Guide for the severity/persona split. The dashboard's
+   comparison panel was removed as a product decision and its wrapper rule
+   went with it; this shared rule did not. */
 .afi-comparison {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }}
 .afi-comparison > div {{ border-radius: 10px; padding: 13px; }}
 .afi-comparison .old {{ background: #fff7ed; border: 1px solid #fed7aa; }}
@@ -415,6 +415,42 @@ a.afi-category-row:hover strong {{ color: var(--blue) !important; }}
 
 /* -------------------------------------------------------------- guide tab */
 .afi-guide-h2 {{ font-size: 20px; letter-spacing: -.02em; margin: 0 0 6px; }}
+
+/* Subcategory blocks inside each category's expander. One block per
+   subcategory, each separated by a hairline so the eye has a clear stopping
+   point between them instead of everything running together. */
+/* Streamlit wraps every st.markdown() call in its own container, so each
+   .afi-subcat is an only child where it sits -- :first-child/:first-of-type
+   tricks can't tell the first block in a category from a later one. A
+   uniform rule on every block is the only thing that renders consistently. */
+.afi-subcat {{
+  padding: 16px 0; border-top: 1px solid #eef1f6;
+}}
+.afi-subcat-head {{
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap;
+}}
+.afi-subcat-name {{
+  font-size: 15px; font-weight: 750; letter-spacing: -.01em; color: #0f172a;
+}}
+.afi-subcat-count {{
+  font-size: 12px; color: #94a3b8; font-weight: 650; white-space: nowrap;
+}}
+.afi-subcat-desc {{
+  margin: 7px 0 12px; color: #475569; font-size: 13.5px; line-height: 1.55;
+}}
+.afi-subcat-usefor {{
+  margin: 0 0 12px; color: #334155; font-size: 13px; line-height: 1.55;
+}}
+.afi-subcat-usefor b {{ color: #0f172a; }}
+.afi-subcat-examples {{
+  display: flex; flex-direction: column; gap: 8px;
+}}
+.afi-subcat-example {{
+  background: #f8fafc; border-left: 3px solid #cbd5e1; border-radius: 0 8px 8px 0;
+  padding: 9px 13px; color: #64748b; font-size: 12.5px; font-style: italic;
+  line-height: 1.55;
+}}
 
 /* =========================================================================
    STREAMLIT DEFAULT OVERRIDES
