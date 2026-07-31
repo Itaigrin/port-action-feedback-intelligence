@@ -1,17 +1,25 @@
-# Port Action Feedback Intelligence -- Python 3.12
+# Port Action Feedback Intelligence
 #
-# Exact pins, verified working end to end. All 17 tests pass against these.
+# Exact pins, verified working end to end. All 100 tests pass against these.
+#
+# The Python version is pinned in .python-version. Without it a host picks its
+# own interpreter, and a pinned wheel that has no build for that version fails
+# to install -- which surfaces as an ImportError pointing at the first project
+# module, because ModuleNotFoundError is an ImportError subclass. The real
+# cause is then invisible on a host that redacts error text.
 
 # --- Dashboard (the only packages needed to RUN the app) ------------------
 streamlit==1.60.0
 pandas==3.0.5
-plotly==6.9.0
 
 # --- Collection -----------------------------------------------------------
 # No HTML parser needed: portal pages embed a `window.__data` JSON blob, so
 # collection is an HTTP GET plus a JSON parse.
+#
+# plotly and tenacity were removed: neither is imported anywhere. The charts
+# are CSS bars and inline SVG, and retries are handled in classify.py. An
+# unused pin is still a package the host must resolve and install.
 requests==2.34.2
-tenacity==9.1.4
 
 # --- LLM classification (only needed to RE-RUN the pipeline) --------------
 # The Anthropic SDK enforces the Pydantic schema during generation via
