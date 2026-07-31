@@ -618,7 +618,15 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   width: 100%; accent-color: var(--blue); margin: 2px 0 0; cursor: pointer;
   direction: ltr;
 }}
-.afi-rubric {{ color: var(--muted); font-size: 11px; margin: 4px 0 0; }}
+/* !important, not just specificity: Streamlit's own default paragraph rule
+   targets [data-testid=...] p, which ties a bare-class selector's specificity
+   -- measured live at 14px Source Sans winning over an unqualified
+   .afi-rubric rule here. !important settles it regardless of cascade order,
+   which is the more robust of the two against a future Streamlit version
+   reordering its own stylesheet. */
+.afi-rubric {{
+  color: var(--muted) !important; font-size: 11px !important; margin: 4px 0 0;
+}}
 .afi-filters .stButton > button {{
   width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px;
   background: #fff; color: #475569; font-weight: 700; font-size: 13px;
