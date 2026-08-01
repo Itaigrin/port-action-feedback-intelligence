@@ -164,6 +164,36 @@ FILTER_DEFAULTS: dict[str, object] = {
 }
 
 
+FILTERS_SNAPSHOT_KEY = "afi_filters_snapshot"
+
+
+def _filters_from_snapshot() -> dict:
+    """The same shape render_filter_panel() returns, read without drawing
+    the widgets.
+
+    This does NOT read the widget-bound keys (f_category, f_severity, ...)
+    directly, and that is deliberate, not an oversight: Streamlit prunes a
+    widget-bound session_state entry from state at the end of any run that
+    does not instantiate that widget. Collapsing the rail stops rendering
+    every filter widget for as long as it stays collapsed, so by the run
+    *after* the one that collapsed it, f_category and friends are already
+    gone -- verified by hand: a filter set right before collapsing read back
+    correctly on that same run, then silently reset to "no filter" the next
+    time the panel re-rendered. A key that isn't tied to any widget is never
+    pruned this way, which is the whole reason this snapshot exists: every
+    render_filter_panel() run copies its widgets' values into it, and this
+    function reads that copy instead of the widgets' own keys.
+    """
+    fallback = {
+        "status": FILTER_DEFAULTS["f_status"], "problem": FILTER_DEFAULTS["f_problem"],
+        "stage": FILTER_DEFAULTS["f_stage"], "category": FILTER_DEFAULTS["f_category"],
+        "subcategory": FILTER_DEFAULTS["f_subcategory"],
+        "severity": FILTER_DEFAULTS["f_severity"], "top_n": FILTER_DEFAULTS["f_top_n"],
+        "persona": FILTER_DEFAULTS["f_persona"], "review": FILTER_DEFAULTS["f_review"],
+    }
+    return dict(st.session_state.get(FILTERS_SNAPSHOT_KEY) or fallback)
+
+
 def _reset_filters() -> None:
     """Clear every filter widget.
 
@@ -188,12 +218,47 @@ def _reset_filters() -> None:
     st.session_state["afi_scroll_nonce"] = 0
 
 
+def _restore_filter_widget_keys() -> None:
+    """Re-seed widget-bound filter keys from the snapshot before they render.
+
+    Collapsing the rail is what breaks this: every filter widget goes
+    un-instantiated for as long as the rail stays hidden, and Streamlit prunes
+    a widget-bound session_state entry at the end of any run that does not
+    instantiate that widget -- so by the time the rail reopens, f_category and
+    the rest are gone, and the widgets would otherwise reconstruct at their
+    own defaults (empty) rather than what the reader had selected. Setting a
+    widget's session_state key before the widget is created is the supported
+    way to give it an initial value; doing it after raises
+    StreamlitAPIException, which is why this must run before the first
+    st.multiselect() call below, not after.
+
+    Only fires for keys currently missing, so a widget mid-interaction on an
+    ordinary rerun is never overwritten -- this exists purely to repair state
+    after a collapse cycle.
+    """
+    snapshot = st.session_state.get(FILTERS_SNAPSHOT_KEY)
+    if not snapshot:
+        return
+    widget_to_filter_key = {
+        "f_status": "status", "f_problem": "problem", "f_stage": "stage",
+        "f_category": "category", "f_subcategory": "subcategory",
+        "f_top_n": "top_n", "f_persona": "persona", "f_review": "review",
+    }
+    for widget_key, filter_key in widget_to_filter_key.items():
+        if widget_key not in st.session_state:
+            st.session_state[widget_key] = snapshot[filter_key]
+
+
 def render_filter_panel() -> dict:
     """Render the compact filter rail and return the current selections."""
+    _restore_filter_widget_keys()
     st.markdown(
         '<div class="afi-panel" style="padding:17px">'
+        '<div class="afi-filters-head">'
         '<h2 style="font-size:17px;letter-spacing:-.02em;margin:0 0 6px">'
         "Filters</h2>"
+        + render.render_rail_toggle(collapsed=False) +
+        "</div>"
         '<p style="margin:0 0 14px;color:#64748b;font-size:12px">'
         "Filters affect the recommended actions, the charts and the records "
         "together.</p></div>",
@@ -297,12 +362,19 @@ def render_filter_panel() -> dict:
         unsafe_allow_html=True,
     )
 
-    return {
+    current = {
         "status": status, "problem": problem, "stage": stage,
         "category": category, "subcategory": subcategory,
         "severity": severity, "top_n": int(top_n),
         "persona": persona, "review": review,
     }
+    # Mirrored into a plain (non-widget-bound) key on every render, so
+    # _filters_from_snapshot() has something durable to read once the rail
+    # collapses and these widgets stop being instantiated -- see that
+    # function's docstring for why reading the widget keys directly does not
+    # survive that.
+    st.session_state[FILTERS_SNAPSHOT_KEY] = current
+    return current
 
 
 def apply_filters(f: dict, search: str) -> pd.DataFrame:
@@ -357,37 +429,54 @@ def apply_filters(f: dict, search: str) -> pd.DataFrame:
 # --------------------------------------------------------------------------
 CLICK_FORWARDER = """
 <script>
+// Re-registered on every run rather than bound once and left alone. This
+// script executes inside the iframe components.html creates, and a listener
+// it attaches to window.parent.document keeps running only as long as that
+// iframe's own JS realm is alive -- once Streamlit tears the iframe down and
+// creates a new one (which it does whenever the surrounding layout changes
+// shape between reruns, e.g. the filter rail collapsing removes a column),
+// the old closure goes dead even though parent.document still lists it as a
+// handler. A "bind once, guard against rebinding" pattern then leaves every
+// click silently unhandled forever after the first such reshape. Removing
+// the previous handler and installing a fresh one every run costs nothing
+// and is never stale.
 const doc = window.parent.document;
-if (!doc.__afiClickBound) {
-  doc.__afiClickBound = true;
-  doc.addEventListener('click', (event) => {
-    const trigger = event.target.closest('[data-afi-click]');
-    if (!trigger) return;
-    event.preventDefault();
-    const button = doc.querySelector(
-      '.st-key-' + trigger.dataset.afiClick + ' button');
-    if (button) button.click();
-  }, true);
 
-  // The severity range proxies to one hidden button per level.
-  //
-  // The commit is debounced on 'input' rather than fired on 'change'. A range
-  // inside injected markup does not deliver 'change' to this listener -- only
-  // 'input' arrives -- so the debounce is what stands in for "the value has
-  // settled": the thumb tracks the handle immediately (native, no JS needed),
-  // and the app reruns once the user stops moving it.
-  doc.addEventListener('input', (event) => {
-    const slider = event.target.closest('[data-afi-sev]');
-    if (!slider) return;
-    const level = slider.value;
-    clearTimeout(doc.__afiSevTimer);
-    doc.__afiSevTimer = setTimeout(() => {
-      const button = doc.querySelector(
-        '.st-key-' + slider.dataset.afiSev + '_' + level + ' button');
-      if (button) button.click();
-    }, 300);
-  }, true);
+if (doc.__afiClickHandler) {
+  doc.removeEventListener('click', doc.__afiClickHandler, true);
 }
+doc.__afiClickHandler = (event) => {
+  const trigger = event.target.closest('[data-afi-click]');
+  if (!trigger) return;
+  event.preventDefault();
+  const button = doc.querySelector(
+    '.st-key-' + trigger.dataset.afiClick + ' button');
+  if (button) button.click();
+};
+doc.addEventListener('click', doc.__afiClickHandler, true);
+
+// The severity range proxies to one hidden button per level.
+//
+// The commit is debounced on 'input' rather than fired on 'change'. A range
+// inside injected markup does not deliver 'change' to this listener -- only
+// 'input' arrives -- so the debounce is what stands in for "the value has
+// settled": the thumb tracks the handle immediately (native, no JS needed),
+// and the app reruns once the user stops moving it.
+if (doc.__afiSevHandler) {
+  doc.removeEventListener('input', doc.__afiSevHandler, true);
+}
+doc.__afiSevHandler = (event) => {
+  const slider = event.target.closest('[data-afi-sev]');
+  if (!slider) return;
+  const level = slider.value;
+  clearTimeout(doc.__afiSevTimer);
+  doc.__afiSevTimer = setTimeout(() => {
+    const button = doc.querySelector(
+      '.st-key-' + slider.dataset.afiSev + '_' + level + ' button');
+    if (button) button.click();
+  }, 300);
+};
+doc.addEventListener('input', doc.__afiSevHandler, true);
 </script>
 """
 
@@ -437,6 +526,11 @@ def _focus_on(action_id: str) -> None:
 
 def _clear_focus() -> None:
     st.session_state["afi_focus"] = None
+
+
+def _toggle_filters_collapsed() -> None:
+    st.session_state["afi_filters_collapsed"] = not st.session_state.get(
+        "afi_filters_collapsed", False)
 
 
 def _set_severity(level: int) -> None:
@@ -562,6 +656,8 @@ def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
                       on_click=handler, args=(name,))
         st.button("go", key=render.NAV_BACK, on_click=_clear_drill)
         st.button("go", key=render.NAV_UNFOCUS, on_click=_clear_focus)
+        st.button("go", key=render.NAV_TOGGLE_FILTERS,
+                  on_click=_toggle_filters_collapsed)
         for level in range(1, 6):
             st.button("go", key=f"{render.NAV_SEV}_{level}",
                       on_click=_set_severity, args=(level,))
@@ -581,11 +677,23 @@ def render_dashboard() -> None:
     # Keyed containers emit stable .st-key-<key> classes, which the stylesheet
     # targets instead of autogenerated test ids.
     page = st.container(key="afi_page")
-    rail, main = page.columns([270, 1160], gap="medium")
+    collapsed = st.session_state.get("afi_filters_collapsed", False)
 
-    with rail:
-        with st.container(key="afi_rail"):
-            filters = render_filter_panel()
+    if collapsed:
+        # No rail at all, rather than a rail shrunk to a sliver: main gets
+        # every pixel the rail used to occupy, not just most of them. The
+        # filters themselves are untouched -- collapsing hides the widgets,
+        # it does not clear a reader's selections.
+        main = page
+        with page:
+            st.markdown(render.render_rail_toggle(collapsed=True),
+                        unsafe_allow_html=True)
+        filters = _filters_from_snapshot()
+    else:
+        rail, main = page.columns([270, 1160], gap="medium")
+        with rail:
+            with st.container(key="afi_rail"):
+                filters = render_filter_panel()
 
     with main:
         search = st.session_state.get("f_search", "")

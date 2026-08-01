@@ -41,6 +41,7 @@ NAV_BACK = "afinav_back"
 NAV_UNFOCUS = "afinav_unfocus"
 NAV_SEV = "afinav_sev"
 NAV_EDIT = "afinav_edit"
+NAV_TOGGLE_FILTERS = "afinav_toggle_filters"
 
 
 def _esc(value: object) -> str:
@@ -55,6 +56,22 @@ def _click(key: str) -> str:
     """
     return f'href="#" role="button" data-afi-click="{_esc(key)}"'
 
+
+
+def render_rail_toggle(collapsed: bool) -> str:
+    """The filter-rail collapse control.
+
+    Expanded, it sits beside the "Filters" heading, inside the rail. Collapsed,
+    the rail -- and everything in it, including that control -- is not
+    rendered at all, so this becomes a small button pinned to the page edge
+    instead; without it there would be no way back once the rail is hidden.
+    """
+    if collapsed:
+        return (f'<a class="afi-rail-toggle afi-rail-toggle-float" '
+                f'{_click(NAV_TOGGLE_FILTERS)} title="Show filters" '
+                f'aria-label="Show filters">›</a>')
+    return (f'<a class="afi-rail-toggle" {_click(NAV_TOGGLE_FILTERS)} '
+            f'title="Hide filters" aria-label="Hide filters">‹</a>')
 
 
 def _plural(n: int, word: str) -> str:

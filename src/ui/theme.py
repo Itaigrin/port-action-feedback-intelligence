@@ -658,6 +658,29 @@ header[data-testid="stHeader"] {{ display: none !important; }}
   overflow: visible;
 }}
 
+/* The rail-collapse control. Expanded, it sits inline beside "Filters" --
+   see the flex row .afi-filters-head wraps it in. Collapsed, the rail that
+   would have held it does not exist, so it is pinned to the page instead;
+   fixed rather than sticky, because there is no longer a rail to stick to,
+   and top is set just under the fixed topbar so it never sits under it. */
+.afi-rail-toggle {{
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+  border: 1px solid var(--line); background: #fff; color: var(--muted);
+  font-size: 15px; font-weight: 700; line-height: 1; cursor: pointer;
+  text-decoration: none;
+}}
+.afi-rail-toggle:hover {{
+  background: var(--blue-soft); color: var(--blue); border-color: #b9cdf5;
+}}
+.afi-rail-toggle-float {{
+  position: fixed; top: 78px; left: 16px; z-index: 500;
+  box-shadow: var(--shadow);
+}}
+.afi-filters-head {{
+  display: flex; align-items: start; justify-content: space-between; gap: 8px;
+}}
+
 /* The feedback section is one card wrapping header, search and all records.
    Rendering the open and close tags in separate st.markdown calls does not
    work: Streamlit balances each block independently, so the wrapper would

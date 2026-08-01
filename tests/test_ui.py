@@ -537,10 +537,22 @@ def test_interactions_do_not_navigate_the_browser():
 
 
 def test_hidden_nav_buttons_are_created_for_every_proxy():
-    """The forwarder is installed once and the buttons use on_click callbacks."""
+    """The forwarder re-registers itself every run, and buttons use on_click.
+
+    Not "bound once, guarded against rebinding": that pattern goes silently
+    dead the first time the surrounding layout reshapes between reruns (e.g.
+    the filter rail collapsing removes a column), because the listener's
+    closure lives in the components.html iframe that registered it, and
+    Streamlit tears that iframe down and creates a new one when the layout
+    around it changes shape. The fix is to replace the previous handler on
+    every run rather than skip re-registering.
+    """
     assert "def render_hidden_nav(" in APP
     assert "CLICK_FORWARDER" in APP
-    assert "__afiClickBound" in APP, "listener must guard against double binding"
+    assert "__afiClickHandler" in APP, (
+        "listener must be re-registered every run, not bound once and left")
+    assert "removeEventListener" in APP, (
+        "the previous run's handler must be replaced, not merely shadowed")
     # Every handler must exist and be wired as a callback -- callbacks run
     # before widgets are created, which is what makes their state writes legal.
     for handler in ("_drill_into", "_clear_drill", "_select_subcategory",
@@ -693,6 +705,66 @@ def test_filter_rail_has_no_internal_scrollbar():
     assert "max-height" not in declarations, "a capped rail scrolls internally"
     assert "overflow-y: auto" not in declarations
     assert "overflow: visible" in declarations
+
+
+def test_filter_rail_can_collapse_and_the_toggle_survives_it():
+    """The collapse control exists in both states, and main fills the width
+    the rail gave up rather than leaving a reserved gap.
+    """
+    assert "render_rail_toggle" in APP
+    assert "afi_filters_collapsed" in APP
+    # Collapsed: no rail column at all, not a rail shrunk to a sliver -- main
+    # must be assigned the full-width container directly.
+    assert re.search(r"main\s*=\s*page\b", APP), (
+        "collapsed branch must hand main the whole page container")
+
+
+def test_collapsing_the_rail_does_not_silently_reset_the_filters():
+    """The bug this guards against: Streamlit prunes a widget-bound
+    session_state entry at the end of any run that does not instantiate that
+    widget. Collapsing the rail stops instantiating every filter widget, so
+    reading their own keys (f_category, f_status, ...) after a collapse cycle
+    returns whatever those widgets default to -- empty -- not what the reader
+    selected. Verified by hand during development: a category filter set
+    right before collapsing read back correctly for exactly one rerun, then
+    silently reset the moment the rail reopened.
+
+    The fix is a snapshot that is not tied to any widget's lifecycle, written
+    every time the widgets render and read instead of the widget keys
+    whenever they do not.
+    """
+    assert "FILTERS_SNAPSHOT_KEY" in APP
+    assert "_filters_from_snapshot" in APP
+    # Reading the raw widget keys directly for the collapsed path is exactly
+    # the regression: that function must not exist.
+    assert "_filters_from_session_state" not in APP
+    # The snapshot has to be written from inside render_filter_panel (where
+    # the widgets are read) and read from the collapsed branch -- not the
+    # other way around, or there would be nothing to restore from.
+    panel_start = APP.index("def render_filter_panel(")
+    panel_end = APP.index("\ndef ", panel_start + 1)
+    assert "FILTERS_SNAPSHOT_KEY] = " in APP[panel_start:panel_end], (
+        "the panel must write the snapshot after reading its widgets")
+
+
+def test_reopening_the_rail_restores_the_widgets_not_just_the_filtering():
+    """Filtering staying correct while collapsed is necessary but not
+    sufficient: the widgets themselves must also show the reader's previous
+    selections when the rail reopens, or the UI contradicts what is actually
+    being filtered on. This was the second half of the same bug -- fixed
+    separately from the snapshot, because Streamlit widgets read their
+    initial value from their own session_state key, not from a value handed
+    to them at render time.
+    """
+    assert "_restore_filter_widget_keys" in APP
+    # Must run before any filter widget is instantiated in the same function,
+    # or setting the widget-bound keys raises StreamlitAPIException.
+    panel_start = APP.index("def render_filter_panel(")
+    first_widget = APP.index("st.multiselect(", panel_start)
+    restore_call = APP.index("_restore_filter_widget_keys()", panel_start)
+    assert restore_call < first_widget, (
+        "restoring session_state after a widget already exists raises "
+        "StreamlitAPIException")
 
 
 def test_section_shows_exactly_the_records_behind_the_selected_action(
