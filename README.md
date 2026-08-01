@@ -387,7 +387,8 @@ A weekly line chart below the cards, `Negative feedback by Journey stage — las
 
 - Counts distinct `feedback_id`, Negative only
 - Uses `created_at` — when the customer raised it — never the analysis or retrieval timestamp, which would cluster every record onto the day the pipeline last ran
-- Weeks start Monday; missing weeks are zero, not gaps
+- Weeks start Monday, and **only completed weeks are plotted** — the week in progress holds however many days have happened so far, so drawing it beside full weeks shows a fall that is an artefact of when the page was opened. The chart and the largest-increase cards share one definition of the latest full week; they disagreed before, so "the latest week" meant two different weeks on the same screen
+- Missing weeks are zero, not gaps
 - Stages stay in chronological journey order in the legend, never sorted by volume
 - Respects every dashboard filter
 

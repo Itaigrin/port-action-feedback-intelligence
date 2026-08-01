@@ -385,6 +385,10 @@ def test_trend_uses_created_at_and_monday_weeks():
     frame = pd.DataFrame([
         _record(feedback_id="t1", created_at="2026-06-03T00:00:00Z"),   # Wed
         _record(feedback_id="t2", created_at="2026-06-05T00:00:00Z"),   # Fri
+        # Anchors the window a week later so the week holding t1/t2 has ended.
+        # Positive, so it sets the anchor without joining the negative counts.
+        _record(feedback_id="anchor", created_at="2026-06-10T00:00:00Z",
+                feedback_polarity="Positive"),
     ])
     trend = negative_trend(frame)
     assert len(trend["weeks"]) == TREND_WEEKS
@@ -401,9 +405,57 @@ def test_trend_counts_only_negative_and_never_twice():
         _record(feedback_id="n1", created_at="2026-06-03T00:00:00Z"),
         _record(feedback_id="p1", created_at="2026-06-03T00:00:00Z",
                 feedback_polarity="Positive"),
+        _record(feedback_id="anchor", created_at="2026-06-10T00:00:00Z",
+                feedback_polarity="Positive"),
     ])
     trend = negative_trend(frame)
     assert sum(sum(s["points"]) for s in trend["series"]) == 1
+
+
+def test_trend_shows_only_completed_weeks():
+    """The week in progress must not be plotted beside full ones.
+
+    It holds however many days have happened so far, so its bar always reads
+    as a fall -- an artefact of when the page was opened, not a change in the
+    feedback. The chart and the largest-increase cards must also agree on
+    which week is the latest; they did not before, so "the latest week" meant
+    two different weeks on one screen.
+    """
+    import json
+
+    from src.analysis.aggregate import full_week_bounds, trend_window
+
+    rel = pd.DataFrame([r for r in json.loads(
+        (PROC / "analyzed.json").read_text(encoding="utf-8"))["records"]
+        if r["is_relevant"]])
+
+    start, end, _historical = trend_window(rel)
+    today = pd.Timestamp.now(tz="UTC").normalize()
+
+    assert end.dayofweek == 0, "the window must end on a Monday"
+    assert end + pd.Timedelta(days=6) < today, (
+        "the final bucket is a week that has not finished yet")
+
+    cards_week, _baseline = full_week_bounds(rel)
+    assert cards_week == end, (
+        "the trend chart and the growth cards disagree on the latest week")
+
+
+def test_a_week_ending_on_the_anchor_still_counts():
+    """Testing the Sunday, not "this Monday minus one week".
+
+    On the one day the anchor *is* a Sunday, that week has just finished. The
+    simpler rule would discard a complete week of data for no reason.
+    """
+    from src.analysis.aggregate import last_full_week_start
+
+    # Historical dates, so week_anchor uses the record's own date.
+    sunday = pd.DataFrame([{"created_at": "2026-05-31T12:00:00.000000+00:00"}])
+    saturday = pd.DataFrame([{"created_at": "2026-05-30T12:00:00.000000+00:00"}])
+
+    # A Sunday anchor keeps its own week; the Saturday before it cannot.
+    assert last_full_week_start(sunday) == pd.Timestamp("2026-05-25", tz="UTC")
+    assert last_full_week_start(saturday) == pd.Timestamp("2026-05-18", tz="UTC")
 
 
 def test_trend_keeps_stages_in_chronological_order():

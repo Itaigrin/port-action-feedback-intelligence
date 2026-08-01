@@ -669,21 +669,26 @@ def parse_created(values) -> pd.Series:
 
 
 def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
-    """The rolling three-month window, and whether it had to fall back.
+    """The rolling three-month window of *completed* weeks, and whether it fell back.
 
-    Normally it ends today. If the newest record is older than RECENT_DATA_DAYS
-    the dataset is a historical snapshot, and ending at today would render an
-    empty chart that looks like a bug -- so the window ends at the newest known
-    created_at instead, and the caller labels it as such.
+    Every bucket is a full Monday-Sunday week. The week in progress is
+    excluded: it holds however many days have happened so far, so plotting it
+    beside full weeks draws a fall that is an artefact of when the page was
+    opened rather than a change in the feedback.
+
+    Normally it ends with the last completed week. If the newest record is
+    older than RECENT_DATA_DAYS the dataset is a historical snapshot, and
+    anchoring to today would render an empty chart that looks like a bug -- so
+    the window anchors to the newest known created_at instead, and the caller
+    labels it as such.
     """
     created = parse_created(rel.get("created_at"))
     today = pd.Timestamp.now(tz="UTC").normalize()
     newest = created.max()
     historical = bool(
         pd.isna(newest) or (today - newest).days > RECENT_DATA_DAYS)
-    end = (newest.normalize() if historical and not pd.isna(newest) else today)
-    # Monday of the week the window ends in, minus 12 weeks -> 13 weekly points.
-    end_week = end - pd.Timedelta(days=int(end.dayofweek))
+    # Last completed week, then back 12 more -> 13 full weekly points.
+    end_week = last_full_week_start(rel)
     start_week = end_week - pd.Timedelta(weeks=TREND_WEEKS - 1)
     return start_week, end_week, historical
 
@@ -710,16 +715,30 @@ def week_anchor(rel: pd.DataFrame) -> pd.Timestamp:
     return newest.normalize()
 
 
-def full_week_bounds(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp]:
-    """Start of the last *completed* Monday-Sunday week, and of the baseline.
+def last_full_week_start(rel: pd.DataFrame) -> pd.Timestamp:
+    """Monday of the most recent Monday-Sunday week that has actually ended.
 
-    Returns (last_week_start, baseline_start). The week containing the anchor
-    is still running, so it is excluded: a partial week counted against full
-    ones would report a fall every Monday and a rise every Sunday.
+    One definition, used by both the growth cards and the trend chart. They
+    disagreed before: the cards excluded the running week while the chart
+    included it, so on the same screen "the latest week" meant two different
+    weeks, and the chart's final point was a partial week that always read as
+    a dip.
+
+    A week counts as ended when its Sunday is on or before the anchor. Testing
+    the Sunday rather than subtracting a week from "this Monday" matters on one
+    day: when the anchor *is* a Sunday, that week has just finished and should
+    be included, where the simpler rule would throw away a complete week.
     """
     anchor = week_anchor(rel)
-    this_monday = anchor - pd.Timedelta(days=int(anchor.dayofweek))
-    last_week_start = this_monday - pd.Timedelta(weeks=1)
+    sunday = anchor + pd.Timedelta(days=6 - int(anchor.dayofweek))
+    if sunday > anchor:                      # the week is still running
+        sunday -= pd.Timedelta(weeks=1)
+    return sunday - pd.Timedelta(days=6)
+
+
+def full_week_bounds(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp]:
+    """Start of the last completed week, and of the three-week baseline."""
+    last_week_start = last_full_week_start(rel)
     baseline_start = last_week_start - pd.Timedelta(weeks=FASTEST_BASELINE_WEEKS)
     return last_week_start, baseline_start
 
