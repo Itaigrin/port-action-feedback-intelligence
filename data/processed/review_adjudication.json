@@ -1,0 +1,246 @@
+{
+  "threshold": 0.7,
+  "taxonomy_version": "v3.0",
+  "adjudications": {
+    "6481f12a7635744f37484976": {
+      "confidence": 0.95,
+      "note": "admins define an approval step - approval policy, unambiguous"
+    },
+    "649bdc0ecf7291098a1c28bf": {
+      "confidence": 0.75,
+      "note": "the ask is not re-authoring config that already exists, which is reuse"
+    },
+    "64f4adb66cbacd09633abd68": {
+      "confidence": 0.88,
+      "note": "getting logs into a run is log diagnostics"
+    },
+    "652552a8916365c76f187d12": {
+      "confidence": 0.75,
+      "note": "validation performed by a backend before submit is server-side enforcement"
+    },
+    "652e8946856cd53595829199": {
+      "confidence": 0.9,
+      "note": "choosing which properties reach the action is payload composition"
+    },
+    "65788dd234dcbc6adbd713bb": {
+      "confidence": 0.8,
+      "note": "a link from the run to the pipeline is run traceability"
+    },
+    "6582ce708d54e728d31b780f": {
+      "confidence": 0.88,
+      "note": "the closed status list is a run result-state gap"
+    },
+    "6584045643d41b6fd0ac313c": {
+      "confidence": 0.72,
+      "note": "blueprint association is what an action targets, consistent with the multiple-blueprints request"
+    },
+    "65a512ccbb34b59cd65ce460": {
+      "confidence": 0.6,
+      "note": "a new invocation method whose purpose is logging - artifact and outcome sit in different categories"
+    },
+    "65a6324c5bd75e78b7682e60": {
+      "confidence": 0.72,
+      "note": "the requester is not the approver, so this surfaces routing rather than approver experience"
+    },
+    "65bb5ba2299d1b93acc3052d": {
+      "confidence": 0.9,
+      "note": "approval required on an input value is an approval policy"
+    },
+    "65f03ef6cb7414bcffae7545": {
+      "confidence": 0.85,
+      "note": "a new invocation type, correctly read as completed work"
+    },
+    "662c18c1879e6a4fff5ed742": {
+      "confidence": 0.85,
+      "note": "hosted actions and Lambda invocation are both backends"
+    },
+    "663e275443acb838cf19a5ba": {
+      "confidence": 0.85,
+      "note": "which tokens may trigger an action is execution eligibility"
+    },
+    "6671999837fce115c9971b8d": {
+      "confidence": 0.95,
+      "note": "identity propagation to the backend, textbook execution identity"
+    },
+    "669fced47627f58ee55d66ec": {
+      "confidence": 0.9,
+      "note": "user-token auth for the backend is authentication"
+    },
+    "66b1434bd12b821c86cbc7fc": {
+      "confidence": 0.75,
+      "note": "the stated goal is troubleshooting and building permissions, which is authoring support"
+    },
+    "66b14531ed4315cc0258b909": {
+      "confidence": 0.45,
+      "note": "reads as permission authoring ergonomics, not who is eligible"
+    },
+    "66b884521be290a30c801053": {
+      "confidence": 0.72,
+      "note": "approval notifications have no better home than approver experience"
+    },
+    "66c8d155bc622140de9a1e79": {
+      "confidence": 0.72,
+      "note": "secret inputs are user-supplied values that get masked, not backend credentials"
+    },
+    "66cc92d3c146ef3febde98ab": {
+      "confidence": 0.5,
+      "note": "near-identical to the surface-JQ-errors record, which is filed under logs and error diagnostics"
+    },
+    "66dad68c5c2fac7ded045460": {
+      "confidence": 0.5,
+      "note": "deny rules read as permission authoring, not eligibility"
+    },
+    "66e68c9ff85bef2fa5d4dc82": {
+      "confidence": 0.8,
+      "note": "errors you cannot see anywhere is a diagnostics gap"
+    },
+    "67002abcd4bbc2b93566d305": {
+      "confidence": 0.9,
+      "note": "a cancel button is run lifecycle control"
+    },
+    "670e6d4f1d4ba786e2faa0df": {
+      "confidence": 0.85,
+      "note": "running one action across filtered entities is a bulk action"
+    },
+    "6710640a41d1a5151b93a275": {
+      "confidence": 0.72,
+      "note": "hiding run payload from users is exposure control over sensitive data"
+    },
+    "6728c6a7e9894c1a059aa821": {
+      "confidence": 0.88,
+      "note": "a bot used as the action backend is a backend integration"
+    },
+    "675b0c008682d4e202eeeb9a": {
+      "confidence": 0.6,
+      "note": "a conditionally shown step - form layout or conditional rules"
+    },
+    "678fa2d0541d91b91a772c41": {
+      "confidence": 0.55,
+      "note": "conditional availability of an action - discovery and placement, or action eligibility"
+    },
+    "679265f3a7c7da4003832a79": {
+      "confidence": 0.72,
+      "note": "dataset conditions decide what an input offers, which is input configuration"
+    },
+    "6798fe909c392c244699944d": {
+      "confidence": 0.55,
+      "note": "the subject is permissions but the gap is in the audit log"
+    },
+    "67a32141d252e4db823dea60": {
+      "confidence": 0.4,
+      "note": "GitOps file validation, not self-service actions - scope is disputed"
+    },
+    "67adc340ed8cfaae72b680d0": {
+      "confidence": 0.5,
+      "note": "fetching a token per request reads as request signing, not requester identity"
+    },
+    "67ae47018df2ac10d76e1fec": {
+      "confidence": 0.92,
+      "note": "an approver queue is approver experience, unambiguous"
+    },
+    "67fe69fc077f02acb331e710": {
+      "confidence": 0.78,
+      "note": "blueprint association is what the action is attached to and targets"
+    },
+    "68405b9c4ebfd09d591cf6e6": {
+      "confidence": 0.8,
+      "note": "a default value applied at the UI level is an input default"
+    },
+    "684c4e772523f38ddde65e37": {
+      "confidence": 0.6,
+      "note": "one action, several backends - backend selection or workflow branching"
+    },
+    "6853d436533319bfbf13d0ae": {
+      "confidence": 0.75,
+      "note": "filtering an action by user relations is eligibility"
+    },
+    "689c4e5eda725fecc3d241bf": {
+      "confidence": 0.92,
+      "note": "chaining steps is orchestration, unambiguous"
+    },
+    "68de67828ad773d9baab31b1": {
+      "confidence": 0.8,
+      "note": "computing field values from an external call is a dynamic input"
+    },
+    "68f8fbb8741fd60efd0e8d17": {
+      "confidence": 0.45,
+      "note": "policy reuse reads as permission authoring, not eligibility"
+    },
+    "68fb8735235b71fd93744c18": {
+      "confidence": 0.85,
+      "note": "log entry timestamps are log diagnostics"
+    },
+    "6915caf8c4c30db90d700b0b": {
+      "confidence": 0.4,
+      "note": "a catalog webhook secret, not a self-service action - scope is disputed"
+    },
+    "693717e9a5e8f26790db4e71": {
+      "confidence": 0.72,
+      "note": "the request targets control_the_payload_config, which is payload mapping"
+    },
+    "693ffd899279e1a4c35ca2c0": {
+      "confidence": 0.75,
+      "note": "a safeguard at save time is a constraint on permission authoring"
+    },
+    "695ce5f621c449e1fd7ce58e": {
+      "confidence": 0.9,
+      "note": "trusted executing-user context, textbook execution identity"
+    },
+    "697a4fc771aad86079ed6ec7": {
+      "confidence": 0.45,
+      "note": "catalog entity permissions, not action permissions - scope is disputed"
+    },
+    "697b9fddcfbf975300198439": {
+      "confidence": 0.55,
+      "note": "the approver in run context - approvals, run history or run traceability"
+    },
+    "697bc2552c0e437d54520fb7": {
+      "confidence": 0.55,
+      "note": "enumLabels - input structure or form presentation"
+    },
+    "6995741f6a0047498c59fa71": {
+      "confidence": 0.8,
+      "note": "a templated installationId that never invokes is an invocation defect"
+    },
+    "69a02d77006d0995d3c7e953": {
+      "confidence": 0.88,
+      "note": "an execution agent option, unambiguous"
+    },
+    "69a69c2bbd9e53f8d10aa84f": {
+      "confidence": 0.75,
+      "note": "completing an action in the surface it was launched from is contextual launch"
+    },
+    "6a0f0765f1bb95af4396d0aa": {
+      "confidence": 0.75,
+      "note": "an encoding function applied to the outgoing request is a transformation"
+    },
+    "6a1d45a5b06d5b62ae23dc43": {
+      "confidence": 0.75,
+      "note": "button text is presentation, not an input, so the dynamic-input subcategory does not apply"
+    },
+    "6a3586ab940f0b4a269d450c": {
+      "confidence": 0.95,
+      "note": "UI-only rules bypassed by the API, textbook server-side enforcement"
+    },
+    "6a3c68a73959e847601ffa6f": {
+      "confidence": 0.6,
+      "note": "dynamic picker defaults - input configuration or contextual pre-fill"
+    },
+    "6a4b4a7e3395e568ba0e931f": {
+      "confidence": 0.55,
+      "note": "an approver view inside a workflow node - workflow approvals or approver experience"
+    },
+    "6a5fbd5942cf04e5383526bb": {
+      "confidence": 0.92,
+      "note": "a workflow failure branch is workflow error handling"
+    },
+    "6a62cdea0933efc13e70eab5": {
+      "confidence": 0.78,
+      "note": "workflow runs are action runs, so it is in scope, and the label is exact"
+    },
+    "6971456c9974c06421a7fd9e": {
+      "confidence": 0.85,
+      "note": "IaC export, import and multi-org migration, not self-service actions - out of scope is right"
+    }
+  }
+}

@@ -113,7 +113,7 @@ def render_kpis(product_actions: int, open_actions: int,
         ("High severity", high_severity,
          "Matching records at severity 4+", "warning"),
         ("Needs human review", needs_review,
-         "Ambiguous or low-confidence classification", ""),
+         "A reviewer read these and was unsure", ""),
     ]
     html = ['<div class="afi-kpis">']
     for label, value, detail, tone in cards:

@@ -13,9 +13,11 @@ loss, and reconciling can be re-run any time without another API call.
 What it does with a second opinion:
 
   * Agreement leaves the assignment alone.
-  * Disagreement keeps the WORKBOOK and flags the record for human review.
-    Silently taking either side would throw away the one thing a
-    disagreement tells you.
+  * Disagreement keeps the WORKBOOK and is reported. Silently taking either
+    side would throw away the one thing a disagreement tells you. It no
+    longer sets the review flag: that comes from a reviewer's verdict alone
+    (src/analysis/review.py), so re-running this cannot put back a flag that
+    meant three different things at once.
   * Relevance is pinned to the workbook the same way, so a model that
     re-scopes a record cannot move the 185/142 split every figure rests on.
   * Records with no cached classification are counted and named, never
@@ -37,6 +39,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from src.analysis import review  # noqa: E402
 from src.analysis.classify import DEFAULT_MODEL, cache_key  # noqa: E402
 from src.models.prompt import source_text  # noqa: E402
 from src.models.taxonomy import TAXONOMY_VERSION  # noqa: E402
@@ -47,24 +50,6 @@ ANALYZED = PROC / "analyzed.json"
 CLEAN = PROC / "feedback_clean.csv"
 
 REVIEW_STATUS_FLAG = "Recommended - review during v3 rerun"
-
-# Why a record is flagged. The flag used to be one boolean carrying three
-# unrelated meanings at once, so a card could read "Confidence 0.85" beside
-# "Needs human review" and look like the app contradicting itself. Recording
-# the reason is what lets the badge say which of the three it is.
-LOW_CONFIDENCE = 0.7
-REASON_LOW_CONFIDENCE = "low classifier confidence"
-REASON_TAXONOMY = "classification disputed"
-REASON_SCOPE = "scope disputed"
-REASON_MIGRATION = "flagged during the v3 migration"
-REASON_MODEL = "the classifier asked for review"
-
-
-def _add_reason(record: dict, reason: str) -> None:
-    reasons = record.setdefault("review_reasons", [])
-    if reason not in reasons:
-        reasons.append(reason)
-    record["needs_human_review"] = True
 
 
 def _cached_classification(title: str, description: str | None,
@@ -122,9 +107,6 @@ def main() -> int:
 
     for record in records:
         fid = str(record["feedback_id"])
-        # Recomputed every run so a resolved reason disappears instead of
-        # accumulating across reconciliations.
-        record["review_reasons"] = []
         want_relevant = scope.get(fid)
         if want_relevant is None:
             stats["not_in_workbook"] += 1
@@ -147,7 +129,6 @@ def main() -> int:
                 "model": bool(got.get("is_relevant")), "workbook": want_relevant,
                 "title": str(record.get("title", ""))[:90],
             })
-            _add_reason(record, REASON_SCOPE)
             per_model[model]["relevance_disagreement"] += 1
             continue
 
@@ -174,24 +155,24 @@ def main() -> int:
                 "workbook": f"{want[0]} / {want[1]}",
                 "title": str(record.get("title", ""))[:90],
             })
-            # The workbook already sits on the record. Only the flag changes.
-            _add_reason(record, REASON_TAXONOMY)
+            # The workbook already sits on the record, and the disagreement is
+            # reported below. It does not touch the review flag: nothing but a
+            # reviewer's verdict sets that any more (see src/analysis/review).
 
-        # Reasons that apply whether or not the model agreed.
         if str(row.get("assignment_review_status", "")).strip() == REVIEW_STATUS_FLAG:
-            _add_reason(record, REASON_MIGRATION)
             stats["workbook_review_flag"] += 1
 
-        if float(record.get("confidence") or 1.0) < LOW_CONFIDENCE:
-            _add_reason(record, REASON_LOW_CONFIDENCE)
-        elif got.get("needs_human_review") and not record["review_reasons"]:
-            # The classifier asked for review for something other than
-            # confidence: ambiguity, or two categories equally plausible.
-            _add_reason(record, REASON_MODEL)
+    # The review flag is set here and nowhere else, from the reviewer's
+    # verdicts alone -- so re-running reconciliation cannot reintroduce a flag
+    # that mixes classifier confidence, a workbook disagreement and a migration
+    # marker into one boolean nobody can act on.
+    counts = review.apply_adjudications(records)
 
-        # A flag with no surviving reason is a flag nobody can action.
-        if not record["review_reasons"]:
-            record["needs_human_review"] = False
+    # A disagreement no reviewer has ruled on would otherwise be cleared in
+    # silence, which is the one way this design could lose information. Named,
+    # not hidden.
+    verdicts = review.load_adjudications()
+    unjudged = [d for d in disagreements if str(d["feedback_id"]) not in verdicts]
 
     in_scope = stats["taxonomy_agreed"] + stats["taxonomy_disagreement"]
     complete = not unclassified
@@ -207,6 +188,8 @@ def main() -> int:
         "taxonomy_disagreements": stats["taxonomy_disagreement"],
         "relevance_disagreements": stats["relevance_disagreement"],
         "by_model": {name: dict(counts) for name, counts in per_model.items()},
+        "review_flag": {"threshold": review.THRESHOLD, **counts,
+                        "disagreements_without_verdict": len(unjudged)},
     }
 
     print(f"records in dataset      : {len(records)}")
@@ -219,8 +202,16 @@ def main() -> int:
           f"(workbook kept, flagged)")
     print(f"relevance disagreements : {stats['relevance_disagreement']} "
           f"(workbook kept, flagged)")
-    print(f"flagged for review now  : "
-          f"{sum(1 for r in records if r.get('needs_human_review'))}")
+    print(f"\nreview flag, from the reviewer's verdicts only "
+          f"(threshold {review.THRESHOLD}):")
+    print(f"  kept flagged          : {counts['flagged']}")
+    print(f"  cleared by a verdict  : {counts['cleared']}")
+    print(f"  no verdict, cleared   : {counts['unjudged_cleared']}")
+    if unjudged:
+        print(f"  !! {len(unjudged)} disagreement(s) have no reviewer verdict "
+              f"and were cleared:")
+        for d in unjudged[:10]:
+            print(f"     {d['feedback_id']}  {d['title']}")
 
     # Per model, because a single agreement rate across two different models
     # would describe neither of them.

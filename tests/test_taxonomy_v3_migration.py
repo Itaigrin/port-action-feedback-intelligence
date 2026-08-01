@@ -224,21 +224,30 @@ def test_agreement_is_reported_per_model_not_blended():
             f"{name}: outcomes do not account for every record compared")
 
 
-def test_disagreements_keep_the_workbook_and_are_flagged(relevant):
-    """A disagreement is information; resolving it silently discards it."""
+def test_disagreements_keep_the_workbook_and_were_reviewed(relevant):
+    """A disagreement is information; resolving it silently discards it.
+
+    It no longer forces the review flag -- that now means one thing, "a
+    reviewer was unsure" (see test_review_adjudication). What must still hold
+    is that no disagreement was cleared without somebody ruling on it, and
+    that the workbook's label is the one that survived.
+    """
     report = PROC / "v3_reconciliation.json"
     if not report.exists():
         pytest.skip("no reconciliation report in this checkout")
 
+    from src.analysis import review
+    verdicts = review.load_adjudications()
+
     data = json.loads(report.read_text(encoding="utf-8"))
     by_id = {str(r["feedback_id"]): r for r in relevant}
     for entry in data["disagreements"]:
+        assert str(entry["feedback_id"]) in verdicts, (
+            f"{entry['feedback_id']} disagreed with the model and no reviewer "
+            f"ever ruled on it")
         record = by_id.get(entry["feedback_id"])
         if record is None:          # a relevance disagreement on an OOS record
             continue
-        assert record["needs_human_review"], (
-            f"{entry['feedback_id']} disagreed with the model but arrived "
-            f"looking settled")
         if entry["field"] == "taxonomy":
             kept = f'{record["primary_taxonomy_category"]} / ' \
                    f'{record["primary_taxonomy_subcategory"]}'
@@ -257,19 +266,28 @@ def test_the_former_subcategory_is_preserved_as_topic_tags(relevant):
             record["feedback_id"]
 
 
-def test_records_the_workbook_marked_for_review_are_still_flagged(relevant):
+def test_records_the_workbook_marked_for_review_were_reviewed(relevant):
+    """The workbook's marker is a request for a second look, not a verdict.
+
+    So the marker must reach a reviewer -- but once one has read the record
+    and said it is filed correctly, it is settled, and keeping the flag on
+    would leave a warning nobody can clear.
+    """
     workbook = _load_workbook()
     if workbook is None:
         pytest.skip("assignment workbook not available in this checkout")
 
-    flagged = {
+    from src.analysis import review
+    verdicts = review.load_adjudications()
+
+    marked = {
         str(row["feedback_id"]) for _, row in workbook.iterrows()
         if str(row.get("assignment_review_status", "")).strip()
         == "Recommended - review during v3 rerun"
     }
     by_id = {str(r["feedback_id"]): r for r in relevant}
-    missed = [fid for fid in flagged if not by_id[fid].get("needs_human_review")]
-    assert not missed, f"{len(missed)} workbook review rows arrived looking settled"
+    missed = [fid for fid in marked if fid in by_id and fid not in verdicts]
+    assert not missed, f"{len(missed)} workbook review rows were never reviewed"
 
 
 # --- dashboard reads v3 ----------------------------------------------------

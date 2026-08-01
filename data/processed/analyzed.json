@@ -43,6 +43,13 @@
           "out_of_scope_agreed": 10,
           "taxonomy_disagreement": 2
         }
+      },
+      "review_flag": {
+        "threshold": 0.7,
+        "flagged": 17,
+        "cleared": 43,
+        "unjudged_cleared": 267,
+        "disagreements_without_verdict": 0
       }
     },
     "curated_product_actions": {
@@ -174,7 +181,7 @@
       "user_need": "The ability to combine several steps, decisions and approvals into one coordinated workflow instead of building separate disconnected actions.",
       "suggested_product_action": "Enable multi-step workflows that chain inputs, conditions, approvals and actions across both automatic triggers and self-service actions.",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Chain multiple inputs, approvals, conditions, and actions via automatic triggers or self-service",
       "secondary_categories": [
         "Permissions & Approvals"
@@ -194,10 +201,8 @@
       ],
       "curated_action_id": "PA-055",
       "curated_action_title": "Make multi-step, multi-backend orchestration first class",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.92
     },
     {
       "feedback_id": "66c458f7b657d8bbcce59e6f",
@@ -315,7 +320,7 @@
       "user_need": "Users need to search and filter the complete audit log history, not just a recent subset.",
       "suggested_product_action": "Enable audit log filtering to search across the full log history rather than only the most recent 1000 records",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "the audit log only shows the latest 1000 records, and filtering applies only within those 1000",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -884,7 +889,7 @@
       "user_need": "Requesters need to know when their action request has been approved without manually checking.",
       "suggested_product_action": "Add automatic email and Slack notifications to requesters when their self-service action request is approved.",
       "confidence": 0.72,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "There is no option to automatically notify users when their requested actions have been approved.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -900,9 +905,8 @@
       ],
       "curated_action_id": "PA-068d",
       "curated_action_title": "Notify requesters when their request is approved or rejected",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.72
     },
     {
       "feedback_id": "66b1434bd12b821c86cbc7fc",
@@ -937,7 +941,7 @@
       "user_need": "Understand exactly which permission condition or policy rule caused an action to be denied so it can be fixed.",
       "suggested_product_action": "Provide detailed error messages that identify the specific dynamic permission condition or policy clause that caused an action denial.",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "the error message logged provides no context about what specific part of the dynamic permission caused the action to be denied",
       "secondary_categories": [
         "Observability & Debugging"
@@ -955,9 +959,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-069",
       "curated_action_title": "Add a guided permission authoring, validation and debugging experience",
-      "review_reasons": [
-        "classification disputed"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.75
     },
     {
       "feedback_id": "68c27182f9c430044f39113f",
@@ -1259,7 +1262,7 @@
       "user_need": "The user wants to trigger one action from multiple related entity types without creating duplicate actions.",
       "suggested_product_action": "Enable associating a single action with multiple blueprints for entity targeting.",
       "confidence": 0.55,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "an action if associated with service overview entity cant be associated with the service blueprint entity - which means a new actions should be created",
       "secondary_categories": [
         "Authoring, Testing & Management"
@@ -1279,10 +1282,8 @@
       ],
       "curated_action_id": "PA-006",
       "curated_action_title": "Decouple Actions from a single required Blueprint",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.78
     },
     {
       "feedback_id": "66c8d155bc622140de9a1e79",
@@ -1317,7 +1318,7 @@
       "user_need": "Action builders need to combine secret inputs with approval workflows so sensitive values remain protected even when a request must be reviewed and approved.",
       "suggested_product_action": "Support secret input fields correctly within actions that also require approver review",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "defining an input as a secret does not work in cases where there is an approver on the action",
       "secondary_categories": [
         "Permissions & Approvals"
@@ -1335,11 +1336,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-035",
       "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
-      "review_reasons": [
-        "classification disputed",
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.72
     },
     {
       "feedback_id": "661812f8f2d3cbf4dabfe941",
@@ -1525,7 +1523,7 @@
       "user_need": "Ensure that actions performed in external systems reflect the requesting user's own permissions and identity from the shared IAM provider.",
       "suggested_product_action": "Enable delegated execution of self-service actions using the invoking user's identity and permissions from the shared IAM provider",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "the action should be performed on behalf of that user, inheriting their identity, role-based access controls (RBAC), and authorized privileges",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -1541,9 +1539,8 @@
       ],
       "curated_action_id": "PA-031",
       "curated_action_title": "Support delegated and per-request authentication",
-      "review_reasons": [
-        "the classifier asked for review"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.95
     },
     {
       "feedback_id": "65797cbdedc7e06daa98a9c7",
@@ -1661,7 +1658,7 @@
       "user_need": "Ability to write permission conditions based on the current user's properties and relations.",
       "suggested_product_action": "Support dynamic user property functions such as getUserEmail and getUserTeams in action permission conditions",
       "confidence": 0.85,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "using dynamic properties (getUserEmail, getUserTeams) is not available in day-2 action conditions",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -1677,9 +1674,8 @@
       ],
       "curated_action_id": "PA-058",
       "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
-      "review_reasons": [
-        "classification disputed"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.75
     },
     {
       "feedback_id": "679265f3a7c7da4003832a79",
@@ -1709,7 +1705,7 @@
       "user_need": "Action builders need to restrict or filter selectable entities in a form field based on calculated properties, not just raw properties.",
       "suggested_product_action": "Support calculated properties as valid criteria in self-service action dataset search conditions",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "search conditions cannot be applied to calculated properties in self-service actions",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -1725,10 +1721,8 @@
       ],
       "curated_action_id": "PA-024",
       "curated_action_title": "Allow calculated properties in dataset conditions",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.72
     },
     {
       "feedback_id": "666ec4697bfd74c4333701ac",
@@ -1851,7 +1845,7 @@
       "user_need": "The ability to trigger manual approval conditionally based on the value entered in a form field.",
       "suggested_product_action": "Enable conditional approval policies triggered by specific action input values",
       "confidence": 0.72,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "decide if a certain input in the action form is a certain value, enforce manual approval",
       "secondary_categories": [
         "Validation & Rules"
@@ -1871,9 +1865,8 @@
       ],
       "curated_action_id": "PA-063",
       "curated_action_title": "Determine whether an approval is required from input values or external logic",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.9
     },
     {
       "feedback_id": "675b0c008682d4e202eeeb9a",
@@ -1929,9 +1922,9 @@
       "curated_action_id": "PA-026b",
       "curated_action_title": "Support conditional visibility of form steps based on data conditions",
       "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+        "a conditionally shown step - form layout or conditional rules"
+      ],
+      "review_confidence": 0.6
     },
     {
       "feedback_id": "65b62b199794d2cfb2ae1c65",
@@ -2230,7 +2223,7 @@
       "user_need": "The ability to stop an in-progress action and trigger external communication when cancellation occurs.",
       "suggested_product_action": "Add a cancel/stop control for running actions that can trigger external notifications",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Add a cancel button to self service actions and allow configuration for the cancel button to invoke external communication.",
       "secondary_categories": [
         "Invocation & Integrations"
@@ -2250,10 +2243,8 @@
       ],
       "curated_action_id": "PA-018",
       "curated_action_title": "Add configurable cancellation for running Actions",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.9
     },
     {
       "feedback_id": "6a5f5f078c21fd6aad770522",
@@ -2376,7 +2367,7 @@
       "user_need": "The user needs to know who is responsible for approving their action run so they can follow up if needed.",
       "suggested_product_action": "Display the assigned approvers for an action run on the run details page.",
       "confidence": 0.85,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "you can't see who is the action approvers in the run page",
       "secondary_categories": [
         "Observability & Debugging"
@@ -2396,9 +2387,8 @@
       ],
       "curated_action_id": "PA-065c",
       "curated_action_title": "Show the resolved approvers to the requester on the Run page",
-      "review_reasons": [
-        "classification disputed"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.72
     },
     {
       "feedback_id": "66c44eb2cd45c987968ca491",
@@ -2626,10 +2616,9 @@
       "curated_action_id": "PA-070",
       "curated_action_title": "Show permission-definition changes in audit history",
       "review_reasons": [
-        "classification disputed",
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+        "the subject is permissions but the gap is in the audit log"
+      ],
+      "review_confidence": 0.55
     },
     {
       "feedback_id": "64e494a2a6c07309e3af5db7",
@@ -2710,7 +2699,7 @@
       "user_need": "To know if an input is valid before submitting the entire form so they don't have to redo all fields after an error.",
       "suggested_product_action": "Enable pre-submission backend validation requests per field with inline error display in the action form.",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "validate the user input for corectness against custom business logic, and display an error returned from the backend under the text field, without actually submitting the form",
       "secondary_categories": [
         "Validation & Rules"
@@ -2728,9 +2717,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-075",
       "curated_action_title": "Support inline backend validation before form submission",
-      "review_reasons": [
-        "classification disputed"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.75
     },
     {
       "feedback_id": "669fced47627f58ee55d66ec",
@@ -2765,7 +2753,7 @@
       "user_need": "Admins need the ability to have an Action call a REST API using the requesting user's authenticated identity rather than a shared service identity.",
       "suggested_product_action": "Support configuring OAuth2/JWT delegated user authentication for Self-Service Action backend invocations",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "call a REST API endpoint with the user token required by the API for authentication and authorization purpose",
       "secondary_categories": [
         "Identity, Secrets & Security"
@@ -2785,9 +2773,8 @@
       ],
       "curated_action_id": "PA-031",
       "curated_action_title": "Support delegated and per-request authentication",
-      "review_reasons": [
-        "the classifier asked for review"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.9
     },
     {
       "feedback_id": "6728c6a7e9894c1a059aa821",
@@ -2817,7 +2804,7 @@
       "user_need": "Easily deliver action-triggered notifications and messages into Microsoft Teams without building and maintaining a custom backend service.",
       "suggested_product_action": "Provide a native Microsoft Teams Bot integration usable as an action invocation backend for sending messages to Teams channels and users",
       "confidence": 0.55,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Currently we've got to consider building our own backend service to handle the event from Port and figure out how to deliver into Teams.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -2833,10 +2820,8 @@
       ],
       "curated_action_id": "PA-036c",
       "curated_action_title": "Provide a native Microsoft Teams Bot invocation backend",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.88
     },
     {
       "feedback_id": "6813989004de8f03ddb52f90",
@@ -2996,7 +2981,7 @@
       "user_need": "The user wants the AWS integration to support real-time event updates rather than periodic sync.",
       "suggested_product_action": "Add live event support to the AWS integration V3",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Support live events in AWS V3",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -3038,7 +3023,7 @@
       "user_need": "The user needs finer-grained control over permission roles beyond the current fixed set.",
       "suggested_product_action": "Support creation and management of custom granular roles for platform-wide permissions",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Add support for creating and managing additional roles to improve flexibility in permissions.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -4240,7 +4225,7 @@
       "user_need": "The ability to quickly create new self-service actions for arbitrary tasks without first defining or attaching a blueprint.",
       "suggested_product_action": "Allow creation of self-service actions that are not required to target a predefined blueprint.",
       "confidence": 0.55,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "I want the ability to create self-service actions directly within Port without the need for predefined blueprints",
       "secondary_categories": [
         "Authoring, Testing & Management"
@@ -4260,11 +4245,8 @@
       ],
       "curated_action_id": "PA-006",
       "curated_action_title": "Decouple Actions from a single required Blueprint",
-      "review_reasons": [
-        "classification disputed",
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.72
     },
     {
       "feedback_id": "682c35c03d53193a7ca01e11",
@@ -4492,7 +4474,7 @@
       "user_need": "A faster way to test and iterate on workflow changes without regenerating events.",
       "suggested_product_action": "Add a re-run capability for previous workflow/automation runs to speed up testing iteration.",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Being able to re-run a previous workflow run would significantly speed up the iteration cycle.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -4669,7 +4651,7 @@
       "user_need": "Ability to reference a whole filtered set of entities as the target or payload of one action execution.",
       "suggested_product_action": "Enable running a single action against the full set of filtered/selected entities in a table view, including passing them as payload references",
       "confidence": 0.7,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "I want to run a single action that references all entities",
       "secondary_categories": [
         "Invocation & Integrations"
@@ -4687,9 +4669,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-013",
       "curated_action_title": "Run one Action against selected or filtered entity sets",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.85
     },
     {
       "feedback_id": "6492ce2717e04538dd2b68f0",
@@ -4787,8 +4768,9 @@
       "curated_action_id": "PA-055",
       "curated_action_title": "Make multi-step, multi-backend orchestration first class",
       "review_reasons": [
-        "the classifier asked for review"
-      ]
+        "one action, several backends - backend selection or workflow branching"
+      ],
+      "review_confidence": 0.6
     },
     {
       "feedback_id": "695bf72d297ab788de024c91",
@@ -4860,7 +4842,7 @@
       "user_need": "A way to route human-in-the-loop approval requests to the right person or group dynamically, such as the on-call engineer.",
       "suggested_product_action": "Support team, role and dynamic policy based routing in the Workflows Input node",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Right now the Input node supports only a static list of users.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -5624,7 +5606,7 @@
       "user_need": "The user needs a way to restrict who can see the detailed payload information for an action run.",
       "suggested_product_action": "Add a configurable toggle to enable or disable visibility of the payload 'See details' section for self-service action runs.",
       "confidence": 0.55,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Need a toggle to turn it on/off for the self-service actions.",
       "secondary_categories": [
         "Observability & Debugging"
@@ -5642,10 +5624,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-035",
       "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.72
     },
     {
       "feedback_id": "65c3900fc543d815a5cbf71b",
@@ -6167,7 +6147,7 @@
       "user_need": "Action builders need to populate form fields with data fetched dynamically from external systems using custom logic.",
       "suggested_product_action": "Support executing custom scripts (e.g. JavaScript or Python) to fetch and populate dynamic form field values from external APIs.",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Lack of ability to run scripts on Port JS/PS/python",
       "secondary_categories": [
         "Invocation & Integrations"
@@ -6187,10 +6167,8 @@
       ],
       "curated_action_id": "PA-022",
       "curated_action_title": "Populate dynamic form options from external APIs",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.8
     },
     {
       "feedback_id": "66f2e05d64936aa378c31c74",
@@ -6350,7 +6328,7 @@
       "user_need": "The user wants to invoke serverless functions and run simple actions directly through Port without configuring external webhook infrastructure.",
       "suggested_product_action": "Add native invocation support for Port-hosted actions and direct Lambda/OpenFAAS backends",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "another invocation type that would be awesome, would be directly integrating with Lambda and OpenFAAS",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -6366,10 +6344,8 @@
       ],
       "curated_action_id": "PA-036",
       "curated_action_title": "Add native invocation for Port-hosted actions and direct Lambda/OpenFAAS backends",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.85
     },
     {
       "feedback_id": "6776cc6eb98f2dbf25dd06e7",
@@ -6923,7 +6899,7 @@
       "user_need": "The user wants to manage platform user roles as infrastructure-as-code.",
       "suggested_product_action": "Provide a Terraform provider resource for managing user roles outside of the Actions system",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Terraform Provider | Users roles resource",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -7159,8 +7135,9 @@
       "curated_action_id": "PA-050",
       "curated_action_title": "Expose complete approval provenance in Run records",
       "review_reasons": [
-        "classification disputed"
-      ]
+        "the approver in run context - approvals, run history or run traceability"
+      ],
+      "review_confidence": 0.55
     },
     {
       "feedback_id": "6489ffa40370ff090a8af507",
@@ -7283,7 +7260,7 @@
       "user_need": "The user needs to trigger alerts on workflow failure while still having the run accurately reflect that it failed.",
       "suggested_product_action": "Add a dedicated onWorkflowFailure or finally-style branch that runs cleanup/notification steps without altering the workflow's final failure status.",
       "confidence": 0.55,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Can't easily implement basic alerting without misrepresenting operational health.",
       "secondary_categories": [
         "Execution Lifecycle"
@@ -7303,10 +7280,8 @@
       ],
       "curated_action_id": "PA-057",
       "curated_action_title": "Add workflow-level failure and finally branches",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.92
     },
     {
       "feedback_id": "6943427596a1ed2e9f41c9a8",
@@ -7595,8 +7570,9 @@
       "curated_action_id": "PA-059",
       "curated_action_title": "Make permission policies reusable and more expressive",
       "review_reasons": [
-        "classification disputed"
-      ]
+        "deny rules read as permission authoring, not eligibility"
+      ],
+      "review_confidence": 0.5
     },
     {
       "feedback_id": "6967774a6dfee8ee8e4ce896",
@@ -7900,7 +7876,7 @@
       "user_need": "Reduce repetitive manual configuration by reusing existing blueprint property definitions when building actions.",
       "suggested_product_action": "Enable auto-generating action inputs from an existing blueprint's properties, with the option to customize afterward.",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "that action has to be created and its inputs need to be configured manually",
       "secondary_categories": [
         "Form Configuration"
@@ -7920,9 +7896,8 @@
       ],
       "curated_action_id": "PA-005",
       "curated_action_title": "Generate Action inputs from Blueprint definitions",
-      "review_reasons": [
-        "classification disputed"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.75
     },
     {
       "feedback_id": "69bd84cb8555c6d9dff37d2e",
@@ -8099,8 +8074,9 @@
       "curated_action_id": "PA-011",
       "curated_action_title": "Support context-based Action placement rules",
       "review_reasons": [
-        "the classifier asked for review"
-      ]
+        "conditional availability of an action - discovery and placement, or action eligibility"
+      ],
+      "review_confidence": 0.55
     },
     {
       "feedback_id": "67ff7c3fc33aac9a829e4a8d",
@@ -8130,7 +8106,7 @@
       "user_need": "Users need to submit natural text with standard punctuation without breaking entity creation.",
       "suggested_product_action": "Expand the allowed character set in the entity identifier regex pattern to include common punctuation such as apostrophes.",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "the entity creation fails if the title includes certain characters, such as apostrophes",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -8231,8 +8207,9 @@
       "curated_action_id": "PA-033",
       "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration",
       "review_reasons": [
-        "scope disputed"
-      ]
+        "a catalog webhook secret, not a self-service action - scope is disputed"
+      ],
+      "review_confidence": 0.4
     },
     {
       "feedback_id": "65f03ef6cb7414bcffae7545",
@@ -8262,7 +8239,7 @@
       "user_need": "Action builders want a simple way to let end users update catalog data (like Service team or Tier) directly through a form.",
       "suggested_product_action": "Provide a native invocation method that lets self-service actions create or update catalog entities directly.",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "will allow updating catalog entities as part of a self-service action form/automation execution",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -8278,9 +8255,8 @@
       ],
       "curated_action_id": "PA-037",
       "curated_action_title": "Expand native catalog entity mutation invocation",
-      "review_reasons": [
-        "the classifier asked for review"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.85
     },
     {
       "feedback_id": "68127ab6fd3a32236bbbbeba",
@@ -8403,7 +8379,7 @@
       "user_need": "The ability to control exactly which entity properties are passed into the action's payload.",
       "suggested_product_action": "Allow action builders to select which properties of a targeted entity are included in the action payload.",
       "confidence": 0.72,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "The self-service engineer should be able to choose which entity properties or property are relevant to send to the self-service action.",
       "secondary_categories": [
         "Context, Targeting & Pre-fill"
@@ -8421,9 +8397,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-042",
       "curated_action_title": "Map selected and invoking entity data into payloads",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.9
     },
     {
       "feedback_id": "64b93341745be567b249a32f",
@@ -9186,7 +9161,7 @@
       "user_need": "The user needs a way to limit or stagger how many times an automated workflow can run in a short period to avoid runaway costs.",
       "suggested_product_action": "Add rate limiting and staggered execution controls for automation workflow triggers",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "this was a costly incident and we would like the ability to circuit break workflows when they attempt to run a certain number",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -9274,7 +9249,7 @@
       "user_need": "The user needs to assign team ownership to a Workflow programmatically at creation time, matching what is possible in the UI.",
       "suggested_product_action": "Support the team field on Workflows create and update API endpoints and document it in the API reference.",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "The team field is silently ignored when included in a POST /v1/workflows request body, making it impossible to assign team ownership to a workflow at creation time via the API.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -9376,7 +9351,7 @@
       "user_need": "The ability to fetch short-lived dynamic credentials during a run without exposing their values in visible run history.",
       "suggested_product_action": "Enable marking specific run output variables as sensitive so their values are automatically redacted or masked in run history displays.",
       "confidence": 0.85,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "There is currently no way to mark a variable as sensitive so that its value is redacted or masked in the run history display.",
       "secondary_categories": [
         "Identity, Secrets & Security"
@@ -9394,9 +9369,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-035",
       "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
-      "review_reasons": [
-        "scope disputed"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.78
     },
     {
       "feedback_id": "699c78c2ebbb27ef14d76770",
@@ -9525,7 +9499,7 @@
       "user_need": "The user wants to manage all Port resources, including Workflows, consistently through code rather than the UI.",
       "suggested_product_action": "Add Terraform and Pulumi resource support for managing Workflows as code",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "it removes the gap where workflows must be managed via the UI while everything else is code-managed",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -9593,10 +9567,9 @@
       "curated_action_id": "PA-059",
       "curated_action_title": "Make permission policies reusable and more expressive",
       "review_reasons": [
-        "classification disputed",
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+        "policy reuse reads as permission authoring, not eligibility"
+      ],
+      "review_confidence": 0.45
     },
     {
       "feedback_id": "67adc340ed8cfaae72b680d0",
@@ -9652,10 +9625,9 @@
       "curated_action_id": "PA-031",
       "curated_action_title": "Support delegated and per-request authentication",
       "review_reasons": [
-        "classification disputed",
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+        "fetching a token per request reads as request signing, not requester identity"
+      ],
+      "review_confidence": 0.5
     },
     {
       "feedback_id": "6a68eae5c3da61d5163bbf80",
@@ -10248,8 +10220,9 @@
       "curated_action_id": "PA-027",
       "curated_action_title": "Expand field display metadata and friendly labels",
       "review_reasons": [
-        "classification disputed"
-      ]
+        "enumLabels - input structure or form presentation"
+      ],
+      "review_confidence": 0.55
     },
     {
       "feedback_id": "69f1052c6a8c8903012ea194",
@@ -10523,8 +10496,9 @@
       "curated_action_id": "PA-073",
       "curated_action_title": "Add strict configurable validation to GitOps dry runs",
       "review_reasons": [
-        "scope disputed"
-      ]
+        "GitOps file validation, not self-service actions - scope is disputed"
+      ],
+      "review_confidence": 0.4
     },
     {
       "feedback_id": "68c1d18fa34b05cc8bf233c6",
@@ -10856,7 +10830,7 @@
       "user_need": "The user needs a way to authenticate or act as a specific end-user when integrating external systems with Port's AI Agent API, particularly for SSO-based setups.",
       "suggested_product_action": "Add support for passing user context and SSO-based delegated authorization to the AI Agent invocation API.",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "there should be a mechanism to allow authorization as a particular user from a third party system to enable building custom integrations",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -10924,8 +10898,9 @@
       "curated_action_id": "PA-059",
       "curated_action_title": "Make permission policies reusable and more expressive",
       "review_reasons": [
-        "classification disputed"
-      ]
+        "reads as permission authoring ergonomics, not who is eligible"
+      ],
+      "review_confidence": 0.45
     },
     {
       "feedback_id": "66718308988563c6da0bb9a9",
@@ -11056,7 +11031,7 @@
       "user_need": "Ability to specify a custom timestamp for log entries to reflect the actual event time rather than the system-generated time.",
       "suggested_product_action": "Allow users to specify a custom timestamp for each log entry in the action run log stream.",
       "confidence": 0.7,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "change the system-generated timestamp that Port assigns to each log entry to a custom timestamp we manually specify",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -11072,9 +11047,8 @@
       ],
       "curated_action_id": "PA-046",
       "curated_action_title": "Expand the Run log-entry API",
-      "review_reasons": [
-        "the classifier asked for review"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.85
     },
     {
       "feedback_id": "64f4adb66cbacd09633abd68",
@@ -11104,7 +11078,7 @@
       "user_need": "Users want log data to be automatically captured and streamed from a file during action execution without extra manual steps.",
       "suggested_product_action": "Enable automatic log streaming from a file during action runs instead of requiring a manual API call",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Instead of requiring a dedicated API call done by the user",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -11120,10 +11094,8 @@
       ],
       "curated_action_id": "PA-044",
       "curated_action_title": "Stream Run logs automatically and expose quick previews",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.88
     },
     {
       "feedback_id": "69c68407d76b1fe6b0cdd182",
@@ -11153,7 +11125,7 @@
       "user_need": "Ability to monitor overall platform operations, including but not limited to self-service workflows, using existing observability tools.",
       "suggested_product_action": "Provide OpenTelemetry-based export of platform metrics and logs for external observability tools.",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "consume operational metrics and log data using an open format within my standard observability platform",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -11242,7 +11214,7 @@
       "user_need": "Wants an easy way to access the triggered GitLab pipeline from the run without manual searching.",
       "suggested_product_action": "Include the pipeline URL in the default GitLab payload configuration for easy access from the run",
       "confidence": 0.55,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "The Gitlab default payload config should reflect back a url to the pipeline for easy access",
       "secondary_categories": [
         "Invocation & Integrations"
@@ -11260,10 +11232,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-054",
       "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.8
     },
     {
       "feedback_id": "6971456c9974c06421a7fd9e",
@@ -11293,7 +11263,7 @@
       "user_need": "A need for reliable, enterprise-grade tooling to manage and migrate catalog configuration across environments and organizations.",
       "suggested_product_action": "Improve reliability of Terraform-based export, import, and multi-org migration for catalog configuration",
       "confidence": 0.85,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Improve export/import reliability, environment promotion, and multi-org migration to prevent rollout delays",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -11305,9 +11275,8 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:20.177341+00:00",
       "topic_tags": [],
-      "review_reasons": [
-        "scope disputed"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.85
     },
     {
       "feedback_id": "6582ce708d54e728d31b780f",
@@ -11342,7 +11311,7 @@
       "user_need": "The user needs Port to accurately reflect the full range of GitLab pipeline statuses in the action run status.",
       "suggested_product_action": "Expand supported run completion statuses to include all backend-specific status values such as GitLab pipeline statuses",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "the list should contain all Gitlab's possible pipeline statuses: (created, waiting_for_resource, preparing, pending, running, success, failed, canceled, skipped, manual, scheduled)",
       "secondary_categories": [
         "Observability & Debugging"
@@ -11360,9 +11329,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-014",
       "curated_action_title": "Support flexible backend-specific Run result states",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.88
     },
     {
       "feedback_id": "69aea7465215d6801a4895da",
@@ -11502,8 +11470,9 @@
       "curated_action_id": "PA-008",
       "curated_action_title": "Support context-aware filters and pre-filled pickers",
       "review_reasons": [
-        "classification disputed"
-      ]
+        "dynamic picker defaults - input configuration or contextual pre-fill"
+      ],
+      "review_confidence": 0.6
     },
     {
       "feedback_id": "6a1d45a5b06d5b62ae23dc43",
@@ -11538,7 +11507,7 @@
       "user_need": "The ability to show a button label that reflects the user's previous choices in the form.",
       "suggested_product_action": "Support dynamic expressions (e.g. JQ) for the action button text field so it can reflect prior form selections.",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Can we allow dynamic value using jqqyery for executeActionButtonText field, so that the button text can change based on previous selection.",
       "secondary_categories": [
         "Form Configuration"
@@ -11558,11 +11527,8 @@
       ],
       "curated_action_id": "PA-025c",
       "curated_action_title": "Support dynamic expressions for Action button text",
-      "review_reasons": [
-        "classification disputed",
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.75
     },
     {
       "feedback_id": "6a0f0765f1bb95af4396d0aa",
@@ -11597,7 +11563,7 @@
       "user_need": "Users need to construct authentication headers like Basic Auth directly inside the action configuration without leaving Port.",
       "suggested_product_action": "Add a native Base64 encoding function available within action expression/payload configuration for building authentication headers.",
       "confidence": 0.55,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "base64 encoding username:PAT (or :PAT) is the correct approach, and right now you have to do so outside of Port",
       "secondary_categories": [
         "Identity, Secrets & Security"
@@ -11615,10 +11581,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-041",
       "curated_action_title": "Provide universal payload transformation functions",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.75
     },
     {
       "feedback_id": "6a3586ab940f0b4a269d450c",
@@ -11653,7 +11617,7 @@
       "user_need": "Ensure that data submitted through any entry point into an action is validated consistently, not only when using the form UI.",
       "suggested_product_action": "Enforce form-defined input and permission validation rules server-side across all invocation paths including API, JSON mode, and MCP.",
       "confidence": 0.72,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Any execution path that bypasses the form UI, JSON mode, direct API calls, or Port's MCP, skips these validations entirely, allowing invalid or unauthorized inputs to be submitted.",
       "secondary_categories": [
         "Permissions & Approvals"
@@ -11671,9 +11635,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-074",
       "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.95
     },
     {
       "feedback_id": "6a4b4a7e3395e568ba0e931f",
@@ -11729,9 +11692,9 @@
       "curated_action_id": "PA-067",
       "curated_action_title": "Provide an approver dashboard and a focused, readable decision view",
       "review_reasons": [
-        "classification disputed",
-        "flagged during the v3 migration"
-      ]
+        "an approver view inside a workflow node - workflow approvals or approver experience"
+      ],
+      "review_confidence": 0.55
     },
     {
       "feedback_id": "6a50eea591b05abba241121a",
@@ -12203,8 +12166,9 @@
       "curated_action_id": "PA-060",
       "curated_action_title": "Enforce permissions consistently in entity inputs and creation",
       "review_reasons": [
-        "scope disputed"
-      ]
+        "catalog entity permissions, not action permissions - scope is disputed"
+      ],
+      "review_confidence": 0.45
     },
     {
       "feedback_id": "69960f60aac09c7ab5f383b1",
@@ -12893,7 +12857,7 @@
       "user_need": "The user needs to dynamically select which integration installation runs the action based on the selected repository, rather than hard-coding a fixed installation id.",
       "suggested_product_action": "Support computed/dynamic expressions for the installationId field in INTEGRATION_ACTION invocation configuration",
       "confidence": 0.72,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "The template renders correctly in the payload preview, but the integration is never invoked (no GitHub workflow run, nothing in the GitHub integration logs).",
       "secondary_categories": [
         "Observability & Debugging"
@@ -12913,9 +12877,8 @@
       ],
       "curated_action_id": "PA-039",
       "curated_action_title": "Allow dynamic integration installation selection",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.8
     },
     {
       "feedback_id": "6874c373410d522ad019cd56",
@@ -13005,7 +12968,7 @@
       "user_need": "Wants form defaults to be applied without triggering premature validation errors on load.",
       "suggested_product_action": "Support a UI-level default value option that applies defaults without triggering validation on initial form load.",
       "confidence": 0.75,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "preventing validation from triggering too soon during form initialization",
       "secondary_categories": [
         "Validation & Rules"
@@ -13025,9 +12988,8 @@
       ],
       "curated_action_id": "PA-021",
       "curated_action_title": "Make default-value initialization predictable",
-      "review_reasons": [
-        "the classifier asked for review"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.8
     },
     {
       "feedback_id": "6a39593eadcbcb23ea8c10c1",
@@ -13225,7 +13187,7 @@
       "user_need": "Builders need reliable, trustworthy information about who is running an action (including team relationships) without risking impersonation.",
       "suggested_product_action": "Expose additional trusted executing-user context (such as team relationships) in the action backend payload without relying on user-editable inputs",
       "confidence": 0.72,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Passing the User Form .user object to the backend is not safe, as it can be spoofed and allow user impersonation.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -13241,9 +13203,8 @@
       ],
       "curated_action_id": "PA-032",
       "curated_action_title": "Expose trusted requester context to Action backends",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.9
     },
     {
       "feedback_id": "69c1a3bff8901915c20c5ca3",
@@ -13412,7 +13373,7 @@
       "user_need": "The ability to grant machine-generated tokens permission to run self-service actions.",
       "suggested_product_action": "Allow configuring action permission rules to grant organization-generated tokens the ability to trigger actions",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Allow the configuring of action permissions to allow organization generated tokens to trigger actions",
       "secondary_categories": [
         "Identity, Secrets & Security"
@@ -13432,10 +13393,8 @@
       ],
       "curated_action_id": "PA-062",
       "curated_action_title": "Control machine-token and invocation-source access",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.85
     },
     {
       "feedback_id": "682f670b596869f89577489f",
@@ -13617,7 +13576,7 @@
       "user_need": "Approvers need an efficient way to see all pending and past approval requests and act on multiple requests quickly.",
       "suggested_product_action": "Provide an approver dashboard with queue view, approval history, status filtering, and bulk approve/reject actions.",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "offer advanced filtering options to easily focus on those \"Waiting for Approval.\"",
       "secondary_categories": [
         "Discovery, Organization & Reuse"
@@ -13637,10 +13596,8 @@
       ],
       "curated_action_id": "PA-067",
       "curated_action_title": "Provide an approver dashboard and a focused, readable decision view",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.92
     },
     {
       "feedback_id": "67583e21f84a4af5d432d045",
@@ -13910,7 +13867,7 @@
       "user_need": "Developers want to complete action workflows entirely in Slack without switching context, while admins need to control when this is allowed.",
       "suggested_product_action": "Add a configurable per-action or org-level policy allowing self-service actions initiated via Slack to execute automatically after parameters are collected.",
       "confidence": 0.72,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "the bot intentionally does not execute the action automatically. Instead, it collects some parameters and then redirects the user back to the Port UI",
       "secondary_categories": [
         "Permissions & Approvals"
@@ -13930,10 +13887,8 @@
       ],
       "curated_action_id": "PA-009",
       "curated_action_title": "Allow controlled end-to-end Action execution in Slack",
-      "review_reasons": [
-        "classification disputed",
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.75
     },
     {
       "feedback_id": "693717e9a5e8f26790db4e71",
@@ -13968,7 +13923,7 @@
       "user_need": "The ability to bypass payload manipulation and have the Execution Agent simply pass through everything it receives.",
       "suggested_product_action": "Add a configuration toggle to disable payload transformation in the Execution Agent so it forwards the full received payload, including headers and body, unmodified.",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "I mean for it to just forward whatever payload it receives: headers, body",
       "secondary_categories": [
         "Invocation & Integrations"
@@ -13986,10 +13941,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-043",
       "curated_action_title": "Make Execution Agent payload handling configurable in the UI",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.72
     },
     {
       "feedback_id": "672b52a3c45ed39e22567862",
@@ -14156,7 +14109,7 @@
       "user_need": "Ability to connect the execution agent to internal services secured with self-signed certificates without manually managing certificate trust.",
       "suggested_product_action": "Add an SSL no-verify configuration option to the execution agent for connecting to internal servers",
       "confidence": 0.55,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "We want to communicate with an internal service without the hassle of handling the self signed certificates",
       "secondary_categories": [
         "Identity, Secrets & Security"
@@ -14174,10 +14127,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-040b",
       "curated_action_title": "Add configurable TLS trust behaviour to the execution agent",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.88
     },
     {
       "feedback_id": "6833b6005e235d7e91968c71",
@@ -14548,9 +14499,9 @@
       "curated_action_id": "PA-071",
       "curated_action_title": "Modernize JQ authoring, validation and runtime visibility",
       "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+        "near-identical to the surface-JQ-errors record, which is filed under logs and error diagnostics"
+      ],
+      "review_confidence": 0.5
     },
     {
       "feedback_id": "66e68c9ff85bef2fa5d4dc82",
@@ -14585,7 +14536,7 @@
       "user_need": "Builders need to know when and why a JQ-based rule fails so they can fix broken actions or automations.",
       "suggested_product_action": "Surface JQ evaluation errors in a monitorable log or alert so failures in actions and automations are visible and actionable.",
       "confidence": 0.72,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "when there is an error with a JQ, you can't see it, and usually, the action is skipped",
       "secondary_categories": [
         "Validation & Rules"
@@ -14605,9 +14556,8 @@
       ],
       "curated_action_id": "PA-047",
       "curated_action_title": "Surface complete backend and expression error diagnostics",
-      "review_reasons": [
-        "flagged during the v3 migration"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.8
     },
     {
       "feedback_id": "673bceee3240094e0c96bc6c",
@@ -14751,8 +14701,9 @@
       "curated_action_id": "PA-038",
       "curated_action_title": "Provide a generic invocation method that posts log messages to a Run",
       "review_reasons": [
-        "low classifier confidence"
-      ]
+        "a new invocation method whose purpose is logging - artifact and outcome sit in different categories"
+      ],
+      "review_confidence": 0.6
     },
     {
       "feedback_id": "6589bbb30ae0869b95c141cd",
@@ -14886,7 +14837,7 @@
       "user_need": "Ensure an action always retains at least one valid execute permission so it does not become unusable.",
       "suggested_product_action": "Prevent saving an action configuration with zero execute permissions, or default to retaining admin execute access",
       "confidence": 0.85,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "execute permissions can be removed entirely, which allows an action to be saved with no execute permissions at all",
       "secondary_categories": [
         "Permissions & Approvals"
@@ -14904,9 +14855,8 @@
       "topic_tags": [],
       "curated_action_id": "PA-069",
       "curated_action_title": "Add a guided permission authoring, validation and debugging experience",
-      "review_reasons": [
-        "classification disputed"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.75
     },
     {
       "feedback_id": "6481f12a7635744f37484976",
@@ -14941,7 +14891,7 @@
       "user_need": "Ensure sensitive actions are reviewed and approved before execution while still letting users self-serve.",
       "suggested_product_action": "Enable configurable approval steps on self-service actions with notification of the approving party",
       "confidence": 0.6,
-      "needs_human_review": true,
+      "needs_human_review": false,
       "evidence_excerpt": "Admins can define an approval step on chosen self-service actions.",
       "secondary_categories": [
         "Permissions & Approvals"
@@ -14961,10 +14911,8 @@
       ],
       "curated_action_id": "PA-063c",
       "curated_action_title": "Provide a configurable manual approval step on Actions",
-      "review_reasons": [
-        "flagged during the v3 migration",
-        "low classifier confidence"
-      ]
+      "review_reasons": [],
+      "review_confidence": 0.95
     },
     {
       "feedback_id": "69a98a661fe40914834d9831",
