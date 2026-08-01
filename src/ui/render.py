@@ -573,7 +573,18 @@ def render_feedback_cards(records: list[dict]) -> str:
             f'<div class="afi-feedback-head">'
             f'<div class="afi-feedback-title">{_esc(r["title"])}</div>'
             f'{_severity_badge(int(r["severity"]))}</div>'
-            f'<div class="afi-recommended-action"><span>Recommended product action</span>'
+            # "What this record asks for", not "Recommended product action".
+            #
+            # This is the model's reading of THIS record, and the card above it
+            # is the recommendation the record was grouped into -- two
+            # different things. They read as the same thing while groups were
+            # formed by text similarity, because the group's title was
+            # literally one member's sentence. Curated grouping merges records
+            # whose wording differs, so a card headed "Support delegated and
+            # per-request authentication" opened onto four records each
+            # announcing a different "Recommended product action", which reads
+            # as a mismatch rather than as evidence.
+            f'<div class="afi-recommended-action"><span>What this record asks for</span>'
             f'<strong>{_esc(r["suggested_product_action"])}</strong></div>'
             f'<div class="afi-feedback-meta">{"".join(meta)}</div>'
             f"{quote}"

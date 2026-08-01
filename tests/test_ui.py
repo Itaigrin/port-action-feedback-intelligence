@@ -353,8 +353,37 @@ def test_feedback_cards_show_source_status_and_created_date_separately(records):
     assert f'>{record["source_system"]}<' in html
     assert f'>{record["lifecycle_status"]}<' in html
     assert f'>{record["created_at"][:10]}<' in html
-    assert "Recommended product action" in html
+    assert "What this record asks for" in html
     assert "Open original source" in html
+
+
+def test_a_feedback_card_does_not_claim_to_be_the_recommendation():
+    """The per-record ask and the group's recommendation are different things.
+
+    Both were labelled "Recommended product action". That read as one thing
+    while groups were formed by text similarity -- the group's title was
+    literally one member's sentence, so the two matched. Curated grouping
+    merges records whose wording differs, and a card headed "Support delegated
+    and per-request authentication" then opened onto four records each
+    announcing a different "Recommended product action", which reads as a
+    mismatch rather than as the evidence behind the merge.
+    """
+    from src.ui.render import render_feedback_cards, render_product_actions
+
+    card = render_feedback_cards([{
+        "feedback_id": "x", "title": "t", "severity": 3,
+        "source_system": "Port portal", "lifecycle_status": "Open",
+        "created_at": "2026-01-01", "confidence": 0.9, "persona": "Action builder",
+        "primary_taxonomy_category": "Identity, Secrets & Security",
+        "primary_taxonomy_subcategory": "Authentication, execution identity & requester context",
+        "problem_type": "Feature gap", "journey_stage": "Backend & invocation setup",
+        "suggested_product_action": "Support per-user delegated OAuth2 execution",
+        "source_url": "https://roadmap.port.io/ideas/p/x",
+        "evidence_verified": False, "needs_human_review": False,
+    }])
+    assert "What this record asks for" in card
+    # The singular group-level phrase must not appear on a record card.
+    assert ">Recommended product action<" not in card
 
 
 def test_feedback_cards_hide_banned_metadata(records):
