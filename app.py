@@ -255,8 +255,11 @@ def render_filter_panel() -> dict:
         )
         review = st.selectbox(
             "Confidence / review state",
+            # "Needs human review" is exactly confidence < 0.70 (see
+            # src/analysis/review.THRESHOLD), so it and a separate
+            # "Low confidence" option would always select the same rows.
             ["All", "Needs human review", "High confidence (0.85+)",
-             "Medium confidence (0.70-0.84)", "Low confidence (<0.70)"],
+             "Medium confidence (0.70-0.84)"],
             key="f_review",
         )
 
@@ -324,8 +327,6 @@ def apply_filters(f: dict, search: str) -> pd.DataFrame:
         view = view[view["confidence"] >= 0.85]
     elif review == "Medium confidence (0.70-0.84)":
         view = view[(view["confidence"] >= 0.70) & (view["confidence"] < 0.85)]
-    elif review == "Low confidence (<0.70)":
-        view = view[view["confidence"] < 0.70]
 
     view = view[view["severity"] >= f["severity"]]
 
