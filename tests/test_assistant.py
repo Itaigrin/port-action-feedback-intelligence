@@ -77,7 +77,7 @@ def _record(**overrides) -> dict:
     base = {
         "feedback_id": "id-1", "title": "t", "is_relevant": True,
         "primary_taxonomy_category": "Identity, Secrets & Security",
-        "primary_taxonomy_subcategory": "Authentication & delegated execution",
+        "primary_taxonomy_subcategory": "Authentication, execution identity & requester context",
         "suggested_product_action": "Support OAuth2 per-user delegated execution",
         "problem_type": "Feature gap",
         "journey_stage": "Backend & invocation setup",

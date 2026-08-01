@@ -5,9 +5,11 @@ WHY THIS EXISTS
 Product actions used to be taxonomy subcategories. That made the supporting
 count wrong in a specific, misleading way: a card reading "4 open supporting
 records" opened onto every record in its subcategory, because the subcategory
-*was* the group. "Authentication & delegated execution" holds OAuth delegation,
-service accounts, JWT forwarding and impersonation controls -- four different
-product changes presented as one recommendation.
+*was* the group. "Authentication, execution identity & requester context"
+holds OAuth delegation, service accounts, JWT forwarding and impersonation
+controls -- four different product changes presented as one recommendation.
+Taxonomy v3.0 makes that worse rather than better: consolidating 63
+subcategories into 30 puts more distinct requests inside each one.
 
 Grouping now happens here, on the change being requested, and every group
 carries the exact feedback ids that belong to it.

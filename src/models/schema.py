@@ -225,9 +225,9 @@ class FeedbackClassification(BaseModel):
             self.problem_type = None
             self.journey_stage = None
             self.secondary_assignments = []
-            # Tags go too. They are taxonomy detail, and an out-of-scope record
-            # carrying "Approval policies & thresholds" would still surface in
-            # a tag search as though it had been classified.
+            # Tags go too. They are taxonomy detail, and an out-of-scope
+            # record carrying "Approval policies & approver routing" would
+            # still surface in a tag search as though it had been classified.
 
         # A secondary that repeats the primary, or repeats another secondary,
         # would double-count the same area in the drill-down.

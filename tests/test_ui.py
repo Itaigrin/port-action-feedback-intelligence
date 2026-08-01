@@ -101,7 +101,7 @@ def test_scope_filter_is_not_rendered():
 
 
 def _growth(**overrides) -> dict:
-    base = {"name": "RBAC & dynamic permissions", "previous_average": 0.33,
+    base = {"name": "Access control & action eligibility", "previous_average": 0.33,
             "last_week_count": 4, "absolute_increase": 3.67,
             "growth_pct": 1100.0, "is_new_spike": False, "has_data": True}
     base.update(overrides)
@@ -135,7 +135,7 @@ def test_trend_row_has_exactly_two_cards_journey_stage_first():
     from src.ui.render import render_trend_cards
 
     html = render_trend_cards(fastest_stage=_growth(name="Backend & invocation setup"),
-                              fastest_subcategory=_growth(name="RBAC & dynamic permissions"))
+                              fastest_subcategory=_growth(name="Access control & action eligibility"))
     assert html.count("afi-kpi-growth") == 2
     assert "Largest increase in negative feedback - Journey Stage" in html
     assert "Largest increase in negative feedback - Subcategory" in html
@@ -143,14 +143,14 @@ def test_trend_row_has_exactly_two_cards_journey_stage_first():
     # reading order, so this checks position, not which one "won".
     assert html.index("Journey Stage") < html.index("Backend &amp; invocation setup")
     assert (html.index("Backend &amp; invocation setup")
-            < html.index("RBAC &amp; dynamic permissions"))
+            < html.index("Access control &amp; action eligibility"))
 
 
 def test_growth_card_shows_the_absolute_increase_in_red_with_pct_as_context():
     from src.ui.render import render_growth_kpi
 
     html = render_growth_kpi("T", _growth())
-    assert "RBAC &amp; dynamic permissions" in html, "names must be escaped"
+    assert "Access control &amp; action eligibility" in html, "names must be escaped"
     assert "Prev 3-week avg: <b>0.33</b>" in html
     assert "Last full week: <b>4</b>" in html
     assert '<b class="afi-growth-increase">+3.67 records</b>' in html
@@ -479,7 +479,7 @@ def test_interactions_do_not_navigate_the_browser():
     }
     blocks = [
         render_taxonomy_chart([(c, 1) for c in CATEGORY_NAMES], None),
-        render_taxonomy_chart([("RBAC & dynamic permissions", 1)],
+        render_taxonomy_chart([("Access control & action eligibility", 1)],
                               "Permissions & Approvals"),
         render_product_actions([action], 10),
     ]
@@ -550,8 +550,8 @@ def test_feedback_section_carries_the_scroll_anchor():
         "title": "t", "source_system": "Port portal", "lifecycle_status": "Open",
         "created_at": "2026-01-01T00:00:00Z", "confidence": 0.9, "persona": "Unknown",
         "needs_human_review": False, "primary_taxonomy_category": "Orchestration",
-        "primary_taxonomy_subcategory": "Timeouts", "secondary_categories": [],
-        "problem_type": "Feature gap", "journey_stage": "Timeouts",
+        "primary_taxonomy_subcategory": "Reliability, timeouts & concurrency", "secondary_categories": [],
+        "problem_type": "Feature gap", "journey_stage": "Execution, monitoring & run control",
         "suggested_product_action": "do", "evidence_excerpt": "q",
         "evidence_verified": True, "severity": 3, "source_url": "https://x",
     }
@@ -631,9 +631,9 @@ def test_selecting_an_action_narrows_the_feedback_section():
     from src.ui.render import render_filter_state
 
     assert "focus" in inspect.signature(render_filter_state).parameters
-    html = render_filter_state(10, 182, 10, 1, focus="RBAC & dynamic permissions")
+    html = render_filter_state(10, 182, 10, 1, focus="Access control & action eligibility")
     assert "showing the evidence for" in html
-    assert "RBAC &amp; dynamic permissions" in html
+    assert "Access control &amp; action eligibility" in html
     assert "afi-focus-back" in html, "a way back out is required"
 
     # Unselected, the line is plain and offers no way back.

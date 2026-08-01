@@ -44,7 +44,7 @@ def _record(**overrides) -> dict:
     base = {
         "feedback_id": "id-1", "title": "t", "is_relevant": True,
         "primary_taxonomy_category": "Identity, Secrets & Security",
-        "primary_taxonomy_subcategory": "Authentication & delegated execution",
+        "primary_taxonomy_subcategory": "Authentication, execution identity & requester context",
         "suggested_product_action": "Support OAuth2 per-user delegated execution",
         "problem_type": "Feature gap",
         "journey_stage": "Backend & invocation setup",
@@ -368,9 +368,9 @@ def test_subcategory_insight_uses_primary_assignments_only():
 
     frame = pd.DataFrame([
         _record(feedback_id="p1",
-                primary_taxonomy_subcategory="Authentication & delegated execution"),
+                primary_taxonomy_subcategory="Authentication, execution identity & requester context"),
         _record(feedback_id="p2",
-                primary_taxonomy_subcategory="Service accounts & execution identity"),
+                primary_taxonomy_subcategory="Credentials, secrets & request signing"),
     ])
     card = negative_insight(frame, "subcategory")
     # Two different primaries, one record each -- the tie resolves
@@ -686,7 +686,7 @@ def test_duplicate_focus_is_resolved_on_the_subcategory_first():
     shared = "Mostly feature gap, then configuration complexity."
     journey = _card("Permissions & approvals",
                     ["feature gap", "configuration complexity"], shared)
-    subcategory = _card("RBAC & dynamic permissions",
+    subcategory = _card("Access control & action eligibility",
                         ["feature gap", "configuration complexity",
                          "security or privacy concern"], shared)
 
@@ -704,7 +704,7 @@ def test_duplicate_focus_falls_back_to_the_journey_card():
     journey = _card("Permissions & approvals",
                     ["feature gap", "configuration complexity",
                      "usability friction"], shared)
-    subcategory = _card("RBAC & dynamic permissions",
+    subcategory = _card("Access control & action eligibility",
                         ["feature gap", "configuration complexity"], shared)
 
     resolve_focus_collision(journey, subcategory)
@@ -719,7 +719,7 @@ def test_duplicate_focus_is_kept_when_neither_card_has_more():
     shared = "Mostly feature gap, then configuration complexity."
     ranking = ["feature gap", "configuration complexity"]
     journey = _card("Permissions & approvals", list(ranking), shared)
-    subcategory = _card("RBAC & dynamic permissions", list(ranking), shared)
+    subcategory = _card("Access control & action eligibility", list(ranking), shared)
 
     resolve_focus_collision(journey, subcategory)
     assert journey["recommended_focus"] == shared

@@ -197,8 +197,9 @@ def test_schema_rejects_invented_values():
     for bad in (
         dict(valid, primary_taxonomy_category="Invented Category"),
         dict(valid, primary_taxonomy_subcategory="Not A Subcategory"),
-        # A real subcategory, but belonging to a different category.
-        dict(valid, primary_taxonomy_subcategory="Timeouts"),
+        # A real subcategory, but belonging to a different category. The pair
+        # is the check: both halves exist, the combination does not.
+        dict(valid, primary_taxonomy_subcategory="Bulk actions"),
         dict(valid, journey_stage="Not A Stage"),
         dict(valid, problem_type="Rant"),
         dict(valid, persona="Chief Executive"),
@@ -258,10 +259,13 @@ REMOVED_NAMES = (
     "Context, targeting & pre-fill",         # differs in case from the stage
 )
 
-# A few retired theme names were demoted to subcategories, where they are now
-# valid and narrower. Only the ones with no place at all in the new taxonomy
-# may be asserted absent everywhere; the rest are checked as categories only.
-DEMOTED_TO_SUBCATEGORY = ("Dynamic & dependent inputs",)
+# v2.1 demoted a few retired theme names to subcategories, where they were
+# valid and narrower. v3.0 retired those too -- "Dynamic & dependent inputs"
+# became "Dynamic inputs, defaults & computed fields" -- so nothing is exempt
+# any more and every removed name must be absent everywhere. Left as an empty
+# tuple rather than deleted: the exemption is the kind of thing a future
+# taxonomy revision needs again, and its absence should be deliberate.
+DEMOTED_TO_SUBCATEGORY: tuple[str, ...] = ()
 
 
 def test_exactly_eleven_categories_in_order():
