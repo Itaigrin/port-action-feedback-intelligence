@@ -25,55 +25,55 @@ This project reads what users actually say, and produces an answer that a produc
 
 ## What it found
 
-Running end to end on **327 collected records**, of which **182 are in scope** for Action Configuration under the v2.0 hierarchical taxonomy. The other **145 were excluded with a stated reason** — catalog modelling, scorecards, the platform-wide audit log, data-source sync — rather than padded into the dataset to inflate the totals.
+Running end to end on **327 collected records**, of which **185 are in scope** for Action Configuration under the v3.0 hierarchical taxonomy. The other **142 were excluded with a stated reason** — catalog modelling, scorecards, the platform-wide audit log, data-source sync — rather than padded into the dataset to inflate the totals.
 
 | Finding | Evidence |
 |---|---|
-| **Permissions and approvals is the largest problem area, and it is not close.** It carries more in-scope records than the next area by 47%, and produces four of the top twelve recommended actions. | 47 records · 37 still open |
-| **The single most-supported change is a security one.** Ten open records describe users seeing action runs and entity details they should not have access to. | 10 open records · avg severity 3.5 |
-| **This board reports missing capability, not broken capability.** 128 of 182 in-scope records are feature gaps; only 7 are defects. A roadmap board is where people come to *ask for things* — Zendesk and Gong would surface the bug and usability signal this source structurally cannot. | 128 feature gap · 11 usability friction · 7 bug |
-| **Friction concentrates at three moments, not across the whole journey.** Permissions & approvals, execution/monitoring, and form configuration hold 119 of 182 records between them. | 48 · 39 · 32 records |
+| **Permissions and approvals is the largest problem area, and it is not close.** It carries 45% more in-scope records than the next area, and four of its subcategories rank in the top ten by volume. | 45 records · 31 still open |
+| **Access control is the single largest subcategory.** Records describe users seeing action runs and entity details they should not have access to, and approvers unable to act on what they are asked to approve. | 16 records · Access control & action eligibility |
+| **This board reports missing capability, not broken capability.** 133 of 185 in-scope records are feature gaps; only 8 are defects. A roadmap board is where people come to *ask for things* — Zendesk and Gong would surface the bug and usability signal this source structurally cannot. | 133 feature gap · 11 usability friction · 8 bug |
+| **Friction concentrates at three moments, not across the whole journey.** Permissions & approvals, execution/monitoring and backend/invocation setup hold 120 of 185 records between them. | 48 · 40 · 32 records |
 
-**Top recommended product actions** — ranked from open records only, so shipped work cannot argue for itself again:
+**Top recommended product actions** — ranked from open records only, so shipped work cannot argue for itself again. Ranking is lexicographic, severity first, so a single severity-5 record outranks a larger group of milder ones:
 
-| # | Open records | Avg sev | Product action | Area |
+| # | Open records | Typical sev | Product action | Area |
 |---|---|---|---|---|
-| 1 | **10** | 3.5 | Enforce RBAC on action run pages so users cannot view runs or entity details they lack permission to access | Permissions & Approvals › RBAC & dynamic permissions |
-| 2 | 8 | 2.8 | Enable approvers to edit action input values during the manual approval step | Permissions & Approvals › Approver experience |
-| 3 | 7 | 2.4 | Provide real-time streaming of action run logs in the UI as the run executes | Observability & Debugging › Logs & log streaming |
-| 4 | 6 | 2.3 | Show the actor (user, integration, or system) behind each run on the run page and in the audit log | Observability & Debugging › Run history & audit |
-| 5 | 6 | 2.5 | Add further file formats and free-text/markdown input types to action form fields | Form Configuration › Input types & controls |
+| 1 | **2** | 5 | Enforce dataset filter and input validation rules server-side for all invocation paths including MCP and API | Validation & Rules › Server-side & API enforcement |
+| 2 | 1 | 5 | Enable marking specific run output variables as sensitive so their values are redacted in run history | Identity, Secrets & Security › Sensitive-data masking & redaction |
+| 3 | 1 | 5 | Add native support for resolving secrets from HashiCorp Vault at runtime | Identity, Secrets & Security › Credentials, secrets & request signing |
+| 4 | 1 | 5 | Support per-user delegated OAuth2 execution so each integration call carries the requesting user | Identity, Secrets & Security › Authentication, execution identity & requester context |
+| 5 | 1 | 5 | Enforce RBAC restrictions on action run pages and their entity details | Permissions & Approvals › Access control & action eligibility |
 
-54 recommended actions in total, each traceable to its supporting records.
+172 recommended actions in total, 140 with at least one open record, each traceable to its supporting records.
 
 **Where the problems sit** — 11 product areas, in-scope records:
 
 | Category | Records | Open |
 |---|---|---|
-| Permissions & Approvals | **47** | 37 |
-| Form Configuration | 32 | 25 |
-| Observability & Debugging | 27 | 24 |
-| Invocation & Integrations | 17 | 14 |
-| Identity, Secrets & Security | 11 | 11 |
-| Discovery, Organization & Reuse | 10 | 10 |
+| Permissions & Approvals | **45** | 31 |
+| Form Configuration | 31 | 23 |
+| Observability & Debugging | 31 | 28 |
+| Invocation & Integrations | 16 | 13 |
+| Identity, Secrets & Security | 12 | 12 |
+| Discovery, Organization & Reuse | 10 | 9 |
 | Execution Lifecycle | 10 | 9 |
-| Validation & Rules | 9 | 9 |
-| Authoring, Testing & Management | 7 | 7 |
-| Context, Targeting & Pre-fill | 7 | 5 |
-| Orchestration | 5 | 4 |
+| Validation & Rules | 10 | 9 |
+| Authoring, Testing & Management | 8 | 7 |
+| Orchestration | 6 | 3 |
+| Context, Targeting & Pre-fill | 6 | 3 |
 
 **Journey stages** in lifecycle order — *where* users get stuck, as opposed to *what* needs building:
 
 | # | Stage | Records | Open |
 |---|---|---|---|
-| 1 | Action discovery & organization | 10 | 10 |
-| 2 | Contextual entry, targeting & pre-fill | 6 | 4 |
-| 3 | Form & input configuration | 32 | 25 |
-| 4 | Validation, dependencies & conditional logic | 9 | 9 |
-| 5 | Backend & invocation setup | 31 | 27 |
-| 6 | Permissions & approvals | **48** | 38 |
-| 7 | Testing, editing & publishing | 7 | 7 |
-| 8 | Execution, monitoring & run control | 39 | 35 |
+| 1 | Action discovery & organization | 10 | 9 |
+| 2 | Contextual entry, targeting & pre-fill | 6 | 3 |
+| 3 | Form & input configuration | 32 | 24 |
+| 4 | Validation, dependencies & conditional logic | 10 | 9 |
+| 5 | Backend & invocation setup | 32 | 26 |
+| 6 | Permissions & approvals | **48** | 34 |
+| 7 | Testing, editing & publishing | 7 | 6 |
+| 8 | Execution, monitoring & run control | 40 | 36 |
 
 ---
 
@@ -87,7 +87,7 @@ A floating **Product Data Assistant** sits over both, answering ten predefined q
 
 ![Executive summary](docs/screenshots/01-executive-summary.png)
 
-*Four KPIs. Scope is stated up front — 327 collected, 182 in scope, 145 excluded — so the denominator behind every later figure is visible before any chart is.*
+*Four KPIs. Scope is stated up front — 327 collected, 185 in scope, 142 excluded — so the denominator behind every later figure is visible before any chart is.*
 
 **A second row, directly below, surfaces what is rising fastest: *Largest increase in negative feedback - Journey Stage* on the left, *- Subcategory* on the right.** Each spans the width of two KPI cards plus the gap between them, so the two rows share the same left and right edges. Both compare the **last completed Monday-Sunday week** against the **average of the three completed weeks before it**, counting only Negative records by `created_at`, and following the dashboard filters like everything else.
 
@@ -199,6 +199,30 @@ Search was decisive: candidates went from **141 → 327**, and Self-service acti
 
 ---
 
+## Taxonomy v3.0 — consolidating 63 subcategories into 30
+
+The v2.1 taxonomy carried **63 subcategories across 11 categories**, and the distribution said it was too fine: **8 subcategories held no feedback at all** and **14 more held exactly one record**. A group of one cannot support a trend, a share or a ranking — it is a label, not an analytical unit.
+
+v3.0 keeps the **11 categories unchanged** and consolidates the subcategories to **30**. The [assignment workbook](#) is the source of truth for both the mapping and where every existing record lands, and `src/models/taxonomy.py` is **generated from it** by [`scripts/build_taxonomy_v3.py`](scripts/build_taxonomy_v3.py) — thirty definitions and thirty boundary rules retyped by hand is thirty chances to introduce a difference nobody would notice. The examples shown against each group are **real evidence excerpts from records actually assigned to it**, never invented ones.
+
+**Nothing is thrown away.** All 63 former names have a destination in `SUBCATEGORY_MIGRATION`, and each record keeps its former subcategory as `topic_tags`. Consolidation costs an analytical distinction on purpose; it does not cost the technical detail.
+
+**`Other / Emerging` is a fallback, not a 31st group.** It exists so future feedback that genuinely fits nowhere has a home instead of being forced into the nearest core group and quietly corrupting that group's count. `ALL_SUBCATEGORY_NAMES` is the 30 core; `ASSIGNABLE_SUBCATEGORY_NAMES` adds the fallback for the classifier only. It is valid under any of the 11 categories — "no core group fits" says nothing about which product area a record belongs to — and it stays out of both reference views until something is actually filed under it.
+
+**The migration was a reclassification, not a rename.** The cache key includes the taxonomy version, so bumping to v3.0 invalidates every cached classification by construction. All 327 records were re-run against the new definitions and compared with the workbook: where the model agreed, the assignment stands; where it disagreed, **the workbook wins and the record is flagged for human review** rather than silently changed. A disagreement is information, and taking either side quietly would throw it away.
+
+| Guarantee | Where it is enforced |
+|---|---|
+| 327 records, 185 in scope, 142 out | `tests/test_taxonomy_v3_migration.py` |
+| All 63 former names have a destination | `SUBCATEGORY_MIGRATION`, asserted complete |
+| Every relevant record matches the workbook | compared against the workbook itself, not a retyped number |
+| Out-of-scope records carry no taxonomy and no tags | asserted per record |
+| No retired name appears in any UI or reference view | asserted against `app.py`, `render.py`, `theme.py` |
+
+One thing worth recording, because it shaped the design: **`topic_tags` could not be a model output.** Adding an array of strings to the classification schema pushed the structured-output grammar past its compile budget, and the API answered `Grammar compilation timed out` on every call — measured with everything else held identical, and bounding the item length did not help. Nothing is lost by moving it: what v3 needs preserved is each record's *former* subcategory, which the migration knows exactly and the model would only be guessing at. It is now written by the migration, never by the model.
+
+---
+
 ## How the LLM categorised it
 
 Each record is classified independently against a **taxonomy defined before any data was scored** (see [`TAXONOMY.md`](TAXONOMY.md), which is *generated from the taxonomy module* so it cannot describe a scheme the code does not implement).
@@ -216,7 +240,7 @@ A dynamic-permission failure belongs to **Permissions & Approvals** while its pr
 
 The stages mirror Port's own self-service flow, so a finding like *"friction concentrates in permissions and approvals"* points at a surface the team already owns. Chronological order is the canonical order in `taxonomy.py` and still governs the guide, the trend legend and every tie; only the distribution chart sorts by volume, so the heaviest stage is the first thing read.
 
-Each relevant record gets exactly **one** primary category/subcategory pair, one problem type and one stage. **At most two secondary assignments** are allowed for records that genuinely span areas — 102 of 182 carry one — and secondaries never affect any count or ranking, so adding one cannot inflate a total. Where a record could reasonably go two ways, thirteen documented tie-break rules decide, and residual uncertainty is reported through `confidence` and `needs_human_review` rather than hidden.
+Each relevant record gets exactly **one** primary category/subcategory pair, one problem type and one stage. **At most two secondary assignments** are allowed for records that genuinely span areas — 84 of 185 carry one — and secondaries never affect any count or ranking, so adding one cannot inflate a total. Where a record could reasonably go two ways, thirteen documented tie-break rules decide, and residual uncertainty is reported through `confidence` and `needs_human_review` rather than hidden.
 
 **Persona** is a fifth independent dimension: 109 records come from Action builders, 37 from platform admins, 24 from developers, 10 from approvers. The same subcategory can be a builder's problem and a developer's problem, and only this dimension tells them apart.
 
@@ -226,7 +250,7 @@ The app's second tab, **Taxonomy & Journey Guide**, explains all of this in plai
 
 **1. Closed enums, plus a hierarchy check.** Every categorical field is a Pydantic `Literal` built from the taxonomy, so an invented label fails validation rather than quietly entering the dataset. A two-level taxonomy adds a second failure mode worth closing: a *real* subcategory paired with the *wrong* parent category. A model validator rejects that pair, so the model cannot assemble a plausible-looking but impossible classification. Scope is enforced structurally too — when `is_relevant` is false the validator *clears* the taxonomy fields, so out-of-scope feedback is incapable of reaching any total.
 
-**2. Quote grounding.** Every `evidence_excerpt` is checked **in Python** as an exact substring of the source text. Only the verified portion is stored, so anything displayed is guaranteed verbatim. **The model cannot attribute a complaint to a customer who never made it, because it cannot produce a quote that is not in the source.** Result: 181 of 182 in-scope records carry a verified quote; the 1 that failed is excluded from display, not shown.
+**2. Quote grounding.** Every `evidence_excerpt` is checked **in Python** as an exact substring of the source text. Only the verified portion is stored, so anything displayed is guaranteed verbatim. **The model cannot attribute a complaint to a customer who never made it, because it cannot produce a quote that is not in the source.** Result: 184 of 185 in-scope records carry a verified quote; the 1 that failed is excluded from display, not shown.
 
 **3. Confidence is a quality signal, not a ranking input.** It measures the model's certainty, not how much a problem matters. Letting it drive ranking would mean well-phrased feedback outranks urgent-but-ambiguous feedback. It appears only as the fifth tie-breaker, used when four earlier keys are already identical; 18 records fall below 0.7 and 26 are flagged for human review — surfaced, not hidden.
 
@@ -253,7 +277,7 @@ Only `Open` counts. Planned and In progress used to count as demand, which argue
 
 Feedback is grouped by **the change it asks for**, not by where it sits in the taxonomy.
 
-This is the correction of a real defect. Product actions used to *be* taxonomy subcategories, so a card reading "4 open supporting records" opened onto every record in its subcategory. `Authentication & delegated execution` holds OAuth delegation, service accounts, JWT forwarding and impersonation controls — four different product changes presented as one recommendation.
+This is the correction of a real defect. Product actions used to *be* taxonomy subcategories, so a card reading "4 open supporting records" opened onto every record in its subcategory. `Authentication, execution identity & requester context` holds OAuth delegation, service accounts, JWT forwarding and impersonation controls — four different product changes presented as one recommendation. v3.0 makes that worse, not better: consolidating 63 subcategories into 30 puts *more* distinct requests inside each group, which is exactly why the product action is grouped by the change asked for rather than by where it sits in the taxonomy.
 
 Grouping now happens in [`src/analysis/grouping.py`](src/analysis/grouping.py): normalise the suggested change, then agglomerate on token overlap, **within a single subcategory**. The subcategory is no longer the group — it is a fence that stops "templates for approval policies" merging with "templates for form layouts" on the shared word *templates*.
 
@@ -413,9 +437,9 @@ With 15 records this is a **sanity check, not a statistically robust evaluation*
 
 Worth reading before believing any of the findings.
 
-- **A feature-request board shapes what you find.** 128 of 182 in-scope records (70%) are feature gaps; only 7 are defects and 11 usability friction. People come to a roadmap board to *ask for things*, not to report friction. Zendesk tickets and Gong calls would surface the bug and usability signal this source structurally cannot.
+- **A feature-request board shapes what you find.** 133 of 185 in-scope records (72%) are feature gaps; only 8 are defects and 11 usability friction. People come to a roadmap board to *ask for things*, not to report friction. Zendesk tickets and Gong calls would surface the bug and usability signal this source structurally cannot.
 - **One source means source diversity is constant.** It is ranked on and reported, but with a single collected source it can never break a tie here. It exists because production ingests four sources through the same schema — and a test asserts no record ever claims a source it did not come from.
-- **Severity is judged from text alone** and clusters at 3 (100 of 182), so it discriminates weakly — which is part of why evidence volume ranks ahead of it.
+- **Severity is judged from text alone** and clusters at 3 (105 of 185), so it discriminates weakly — which is part of why evidence volume ranks ahead of it.
 - **44% of collected records were out of scope.** That is a property of a general feedback board, not a failure. Each exclusion carries a stated reason and none of them reach a category total.
 - **Parent posts are sometimes written by Port staff**, not customers — curated roll-ups that read like product copy, with the genuine customer voice in the merged child requests. The classifier is told to categorise the underlying problem and prefer quoting problem statements, but the collector currently captures parent posts only. Vote totals already aggregate merged children, so demand signal is unaffected.
 - **Public feedback cannot prove causation.** It explains why users *say* they struggle. It cannot prove that is why they drop off.
