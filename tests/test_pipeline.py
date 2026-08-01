@@ -534,12 +534,135 @@ def test_no_weighted_score_survives(aggregates):
 
 
 def test_product_action_titles_trace_to_a_real_record(relevant, aggregates):
-    """A label on the dashboard must be one record's words, not a synthesis."""
+    """Every label must still be checkable against real feedback.
+
+    The rule used to be stricter: the title *was* one record's sentence. That
+    held while groups were formed automatically and were mostly one record
+    each. Curated grouping merges up to five records, and one member's
+    sentence then under-describes the group -- which is the reason for
+    curating them at all.
+
+    So the guarantee moved rather than weakened. A curated title is authored
+    by an analyst, and in exchange every action must still name a member
+    record and carry that record's wording verbatim, so a reader can always
+    get from a label on screen to the feedback behind it. An uncurated action
+    keeps the original rule exactly.
+    """
     by_id = {r["feedback_id"]: r for r in relevant}
     for action in aggregates["product_actions"]:
-        source = by_id[action["product_action_source_id"]]
-        assert source["suggested_product_action"] == action["product_action_title"]
-        assert action["product_action_source_id"] in action["supporting_feedback_ids"]
+        source_id = action["product_action_source_id"]
+        assert source_id in action["supporting_feedback_ids"], action["product_action_id"]
+        source = by_id[source_id]
+
+        # The source record's own words are carried, verbatim, always.
+        assert source["suggested_product_action"] == action["product_action_source_wording"], \
+            action["product_action_id"]
+
+        if not action.get("product_action_is_curated"):
+            # Unchanged rule where no analyst intervened.
+            assert source["suggested_product_action"] == action["product_action_title"]
+        else:
+            assert action["product_action_title"].strip(), action["product_action_id"]
+
+
+def test_curated_grouping_matches_the_audited_mapping(relevant):
+    """The dashboard must group by the audited decision, not re-derive it.
+
+    Text clustering produced 172 groups from 185 records -- nearly one
+    recommendation per record. The curated mapping is an analyst decision that
+    was independently audited, so similarity must not be able to override it.
+    """
+    import json
+
+    import pandas as pd
+
+    from src.analysis.aggregate import product_actions
+
+    curated = json.loads(
+        (PROC / "product_actions_curated.json").read_text(encoding="utf-8"))["actions"]
+
+    assigned = {r["feedback_id"]: r.get("curated_action_id") for r in relevant}
+    assert all(assigned.values()), "every in-scope record needs a curated action"
+
+    # Each curated action's membership is exactly what the workbook says.
+    expected = {aid: sorted(meta["feedback_ids"]) for aid, meta in curated.items()}
+    actual: dict[str, list[str]] = {}
+    for fid, aid in assigned.items():
+        actual.setdefault(aid, []).append(fid)
+    assert {k: sorted(v) for k, v in actual.items()} == expected
+
+    # And grouping reproduces it rather than re-clustering on top of it.
+    actions = product_actions(pd.DataFrame(relevant)).to_dict("records")
+    for action in actions:
+        aid = action["product_action_id"]
+        assert sorted(action["supporting_feedback_ids"]) == expected[aid], aid
+
+
+def test_a_missing_curated_field_never_becomes_the_string_nan():
+    """Absent must read as absent after a DataFrame round-trip.
+
+    A record with no curated assignment holds None in a dict, but pandas turns
+    that into NaN, and NaN is truthy -- so `str(nan or "")` produced the string
+    "nan". Two things followed: an action titled "nan" on the dashboard, and
+    every unassigned record collapsing into one group under that same fake id.
+    """
+    import pandas as pd
+
+    from src.analysis import grouping
+
+    frame = pd.DataFrame([
+        {"feedback_id": "a", "curated_action_id": None, "curated_action_title": None},
+        {"feedback_id": "b", "curated_action_id": "PA-001", "curated_action_title": "Real"},
+    ])
+    rows = frame.to_dict("records")
+    assert grouping.curated_value(rows[0], "curated_action_id") == ""
+    assert grouping.curated_value(rows[0], "curated_action_title") == ""
+    assert grouping.curated_value(rows[1], "curated_action_id") == "PA-001"
+
+    # Two unassigned records must not share a group.
+    unassigned = pd.DataFrame([
+        {"feedback_id": "x", "curated_action_id": None,
+         "primary_taxonomy_subcategory": "Bulk actions",
+         "suggested_product_action": "Alpha entirely unrelated request one"},
+        {"feedback_id": "y", "curated_action_id": None,
+         "primary_taxonomy_subcategory": "Bulk actions",
+         "suggested_product_action": "Beta completely different petition two"},
+    ]).to_dict("records")
+    groups = grouping.cluster(unassigned)
+    assert len(groups) == 2, "unassigned records merged under a fake shared id"
+
+
+def test_records_without_a_curated_action_still_group(relevant):
+    """Feedback collected after the mapping was written must not disappear.
+
+    The curated map covers the 185 records that existed when it was authored.
+    A new record has no assignment, and if that meant no group it would vanish
+    from the ranking silently -- the worst way for a record to be missing.
+    """
+    import pandas as pd
+
+    from src.analysis.aggregate import product_actions
+
+    newcomer = dict(relevant[0])
+    newcomer["feedback_id"] = "brand-new-record"
+    newcomer["curated_action_id"] = None
+    newcomer["curated_action_title"] = None
+    newcomer["suggested_product_action"] = (
+        "Add a wholly unrelated capability for grouping fallback testing")
+    # Open on purpose: product_actions ranks only actions with an open record,
+    # so a Completed newcomer would be filtered for that reason and this would
+    # pass or fail for nothing to do with the fallback.
+    newcomer["lifecycle_status"] = "Open"
+
+    actions = product_actions(pd.DataFrame([*relevant, newcomer]))
+    covered = {f for ids in actions["supporting_feedback_ids"] for f in ids}
+    assert "brand-new-record" in covered, "an unassigned record was dropped"
+
+    # It gets its own group rather than being absorbed into a curated one.
+    its_group = next(a for a in actions.to_dict("records")
+                     if "brand-new-record" in a["supporting_feedback_ids"])
+    assert its_group["supporting_feedback_ids"] == ["brand-new-record"]
+    assert not its_group["product_action_is_curated"]
 
 
 # --- Edge cases ------------------------------------------------------------

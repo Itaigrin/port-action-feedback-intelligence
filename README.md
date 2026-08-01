@@ -44,7 +44,7 @@ Running end to end on **327 collected records**, of which **185 are in scope** f
 | 4 | 1 | 5 | Support per-user delegated OAuth2 execution so each integration call carries the requesting user | Identity, Secrets & Security › Authentication, execution identity & requester context |
 | 5 | 1 | 5 | Enforce RBAC restrictions on action run pages and their entity details | Permissions & Approvals › Access control & action eligibility |
 
-172 recommended actions in total, 140 with at least one open record, each traceable to its supporting records.
+101 recommended actions in total, 90 with at least one open record, each traceable to its supporting records. See [Curated product-action grouping](#curated-product-action-grouping).
 
 **Where the problems sit** — 11 product areas, in-scope records:
 
@@ -298,12 +298,35 @@ Every group stores its membership explicitly:
 | Field | Meaning |
 |---|---|
 | `product_action_id` | Stable slug, used by the drill-down |
-| `product_action_title` | One real record's wording, never a synthesis |
+| `product_action_title` | Analyst-authored for curated groups; one real record's wording otherwise |
+| `product_action_source_id` | A member record the title traces to — always set |
+| `product_action_source_wording` | That record's `suggested_product_action`, verbatim |
+| `product_action_is_curated` | Whether an analyst decided this group's membership |
 | `supporting_feedback_ids` | Every record in the group, whatever its status |
 | `open_supporting_feedback_ids` | The subset that is `Open` |
 | `open_supporting_record_count` | **Exactly** `len(open_supporting_feedback_ids)` |
 
 The count on a card and the records its drill-down opens are the same set **by construction**, and a test asserts the invariant. Evidence is never fetched by category, subcategory, journey stage or label text.
+
+### Curated product-action grouping
+
+Automatic clustering produced **172 groups from 185 records** — nearly one recommendation per record, which is a list, not a set of recommendations. The cause is structural: `suggested_product_action` is phrased as a grouping key, but every record produces a distinct string, so token-overlap clustering merges only near-identical phrasings.
+
+An analyst regrouped them to 75. That proposal was **independently audited** rather than accepted: every multi-record merge was checked against four criteria — same root user problem, one coherent product change, compatible surface and owner, no separate product decision or success criterion.
+
+| Verdict | Count |
+|---|---|
+| Approved | 34 |
+| Needs review | 10 |
+| **Split required** | **15** |
+
+**Approval rate 57.6%.** Every group of five or more failed. The recurring error was bundling things that live in the same area rather than things one change fixes — visible in the titles themselves, which chained clauses with "and". The worst case grouped seven records spanning a new transport (Kafka), an interactive Slack app, email redaction, a different audience (requesters) and a webhook API contract; only two shared a root problem.
+
+The audited result is **101 actions**, stored in [`data/processed/product_actions_curated.json`](data/processed/product_actions_curated.json) and stamped onto each record as `curated_action_id`.
+
+**A guarantee moved here, and it is worth being explicit about.** The old rule was that a product-action title *was* one record's sentence — never a synthesis. That held while groups were formed automatically and were mostly one record each. A curated group of five records is under-described by any one member's sentence, which is the reason for curating it. So titles are now analyst-authored for curated groups, and in exchange **every action still names a member record and carries that record's wording verbatim** (`product_action_source_id`, `product_action_source_wording`), so a label on screen can always be checked against real feedback. Uncurated groups keep the original rule exactly, and a test enforces both branches.
+
+**Records with no curated assignment still group.** The mapping covers the 185 records that existed when it was written; anything collected later falls back to automatic clustering. Without that, a new record would silently vanish from the ranking — the worst way for a record to be missing.
 
 ### Step 3 — the five ranking keys
 

@@ -1,0 +1,1102 @@
+{
+  "source": "Port_Feedback_Consolidated_Product_Actions_AUDITED.xlsx",
+  "note": "Analyst-curated product-action grouping, independently audited. Titles are authored to describe the merged group; every action also names a source record whose verbatim wording is preserved.",
+  "action_count": 101,
+  "record_count": 185,
+  "actions": {
+    "PA-001": {
+      "title": "Make unsaved-change detection accurate and consistent",
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Action authoring, testing & release management",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "670fd226ff2831f9768b8724",
+        "672b5615349fd99b0f353e36"
+      ]
+    },
+    "PA-002": {
+      "title": "Use representative entity data in the backend JQ testing playground",
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Action authoring, testing & release management",
+      "verdict": "Split required",
+      "origin": "split from PA-002",
+      "feedback_ids": [
+        "66e985470be4dcfd3da6e336"
+      ]
+    },
+    "PA-002b": {
+      "title": "Add a validation-only dry-run flag to the port-github-action",
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Action authoring, testing & release management",
+      "verdict": "Split required",
+      "origin": "split from PA-002",
+      "feedback_ids": [
+        "664dfc30f03c3cdb1e67c0b7"
+      ]
+    },
+    "PA-003": {
+      "title": "Add Action maintenance mode",
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Action authoring, testing & release management",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "669f73086d132f3ee45a4c86"
+      ]
+    },
+    "PA-004": {
+      "title": "Expose a complete, copyable Action definition with a working example",
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Reusable configuration, API & IaC management",
+      "verdict": "Split required",
+      "origin": "split from PA-004",
+      "feedback_ids": [
+        "67ae96986cf677fdc79b6969"
+      ]
+    },
+    "PA-004b": {
+      "title": "Support Action permission configuration in the Pulumi provider",
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Reusable configuration, API & IaC management",
+      "verdict": "Split required",
+      "origin": "split from PA-004",
+      "feedback_ids": [
+        "64f9b9a2b9071e097d98d1c7"
+      ]
+    },
+    "PA-005": {
+      "title": "Generate Action inputs from Blueprint definitions",
+      "category": "Authoring, Testing & Management",
+      "subcategory": "Reusable configuration, API & IaC management",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "649bdc0ecf7291098a1c28bf"
+      ]
+    },
+    "PA-006": {
+      "title": "Decouple Actions from a single required Blueprint",
+      "category": "Context, Targeting & Pre-fill",
+      "subcategory": "Contextual launch, targeting & pre-fill",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6584045643d41b6fd0ac313c",
+        "67fe69fc077f02acb331e710"
+      ]
+    },
+    "PA-007": {
+      "title": "Expose a reusable Action-form launcher for embedded surfaces",
+      "category": "Context, Targeting & Pre-fill",
+      "subcategory": "Contextual launch, targeting & pre-fill",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6760726f4a50f11189d6e973",
+        "6a428d9c292f2041042ba04e"
+      ]
+    },
+    "PA-008": {
+      "title": "Support context-aware filters and pre-filled pickers",
+      "category": "Context, Targeting & Pre-fill",
+      "subcategory": "Contextual launch, targeting & pre-fill",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6a3c68a73959e847601ffa6f"
+      ]
+    },
+    "PA-009": {
+      "title": "Allow controlled end-to-end Action execution in Slack",
+      "category": "Context, Targeting & Pre-fill",
+      "subcategory": "Contextual launch, targeting & pre-fill",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "69a69c2bbd9e53f8d10aa84f"
+      ]
+    },
+    "PA-010": {
+      "title": "Add Action categorization and configurable ordering",
+      "category": "Discovery, Organization & Reuse",
+      "subcategory": "Action discovery, organization & placement",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "64a512f97525ac09ce7a21c4",
+        "64edffb2ab1b040a223eadd5",
+        "65e7390a0b8acf82dfc933fc"
+      ]
+    },
+    "PA-011": {
+      "title": "Support context-based Action placement rules",
+      "category": "Discovery, Organization & Reuse",
+      "subcategory": "Action discovery, organization & placement",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "656dffd9c9406ec6bc18eaa5",
+        "65b9006ef5018ed4ab27075b",
+        "678fa2d0541d91b91a772c41"
+      ]
+    },
+    "PA-012": {
+      "title": "Make Actions easier to inspect from catalog views",
+      "category": "Discovery, Organization & Reuse",
+      "subcategory": "Action discovery, organization & placement",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "67479928414b9cbfe00bf473",
+        "67583e21f84a4af5d432d045"
+      ]
+    },
+    "PA-013": {
+      "title": "Run one Action against selected or filtered entity sets",
+      "category": "Discovery, Organization & Reuse",
+      "subcategory": "Bulk actions",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "670e6d4f1d4ba786e2faa0df",
+        "67dbf184d3db9fe5bd6f51f5"
+      ]
+    },
+    "PA-014": {
+      "title": "Support flexible backend-specific Run result states",
+      "category": "Execution Lifecycle",
+      "subcategory": "Completion & result-state control",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6582ce708d54e728d31b780f",
+        "699c78c2ebbb27ef14d76770"
+      ]
+    },
+    "PA-015": {
+      "title": "Make Action timeout configurable",
+      "category": "Execution Lifecycle",
+      "subcategory": "Reliability, timeouts & concurrency",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6583401b32150dedcd8f0e46"
+      ]
+    },
+    "PA-016": {
+      "title": "Prevent accidental duplicate and conflicting Runs",
+      "category": "Execution Lifecycle",
+      "subcategory": "Reliability, timeouts & concurrency",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "656771af070a907c6e635dc9",
+        "6a0afd1159c18d657028cd5c"
+      ]
+    },
+    "PA-017": {
+      "title": "Add managed retry and backoff for transient failures",
+      "category": "Execution Lifecycle",
+      "subcategory": "Reliability, timeouts & concurrency",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "659823830182c070291f2d87"
+      ]
+    },
+    "PA-018": {
+      "title": "Add configurable cancellation for running Actions",
+      "category": "Execution Lifecycle",
+      "subcategory": "Retry, rerun, cancel & resume",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "650acbf95b34b73cc2493ca8",
+        "67002abcd4bbc2b93566d305"
+      ]
+    },
+    "PA-019": {
+      "title": "Retry or duplicate a Run while preserving inputs",
+      "category": "Execution Lifecycle",
+      "subcategory": "Retry, rerun, cancel & resume",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "64d09ad21cf6f309b9affae5",
+        "69523d930fce6a18f6f14a07"
+      ]
+    },
+    "PA-020": {
+      "title": "Support reactive computed fields and read-only previews",
+      "category": "Form Configuration",
+      "subcategory": "Dynamic inputs, defaults & computed fields",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "656860c290e00a0a8901b4fd",
+        "666ec4697bfd74c4333701ac",
+        "66fab653f08e28ee955809ce",
+        "67e5118773bc7a1fd199885d"
+      ]
+    },
+    "PA-021": {
+      "title": "Make default-value initialization predictable",
+      "category": "Form Configuration",
+      "subcategory": "Dynamic inputs, defaults & computed fields",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6734db6c0c9bb03c11a23807",
+        "68405b9c4ebfd09d591cf6e6"
+      ]
+    },
+    "PA-022": {
+      "title": "Populate dynamic form options from external APIs",
+      "category": "Form Configuration",
+      "subcategory": "Dynamic inputs, defaults & computed fields",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6548e76c830f6a63732c6653",
+        "68de67828ad773d9baab31b1"
+      ]
+    },
+    "PA-023": {
+      "title": "Support conditional field visibility and behavior",
+      "category": "Form Configuration",
+      "subcategory": "Dynamic inputs, defaults & computed fields",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6508161951aa0709909e3647"
+      ]
+    },
+    "PA-024": {
+      "title": "Allow calculated properties in dataset conditions",
+      "category": "Form Configuration",
+      "subcategory": "Dynamic inputs, defaults & computed fields",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "679265f3a7c7da4003832a79"
+      ]
+    },
+    "PA-025": {
+      "title": "Allow builders to hide the Execute button on Action forms",
+      "category": "Form Configuration",
+      "subcategory": "Form presentation, layout & guidance",
+      "verdict": "Split required",
+      "origin": "split from PA-025",
+      "feedback_ids": [
+        "69f1052c6a8c8903012ea194"
+      ]
+    },
+    "PA-025b": {
+      "title": "Allow early submission of a multi-step form once required inputs are valid",
+      "category": "Form Configuration",
+      "subcategory": "Form presentation, layout & guidance",
+      "verdict": "Split required",
+      "origin": "split from PA-025",
+      "feedback_ids": [
+        "672b52a3c45ed39e22567862"
+      ]
+    },
+    "PA-025c": {
+      "title": "Support dynamic expressions for Action button text",
+      "category": "Form Configuration",
+      "subcategory": "Form presentation, layout & guidance",
+      "verdict": "Split required",
+      "origin": "split from PA-025",
+      "feedback_ids": [
+        "6a1d45a5b06d5b62ae23dc43"
+      ]
+    },
+    "PA-026": {
+      "title": "Support collapsible sections, standalone text/dividers and configurable form sizing",
+      "category": "Form Configuration",
+      "subcategory": "Form presentation, layout & guidance",
+      "verdict": "Split required",
+      "origin": "split from PA-026",
+      "feedback_ids": [
+        "65809c20bdd786e7c10ce20e",
+        "67bb136c8e2de556c2957dad",
+        "67ff95a24f665abe872406a0"
+      ]
+    },
+    "PA-026b": {
+      "title": "Support conditional visibility of form steps based on data conditions",
+      "category": "Form Configuration",
+      "subcategory": "Form presentation, layout & guidance",
+      "verdict": "Split required",
+      "origin": "split from PA-026",
+      "feedback_ids": [
+        "675b0c008682d4e202eeeb9a"
+      ]
+    },
+    "PA-027": {
+      "title": "Expand field display metadata and friendly labels",
+      "category": "Form Configuration",
+      "subcategory": "Form presentation, layout & guidance",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "67bc9e20e167a610dfa628f4",
+        "6874c373410d522ad019cd56",
+        "6970abf0757ff2b799889f3e",
+        "697bc2552c0e437d54520fb7"
+      ]
+    },
+    "PA-028": {
+      "title": "Add structured and repeatable collection inputs",
+      "category": "Form Configuration",
+      "subcategory": "Input types & structured data",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "67f4f44f1aac623580bb3589",
+        "68385892443469540b4ed3bd",
+        "6a28d09693ba6573b6a4a68e"
+      ]
+    },
+    "PA-029": {
+      "title": "Expand text, code, file and secret input controls",
+      "category": "Form Configuration",
+      "subcategory": "Input types & structured data",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "65b62b199794d2cfb2ae1c65",
+        "6776cc6eb98f2dbf25dd06e7",
+        "687fa46eb2b52954223993ee"
+      ]
+    },
+    "PA-030": {
+      "title": "Support entity-selection inputs that also allow creating a new entity by free text",
+      "category": "Form Configuration",
+      "subcategory": "Input types & structured data",
+      "verdict": "Split required",
+      "origin": "split from PA-030",
+      "feedback_ids": [
+        "665ede26e43d7a73fc2e947a"
+      ]
+    },
+    "PA-030b": {
+      "title": "Add a Filters UI input type that outputs Search-API-compatible filter JSON",
+      "category": "Form Configuration",
+      "subcategory": "Input types & structured data",
+      "verdict": "Split required",
+      "origin": "split from PA-030",
+      "feedback_ids": [
+        "697343a26bf41cfd6bc9ac53"
+      ]
+    },
+    "PA-030c": {
+      "title": "Add a map input type presenting friendly labels over submitted values",
+      "category": "Form Configuration",
+      "subcategory": "Input types & structured data",
+      "verdict": "Split required",
+      "origin": "split from PA-030",
+      "feedback_ids": [
+        "6693781aa31de39613529762"
+      ]
+    },
+    "PA-030d": {
+      "title": "Add an address input with autocomplete from a configurable mapping provider",
+      "category": "Form Configuration",
+      "subcategory": "Input types & structured data",
+      "verdict": "Split required",
+      "origin": "split from PA-030",
+      "feedback_ids": [
+        "687ced0964a12a95ef832dd9"
+      ]
+    },
+    "PA-031": {
+      "title": "Support delegated and per-request authentication",
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Authentication, execution identity & requester context",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6671999837fce115c9971b8d",
+        "669fced47627f58ee55d66ec",
+        "67adc340ed8cfaae72b680d0",
+        "69553a67723320e3d9a93ab6"
+      ]
+    },
+    "PA-032": {
+      "title": "Expose trusted requester context to Action backends",
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Authentication, execution identity & requester context",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "695ce5f621c449e1fd7ce58e"
+      ]
+    },
+    "PA-033": {
+      "title": "Support Port secret references and secret template syntax in webhook security configuration",
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Credentials, secrets & request signing",
+      "verdict": "Split required",
+      "origin": "split from PA-033",
+      "feedback_ids": [
+        "6915caf8c4c30db90d700b0b",
+        "69c1a3bff8901915c20c5ca3"
+      ]
+    },
+    "PA-033b": {
+      "title": "Add native runtime secret resolution from HashiCorp Vault",
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Credentials, secrets & request signing",
+      "verdict": "Split required",
+      "origin": "split from PA-033",
+      "feedback_ids": [
+        "6a61eb457560de5c7714679f"
+      ]
+    },
+    "PA-034": {
+      "title": "Use scoped service-account credentials for agent signing",
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Credentials, secrets & request signing",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "69e62509bf8b6dbf40b878c7"
+      ]
+    },
+    "PA-035": {
+      "title": "Apply configurable masking and visibility controls to sensitive Run data",
+      "category": "Identity, Secrets & Security",
+      "subcategory": "Sensitive-data masking & redaction",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "66c8d155bc622140de9a1e79",
+        "6710640a41d1a5151b93a275",
+        "6a62cdea0933efc13e70eab5"
+      ]
+    },
+    "PA-036": {
+      "title": "Add native invocation for Port-hosted actions and direct Lambda/OpenFAAS backends",
+      "category": "Invocation & Integrations",
+      "subcategory": "Backends, APIs & event triggers",
+      "verdict": "Split required",
+      "origin": "split from PA-036",
+      "feedback_ids": [
+        "662c18c1879e6a4fff5ed742"
+      ]
+    },
+    "PA-036b": {
+      "title": "Add Codefresh Classic Pipelines as a supported invocation backend",
+      "category": "Invocation & Integrations",
+      "subcategory": "Backends, APIs & event triggers",
+      "verdict": "Split required",
+      "origin": "split from PA-036",
+      "feedback_ids": [
+        "64f241ba50f7aa096976efe6"
+      ]
+    },
+    "PA-036c": {
+      "title": "Provide a native Microsoft Teams Bot invocation backend",
+      "category": "Invocation & Integrations",
+      "subcategory": "Backends, APIs & event triggers",
+      "verdict": "Split required",
+      "origin": "split from PA-036",
+      "feedback_ids": [
+        "6728c6a7e9894c1a059aa821"
+      ]
+    },
+    "PA-037": {
+      "title": "Expand native catalog entity mutation invocation",
+      "category": "Invocation & Integrations",
+      "subcategory": "Backends, APIs & event triggers",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "65f03ef6cb7414bcffae7545",
+        "67641f3021e6bd260f037ed5"
+      ]
+    },
+    "PA-038": {
+      "title": "Provide a generic invocation method that posts log messages to a Run",
+      "category": "Invocation & Integrations",
+      "subcategory": "Backends, APIs & event triggers",
+      "verdict": "Split required",
+      "origin": "split from PA-038",
+      "feedback_ids": [
+        "65a512ccbb34b59cd65ce460"
+      ]
+    },
+    "PA-038b": {
+      "title": "Allow automations to trigger generically across all Actions",
+      "category": "Invocation & Integrations",
+      "subcategory": "Backends, APIs & event triggers",
+      "verdict": "Split required",
+      "origin": "split from PA-038",
+      "feedback_ids": [
+        "6a5979a17cd0080dd647c575"
+      ]
+    },
+    "PA-039": {
+      "title": "Allow dynamic integration installation selection",
+      "category": "Invocation & Integrations",
+      "subcategory": "Backends, APIs & event triggers",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6995741f6a0047498c59fa71"
+      ]
+    },
+    "PA-040": {
+      "title": "Add a configurable cluster identifier so Runs reach the intended execution agent",
+      "category": "Invocation & Integrations",
+      "subcategory": "Execution agents & runners",
+      "verdict": "Split required",
+      "origin": "split from PA-040",
+      "feedback_ids": [
+        "696f2e14d1352674295c2e11"
+      ]
+    },
+    "PA-040b": {
+      "title": "Add configurable TLS trust behaviour to the execution agent",
+      "category": "Invocation & Integrations",
+      "subcategory": "Execution agents & runners",
+      "verdict": "Split required",
+      "origin": "split from PA-040",
+      "feedback_ids": [
+        "69a02d77006d0995d3c7e953"
+      ]
+    },
+    "PA-041": {
+      "title": "Provide universal payload transformation functions",
+      "category": "Invocation & Integrations",
+      "subcategory": "Payload mapping & transformation",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6481fa485cf5a50d549eaa3c",
+        "6a0f0765f1bb95af4396d0aa"
+      ]
+    },
+    "PA-042": {
+      "title": "Map selected and invoking entity data into payloads",
+      "category": "Invocation & Integrations",
+      "subcategory": "Payload mapping & transformation",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "64b93341745be567b249a32f",
+        "652e8946856cd53595829199"
+      ]
+    },
+    "PA-043": {
+      "title": "Make Execution Agent payload handling configurable in the UI",
+      "category": "Invocation & Integrations",
+      "subcategory": "Payload mapping & transformation",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6589bbb30ae0869b95c141cd",
+        "693717e9a5e8f26790db4e71"
+      ]
+    },
+    "PA-044": {
+      "title": "Stream Run logs automatically and expose quick previews",
+      "category": "Observability & Debugging",
+      "subcategory": "Logs & error diagnostics",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6489ffa40370ff090a8af507",
+        "64f4adb66cbacd09633abd68",
+        "65d34b8e9dcc811d4a9300cf"
+      ]
+    },
+    "PA-045": {
+      "title": "Make Run logs structured and readable",
+      "category": "Observability & Debugging",
+      "subcategory": "Logs & error diagnostics",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "64e494a2a6c07309e3af5db7",
+        "66a5e31d8a37596baba1b970"
+      ]
+    },
+    "PA-046": {
+      "title": "Expand the Run log-entry API",
+      "category": "Observability & Debugging",
+      "subcategory": "Logs & error diagnostics",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "659d2fac49ce63995d7e4269",
+        "68fb8735235b71fd93744c18"
+      ]
+    },
+    "PA-047": {
+      "title": "Surface complete backend and expression error diagnostics",
+      "category": "Observability & Debugging",
+      "subcategory": "Logs & error diagnostics",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "66e68c9ff85bef2fa5d4dc82",
+        "67c68b799784f92c6176416d",
+        "68127ab6fd3a32236bbbbeba"
+      ]
+    },
+    "PA-048": {
+      "title": "Provide global Run analytics and dashboard widgets",
+      "category": "Observability & Debugging",
+      "subcategory": "Run history, audit, APIs & export",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "64f4abe4fd7c2d092c0ce671",
+        "65685e7528ed3bfa080d5deb",
+        "659fb8621779012e85e49c57"
+      ]
+    },
+    "PA-049": {
+      "title": "Show submitted inputs and the dispatched payload in Run history and Run details",
+      "category": "Observability & Debugging",
+      "subcategory": "Run history, audit, APIs & export",
+      "verdict": "Split required",
+      "origin": "split from PA-049",
+      "feedback_ids": [
+        "6481fb245cf5a50d549f4fdb",
+        "656c4a01ba5aabc9ac975d71",
+        "67173cd806d353fc3299f57b"
+      ]
+    },
+    "PA-049b": {
+      "title": "Support configurable dynamic Run names derived from inputs and entity properties",
+      "category": "Observability & Debugging",
+      "subcategory": "Run history, audit, APIs & export",
+      "verdict": "Split required",
+      "origin": "split from PA-049",
+      "feedback_ids": [
+        "662a16854790d8da141e4e6e"
+      ]
+    },
+    "PA-049c": {
+      "title": "Record the actor and change type behind every Run status change",
+      "category": "Observability & Debugging",
+      "subcategory": "Run history, audit, APIs & export",
+      "verdict": "Split required",
+      "origin": "split from PA-049",
+      "feedback_ids": [
+        "6a50eea591b05abba241121a"
+      ]
+    },
+    "PA-050": {
+      "title": "Expose complete approval provenance in Run records",
+      "category": "Observability & Debugging",
+      "subcategory": "Run history, audit, APIs & export",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "67098dae95ff13ed656df804",
+        "697b9fddcfbf975300198439",
+        "6a2a7d26bd2d82218bddf0be"
+      ]
+    },
+    "PA-051": {
+      "title": "Make Run history APIs complete and exportable",
+      "category": "Observability & Debugging",
+      "subcategory": "Run history, audit, APIs & export",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "66fabe27f08e28ee95624d41",
+        "6984c8667a1845e176fe3732",
+        "69a7207e9505b9d5de41736b"
+      ]
+    },
+    "PA-052": {
+      "title": "Show granular real-time Run and step progress",
+      "category": "Observability & Debugging",
+      "subcategory": "Run status, progress & notifications",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "65b60179d9cc3038ffc233d3",
+        "697141709b01af0c80a5efd1",
+        "6a206c5f516b94d1532bef24"
+      ]
+    },
+    "PA-053": {
+      "title": "Allow users to dismiss Run notification badges",
+      "category": "Observability & Debugging",
+      "subcategory": "Run status, progress & notifications",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "674613bc11c9ac3dbb882e6a"
+      ]
+    },
+    "PA-054": {
+      "title": "Provide end-to-end traceability from Runs to actors and affected resources",
+      "category": "Observability & Debugging",
+      "subcategory": "Run traceability & related entities",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "65788dd234dcbc6adbd713bb",
+        "67b20c2e5a5587585abe688c",
+        "697a6d812b05462f8a614382"
+      ]
+    },
+    "PA-055": {
+      "title": "Make multi-step, multi-backend orchestration first class",
+      "category": "Orchestration",
+      "subcategory": "Multi-step orchestration, branching & data flow",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "684c4e772523f38ddde65e37",
+        "689c4e5eda725fecc3d241bf",
+        "6a5fd5a33da3c9382571e53c"
+      ]
+    },
+    "PA-056": {
+      "title": "Support approval gates inside running workflows",
+      "category": "Orchestration",
+      "subcategory": "Workflow approvals, error handling & recovery",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "658017fae4e884edf5a34ea5",
+        "661812f8f2d3cbf4dabfe941"
+      ]
+    },
+    "PA-057": {
+      "title": "Add workflow-level failure and finally branches",
+      "category": "Orchestration",
+      "subcategory": "Workflow approvals, error handling & recovery",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6a5fbd5942cf04e5383526bb"
+      ]
+    },
+    "PA-058": {
+      "title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
+      "category": "Permissions & Approvals",
+      "subcategory": "Access control & action eligibility",
+      "verdict": "Split required",
+      "origin": "split from PA-058",
+      "feedback_ids": [
+        "650fdbfb9a7a750967822366",
+        "66b1311546017d98d92156e3",
+        "672213c2691e04e14096b3b4",
+        "67bb1b378aff64bedccf9ae2",
+        "6853d436533319bfbf13d0ae"
+      ]
+    },
+    "PA-058b": {
+      "title": "Hide Actions a user cannot execute from catalog surfaces",
+      "category": "Permissions & Approvals",
+      "subcategory": "Access control & action eligibility",
+      "verdict": "Split required",
+      "origin": "split from PA-058",
+      "feedback_ids": [
+        "68c27182f9c430044f39113f"
+      ]
+    },
+    "PA-059": {
+      "title": "Make permission policies reusable and more expressive",
+      "category": "Permissions & Approvals",
+      "subcategory": "Access control & action eligibility",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "66b14531ed4315cc0258b909",
+        "66dad68c5c2fac7ded045460",
+        "68f8fbb8741fd60efd0e8d17"
+      ]
+    },
+    "PA-060": {
+      "title": "Enforce permissions consistently in entity inputs and creation",
+      "category": "Permissions & Approvals",
+      "subcategory": "Access control & action eligibility",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "682f670b596869f89577489f",
+        "697a4fc771aad86079ed6ec7"
+      ]
+    },
+    "PA-061": {
+      "title": "Add granular roles for Action authoring and Run management",
+      "category": "Permissions & Approvals",
+      "subcategory": "Access control & action eligibility",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6826b40db0070616c963e9bf",
+        "699328e947c850515815cb26",
+        "69fcfc2d78f2a5775788b55d"
+      ]
+    },
+    "PA-062": {
+      "title": "Control machine-token and invocation-source access",
+      "category": "Permissions & Approvals",
+      "subcategory": "Access control & action eligibility",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "663e275443acb838cf19a5ba",
+        "69f84ce3477db7829b2e1f27"
+      ]
+    },
+    "PA-063": {
+      "title": "Determine whether an approval is required from input values or external logic",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval policies & approver routing",
+      "verdict": "Split required",
+      "origin": "split from PA-063",
+      "feedback_ids": [
+        "65755f639cb7be20f870e3ce",
+        "65bb5ba2299d1b93acc3052d"
+      ]
+    },
+    "PA-063b": {
+      "title": "Provide approval bypass and admin override",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval policies & approver routing",
+      "verdict": "Split required",
+      "origin": "split from PA-063",
+      "feedback_ids": [
+        "68f92f09f3aea6791833224b",
+        "6a292ceff00721fb0e2d24cc"
+      ]
+    },
+    "PA-063c": {
+      "title": "Provide a configurable manual approval step on Actions",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval policies & approver routing",
+      "verdict": "Split required",
+      "origin": "split from PA-063",
+      "feedback_ids": [
+        "6481f12a7635744f37484976"
+      ]
+    },
+    "PA-064": {
+      "title": "Support configurable multi-approver thresholds",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval policies & approver routing",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6524c821ec2dd97343235238",
+        "69f2529d03b1298401635428"
+      ]
+    },
+    "PA-065": {
+      "title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval policies & approver routing",
+      "verdict": "Split required",
+      "origin": "split from PA-065",
+      "feedback_ids": [
+        "66717334f17d76cbe67bf49f",
+        "66781226b894b19aca35a768",
+        "6925812013fb0ed2240adb99"
+      ]
+    },
+    "PA-065b": {
+      "title": "Preview and test dynamic approver rules before relying on them",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval policies & approver routing",
+      "verdict": "Split required",
+      "origin": "split from PA-065",
+      "feedback_ids": [
+        "699da93f7e35df0d59976c69"
+      ]
+    },
+    "PA-065c": {
+      "title": "Show the resolved approvers to the requester on the Run page",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approval policies & approver routing",
+      "verdict": "Split required",
+      "origin": "split from PA-065",
+      "feedback_ids": [
+        "65a6324c5bd75e78b7682e60"
+      ]
+    },
+    "PA-066": {
+      "title": "Let approvers correct submitted inputs before approval",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "64f484d97fb24609a28e0250",
+        "66bdca87e78e9ec286c639a3"
+      ]
+    },
+    "PA-067": {
+      "title": "Provide an approver dashboard and a focused, readable decision view",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Split required",
+      "origin": "split from PA-067",
+      "feedback_ids": [
+        "67ae47018df2ac10d76e1fec",
+        "69d3359760115cf4136a1d87",
+        "6a4b4a7e3395e568ba0e931f"
+      ]
+    },
+    "PA-067b": {
+      "title": "Add an approver-to-requester messaging thread on Runs awaiting approval",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Split required",
+      "origin": "split from PA-067",
+      "feedback_ids": [
+        "6a211ea7d47059032854eafd"
+      ]
+    },
+    "PA-068": {
+      "title": "Target approval notifications using the same dynamic permission rules that select approvers",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Split required",
+      "origin": "split from PA-068",
+      "feedback_ids": [
+        "6696f52ddaed01573b729714",
+        "66ed917798991dce147b5cff"
+      ]
+    },
+    "PA-068b": {
+      "title": "Support inline Approve and Reject actions inside Slack approval messages",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Split required",
+      "origin": "split from PA-068",
+      "feedback_ids": [
+        "6a214383d4705903285ef4fe"
+      ]
+    },
+    "PA-068c": {
+      "title": "Support Kafka as an approval notification channel",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Split required",
+      "origin": "split from PA-068",
+      "feedback_ids": [
+        "65c3900fc543d815a5cbf71b"
+      ]
+    },
+    "PA-068d": {
+      "title": "Notify requesters when their request is approved or rejected",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Split required",
+      "origin": "split from PA-068",
+      "feedback_ids": [
+        "66b884521be290a30c801053"
+      ]
+    },
+    "PA-068e": {
+      "title": "Allow builders to exclude hidden inputs from approval emails",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Split required",
+      "origin": "split from PA-068",
+      "feedback_ids": [
+        "69a98a661fe40914834d9831"
+      ]
+    },
+    "PA-068f": {
+      "title": "Include the eligible approver list in the approval webhook payload",
+      "category": "Permissions & Approvals",
+      "subcategory": "Approver experience & notifications",
+      "verdict": "Split required",
+      "origin": "split from PA-068",
+      "feedback_ids": [
+        "66718308988563c6da0bb9a9"
+      ]
+    },
+    "PA-069": {
+      "title": "Add a guided permission authoring, validation and debugging experience",
+      "category": "Permissions & Approvals",
+      "subcategory": "Permission authoring & testing",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "66b1434bd12b821c86cbc7fc",
+        "66c2e3fc26a6ce7012e28f00",
+        "693ffd899279e1a4c35ca2c0"
+      ]
+    },
+    "PA-070": {
+      "title": "Show permission-definition changes in audit history",
+      "category": "Permissions & Approvals",
+      "subcategory": "Permission authoring & testing",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "6798fe909c392c244699944d"
+      ]
+    },
+    "PA-071": {
+      "title": "Modernize JQ authoring, validation and runtime visibility",
+      "category": "Validation & Rules",
+      "subcategory": "Expression & JQ authoring",
+      "verdict": "Needs review",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "66cc92d3c146ef3febde98ab",
+        "681b0a5d2c401ce3fc35e8bc",
+        "6899c7023d379b03f9f77df7"
+      ]
+    },
+    "PA-072": {
+      "title": "Expand native form validation rules and feedback",
+      "category": "Validation & Rules",
+      "subcategory": "Form validation, messages & conditional rules",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "68c1d18fa34b05cc8bf233c6",
+        "68c9c5736bddc38edb2a4072",
+        "69c0e8a9943dfd034f363563"
+      ]
+    },
+    "PA-073": {
+      "title": "Add strict configurable validation to GitOps dry runs",
+      "category": "Validation & Rules",
+      "subcategory": "Form validation, messages & conditional rules",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "67a32141d252e4db823dea60"
+      ]
+    },
+    "PA-074": {
+      "title": "Enforce Action form rules across API, JSON and MCP invocation",
+      "category": "Validation & Rules",
+      "subcategory": "Server-side & API enforcement",
+      "verdict": "Approved",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "69d7f5a35356befe54b0025c",
+        "6a3586ab940f0b4a269d450c"
+      ]
+    },
+    "PA-075": {
+      "title": "Support inline backend validation before form submission",
+      "category": "Validation & Rules",
+      "subcategory": "Server-side & API enforcement",
+      "verdict": "Approved (singleton)",
+      "origin": "unchanged",
+      "feedback_ids": [
+        "652552a8916365c76f187d12"
+      ]
+    }
+  }
+}

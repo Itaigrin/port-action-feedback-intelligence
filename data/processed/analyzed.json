@@ -44,6 +44,12 @@
           "taxonomy_disagreement": 2
         }
       }
+    },
+    "curated_product_actions": {
+      "source": "product_actions_curated.json",
+      "actions": 101,
+      "records_assigned": 185,
+      "records_unassigned": 0
     }
   },
   "records": [
@@ -129,7 +135,9 @@
       "analyzed_at": "2026-07-31T09:49:52.179683+00:00",
       "topic_tags": [
         "Action discovery, grouping & ordering"
-      ]
+      ],
+      "curated_action_id": "PA-010",
+      "curated_action_title": "Add Action categorization and configurable ordering"
     },
     {
       "feedback_id": "689c4e5eda725fecc3d241bf",
@@ -181,7 +189,9 @@
       "analyzed_at": "2026-07-31T09:49:59.551436+00:00",
       "topic_tags": [
         "Multi-step workflows"
-      ]
+      ],
+      "curated_action_id": "PA-055",
+      "curated_action_title": "Make multi-step, multi-backend orchestration first class"
     },
     {
       "feedback_id": "66c458f7b657d8bbcce59e6f",
@@ -265,7 +275,9 @@
       "analyzed_at": "2026-07-31T09:50:32.496633+00:00",
       "topic_tags": [
         "Retry, rerun & duplicate execution"
-      ]
+      ],
+      "curated_action_id": "PA-019",
+      "curated_action_title": "Retry or duplicate a Run while preserving inputs"
     },
     {
       "feedback_id": "689370a809cde968bdd30c8a",
@@ -390,7 +402,9 @@
       "analyzed_at": "2026-07-31T09:50:50.108234+00:00",
       "topic_tags": [
         "Input & cross-field validation"
-      ]
+      ],
+      "curated_action_id": "PA-072",
+      "curated_action_title": "Expand native form validation rules and feedback"
     },
     {
       "feedback_id": "657042ba954a046b2cfa8ab1",
@@ -474,7 +488,9 @@
       "analyzed_at": "2026-07-31T09:51:03.043381+00:00",
       "topic_tags": [
         "Form layout, sections & multi-page forms"
-      ]
+      ],
+      "curated_action_id": "PA-026",
+      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing"
     },
     {
       "feedback_id": "66c2e3fc26a6ce7012e28f00",
@@ -515,7 +531,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:09.390623+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-069",
+      "curated_action_title": "Add a guided permission authoring, validation and debugging experience"
     },
     {
       "feedback_id": "660e76e9c5ad749ac2a191e0",
@@ -690,7 +708,9 @@
       "analyzed_at": "2026-07-31T09:51:32.279043+00:00",
       "topic_tags": [
         "Dynamic & dependent inputs"
-      ]
+      ],
+      "curated_action_id": "PA-022",
+      "curated_action_title": "Populate dynamic form options from external APIs"
     },
     {
       "feedback_id": "66c4a511a4e3557f499955b6",
@@ -856,7 +876,9 @@
       "analyzed_at": "2026-07-31T09:51:59.003162+00:00",
       "topic_tags": [
         "Approval notifications"
-      ]
+      ],
+      "curated_action_id": "PA-068d",
+      "curated_action_title": "Notify requesters when their request is approved or rejected"
     },
     {
       "feedback_id": "66b1434bd12b821c86cbc7fc",
@@ -906,7 +928,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:05.609776+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-069",
+      "curated_action_title": "Add a guided permission authoring, validation and debugging experience"
     },
     {
       "feedback_id": "68c27182f9c430044f39113f",
@@ -949,7 +973,9 @@
       "analyzed_at": "2026-07-31T09:52:12.225350+00:00",
       "topic_tags": [
         "Action visibility & eligibility"
-      ]
+      ],
+      "curated_action_id": "PA-058b",
+      "curated_action_title": "Hide Actions a user cannot execute from catalog surfaces"
     },
     {
       "feedback_id": "68ba82aac2bfaeb146b7e506",
@@ -1040,7 +1066,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:33.767934+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-041",
+      "curated_action_title": "Provide universal payload transformation functions"
     },
     {
       "feedback_id": "6481f8653a354e3a958a0c03",
@@ -1215,7 +1243,9 @@
       "analyzed_at": "2026-07-31T09:52:57.066985+00:00",
       "topic_tags": [
         "Entity and resource targeting"
-      ]
+      ],
+      "curated_action_id": "PA-006",
+      "curated_action_title": "Decouple Actions from a single required Blueprint"
     },
     {
       "feedback_id": "66c8d155bc622140de9a1e79",
@@ -1265,7 +1295,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:53:06.672126+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-035",
+      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data"
     },
     {
       "feedback_id": "661812f8f2d3cbf4dabfe941",
@@ -1317,7 +1349,9 @@
       "analyzed_at": "2026-07-31T09:53:11.565177+00:00",
       "topic_tags": [
         "Intermediate approvals"
-      ]
+      ],
+      "curated_action_id": "PA-056",
+      "curated_action_title": "Support approval gates inside running workflows"
     },
     {
       "feedback_id": "66ed917798991dce147b5cff",
@@ -1369,7 +1403,9 @@
       "analyzed_at": "2026-07-31T09:53:18.670200+00:00",
       "topic_tags": [
         "Approval notifications"
-      ]
+      ],
+      "curated_action_id": "PA-068",
+      "curated_action_title": "Target approval notifications using the same dynamic permission rules that select approvers"
     },
     {
       "feedback_id": "64f4abe4fd7c2d092c0ce671",
@@ -1412,7 +1448,9 @@
       "analyzed_at": "2026-07-31T09:53:30.448314+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-048",
+      "curated_action_title": "Provide global Run analytics and dashboard widgets"
     },
     {
       "feedback_id": "6671999837fce115c9971b8d",
@@ -1455,7 +1493,9 @@
       "analyzed_at": "2026-07-31T09:53:38.080829+00:00",
       "topic_tags": [
         "Authentication & delegated execution"
-      ]
+      ],
+      "curated_action_id": "PA-031",
+      "curated_action_title": "Support delegated and per-request authentication"
     },
     {
       "feedback_id": "65797cbdedc7e06daa98a9c7",
@@ -1539,7 +1579,9 @@
       "analyzed_at": "2026-07-31T09:53:49.238325+00:00",
       "topic_tags": [
         "Editing & unsaved-change safety"
-      ]
+      ],
+      "curated_action_id": "PA-001",
+      "curated_action_title": "Make unsaved-change detection accurate and consistent"
     },
     {
       "feedback_id": "6853d436533319bfbf13d0ae",
@@ -1582,7 +1624,9 @@
       "analyzed_at": "2026-07-31T09:53:55.604034+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-058",
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
     },
     {
       "feedback_id": "679265f3a7c7da4003832a79",
@@ -1625,7 +1669,9 @@
       "analyzed_at": "2026-07-31T09:54:03.165472+00:00",
       "topic_tags": [
         "Dynamic & dependent inputs"
-      ]
+      ],
+      "curated_action_id": "PA-024",
+      "curated_action_title": "Allow calculated properties in dataset conditions"
     },
     {
       "feedback_id": "666ec4697bfd74c4333701ac",
@@ -1668,7 +1714,9 @@
       "analyzed_at": "2026-07-31T09:54:10.762058+00:00",
       "topic_tags": [
         "Defaults & computed fields"
-      ]
+      ],
+      "curated_action_id": "PA-020",
+      "curated_action_title": "Support reactive computed fields and read-only previews"
     },
     {
       "feedback_id": "676a8b4759632bda4876a0dc",
@@ -1761,7 +1809,9 @@
       "analyzed_at": "2026-07-31T09:54:22.262124+00:00",
       "topic_tags": [
         "Approval policies & thresholds"
-      ]
+      ],
+      "curated_action_id": "PA-063",
+      "curated_action_title": "Determine whether an approval is required from input values or external logic"
     },
     {
       "feedback_id": "675b0c008682d4e202eeeb9a",
@@ -1813,7 +1863,9 @@
       "analyzed_at": "2026-07-31T09:54:34.071899+00:00",
       "topic_tags": [
         "Form layout, sections & multi-page forms"
-      ]
+      ],
+      "curated_action_id": "PA-026b",
+      "curated_action_title": "Support conditional visibility of form steps based on data conditions"
     },
     {
       "feedback_id": "65b62b199794d2cfb2ae1c65",
@@ -1856,7 +1908,9 @@
       "analyzed_at": "2026-07-31T09:54:41.001703+00:00",
       "topic_tags": [
         "Input types & controls"
-      ]
+      ],
+      "curated_action_id": "PA-029",
+      "curated_action_title": "Expand text, code, file and secret input controls"
     },
     {
       "feedback_id": "6583401b32150dedcd8f0e46",
@@ -1899,7 +1953,9 @@
       "analyzed_at": "2026-07-31T09:54:46.962688+00:00",
       "topic_tags": [
         "Timeouts"
-      ]
+      ],
+      "curated_action_id": "PA-015",
+      "curated_action_title": "Make Action timeout configurable"
     },
     {
       "feedback_id": "673df29d75cc3fb760207945",
@@ -2065,7 +2121,9 @@
       "analyzed_at": "2026-07-31T09:55:11.582574+00:00",
       "topic_tags": [
         "Defaults & computed fields"
-      ]
+      ],
+      "curated_action_id": "PA-021",
+      "curated_action_title": "Make default-value initialization predictable"
     },
     {
       "feedback_id": "67002abcd4bbc2b93566d305",
@@ -2117,7 +2175,9 @@
       "analyzed_at": "2026-07-31T09:55:18.327867+00:00",
       "topic_tags": [
         "Cancel, stop & resume"
-      ]
+      ],
+      "curated_action_id": "PA-018",
+      "curated_action_title": "Add configurable cancellation for running Actions"
     },
     {
       "feedback_id": "6a5f5f078c21fd6aad770522",
@@ -2201,7 +2261,9 @@
       "analyzed_at": "2026-07-31T09:55:30.922497+00:00",
       "topic_tags": [
         "Approver routing & identity"
-      ]
+      ],
+      "curated_action_id": "PA-065",
+      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale"
     },
     {
       "feedback_id": "65a6324c5bd75e78b7682e60",
@@ -2253,7 +2315,9 @@
       "analyzed_at": "2026-07-31T09:55:37.936925+00:00",
       "topic_tags": [
         "Approver routing & identity"
-      ]
+      ],
+      "curated_action_id": "PA-065c",
+      "curated_action_title": "Show the resolved approvers to the requester on the Run page"
     },
     {
       "feedback_id": "66c44eb2cd45c987968ca491",
@@ -2337,7 +2401,9 @@
       "analyzed_at": "2026-07-31T09:55:48.532683+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-048",
+      "curated_action_title": "Provide global Run analytics and dashboard widgets"
     },
     {
       "feedback_id": "67dbf184d3db9fe5bd6f51f5",
@@ -2378,7 +2444,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:55:56.266168+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-013",
+      "curated_action_title": "Run one Action against selected or filtered entity sets"
     },
     {
       "feedback_id": "658c538a96cacd7703dce9d5",
@@ -2469,7 +2537,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:56:07.888237+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-070",
+      "curated_action_title": "Show permission-definition changes in audit history"
     },
     {
       "feedback_id": "64e494a2a6c07309e3af5db7",
@@ -2512,7 +2582,9 @@
       "analyzed_at": "2026-07-31T09:56:14.699580+00:00",
       "topic_tags": [
         "Logs & log streaming"
-      ]
+      ],
+      "curated_action_id": "PA-045",
+      "curated_action_title": "Make Run logs structured and readable"
     },
     {
       "feedback_id": "652552a8916365c76f187d12",
@@ -2562,7 +2634,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:56:23.112455+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-075",
+      "curated_action_title": "Support inline backend validation before form submission"
     },
     {
       "feedback_id": "669fced47627f58ee55d66ec",
@@ -2614,7 +2688,9 @@
       "analyzed_at": "2026-07-31T09:56:32.089550+00:00",
       "topic_tags": [
         "Authentication & delegated execution"
-      ]
+      ],
+      "curated_action_id": "PA-031",
+      "curated_action_title": "Support delegated and per-request authentication"
     },
     {
       "feedback_id": "6728c6a7e9894c1a059aa821",
@@ -2657,7 +2733,9 @@
       "analyzed_at": "2026-07-31T09:56:40.196360+00:00",
       "topic_tags": [
         "Backend & invocation method selection"
-      ]
+      ],
+      "curated_action_id": "PA-036c",
+      "curated_action_title": "Provide a native Microsoft Teams Bot invocation backend"
     },
     {
       "feedback_id": "6813989004de8f03ddb52f90",
@@ -2782,7 +2860,9 @@
       "analyzed_at": "2026-07-31T09:56:56.627427+00:00",
       "topic_tags": [
         "Approval policies & thresholds"
-      ]
+      ],
+      "curated_action_id": "PA-064",
+      "curated_action_title": "Support configurable multi-approver thresholds"
     },
     {
       "feedback_id": "693ffb35b3b50ecbaba2d6d4",
@@ -2916,7 +2996,9 @@
       "analyzed_at": "2026-07-31T09:57:15.972742+00:00",
       "topic_tags": [
         "Approval policies & thresholds"
-      ]
+      ],
+      "curated_action_id": "PA-063",
+      "curated_action_title": "Determine whether an approval is required from input values or external logic"
     },
     {
       "feedback_id": "65e7390a0b8acf82dfc933fc",
@@ -2959,7 +3041,9 @@
       "analyzed_at": "2026-07-31T09:57:21.617821+00:00",
       "topic_tags": [
         "Action discovery, grouping & ordering"
-      ]
+      ],
+      "curated_action_id": "PA-010",
+      "curated_action_title": "Add Action categorization and configurable ordering"
     },
     {
       "feedback_id": "69553a67723320e3d9a93ab6",
@@ -3011,7 +3095,9 @@
       "analyzed_at": "2026-07-31T09:57:36.260041+00:00",
       "topic_tags": [
         "Authentication & delegated execution"
-      ]
+      ],
+      "curated_action_id": "PA-031",
+      "curated_action_title": "Support delegated and per-request authentication"
     },
     {
       "feedback_id": "66bcd5fd1f605d678af1aa7f",
@@ -3259,7 +3345,9 @@
       "analyzed_at": "2026-07-31T09:58:08.903693+00:00",
       "topic_tags": [
         "Backend & invocation method selection"
-      ]
+      ],
+      "curated_action_id": "PA-036b",
+      "curated_action_title": "Add Codefresh Classic Pipelines as a supported invocation backend"
     },
     {
       "feedback_id": "69f0734f1a722e24bcaec357",
@@ -3425,7 +3513,9 @@
       "analyzed_at": "2026-07-31T09:58:30.146245+00:00",
       "topic_tags": [
         "Expression and JQ rule authoring"
-      ]
+      ],
+      "curated_action_id": "PA-071",
+      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility"
     },
     {
       "feedback_id": "67098dae95ff13ed656df804",
@@ -3468,7 +3558,9 @@
       "analyzed_at": "2026-07-31T09:58:36.871674+00:00",
       "topic_tags": [
         "Approval audit & context"
-      ]
+      ],
+      "curated_action_id": "PA-050",
+      "curated_action_title": "Expose complete approval provenance in Run records"
     },
     {
       "feedback_id": "6719946e0dbd2fbb0b335147",
@@ -3593,7 +3685,9 @@
       "analyzed_at": "2026-07-31T09:58:54.187690+00:00",
       "topic_tags": [
         "Defaults & computed fields"
-      ]
+      ],
+      "curated_action_id": "PA-020",
+      "curated_action_title": "Support reactive computed fields and read-only previews"
     },
     {
       "feedback_id": "697343a26bf41cfd6bc9ac53",
@@ -3645,7 +3739,9 @@
       "analyzed_at": "2026-07-31T09:59:12.568590+00:00",
       "topic_tags": [
         "Input types & controls"
-      ]
+      ],
+      "curated_action_id": "PA-030b",
+      "curated_action_title": "Add a Filters UI input type that outputs Search-API-compatible filter JSON"
     },
     {
       "feedback_id": "67c68b799784f92c6176416d",
@@ -3688,7 +3784,9 @@
       "analyzed_at": "2026-07-31T09:59:21.202778+00:00",
       "topic_tags": [
         "Error messages & backend responses"
-      ]
+      ],
+      "curated_action_id": "PA-047",
+      "curated_action_title": "Surface complete backend and expression error diagnostics"
     },
     {
       "feedback_id": "6972f975d5c93c87561968d0",
@@ -4027,7 +4125,9 @@
       "analyzed_at": "2026-07-31T10:01:23.255991+00:00",
       "topic_tags": [
         "Entity and resource targeting"
-      ]
+      ],
+      "curated_action_id": "PA-006",
+      "curated_action_title": "Decouple Actions from a single required Blueprint"
     },
     {
       "feedback_id": "682c35c03d53193a7ca01e11",
@@ -4120,7 +4220,9 @@
       "analyzed_at": "2026-07-31T10:01:38.183945+00:00",
       "topic_tags": [
         "Intermediate approvals"
-      ]
+      ],
+      "curated_action_id": "PA-056",
+      "curated_action_title": "Support approval gates inside running workflows"
     },
     {
       "feedback_id": "669f73086d132f3ee45a4c86",
@@ -4172,7 +4274,9 @@
       "analyzed_at": "2026-07-31T10:01:44.946578+00:00",
       "topic_tags": [
         "Drafts, publishing & disablement"
-      ]
+      ],
+      "curated_action_id": "PA-003",
+      "curated_action_title": "Add Action maintenance mode"
     },
     {
       "feedback_id": "650acbf95b34b73cc2493ca8",
@@ -4215,7 +4319,9 @@
       "analyzed_at": "2026-07-31T10:01:50.629677+00:00",
       "topic_tags": [
         "Cancel, stop & resume"
-      ]
+      ],
+      "curated_action_id": "PA-018",
+      "curated_action_title": "Add configurable cancellation for running Actions"
     },
     {
       "feedback_id": "69bd58a10abc9096ad81862e",
@@ -4381,7 +4487,9 @@
       "analyzed_at": "2026-07-31T10:02:14.174177+00:00",
       "topic_tags": [
         "Conditional availability & placement"
-      ]
+      ],
+      "curated_action_id": "PA-011",
+      "curated_action_title": "Support context-based Action placement rules"
     },
     {
       "feedback_id": "670e6d4f1d4ba786e2faa0df",
@@ -4431,7 +4539,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:22.419129+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-013",
+      "curated_action_title": "Run one Action against selected or filtered entity sets"
     },
     {
       "feedback_id": "6492ce2717e04538dd2b68f0",
@@ -4524,7 +4634,9 @@
       "analyzed_at": "2026-07-31T10:02:54.318404+00:00",
       "topic_tags": [
         "Multi-backend & multi-system sequencing"
-      ]
+      ],
+      "curated_action_id": "PA-055",
+      "curated_action_title": "Make multi-step, multi-backend orchestration first class"
     },
     {
       "feedback_id": "695bf72d297ab788de024c91",
@@ -4731,7 +4843,9 @@
       "analyzed_at": "2026-07-31T10:03:29.647033+00:00",
       "topic_tags": [
         "Backend & invocation method selection"
-      ]
+      ],
+      "curated_action_id": "PA-037",
+      "curated_action_title": "Expand native catalog entity mutation invocation"
     },
     {
       "feedback_id": "6984c8667a1845e176fe3732",
@@ -4774,7 +4888,9 @@
       "analyzed_at": "2026-07-31T10:03:35.073841+00:00",
       "topic_tags": [
         "Run-history APIs & export"
-      ]
+      ],
+      "curated_action_id": "PA-051",
+      "curated_action_title": "Make Run history APIs complete and exportable"
     },
     {
       "feedback_id": "69c4768e225c05c619446ff0",
@@ -4867,7 +4983,9 @@
       "analyzed_at": "2026-07-31T10:03:51.103420+00:00",
       "topic_tags": [
         "Logs & log streaming"
-      ]
+      ],
+      "curated_action_id": "PA-046",
+      "curated_action_title": "Expand the Run log-entry API"
     },
     {
       "feedback_id": "6718f84b6fa72a26e29edf8c",
@@ -4992,7 +5110,9 @@
       "analyzed_at": "2026-07-31T10:04:08.971678+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-058",
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
     },
     {
       "feedback_id": "656771af070a907c6e635dc9",
@@ -5035,7 +5155,9 @@
       "analyzed_at": "2026-07-31T10:04:15.008366+00:00",
       "topic_tags": [
         "Concurrency, rate limits & duplicate prevention"
-      ]
+      ],
+      "curated_action_id": "PA-016",
+      "curated_action_title": "Prevent accidental duplicate and conflicting Runs"
     },
     {
       "feedback_id": "68385892443469540b4ed3bd",
@@ -5078,7 +5200,9 @@
       "analyzed_at": "2026-07-31T10:04:29.448115+00:00",
       "topic_tags": [
         "Structured & repeatable inputs"
-      ]
+      ],
+      "curated_action_id": "PA-028",
+      "curated_action_title": "Add structured and repeatable collection inputs"
     },
     {
       "feedback_id": "681b0a5d2c401ce3fc35e8bc",
@@ -5121,7 +5245,9 @@
       "analyzed_at": "2026-07-31T10:05:58.432373+00:00",
       "topic_tags": [
         "Expression and JQ rule authoring"
-      ]
+      ],
+      "curated_action_id": "PA-071",
+      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility"
     },
     {
       "feedback_id": "659823830182c070291f2d87",
@@ -5164,7 +5290,9 @@
       "analyzed_at": "2026-07-31T10:06:06.268220+00:00",
       "topic_tags": [
         "Reliability & transient-failure handling"
-      ]
+      ],
+      "curated_action_id": "PA-017",
+      "curated_action_title": "Add managed retry and backoff for transient failures"
     },
     {
       "feedback_id": "688cd5bf0590fd0cef3cbead",
@@ -5248,7 +5376,9 @@
       "analyzed_at": "2026-07-31T10:06:19.618466+00:00",
       "topic_tags": [
         "Approver experience & request editing"
-      ]
+      ],
+      "curated_action_id": "PA-066",
+      "curated_action_title": "Let approvers correct submitted inputs before approval"
     },
     {
       "feedback_id": "663767aaaa732863041977e3",
@@ -5339,7 +5469,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:06:43.235721+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-035",
+      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data"
     },
     {
       "feedback_id": "65c3900fc543d815a5cbf71b",
@@ -5382,7 +5514,9 @@
       "analyzed_at": "2026-07-31T10:06:48.944842+00:00",
       "topic_tags": [
         "Approval notifications"
-      ]
+      ],
+      "curated_action_id": "PA-068c",
+      "curated_action_title": "Support Kafka as an approval notification channel"
     },
     {
       "feedback_id": "664dfc30f03c3cdb1e67c0b7",
@@ -5425,7 +5559,9 @@
       "analyzed_at": "2026-07-31T10:07:03.458836+00:00",
       "topic_tags": [
         "Preview & dry run"
-      ]
+      ],
+      "curated_action_id": "PA-002b",
+      "curated_action_title": "Add a validation-only dry-run flag to the port-github-action"
     },
     {
       "feedback_id": "6682ab3ba742ae079012c2f5",
@@ -5764,7 +5900,9 @@
       "analyzed_at": "2026-07-31T10:07:50.911692+00:00",
       "topic_tags": [
         "Run status & progress"
-      ]
+      ],
+      "curated_action_id": "PA-052",
+      "curated_action_title": "Show granular real-time Run and step progress"
     },
     {
       "feedback_id": "6a28d09693ba6573b6a4a68e",
@@ -5807,7 +5945,9 @@
       "analyzed_at": "2026-07-31T10:07:56.604333+00:00",
       "topic_tags": [
         "Structured & repeatable inputs"
-      ]
+      ],
+      "curated_action_id": "PA-028",
+      "curated_action_title": "Add structured and repeatable collection inputs"
     },
     {
       "feedback_id": "68de67828ad773d9baab31b1",
@@ -5859,7 +5999,9 @@
       "analyzed_at": "2026-07-31T10:08:07.613670+00:00",
       "topic_tags": [
         "Dynamic & dependent inputs"
-      ]
+      ],
+      "curated_action_id": "PA-022",
+      "curated_action_title": "Populate dynamic form options from external APIs"
     },
     {
       "feedback_id": "66f2e05d64936aa378c31c74",
@@ -5984,7 +6126,9 @@
       "analyzed_at": "2026-07-31T10:08:27.069135+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-049",
+      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details"
     },
     {
       "feedback_id": "662c18c1879e6a4fff5ed742",
@@ -6027,7 +6171,9 @@
       "analyzed_at": "2026-07-31T10:08:47.649082+00:00",
       "topic_tags": [
         "Backend & invocation method selection"
-      ]
+      ],
+      "curated_action_id": "PA-036",
+      "curated_action_title": "Add native invocation for Port-hosted actions and direct Lambda/OpenFAAS backends"
     },
     {
       "feedback_id": "6776cc6eb98f2dbf25dd06e7",
@@ -6070,7 +6216,9 @@
       "analyzed_at": "2026-07-31T10:08:53.947603+00:00",
       "topic_tags": [
         "Input types & controls"
-      ]
+      ],
+      "curated_action_id": "PA-029",
+      "curated_action_title": "Expand text, code, file and secret input controls"
     },
     {
       "feedback_id": "6970abf0757ff2b799889f3e",
@@ -6122,7 +6270,9 @@
       "analyzed_at": "2026-07-31T10:09:01.219200+00:00",
       "topic_tags": [
         "Labels, descriptions & display controls"
-      ]
+      ],
+      "curated_action_id": "PA-027",
+      "curated_action_title": "Expand field display metadata and friendly labels"
     },
     {
       "feedback_id": "67ff95a24f665abe872406a0",
@@ -6165,7 +6315,9 @@
       "analyzed_at": "2026-07-31T10:09:07.012630+00:00",
       "topic_tags": [
         "Form layout, sections & multi-page forms"
-      ]
+      ],
+      "curated_action_id": "PA-026",
+      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing"
     },
     {
       "feedback_id": "687fa46eb2b52954223993ee",
@@ -6217,7 +6369,9 @@
       "analyzed_at": "2026-07-31T10:09:14.942526+00:00",
       "topic_tags": [
         "Input types & controls"
-      ]
+      ],
+      "curated_action_id": "PA-029",
+      "curated_action_title": "Expand text, code, file and secret input controls"
     },
     {
       "feedback_id": "69d7f5a35356befe54b0025c",
@@ -6267,7 +6421,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:09:47.095856+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-074",
+      "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation"
     },
     {
       "feedback_id": "68b6a3e99886b13d94348272",
@@ -6351,7 +6507,9 @@
       "analyzed_at": "2026-07-31T10:09:58.870462+00:00",
       "topic_tags": [
         "Dynamic & dependent inputs"
-      ]
+      ],
+      "curated_action_id": "PA-023",
+      "curated_action_title": "Support conditional field visibility and behavior"
     },
     {
       "feedback_id": "660d4069156ca7bcee9b5457",
@@ -6485,7 +6643,9 @@
       "analyzed_at": "2026-07-31T10:10:20.734707+00:00",
       "topic_tags": [
         "API & IaC configuration management"
-      ]
+      ],
+      "curated_action_id": "PA-004b",
+      "curated_action_title": "Support Action permission configuration in the Pulumi provider"
     },
     {
       "feedback_id": "68a52b17d901352a36334062",
@@ -6783,7 +6943,9 @@
       "analyzed_at": "2026-07-31T10:11:00.432231+00:00",
       "topic_tags": [
         "Approval audit & context"
-      ]
+      ],
+      "curated_action_id": "PA-050",
+      "curated_action_title": "Expose complete approval provenance in Run records"
     },
     {
       "feedback_id": "6489ffa40370ff090a8af507",
@@ -6826,7 +6988,9 @@
       "analyzed_at": "2026-07-31T10:11:13.673199+00:00",
       "topic_tags": [
         "Logs & log streaming"
-      ]
+      ],
+      "curated_action_id": "PA-044",
+      "curated_action_title": "Stream Run logs automatically and expose quick previews"
     },
     {
       "feedback_id": "68fb13d31fe08c9a8443f746",
@@ -6919,7 +7083,9 @@
       "analyzed_at": "2026-07-31T10:11:38.507735+00:00",
       "topic_tags": [
         "Step-level error handling & recovery"
-      ]
+      ],
+      "curated_action_id": "PA-057",
+      "curated_action_title": "Add workflow-level failure and finally branches"
     },
     {
       "feedback_id": "6943427596a1ed2e9f41c9a8",
@@ -7012,7 +7178,9 @@
       "analyzed_at": "2026-07-31T10:11:50.638444+00:00",
       "topic_tags": [
         "Credentials & secrets management"
-      ]
+      ],
+      "curated_action_id": "PA-033b",
+      "curated_action_title": "Add native runtime secret resolution from HashiCorp Vault"
     },
     {
       "feedback_id": "67b20c2e5a5587585abe688c",
@@ -7053,7 +7221,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:11:57.553804+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-054",
+      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources"
     },
     {
       "feedback_id": "670fd226ff2831f9768b8724",
@@ -7096,7 +7266,9 @@
       "analyzed_at": "2026-07-31T10:13:02.834028+00:00",
       "topic_tags": [
         "Editing & unsaved-change safety"
-      ]
+      ],
+      "curated_action_id": "PA-001",
+      "curated_action_title": "Make unsaved-change detection accurate and consistent"
     },
     {
       "feedback_id": "6a211ea7d47059032854eafd",
@@ -7148,7 +7320,9 @@
       "analyzed_at": "2026-07-31T10:13:10.245933+00:00",
       "topic_tags": [
         "Approver experience & request editing"
-      ]
+      ],
+      "curated_action_id": "PA-067b",
+      "curated_action_title": "Add an approver-to-requester messaging thread on Runs awaiting approval"
     },
     {
       "feedback_id": "66dad68c5c2fac7ded045460",
@@ -7191,7 +7365,9 @@
       "analyzed_at": "2026-07-31T10:13:17.062214+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-059",
+      "curated_action_title": "Make permission policies reusable and more expressive"
     },
     {
       "feedback_id": "6967774a6dfee8ee8e4ce896",
@@ -7407,7 +7583,9 @@
       "analyzed_at": "2026-07-31T10:13:58.626286+00:00",
       "topic_tags": [
         "Structured & repeatable inputs"
-      ]
+      ],
+      "curated_action_id": "PA-028",
+      "curated_action_title": "Add structured and repeatable collection inputs"
     },
     {
       "feedback_id": "6760726f4a50f11189d6e973",
@@ -7450,7 +7628,9 @@
       "analyzed_at": "2026-07-31T10:14:09.869516+00:00",
       "topic_tags": [
         "Embedded & alternative launch surfaces"
-      ]
+      ],
+      "curated_action_id": "PA-007",
+      "curated_action_title": "Expose a reusable Action-form launcher for embedded surfaces"
     },
     {
       "feedback_id": "649bdc0ecf7291098a1c28bf",
@@ -7502,7 +7682,9 @@
       "analyzed_at": "2026-07-31T10:14:24.599385+00:00",
       "topic_tags": [
         "Reusability & templates"
-      ]
+      ],
+      "curated_action_id": "PA-005",
+      "curated_action_title": "Generate Action inputs from Blueprint definitions"
     },
     {
       "feedback_id": "69bd84cb8555c6d9dff37d2e",
@@ -7586,7 +7768,9 @@
       "analyzed_at": "2026-07-31T10:14:36.332987+00:00",
       "topic_tags": [
         "Dynamic & dependent inputs"
-      ]
+      ],
+      "curated_action_id": "PA-020",
+      "curated_action_title": "Support reactive computed fields and read-only previews"
     },
     {
       "feedback_id": "67c5b4848a1334bf39898f55",
@@ -7670,7 +7854,9 @@
       "analyzed_at": "2026-07-31T10:14:49.782201+00:00",
       "topic_tags": [
         "Conditional availability & placement"
-      ]
+      ],
+      "curated_action_id": "PA-011",
+      "curated_action_title": "Support context-based Action placement rules"
     },
     {
       "feedback_id": "67ff7c3fc33aac9a829e4a8d",
@@ -7795,7 +7981,9 @@
       "analyzed_at": "2026-07-31T10:15:11.410864+00:00",
       "topic_tags": [
         "Credentials & secrets management"
-      ]
+      ],
+      "curated_action_id": "PA-033",
+      "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration"
     },
     {
       "feedback_id": "65f03ef6cb7414bcffae7545",
@@ -7838,7 +8026,9 @@
       "analyzed_at": "2026-07-31T10:15:21.489621+00:00",
       "topic_tags": [
         "Backend & invocation method selection"
-      ]
+      ],
+      "curated_action_id": "PA-037",
+      "curated_action_title": "Expand native catalog entity mutation invocation"
     },
     {
       "feedback_id": "68127ab6fd3a32236bbbbeba",
@@ -7881,7 +8071,9 @@
       "analyzed_at": "2026-07-31T10:15:52.034546+00:00",
       "topic_tags": [
         "Error messages & backend responses"
-      ]
+      ],
+      "curated_action_id": "PA-047",
+      "curated_action_title": "Surface complete backend and expression error diagnostics"
     },
     {
       "feedback_id": "672249d560b0d661a82e3e32",
@@ -7972,7 +8164,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:16:09.551160+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-042",
+      "curated_action_title": "Map selected and invoking entity data into payloads"
     },
     {
       "feedback_id": "64b93341745be567b249a32f",
@@ -8022,7 +8216,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:16:17.801681+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-042",
+      "curated_action_title": "Map selected and invoking entity data into payloads"
     },
     {
       "feedback_id": "695fd7b5782c46b3dbb66644",
@@ -8106,7 +8302,9 @@
       "analyzed_at": "2026-07-31T10:16:32.037747+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-058",
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
     },
     {
       "feedback_id": "6696f52ddaed01573b729714",
@@ -8158,7 +8356,9 @@
       "analyzed_at": "2026-07-31T10:16:38.232219+00:00",
       "topic_tags": [
         "Approval notifications"
-      ]
+      ],
+      "curated_action_id": "PA-068",
+      "curated_action_title": "Target approval notifications using the same dynamic permission rules that select approvers"
     },
     {
       "feedback_id": "6524c821ec2dd97343235238",
@@ -8201,7 +8401,9 @@
       "analyzed_at": "2026-07-31T10:16:43.763206+00:00",
       "topic_tags": [
         "Approval policies & thresholds"
-      ]
+      ],
+      "curated_action_id": "PA-064",
+      "curated_action_title": "Support configurable multi-approver thresholds"
     },
     {
       "feedback_id": "66781226b894b19aca35a768",
@@ -8244,7 +8446,9 @@
       "analyzed_at": "2026-07-31T10:16:52.674636+00:00",
       "topic_tags": [
         "Approver routing & identity"
-      ]
+      ],
+      "curated_action_id": "PA-065",
+      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale"
     },
     {
       "feedback_id": "65d34b8e9dcc811d4a9300cf",
@@ -8287,7 +8491,9 @@
       "analyzed_at": "2026-07-31T10:16:58.097817+00:00",
       "topic_tags": [
         "Logs & log streaming"
-      ]
+      ],
+      "curated_action_id": "PA-044",
+      "curated_action_title": "Stream Run logs automatically and expose quick previews"
     },
     {
       "feedback_id": "6a4d1db5cc2f4154cf79e3d2",
@@ -8421,7 +8627,9 @@
       "analyzed_at": "2026-07-31T10:17:25.203860+00:00",
       "topic_tags": [
         "Message signing & webhook security"
-      ]
+      ],
+      "curated_action_id": "PA-034",
+      "curated_action_title": "Use scoped service-account credentials for agent signing"
     },
     {
       "feedback_id": "6a4f588ed639d24023826725",
@@ -8628,7 +8836,9 @@
       "analyzed_at": "2026-07-31T10:18:00.627106+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-050",
+      "curated_action_title": "Expose complete approval provenance in Run records"
     },
     {
       "feedback_id": "6a214383d4705903285ef4fe",
@@ -8671,7 +8881,9 @@
       "analyzed_at": "2026-07-31T10:18:08.446688+00:00",
       "topic_tags": [
         "Approver experience & request editing"
-      ]
+      ],
+      "curated_action_id": "PA-068b",
+      "curated_action_title": "Support inline Approve and Reject actions inside Slack approval messages"
     },
     {
       "feedback_id": "6a436ebbac313b453851834b",
@@ -8755,7 +8967,9 @@
       "analyzed_at": "2026-07-31T10:18:37.824756+00:00",
       "topic_tags": [
         "Approval policies & thresholds"
-      ]
+      ],
+      "curated_action_id": "PA-063b",
+      "curated_action_title": "Provide approval bypass and admin override"
     },
     {
       "feedback_id": "6a5e16ea14f1993daab8df59",
@@ -8848,7 +9062,9 @@
       "analyzed_at": "2026-07-31T10:18:53.506136+00:00",
       "topic_tags": [
         "Shared context & output passing"
-      ]
+      ],
+      "curated_action_id": "PA-055",
+      "curated_action_title": "Make multi-step, multi-backend orchestration first class"
     },
     {
       "feedback_id": "6a62cdea0933efc13e70eab5",
@@ -8898,7 +9114,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:19:02.212072+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-035",
+      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data"
     },
     {
       "feedback_id": "699c78c2ebbb27ef14d76770",
@@ -8948,7 +9166,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:19:10.376448+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-014",
+      "curated_action_title": "Support flexible backend-specific Run result states"
     },
     {
       "feedback_id": "69a7207e9505b9d5de41736b",
@@ -8991,7 +9211,9 @@
       "analyzed_at": "2026-07-31T10:19:22.746480+00:00",
       "topic_tags": [
         "Run-history APIs & export"
-      ]
+      ],
+      "curated_action_id": "PA-051",
+      "curated_action_title": "Make Run history APIs complete and exportable"
     },
     {
       "feedback_id": "69d83042f465810c3a2b01fc",
@@ -9084,7 +9306,9 @@
       "analyzed_at": "2026-07-31T10:19:41.320362+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-059",
+      "curated_action_title": "Make permission policies reusable and more expressive"
     },
     {
       "feedback_id": "67adc340ed8cfaae72b680d0",
@@ -9136,7 +9360,9 @@
       "analyzed_at": "2026-07-31T10:19:52.641517+00:00",
       "topic_tags": [
         "Authentication & delegated execution"
-      ]
+      ],
+      "curated_action_id": "PA-031",
+      "curated_action_title": "Support delegated and per-request authentication"
     },
     {
       "feedback_id": "6a68eae5c3da61d5163bbf80",
@@ -9229,7 +9455,9 @@
       "analyzed_at": "2026-07-31T10:20:33.640956+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-061",
+      "curated_action_title": "Add granular roles for Action authoring and Run management"
     },
     {
       "feedback_id": "69fcfb5f510034cca6d534c3",
@@ -9363,7 +9591,9 @@
       "analyzed_at": "2026-07-31T10:21:56.351147+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-061",
+      "curated_action_title": "Add granular roles for Action authoring and Run management"
     },
     {
       "feedback_id": "6a181600453998431fff58f5",
@@ -9447,7 +9677,9 @@
       "analyzed_at": "2026-07-31T10:22:12.658190+00:00",
       "topic_tags": [
         "Action discovery, grouping & ordering"
-      ]
+      ],
+      "curated_action_id": "PA-010",
+      "curated_action_title": "Add Action categorization and configurable ordering"
     },
     {
       "feedback_id": "6700179a3e7d6b9933e460cd",
@@ -9572,7 +9804,9 @@
       "analyzed_at": "2026-07-31T10:22:37.731709+00:00",
       "topic_tags": [
         "Defaults & computed fields"
-      ]
+      ],
+      "curated_action_id": "PA-020",
+      "curated_action_title": "Support reactive computed fields and read-only previews"
     },
     {
       "feedback_id": "67bc9e20e167a610dfa628f4",
@@ -9615,7 +9849,9 @@
       "analyzed_at": "2026-07-31T10:22:51.589015+00:00",
       "topic_tags": [
         "Labels, descriptions & display controls"
-      ]
+      ],
+      "curated_action_id": "PA-027",
+      "curated_action_title": "Expand field display metadata and friendly labels"
     },
     {
       "feedback_id": "69d3359760115cf4136a1d87",
@@ -9658,7 +9894,9 @@
       "analyzed_at": "2026-07-31T10:22:57.243721+00:00",
       "topic_tags": [
         "Approver experience & request editing"
-      ]
+      ],
+      "curated_action_id": "PA-067",
+      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view"
     },
     {
       "feedback_id": "697bc2552c0e437d54520fb7",
@@ -9701,7 +9939,9 @@
       "analyzed_at": "2026-07-31T10:23:02.851393+00:00",
       "topic_tags": [
         "Labels, descriptions & display controls"
-      ]
+      ],
+      "curated_action_id": "PA-027",
+      "curated_action_title": "Expand field display metadata and friendly labels"
     },
     {
       "feedback_id": "69f1052c6a8c8903012ea194",
@@ -9744,7 +9984,9 @@
       "analyzed_at": "2026-07-31T10:23:15.909803+00:00",
       "topic_tags": [
         "Labels, descriptions & display controls"
-      ]
+      ],
+      "curated_action_id": "PA-025",
+      "curated_action_title": "Allow builders to hide the Execute button on Action forms"
     },
     {
       "feedback_id": "67bb136c8e2de556c2957dad",
@@ -9787,7 +10029,9 @@
       "analyzed_at": "2026-07-31T10:23:21.593471+00:00",
       "topic_tags": [
         "Form layout, sections & multi-page forms"
-      ]
+      ],
+      "curated_action_id": "PA-026",
+      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing"
     },
     {
       "feedback_id": "6719fefb0331afd33c16a86f",
@@ -9962,7 +10206,9 @@
       "analyzed_at": "2026-07-31T10:23:50.981460+00:00",
       "topic_tags": [
         "Input & cross-field validation"
-      ]
+      ],
+      "curated_action_id": "PA-073",
+      "curated_action_title": "Add strict configurable validation to GitOps dry runs"
     },
     {
       "feedback_id": "68c1d18fa34b05cc8bf233c6",
@@ -10005,7 +10251,9 @@
       "analyzed_at": "2026-07-31T10:24:07.466587+00:00",
       "topic_tags": [
         "Input & cross-field validation"
-      ]
+      ],
+      "curated_action_id": "PA-072",
+      "curated_action_title": "Expand native form validation rules and feedback"
     },
     {
       "feedback_id": "689373dfd5c68831b44281cd",
@@ -10171,7 +10419,9 @@
       "analyzed_at": "2026-07-31T10:24:29.443986+00:00",
       "topic_tags": [
         "API & IaC configuration management"
-      ]
+      ],
+      "curated_action_id": "PA-004",
+      "curated_action_title": "Expose a complete, copyable Action definition with a working example"
     },
     {
       "feedback_id": "681cd1792e2a2f763a872a9d",
@@ -10346,7 +10596,9 @@
       "analyzed_at": "2026-07-31T10:25:02.555562+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-059",
+      "curated_action_title": "Make permission policies reusable and more expressive"
     },
     {
       "feedback_id": "66718308988563c6da0bb9a9",
@@ -10398,7 +10650,9 @@
       "analyzed_at": "2026-07-31T10:25:17.099925+00:00",
       "topic_tags": [
         "Approval notifications"
-      ]
+      ],
+      "curated_action_id": "PA-068f",
+      "curated_action_title": "Include the eligible approver list in the approval webhook payload"
     },
     {
       "feedback_id": "67479928414b9cbfe00bf473",
@@ -10441,7 +10695,9 @@
       "analyzed_at": "2026-07-31T10:25:29.177485+00:00",
       "topic_tags": [
         "Action discovery, grouping & ordering"
-      ]
+      ],
+      "curated_action_id": "PA-012",
+      "curated_action_title": "Make Actions easier to inspect from catalog views"
     },
     {
       "feedback_id": "68fb8735235b71fd93744c18",
@@ -10484,7 +10740,9 @@
       "analyzed_at": "2026-07-31T10:25:37.019304+00:00",
       "topic_tags": [
         "Logs & log streaming"
-      ]
+      ],
+      "curated_action_id": "PA-046",
+      "curated_action_title": "Expand the Run log-entry API"
     },
     {
       "feedback_id": "64f4adb66cbacd09633abd68",
@@ -10527,7 +10785,9 @@
       "analyzed_at": "2026-07-31T10:25:45.292327+00:00",
       "topic_tags": [
         "Logs & log streaming"
-      ]
+      ],
+      "curated_action_id": "PA-044",
+      "curated_action_title": "Stream Run logs automatically and expose quick previews"
     },
     {
       "feedback_id": "69c68407d76b1fe6b0cdd182",
@@ -10659,7 +10919,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:12.035621+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-054",
+      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources"
     },
     {
       "feedback_id": "6971456c9974c06421a7fd9e",
@@ -10750,7 +11012,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:43.609605+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-014",
+      "curated_action_title": "Support flexible backend-specific Run result states"
     },
     {
       "feedback_id": "69aea7465215d6801a4895da",
@@ -10884,7 +11148,9 @@
       "analyzed_at": "2026-07-31T10:28:32.130133+00:00",
       "topic_tags": [
         "Pre-fill & context-specific defaults"
-      ]
+      ],
+      "curated_action_id": "PA-008",
+      "curated_action_title": "Support context-aware filters and pre-filled pickers"
     },
     {
       "feedback_id": "6a1d45a5b06d5b62ae23dc43",
@@ -10936,7 +11202,9 @@
       "analyzed_at": "2026-07-31T10:28:41.287667+00:00",
       "topic_tags": [
         "Labels, descriptions & display controls"
-      ]
+      ],
+      "curated_action_id": "PA-025c",
+      "curated_action_title": "Support dynamic expressions for Action button text"
     },
     {
       "feedback_id": "6a0f0765f1bb95af4396d0aa",
@@ -10986,7 +11254,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:28:59.258380+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-041",
+      "curated_action_title": "Provide universal payload transformation functions"
     },
     {
       "feedback_id": "6a3586ab940f0b4a269d450c",
@@ -11036,7 +11306,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:29:07.242356+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-074",
+      "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation"
     },
     {
       "feedback_id": "6a4b4a7e3395e568ba0e931f",
@@ -11088,7 +11360,9 @@
       "analyzed_at": "2026-07-31T10:29:21.374189+00:00",
       "topic_tags": [
         "Approver experience & request editing"
-      ]
+      ],
+      "curated_action_id": "PA-067",
+      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view"
     },
     {
       "feedback_id": "6a50eea591b05abba241121a",
@@ -11140,7 +11414,9 @@
       "analyzed_at": "2026-07-31T10:29:28.594548+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-049c",
+      "curated_action_title": "Record the actor and change type behind every Run status change"
     },
     {
       "feedback_id": "6a0afd1159c18d657028cd5c",
@@ -11183,7 +11459,9 @@
       "analyzed_at": "2026-07-31T10:29:34.994318+00:00",
       "topic_tags": [
         "Concurrency, rate limits & duplicate prevention"
-      ]
+      ],
+      "curated_action_id": "PA-016",
+      "curated_action_title": "Prevent accidental duplicate and conflicting Runs"
     },
     {
       "feedback_id": "6a5979a17cd0080dd647c575",
@@ -11226,7 +11504,9 @@
       "analyzed_at": "2026-07-31T10:29:49.078601+00:00",
       "topic_tags": [
         "Event triggers & action-to-automation integration"
-      ]
+      ],
+      "curated_action_id": "PA-038b",
+      "curated_action_title": "Allow automations to trigger generically across all Actions"
     },
     {
       "feedback_id": "68f8e6c4600c5095c076abc7",
@@ -11319,7 +11599,9 @@
       "analyzed_at": "2026-07-31T10:30:02.724622+00:00",
       "topic_tags": [
         "Approver routing & identity"
-      ]
+      ],
+      "curated_action_id": "PA-065b",
+      "curated_action_title": "Preview and test dynamic approver rules before relying on them"
     },
     {
       "feedback_id": "697141709b01af0c80a5efd1",
@@ -11371,7 +11653,9 @@
       "analyzed_at": "2026-07-31T10:30:33.925454+00:00",
       "topic_tags": [
         "Run status & progress"
-      ]
+      ],
+      "curated_action_id": "PA-052",
+      "curated_action_title": "Show granular real-time Run and step progress"
     },
     {
       "feedback_id": "668387c9b72e5d2f6bdb59e3",
@@ -11537,7 +11821,9 @@
       "analyzed_at": "2026-07-31T10:30:55.943901+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-060",
+      "curated_action_title": "Enforce permissions consistently in entity inputs and creation"
     },
     {
       "feedback_id": "69960f60aac09c7ab5f383b1",
@@ -11628,7 +11914,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:07.002824+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-054",
+      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources"
     },
     {
       "feedback_id": "689b92a16f57ecb47b6a4946",
@@ -11876,7 +12164,9 @@
       "analyzed_at": "2026-07-31T10:31:41.309055+00:00",
       "topic_tags": [
         "Conditional availability & placement"
-      ]
+      ],
+      "curated_action_id": "PA-011",
+      "curated_action_title": "Support context-based Action placement rules"
     },
     {
       "feedback_id": "66a5e31d8a37596baba1b970",
@@ -11919,7 +12209,9 @@
       "analyzed_at": "2026-07-31T10:31:47.655485+00:00",
       "topic_tags": [
         "Logs & log streaming"
-      ]
+      ],
+      "curated_action_id": "PA-045",
+      "curated_action_title": "Make Run logs structured and readable"
     },
     {
       "feedback_id": "69f84ce3477db7829b2e1f27",
@@ -11971,7 +12263,9 @@
       "analyzed_at": "2026-07-31T10:31:55.199906+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-062",
+      "curated_action_title": "Control machine-token and invocation-source access"
     },
     {
       "feedback_id": "6a428d9c292f2041042ba04e",
@@ -12014,7 +12308,9 @@
       "analyzed_at": "2026-07-31T10:32:02.092956+00:00",
       "topic_tags": [
         "Embedded & alternative launch surfaces"
-      ]
+      ],
+      "curated_action_id": "PA-007",
+      "curated_action_title": "Expose a reusable Action-form launcher for embedded surfaces"
     },
     {
       "feedback_id": "665ede26e43d7a73fc2e947a",
@@ -12057,7 +12353,9 @@
       "analyzed_at": "2026-07-31T10:32:10.017461+00:00",
       "topic_tags": [
         "Input types & controls"
-      ]
+      ],
+      "curated_action_id": "PA-030",
+      "curated_action_title": "Support entity-selection inputs that also allow creating a new entity by free text"
     },
     {
       "feedback_id": "6693781aa31de39613529762",
@@ -12109,7 +12407,9 @@
       "analyzed_at": "2026-07-31T10:32:18.273824+00:00",
       "topic_tags": [
         "Input types & controls"
-      ]
+      ],
+      "curated_action_id": "PA-030c",
+      "curated_action_title": "Add a map input type presenting friendly labels over submitted values"
     },
     {
       "feedback_id": "68c9c5736bddc38edb2a4072",
@@ -12161,7 +12461,9 @@
       "analyzed_at": "2026-07-31T10:32:33.578140+00:00",
       "topic_tags": [
         "Input & cross-field validation"
-      ]
+      ],
+      "curated_action_id": "PA-072",
+      "curated_action_title": "Expand native form validation rules and feedback"
     },
     {
       "feedback_id": "6995741f6a0047498c59fa71",
@@ -12213,7 +12515,9 @@
       "analyzed_at": "2026-07-31T10:32:41.003691+00:00",
       "topic_tags": [
         "Backend & invocation method selection"
-      ]
+      ],
+      "curated_action_id": "PA-039",
+      "curated_action_title": "Allow dynamic integration installation selection"
     },
     {
       "feedback_id": "6874c373410d522ad019cd56",
@@ -12265,7 +12569,9 @@
       "analyzed_at": "2026-07-31T10:32:58.873371+00:00",
       "topic_tags": [
         "Labels, descriptions & display controls"
-      ]
+      ],
+      "curated_action_id": "PA-027",
+      "curated_action_title": "Expand field display metadata and friendly labels"
     },
     {
       "feedback_id": "68405b9c4ebfd09d591cf6e6",
@@ -12317,7 +12623,9 @@
       "analyzed_at": "2026-07-31T10:33:24.883378+00:00",
       "topic_tags": [
         "Defaults & computed fields"
-      ]
+      ],
+      "curated_action_id": "PA-021",
+      "curated_action_title": "Make default-value initialization predictable"
     },
     {
       "feedback_id": "6a39593eadcbcb23ea8c10c1",
@@ -12524,7 +12832,9 @@
       "analyzed_at": "2026-07-31T10:33:52.958084+00:00",
       "topic_tags": [
         "Current-user and context propagation"
-      ]
+      ],
+      "curated_action_id": "PA-032",
+      "curated_action_title": "Expose trusted requester context to Action backends"
     },
     {
       "feedback_id": "69c1a3bff8901915c20c5ca3",
@@ -12567,7 +12877,9 @@
       "analyzed_at": "2026-07-31T10:35:01.960368+00:00",
       "topic_tags": [
         "Message signing & webhook security"
-      ]
+      ],
+      "curated_action_id": "PA-033",
+      "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration"
     },
     {
       "feedback_id": "6a02b8cf83cc90c4a7254469",
@@ -12651,7 +12963,9 @@
       "analyzed_at": "2026-07-31T10:35:14.759663+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-058",
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
     },
     {
       "feedback_id": "663e275443acb838cf19a5ba",
@@ -12703,7 +13017,9 @@
       "analyzed_at": "2026-07-31T10:35:23.739516+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-062",
+      "curated_action_title": "Control machine-token and invocation-source access"
     },
     {
       "feedback_id": "682f670b596869f89577489f",
@@ -12755,7 +13071,9 @@
       "analyzed_at": "2026-07-31T10:35:35.701773+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-060",
+      "curated_action_title": "Enforce permissions consistently in entity inputs and creation"
     },
     {
       "feedback_id": "67bb1b378aff64bedccf9ae2",
@@ -12798,7 +13116,9 @@
       "analyzed_at": "2026-07-31T10:35:42.920443+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-058",
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
     },
     {
       "feedback_id": "66717334f17d76cbe67bf49f",
@@ -12841,7 +13161,9 @@
       "analyzed_at": "2026-07-31T10:35:48.347152+00:00",
       "topic_tags": [
         "Approver routing & identity"
-      ]
+      ],
+      "curated_action_id": "PA-065",
+      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale"
     },
     {
       "feedback_id": "67ae47018df2ac10d76e1fec",
@@ -12893,7 +13215,9 @@
       "analyzed_at": "2026-07-31T10:36:00.280146+00:00",
       "topic_tags": [
         "Approver experience & request editing"
-      ]
+      ],
+      "curated_action_id": "PA-067",
+      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view"
     },
     {
       "feedback_id": "67583e21f84a4af5d432d045",
@@ -12936,7 +13260,9 @@
       "analyzed_at": "2026-07-31T10:36:06.119393+00:00",
       "topic_tags": [
         "Action discovery, grouping & ordering"
-      ]
+      ],
+      "curated_action_id": "PA-012",
+      "curated_action_title": "Make Actions easier to inspect from catalog views"
     },
     {
       "feedback_id": "65b60179d9cc3038ffc233d3",
@@ -12988,7 +13314,9 @@
       "analyzed_at": "2026-07-31T10:36:14.025591+00:00",
       "topic_tags": [
         "Run status & progress"
-      ]
+      ],
+      "curated_action_id": "PA-052",
+      "curated_action_title": "Show granular real-time Run and step progress"
     },
     {
       "feedback_id": "674613bc11c9ac3dbb882e6a",
@@ -13031,7 +13359,9 @@
       "analyzed_at": "2026-07-31T10:36:21.269882+00:00",
       "topic_tags": [
         "Run status & progress"
-      ]
+      ],
+      "curated_action_id": "PA-053",
+      "curated_action_title": "Allow users to dismiss Run notification badges"
     },
     {
       "feedback_id": "66fabe27f08e28ee95624d41",
@@ -13074,7 +13404,9 @@
       "analyzed_at": "2026-07-31T10:36:26.691949+00:00",
       "topic_tags": [
         "Run-history APIs & export"
-      ]
+      ],
+      "curated_action_id": "PA-051",
+      "curated_action_title": "Make Run history APIs complete and exportable"
     },
     {
       "feedback_id": "6989da7e28d1e2672b8d1f83",
@@ -13167,7 +13499,9 @@
       "analyzed_at": "2026-07-31T10:36:39.601884+00:00",
       "topic_tags": [
         "Embedded & alternative launch surfaces"
-      ]
+      ],
+      "curated_action_id": "PA-009",
+      "curated_action_title": "Allow controlled end-to-end Action execution in Slack"
     },
     {
       "feedback_id": "693717e9a5e8f26790db4e71",
@@ -13217,7 +13551,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:36:53.093786+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-043",
+      "curated_action_title": "Make Execution Agent payload handling configurable in the UI"
     },
     {
       "feedback_id": "672b52a3c45ed39e22567862",
@@ -13260,7 +13596,9 @@
       "analyzed_at": "2026-07-31T10:36:58.747486+00:00",
       "topic_tags": [
         "Form layout, sections & multi-page forms"
-      ]
+      ],
+      "curated_action_id": "PA-025b",
+      "curated_action_title": "Allow early submission of a multi-step form once required inputs are valid"
     },
     {
       "feedback_id": "69846d1a0515435e29b373eb",
@@ -13342,7 +13680,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:37:11.948027+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-040",
+      "curated_action_title": "Add a configurable cluster identifier so Runs reach the intended execution agent"
     },
     {
       "feedback_id": "69a02d77006d0995d3c7e953",
@@ -13392,7 +13732,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:37:20.507169+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-040b",
+      "curated_action_title": "Add configurable TLS trust behaviour to the execution agent"
     },
     {
       "feedback_id": "6833b6005e235d7e91968c71",
@@ -13517,7 +13859,9 @@
       "analyzed_at": "2026-07-31T10:37:37.617318+00:00",
       "topic_tags": [
         "Approver experience & request editing"
-      ]
+      ],
+      "curated_action_id": "PA-066",
+      "curated_action_title": "Let approvers correct submitted inputs before approval"
     },
     {
       "feedback_id": "67173cd806d353fc3299f57b",
@@ -13560,7 +13904,9 @@
       "analyzed_at": "2026-07-31T10:37:43.907082+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-049",
+      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details"
     },
     {
       "feedback_id": "687ced0964a12a95ef832dd9",
@@ -13612,7 +13958,9 @@
       "analyzed_at": "2026-07-31T10:37:53.123165+00:00",
       "topic_tags": [
         "Input types & controls"
-      ]
+      ],
+      "curated_action_id": "PA-030d",
+      "curated_action_title": "Add an address input with autocomplete from a configurable mapping provider"
     },
     {
       "feedback_id": "649bdc45bc9cc409261c2477",
@@ -13746,7 +14094,9 @@
       "analyzed_at": "2026-07-31T10:38:13.773410+00:00",
       "topic_tags": [
         "Expression and JQ rule authoring"
-      ]
+      ],
+      "curated_action_id": "PA-071",
+      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility"
     },
     {
       "feedback_id": "66e68c9ff85bef2fa5d4dc82",
@@ -13798,7 +14148,9 @@
       "analyzed_at": "2026-07-31T10:38:25.260091+00:00",
       "topic_tags": [
         "Error messages & backend responses"
-      ]
+      ],
+      "curated_action_id": "PA-047",
+      "curated_action_title": "Surface complete backend and expression error diagnostics"
     },
     {
       "feedback_id": "673bceee3240094e0c96bc6c",
@@ -13891,7 +14243,9 @@
       "analyzed_at": "2026-07-31T10:38:36.735166+00:00",
       "topic_tags": [
         "Playground, examples & in-product help"
-      ]
+      ],
+      "curated_action_id": "PA-002",
+      "curated_action_title": "Use representative entity data in the backend JQ testing playground"
     },
     {
       "feedback_id": "65a512ccbb34b59cd65ce460",
@@ -13934,7 +14288,9 @@
       "analyzed_at": "2026-07-31T10:38:47.900837+00:00",
       "topic_tags": [
         "Backend & invocation method selection"
-      ]
+      ],
+      "curated_action_id": "PA-038",
+      "curated_action_title": "Provide a generic invocation method that posts log messages to a Run"
     },
     {
       "feedback_id": "6589bbb30ae0869b95c141cd",
@@ -13984,7 +14340,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:38:56.678764+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-043",
+      "curated_action_title": "Make Execution Agent payload handling configurable in the UI"
     },
     {
       "feedback_id": "6481fb245cf5a50d549f4fdb",
@@ -14027,7 +14385,9 @@
       "analyzed_at": "2026-07-31T10:39:02.039554+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-049",
+      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details"
     },
     {
       "feedback_id": "693ffd899279e1a4c35ca2c0",
@@ -14077,7 +14437,9 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:39:08.218192+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "curated_action_id": "PA-069",
+      "curated_action_title": "Add a guided permission authoring, validation and debugging experience"
     },
     {
       "feedback_id": "6481f12a7635744f37484976",
@@ -14129,7 +14491,9 @@
       "analyzed_at": "2026-07-31T10:39:26.449662+00:00",
       "topic_tags": [
         "Approval policies & thresholds"
-      ]
+      ],
+      "curated_action_id": "PA-063c",
+      "curated_action_title": "Provide a configurable manual approval step on Actions"
     },
     {
       "feedback_id": "69a98a661fe40914834d9831",
@@ -14181,7 +14545,9 @@
       "analyzed_at": "2026-07-31T10:39:34.967257+00:00",
       "topic_tags": [
         "Approval notifications"
-      ]
+      ],
+      "curated_action_id": "PA-068e",
+      "curated_action_title": "Allow builders to exclude hidden inputs from approval emails"
     },
     {
       "feedback_id": "68f92f09f3aea6791833224b",
@@ -14224,7 +14590,9 @@
       "analyzed_at": "2026-07-31T10:39:40.822629+00:00",
       "topic_tags": [
         "Approval policies & thresholds"
-      ]
+      ],
+      "curated_action_id": "PA-063b",
+      "curated_action_title": "Provide approval bypass and admin override"
     },
     {
       "feedback_id": "699328e947c850515815cb26",
@@ -14276,7 +14644,9 @@
       "analyzed_at": "2026-07-31T10:41:32.875183+00:00",
       "topic_tags": [
         "RBAC & dynamic permissions"
-      ]
+      ],
+      "curated_action_id": "PA-061",
+      "curated_action_title": "Add granular roles for Action authoring and Run management"
     },
     {
       "feedback_id": "65685e7528ed3bfa080d5deb",
@@ -14319,7 +14689,9 @@
       "analyzed_at": "2026-07-31T10:41:38.514139+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-048",
+      "curated_action_title": "Provide global Run analytics and dashboard widgets"
     },
     {
       "feedback_id": "662a16854790d8da141e4e6e",
@@ -14362,7 +14734,9 @@
       "analyzed_at": "2026-07-31T10:42:04.775213+00:00",
       "topic_tags": [
         "Run history, audit & filtering"
-      ]
+      ],
+      "curated_action_id": "PA-049b",
+      "curated_action_title": "Support configurable dynamic Run names derived from inputs and entity properties"
     },
     {
       "feedback_id": "69523d930fce6a18f6f14a07",
@@ -14405,7 +14779,9 @@
       "analyzed_at": "2026-07-31T10:42:10.594221+00:00",
       "topic_tags": [
         "Retry, rerun & duplicate execution"
-      ]
+      ],
+      "curated_action_id": "PA-019",
+      "curated_action_title": "Retry or duplicate a Run while preserving inputs"
     },
     {
       "feedback_id": "65df7d3e35b41704bb704566",

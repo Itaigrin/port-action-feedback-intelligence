@@ -146,7 +146,14 @@ def product_actions(rel: pd.DataFrame) -> pd.DataFrame:
     rows: list[dict] = []
 
     for group in grouping.cluster(records):
-        title = grouping.canonical_title(group)
+        # An analyst-authored title describes a merged group; one record's
+        # sentence under-describes it, which is the point of curating them.
+        # Traceability is preserved rather than traded away: the group still
+        # names a source record and carries that record's verbatim wording,
+        # so every label on screen can still be checked against real feedback.
+        verbatim = grouping.canonical_title(group)
+        curated = grouping.curated_value(group[0], "curated_action_title")
+        title = curated or verbatim
         supporting_ids = sorted({str(r["feedback_id"]) for r in group})
 
         # Only Open records feed any ranking figure.
@@ -162,9 +169,14 @@ def product_actions(rel: pd.DataFrame) -> pd.DataFrame:
 
         typical = _median_severity(severities)
         rows.append({
-            "product_action_id": grouping.slugify(title),
+            "product_action_id": (grouping.curated_value(group[0], "curated_action_id")
+                                  or grouping.slugify(title)),
             "product_action_title": title,
-            "product_action_source_id": grouping.title_source_id(group, title),
+            "product_action_is_curated": bool(curated),
+            # The record whose own words the automatic title would have used,
+            # and those words verbatim. Kept for every action, curated or not.
+            "product_action_source_id": grouping.title_source_id(group, verbatim),
+            "product_action_source_wording": verbatim,
             "supporting_feedback_ids": supporting_ids,
             "open_supporting_feedback_ids": open_ids,
             # The invariant the card depends on: the number shown is the length

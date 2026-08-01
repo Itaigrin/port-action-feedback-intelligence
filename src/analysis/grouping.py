@@ -91,19 +91,56 @@ def slugify(text: str, limit: int = 60) -> str:
     return "-".join(words)[:limit] or "product-action"
 
 
+CURATED_KEY = "curated_action_id"
+
+
+def curated_value(record: dict, key: str) -> str:
+    """A curated field's value, or "" when it is absent.
+
+    Absent has three shapes here and only one of them is falsy in Python. A
+    record with no curated assignment is None in a dict, but the moment it
+    passes through a DataFrame -- which every caller does -- pandas turns that
+    into NaN, and NaN is truthy. `str(nan or "")` is the string "nan", so an
+    unassigned record was producing a product action titled "nan", and every
+    unassigned record grouped together under that same fake id.
+    """
+    value = record.get(key)
+    if value is None or not isinstance(value, str):
+        return ""
+    return value.strip()
+
+
 def cluster(records: list[dict]) -> list[list[dict]]:
     """Group records asking for substantially the same change.
 
-    Single-link agglomeration inside each subcategory. Order-independent: the
-    records are sorted by id first, so the same input always yields the same
-    grouping regardless of how the frame was built.
+    A record carrying `curated_action_id` is grouped by that id -- an analyst
+    decided its membership and the decision was audited, so text similarity
+    must not override it. Text clustering below is the fallback for anything
+    with no curated assignment, which is how feedback collected after the
+    mapping was written still reaches the ranking instead of disappearing.
+
+    Everything else is single-link agglomeration inside each subcategory.
+    Order-independent: the records are sorted by id first, so the same input
+    always yields the same grouping regardless of how the frame was built.
     """
+    ordered = sorted(records, key=lambda r: str(r["feedback_id"]))
+
+    curated: dict[str, list[dict]] = {}
+    remaining: list[dict] = []
+    for record in ordered:
+        action_id = curated_value(record, CURATED_KEY)
+        if action_id:
+            curated.setdefault(action_id, []).append(record)
+        else:
+            remaining.append(record)
+
+    groups: list[list[dict]] = [curated[key] for key in sorted(curated)]
+
     by_subcategory: dict[str, list[dict]] = {}
-    for record in sorted(records, key=lambda r: str(r["feedback_id"])):
+    for record in remaining:
         by_subcategory.setdefault(
             record.get("primary_taxonomy_subcategory") or "", []).append(record)
 
-    groups: list[list[dict]] = []
     for members in by_subcategory.values():
         buckets: list[tuple[frozenset[str], list[dict]]] = []
         for record in members:
