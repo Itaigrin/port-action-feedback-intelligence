@@ -363,8 +363,12 @@ body {{ overflow-x: hidden; }}
   display: block; color: var(--muted); font-size: 13.5px;
   font-weight: 600; margin-bottom: 6px;
 }}
+/* Font matched to .afi-growth-name (the largest-increase cards' title) --
+   size, weight and line-height, not just the family, so the two card
+   families read as one system rather than two similar-but-different sizes. */
 .afi-insight-name {{
-  font-size: 17px; font-weight: 750; letter-spacing: -.02em; color: var(--ink);
+  font-size: 20px; font-weight: 400; letter-spacing: -.025em; color: var(--ink);
+  line-height: 1.35;
 }}
 .afi-insight-parent {{ color: var(--muted); font-size: 12px; margin-top: 2px; }}
 .afi-insight-count {{ margin: 9px 0 8px; }}
