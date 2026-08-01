@@ -1,28 +1,26 @@
-"""What "needs human review" means, and the reviewer's verdicts that set it.
+"""What "needs human review" means, and the reviewer's verdicts behind it.
 
-The flag used to be a boolean carrying three unrelated meanings: the
+One rule, and it is the only thing that decides the flag:
+
+    needs_human_review = confidence < THRESHOLD
+
+The flag used to be a boolean carrying three unrelated meanings -- the
 classifier's own confidence, a disagreement between the classifier and the v3
 assignment workbook, and a row the workbook itself had marked for a second
-look. Only the first has anything to do with confidence, so a card could read
-"Confidence 0.85" beside "Needs human review" and look like the app
-contradicting itself. It wasn't -- it was one field answering three questions.
+look. A card could then read "Confidence 0.85" beside "Needs human review" and
+look like the app contradicting itself.
 
-Now the flag answers one question: did a reviewer, reading the record, come
-away unsure it is filed correctly? Every previously flagged record was read and
-given a reviewer confidence; below THRESHOLD the record stays flagged, at or
-above it the flag is cleared. Nothing else can set it.
+59 previously flagged records were read by a reviewer and given a confidence
+of their own. For those records `confidence` in analyzed.json is now the
+reviewer's number, not the classifier's -- the field keeps its name and its
+place on the card, "Model confidence", because from the reader's point of
+view it is still the single number that says how sure the app is; only who
+supplied it changed. Every other record keeps the classifier's original
+score untouched.
 
-The verdicts live in their own file rather than in analyzed.json, for the same
-reason overrides do: analyzed.json is regenerated, and a judgement that only
-exists inside a generated file is a judgement that gets overwritten. Keeping
-them separate also means the reasoning stays readable and reviewable as a
-single document, and re-running reconciliation cannot quietly reintroduce the
-old three-meanings-in-one-boolean behaviour.
-
-A verdict is recorded for records that were cleared too, not only for the ones
-still flagged. "Nobody looked at this" and "somebody looked and was sure" are
-different states, and dropping the second loses the audit trail for 42 of the
-59 decisions.
+The verdicts live in their own file rather than in analyzed.json, for the
+same reason overrides do: analyzed.json is regenerated, and a judgement that
+only exists inside a generated file is a judgement that gets overwritten.
 """
 
 from __future__ import annotations
@@ -33,22 +31,21 @@ from pathlib import Path
 ADJUDICATION_FILE = (Path(__file__).resolve().parents[2]
                      / "data" / "processed" / "review_adjudication.json")
 
-# At or above this the reviewer was sure enough to clear the record. It is the
-# same 0.70 the classifier's own low-confidence cut used, so the two numbers on
-# a card are read on one scale.
+# Also the classifier's own cutoff for flagging a record, so one number is
+# read on one scale everywhere it appears.
 THRESHOLD = 0.70
 
 FLAG_FIELD = "needs_human_review"
-REASONS_FIELD = "review_reasons"
-CONFIDENCE_FIELD = "review_confidence"
+CONFIDENCE_FIELD = "confidence"
+REVIEWED_FIELD = "human_reviewed"
 
 
 def load_adjudications(path: Path | None = None) -> dict[str, dict]:
     """Every recorded verdict, keyed by feedback_id.
 
-    A missing or unreadable file means no verdicts, not a crash: the app has to
-    start on a fresh checkout, and a corrupt file should cost the reasoning,
-    not the dashboard.
+    A missing or unreadable file means no verdicts, not a crash: the app has
+    to start on a fresh checkout, and a corrupt file should cost the
+    reasoning, not the dashboard.
     """
     target = path or ADJUDICATION_FILE
     if not target.exists():
@@ -63,36 +60,27 @@ def load_adjudications(path: Path | None = None) -> dict[str, dict]:
 
 def apply_adjudications(records: list[dict],
                         adjudications: dict[str, dict] | None = None) -> dict:
-    """Set the review flag on every record from the reviewer's verdicts alone.
-
-    Records with no verdict are cleared rather than left as they were. A record
-    nobody ruled on carrying a flag nobody can explain is exactly the state
-    this replaces -- and it is how the twelve out-of-scope records ended up
-    flagged with no reason attached to them.
+    """Substitute the reviewer's confidence into reviewed records, then flag
+    every record -- reviewed or not -- by the one rule: confidence < THRESHOLD.
     """
     if adjudications is None:
         adjudications = load_adjudications()
 
-    counts = {"flagged": 0, "cleared": 0, "unjudged_cleared": 0}
+    counts = {"reviewed": 0, "flagged": 0}
     for record in records:
         verdict = adjudications.get(str(record.get("feedback_id")))
-        if not verdict:
-            record[FLAG_FIELD] = False
-            record[REASONS_FIELD] = []
-            record.pop(CONFIDENCE_FIELD, None)
-            counts["unjudged_cleared"] += 1
-            continue
-
-        confidence = float(verdict.get("confidence", 0.0))
-        note = str(verdict.get("note", "")).strip()
-        record[CONFIDENCE_FIELD] = confidence
-        if confidence < THRESHOLD:
-            record[FLAG_FIELD] = True
-            record[REASONS_FIELD] = [note] if note else []
-            counts["flagged"] += 1
+        if verdict is not None:
+            record[CONFIDENCE_FIELD] = float(verdict["confidence"])
+            record[REVIEWED_FIELD] = True
+            counts["reviewed"] += 1
         else:
-            record[FLAG_FIELD] = False
-            record[REASONS_FIELD] = []
-            counts["cleared"] += 1
+            record[REVIEWED_FIELD] = False
+
+        flagged = float(record.get(CONFIDENCE_FIELD) or 1.0) < THRESHOLD
+        record[FLAG_FIELD] = flagged
+        record.pop("review_reasons", None)
+        record.pop("review_confidence", None)
+        if flagged:
+            counts["flagged"] += 1
 
     return counts

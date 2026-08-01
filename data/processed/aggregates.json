@@ -55,7 +55,7 @@
     "subcategories_covered": 30,
     "records_needing_review": 17,
     "records_with_secondary": 84,
-    "low_confidence_records": 26,
+    "low_confidence_records": 17,
     "unverified_evidence": 1,
     "source_systems": [
       "Port portal"
@@ -66,8 +66,8 @@
       "product_action_id": "PA-074",
       "product_action_title": "Enforce Action form rules across API, JSON and MCP invocation",
       "product_action_is_curated": true,
-      "product_action_source_id": "69d7f5a35356befe54b0025c",
-      "product_action_source_wording": "Enforce dataset filter and input validation rules server-side for all invocation paths including MCP and API.",
+      "product_action_source_id": "6a3586ab940f0b4a269d450c",
+      "product_action_source_wording": "Enforce form-defined input and permission validation rules server-side across all invocation paths including API, JSON mode, and MCP.",
       "supporting_feedback_ids": [
         "69d7f5a35356befe54b0025c",
         "6a3586ab940f0b4a269d450c"
@@ -80,7 +80,7 @@
       "typical_severity": 5.0,
       "severity_band": 5,
       "max_severity": 5,
-      "average_confidence": 0.785,
+      "average_confidence": 0.9,
       "source_systems": [
         "Port portal"
       ],
@@ -156,7 +156,7 @@
       "typical_severity": 4.0,
       "severity_band": 4,
       "max_severity": 5,
-      "average_confidence": 0.738,
+      "average_confidence": 0.8,
       "source_systems": [
         "Port portal"
       ],
@@ -195,7 +195,7 @@
       "typical_severity": 4.0,
       "severity_band": 4,
       "max_severity": 5,
-      "average_confidence": 0.667,
+      "average_confidence": 0.74,
       "source_systems": [
         "Port portal"
       ],
@@ -213,43 +213,6 @@
       "needs_review": 0,
       "negative_records": 3,
       "rank": 4
-    },
-    {
-      "product_action_id": "PA-033",
-      "product_action_title": "Support Port secret references and secret template syntax in webhook security configuration",
-      "product_action_is_curated": true,
-      "product_action_source_id": "6915caf8c4c30db90d700b0b",
-      "product_action_source_wording": "Support referencing stored Port secrets in webhook security configuration instead of raw secret values",
-      "supporting_feedback_ids": [
-        "6915caf8c4c30db90d700b0b",
-        "69c1a3bff8901915c20c5ca3"
-      ],
-      "open_supporting_feedback_ids": [
-        "6915caf8c4c30db90d700b0b",
-        "69c1a3bff8901915c20c5ca3"
-      ],
-      "open_supporting_record_count": 2,
-      "typical_severity": 3.5,
-      "severity_band": 4,
-      "max_severity": 4,
-      "average_confidence": 0.85,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-03-23",
-      "latest_created_sort": "2026-03-23T20:34:07.205Z",
-      "primary_categories": [
-        "Identity, Secrets & Security"
-      ],
-      "primary_subcategories": [
-        "Credentials, secrets & request signing"
-      ],
-      "top_problem_type": "Security or privacy concern",
-      "top_journey_stage": "Backend & invocation setup",
-      "needs_review": 1,
-      "negative_records": 2,
-      "rank": 5
     },
     {
       "product_action_id": "PA-065",
@@ -287,7 +250,82 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 2,
+      "rank": 5
+    },
+    {
+      "product_action_id": "PA-062",
+      "product_action_title": "Control machine-token and invocation-source access",
+      "product_action_is_curated": true,
+      "product_action_source_id": "69f84ce3477db7829b2e1f27",
+      "product_action_source_wording": "Add invocation-source-based access controls allowing admins to restrict which channels (UI, MCP, API) can trigger a given action",
+      "supporting_feedback_ids": [
+        "663e275443acb838cf19a5ba",
+        "69f84ce3477db7829b2e1f27"
+      ],
+      "open_supporting_feedback_ids": [
+        "663e275443acb838cf19a5ba",
+        "69f84ce3477db7829b2e1f27"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 3.5,
+      "severity_band": 4,
+      "max_severity": 4,
+      "average_confidence": 0.8,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-05-04",
+      "latest_created_sort": "2026-05-04T07:38:11.563Z",
+      "primary_categories": [
+        "Permissions & Approvals"
+      ],
+      "primary_subcategories": [
+        "Access control & action eligibility"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 0,
+      "negative_records": 2,
       "rank": 6
+    },
+    {
+      "product_action_id": "PA-069",
+      "product_action_title": "Add a guided permission authoring, validation and debugging experience",
+      "product_action_is_curated": true,
+      "product_action_source_id": "66b1434bd12b821c86cbc7fc",
+      "product_action_source_wording": "Provide detailed error messages that identify the specific dynamic permission condition or policy clause that caused an action denial.",
+      "supporting_feedback_ids": [
+        "66b1434bd12b821c86cbc7fc",
+        "66c2e3fc26a6ce7012e28f00",
+        "693ffd899279e1a4c35ca2c0"
+      ],
+      "open_supporting_feedback_ids": [
+        "66b1434bd12b821c86cbc7fc",
+        "693ffd899279e1a4c35ca2c0"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 4.0,
+      "severity_band": 4,
+      "max_severity": 4,
+      "average_confidence": 0.75,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2025-12-15",
+      "latest_created_sort": "2025-12-15T12:22:33.275Z",
+      "primary_categories": [
+        "Permissions & Approvals"
+      ],
+      "primary_subcategories": [
+        "Permission authoring & testing"
+      ],
+      "top_problem_type": "Poor error message",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 7
     },
     {
       "product_action_id": "PA-055",
@@ -308,7 +346,7 @@
       "typical_severity": 3.5,
       "severity_band": 4,
       "max_severity": 4,
-      "average_confidence": 0.8,
+      "average_confidence": 0.675,
       "source_systems": [
         "Port portal"
       ],
@@ -325,82 +363,79 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 1,
       "negative_records": 2,
-      "rank": 7
-    },
-    {
-      "product_action_id": "PA-069",
-      "product_action_title": "Add a guided permission authoring, validation and debugging experience",
-      "product_action_is_curated": true,
-      "product_action_source_id": "693ffd899279e1a4c35ca2c0",
-      "product_action_source_wording": "Prevent saving an action configuration with zero execute permissions, or default to retaining admin execute access",
-      "supporting_feedback_ids": [
-        "66b1434bd12b821c86cbc7fc",
-        "66c2e3fc26a6ce7012e28f00",
-        "693ffd899279e1a4c35ca2c0"
-      ],
-      "open_supporting_feedback_ids": [
-        "66b1434bd12b821c86cbc7fc",
-        "693ffd899279e1a4c35ca2c0"
-      ],
-      "open_supporting_record_count": 2,
-      "typical_severity": 4.0,
-      "severity_band": 4,
-      "max_severity": 4,
-      "average_confidence": 0.8,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-12-15",
-      "latest_created_sort": "2025-12-15T12:22:33.275Z",
-      "primary_categories": [
-        "Permissions & Approvals"
-      ],
-      "primary_subcategories": [
-        "Permission authoring & testing"
-      ],
-      "top_problem_type": "Poor error message",
-      "top_journey_stage": "Permissions & approvals",
-      "needs_review": 0,
-      "negative_records": 2,
       "rank": 8
     },
     {
-      "product_action_id": "PA-062",
-      "product_action_title": "Control machine-token and invocation-source access",
+      "product_action_id": "PA-033",
+      "product_action_title": "Support Port secret references and secret template syntax in webhook security configuration",
       "product_action_is_curated": true,
-      "product_action_source_id": "69f84ce3477db7829b2e1f27",
-      "product_action_source_wording": "Add invocation-source-based access controls allowing admins to restrict which channels (UI, MCP, API) can trigger a given action",
+      "product_action_source_id": "6915caf8c4c30db90d700b0b",
+      "product_action_source_wording": "Support referencing stored Port secrets in webhook security configuration instead of raw secret values",
       "supporting_feedback_ids": [
-        "663e275443acb838cf19a5ba",
-        "69f84ce3477db7829b2e1f27"
+        "6915caf8c4c30db90d700b0b",
+        "69c1a3bff8901915c20c5ca3"
       ],
       "open_supporting_feedback_ids": [
-        "663e275443acb838cf19a5ba",
-        "69f84ce3477db7829b2e1f27"
+        "6915caf8c4c30db90d700b0b",
+        "69c1a3bff8901915c20c5ca3"
       ],
       "open_supporting_record_count": 2,
       "typical_severity": 3.5,
       "severity_band": 4,
       "max_severity": 4,
-      "average_confidence": 0.675,
+      "average_confidence": 0.625,
       "source_systems": [
         "Port portal"
       ],
       "source_diversity": 1,
-      "latest_created_at": "2026-05-04",
-      "latest_created_sort": "2026-05-04T07:38:11.563Z",
+      "latest_created_at": "2026-03-23",
+      "latest_created_sort": "2026-03-23T20:34:07.205Z",
       "primary_categories": [
-        "Permissions & Approvals"
+        "Identity, Secrets & Security"
       ],
       "primary_subcategories": [
-        "Access control & action eligibility"
+        "Credentials, secrets & request signing"
       ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Permissions & approvals",
-      "needs_review": 0,
+      "top_problem_type": "Security or privacy concern",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 1,
       "negative_records": 2,
       "rank": 9
+    },
+    {
+      "product_action_id": "PA-032",
+      "product_action_title": "Expose trusted requester context to Action backends",
+      "product_action_is_curated": true,
+      "product_action_source_id": "695ce5f621c449e1fd7ce58e",
+      "product_action_source_wording": "Expose additional trusted executing-user context (such as team relationships) in the action backend payload without relying on user-editable inputs",
+      "supporting_feedback_ids": [
+        "695ce5f621c449e1fd7ce58e"
+      ],
+      "open_supporting_feedback_ids": [
+        "695ce5f621c449e1fd7ce58e"
+      ],
+      "open_supporting_record_count": 1,
+      "typical_severity": 4.0,
+      "severity_band": 4,
+      "max_severity": 4,
+      "average_confidence": 0.9,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-01-06",
+      "latest_created_sort": "2026-01-06T10:37:42.687Z",
+      "primary_categories": [
+        "Identity, Secrets & Security"
+      ],
+      "primary_subcategories": [
+        "Authentication, execution identity & requester context"
+      ],
+      "top_problem_type": "Security or privacy concern",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "negative_records": 1,
+      "rank": 10
     },
     {
       "product_action_id": "PA-034",
@@ -435,41 +470,6 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 10
-    },
-    {
-      "product_action_id": "PA-008",
-      "product_action_title": "Support context-aware filters and pre-filled pickers",
-      "product_action_is_curated": true,
-      "product_action_source_id": "6a3c68a73959e847601ffa6f",
-      "product_action_source_wording": "Support dynamic JQ-based defaults for entity, team, and user picker inputs derived from current user or triggering entity context",
-      "supporting_feedback_ids": [
-        "6a3c68a73959e847601ffa6f"
-      ],
-      "open_supporting_feedback_ids": [
-        "6a3c68a73959e847601ffa6f"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 4.0,
-      "severity_band": 4,
-      "max_severity": 4,
-      "average_confidence": 0.75,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-06-24",
-      "latest_created_sort": "2026-06-24T23:30:47.480Z",
-      "primary_categories": [
-        "Context, Targeting & Pre-fill"
-      ],
-      "primary_subcategories": [
-        "Contextual launch, targeting & pre-fill"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Contextual entry, targeting & pre-fill",
-      "needs_review": 1,
-      "negative_records": 1,
       "rank": 11
     },
     {
@@ -488,7 +488,7 @@
       "typical_severity": 4.0,
       "severity_band": 4,
       "max_severity": 4,
-      "average_confidence": 0.72,
+      "average_confidence": 0.8,
       "source_systems": [
         "Port portal"
       ],
@@ -508,39 +508,156 @@
       "rank": 12
     },
     {
-      "product_action_id": "PA-032",
-      "product_action_title": "Expose trusted requester context to Action backends",
+      "product_action_id": "PA-008",
+      "product_action_title": "Support context-aware filters and pre-filled pickers",
       "product_action_is_curated": true,
-      "product_action_source_id": "695ce5f621c449e1fd7ce58e",
-      "product_action_source_wording": "Expose additional trusted executing-user context (such as team relationships) in the action backend payload without relying on user-editable inputs",
+      "product_action_source_id": "6a3c68a73959e847601ffa6f",
+      "product_action_source_wording": "Support dynamic JQ-based defaults for entity, team, and user picker inputs derived from current user or triggering entity context",
       "supporting_feedback_ids": [
-        "695ce5f621c449e1fd7ce58e"
+        "6a3c68a73959e847601ffa6f"
       ],
       "open_supporting_feedback_ids": [
-        "695ce5f621c449e1fd7ce58e"
+        "6a3c68a73959e847601ffa6f"
       ],
       "open_supporting_record_count": 1,
       "typical_severity": 4.0,
       "severity_band": 4,
       "max_severity": 4,
-      "average_confidence": 0.72,
+      "average_confidence": 0.6,
       "source_systems": [
         "Port portal"
       ],
       "source_diversity": 1,
-      "latest_created_at": "2026-01-06",
-      "latest_created_sort": "2026-01-06T10:37:42.687Z",
+      "latest_created_at": "2026-06-24",
+      "latest_created_sort": "2026-06-24T23:30:47.480Z",
       "primary_categories": [
-        "Identity, Secrets & Security"
+        "Context, Targeting & Pre-fill"
       ],
       "primary_subcategories": [
-        "Authentication, execution identity & requester context"
+        "Contextual launch, targeting & pre-fill"
       ],
-      "top_problem_type": "Security or privacy concern",
-      "top_journey_stage": "Backend & invocation setup",
-      "needs_review": 0,
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Contextual entry, targeting & pre-fill",
+      "needs_review": 1,
       "negative_records": 1,
       "rank": 13
+    },
+    {
+      "product_action_id": "PA-044",
+      "product_action_title": "Stream Run logs automatically and expose quick previews",
+      "product_action_is_curated": true,
+      "product_action_source_id": "65d34b8e9dcc811d4a9300cf",
+      "product_action_source_wording": "Provide real-time streaming of run logs to the user interface as the action executes.",
+      "supporting_feedback_ids": [
+        "6489ffa40370ff090a8af507",
+        "64f4adb66cbacd09633abd68",
+        "65d34b8e9dcc811d4a9300cf"
+      ],
+      "open_supporting_feedback_ids": [
+        "6489ffa40370ff090a8af507",
+        "64f4adb66cbacd09633abd68",
+        "65d34b8e9dcc811d4a9300cf"
+      ],
+      "open_supporting_record_count": 3,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.86,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2024-02-19",
+      "latest_created_sort": "2024-02-19T12:37:34.130Z",
+      "primary_categories": [
+        "Observability & Debugging"
+      ],
+      "primary_subcategories": [
+        "Logs & error diagnostics"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "negative_records": 3,
+      "rank": 14
+    },
+    {
+      "product_action_id": "PA-054",
+      "product_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
+      "product_action_is_curated": true,
+      "product_action_source_id": "67b20c2e5a5587585abe688c",
+      "product_action_source_wording": "Automatically tie affected entities to their action run at invocation time instead of requiring a manual API call",
+      "supporting_feedback_ids": [
+        "65788dd234dcbc6adbd713bb",
+        "67b20c2e5a5587585abe688c",
+        "697a6d812b05462f8a614382"
+      ],
+      "open_supporting_feedback_ids": [
+        "65788dd234dcbc6adbd713bb",
+        "67b20c2e5a5587585abe688c",
+        "697a6d812b05462f8a614382"
+      ],
+      "open_supporting_record_count": 3,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.833,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-01-28",
+      "latest_created_sort": "2026-01-28T20:11:45.370Z",
+      "primary_categories": [
+        "Observability & Debugging"
+      ],
+      "primary_subcategories": [
+        "Run traceability & related entities"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "negative_records": 3,
+      "rank": 15
+    },
+    {
+      "product_action_id": "PA-047",
+      "product_action_title": "Surface complete backend and expression error diagnostics",
+      "product_action_is_curated": true,
+      "product_action_source_id": "66e68c9ff85bef2fa5d4dc82",
+      "product_action_source_wording": "Surface JQ evaluation errors in a monitorable log or alert so failures in actions and automations are visible and actionable.",
+      "supporting_feedback_ids": [
+        "66e68c9ff85bef2fa5d4dc82",
+        "67c68b799784f92c6176416d",
+        "68127ab6fd3a32236bbbbeba"
+      ],
+      "open_supporting_feedback_ids": [
+        "66e68c9ff85bef2fa5d4dc82",
+        "67c68b799784f92c6176416d",
+        "68127ab6fd3a32236bbbbeba"
+      ],
+      "open_supporting_record_count": 3,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 4,
+      "average_confidence": 0.833,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2025-04-30",
+      "latest_created_sort": "2025-04-30T19:32:06.727Z",
+      "primary_categories": [
+        "Observability & Debugging"
+      ],
+      "primary_subcategories": [
+        "Logs & error diagnostics"
+      ],
+      "top_problem_type": "Observability or debugging gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "negative_records": 3,
+      "rank": 16
     },
     {
       "product_action_id": "PA-028",
@@ -579,85 +696,7 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 3,
-      "rank": 14
-    },
-    {
-      "product_action_id": "PA-011",
-      "product_action_title": "Support context-based Action placement rules",
-      "product_action_is_curated": true,
-      "product_action_source_id": "656dffd9c9406ec6bc18eaa5",
-      "product_action_source_wording": "Allow action builders to hide or disable specific actions on individual entities within a blueprint.",
-      "supporting_feedback_ids": [
-        "656dffd9c9406ec6bc18eaa5",
-        "65b9006ef5018ed4ab27075b",
-        "678fa2d0541d91b91a772c41"
-      ],
-      "open_supporting_feedback_ids": [
-        "656dffd9c9406ec6bc18eaa5",
-        "65b9006ef5018ed4ab27075b",
-        "678fa2d0541d91b91a772c41"
-      ],
-      "open_supporting_record_count": 3,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.817,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-01-21",
-      "latest_created_sort": "2025-01-21T13:36:16.461Z",
-      "primary_categories": [
-        "Discovery, Organization & Reuse"
-      ],
-      "primary_subcategories": [
-        "Action discovery, organization & placement"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Action discovery & organization",
-      "needs_review": 1,
-      "negative_records": 3,
-      "rank": 15
-    },
-    {
-      "product_action_id": "PA-047",
-      "product_action_title": "Surface complete backend and expression error diagnostics",
-      "product_action_is_curated": true,
-      "product_action_source_id": "66e68c9ff85bef2fa5d4dc82",
-      "product_action_source_wording": "Surface JQ evaluation errors in a monitorable log or alert so failures in actions and automations are visible and actionable.",
-      "supporting_feedback_ids": [
-        "66e68c9ff85bef2fa5d4dc82",
-        "67c68b799784f92c6176416d",
-        "68127ab6fd3a32236bbbbeba"
-      ],
-      "open_supporting_feedback_ids": [
-        "66e68c9ff85bef2fa5d4dc82",
-        "67c68b799784f92c6176416d",
-        "68127ab6fd3a32236bbbbeba"
-      ],
-      "open_supporting_record_count": 3,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 4,
-      "average_confidence": 0.807,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-04-30",
-      "latest_created_sort": "2025-04-30T19:32:06.727Z",
-      "primary_categories": [
-        "Observability & Debugging"
-      ],
-      "primary_subcategories": [
-        "Logs & error diagnostics"
-      ],
-      "top_problem_type": "Observability or debugging gap",
-      "top_journey_stage": "Execution, monitoring & run control",
-      "needs_review": 0,
-      "negative_records": 3,
-      "rank": 16
+      "rank": 17
     },
     {
       "product_action_id": "PA-061",
@@ -696,7 +735,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 3,
-      "rank": 17
+      "rank": 18
     },
     {
       "product_action_id": "PA-020",
@@ -736,101 +775,62 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 3,
-      "rank": 18
+      "rank": 19
     },
     {
-      "product_action_id": "PA-059",
-      "product_action_title": "Make permission policies reusable and more expressive",
+      "product_action_id": "PA-067",
+      "product_action_title": "Provide an approver dashboard and a focused, readable decision view",
       "product_action_is_curated": true,
-      "product_action_source_id": "66b14531ed4315cc0258b909",
-      "product_action_source_wording": "Add a toggle to switch dynamic permission condition evaluation between OR and AND logic",
+      "product_action_source_id": "67ae47018df2ac10d76e1fec",
+      "product_action_source_wording": "Provide an approver dashboard with queue view, approval history, status filtering, and bulk approve/reject actions.",
       "supporting_feedback_ids": [
-        "66b14531ed4315cc0258b909",
-        "66dad68c5c2fac7ded045460",
-        "68f8fbb8741fd60efd0e8d17"
+        "67ae47018df2ac10d76e1fec",
+        "69d3359760115cf4136a1d87",
+        "6a4b4a7e3395e568ba0e931f"
       ],
       "open_supporting_feedback_ids": [
-        "66b14531ed4315cc0258b909",
-        "66dad68c5c2fac7ded045460",
-        "68f8fbb8741fd60efd0e8d17"
+        "67ae47018df2ac10d76e1fec",
+        "69d3359760115cf4136a1d87",
+        "6a4b4a7e3395e568ba0e931f"
       ],
       "open_supporting_record_count": 3,
       "typical_severity": 3.0,
       "severity_band": 3,
       "max_severity": 3,
-      "average_confidence": 0.767,
+      "average_confidence": 0.773,
       "source_systems": [
         "Port portal"
       ],
       "source_diversity": 1,
-      "latest_created_at": "2025-10-22",
-      "latest_created_sort": "2025-10-22T15:43:52.192Z",
+      "latest_created_at": "2026-07-06",
+      "latest_created_sort": "2026-07-06T06:26:06.386Z",
       "primary_categories": [
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Access control & action eligibility"
+        "Approver experience & notifications"
       ],
-      "top_problem_type": "Configuration complexity",
+      "top_problem_type": "Usability friction",
       "top_journey_stage": "Permissions & approvals",
-      "needs_review": 3,
-      "negative_records": 3,
-      "rank": 19
-    },
-    {
-      "product_action_id": "PA-044",
-      "product_action_title": "Stream Run logs automatically and expose quick previews",
-      "product_action_is_curated": true,
-      "product_action_source_id": "65d34b8e9dcc811d4a9300cf",
-      "product_action_source_wording": "Provide real-time streaming of run logs to the user interface as the action executes.",
-      "supporting_feedback_ids": [
-        "6489ffa40370ff090a8af507",
-        "64f4adb66cbacd09633abd68",
-        "65d34b8e9dcc811d4a9300cf"
-      ],
-      "open_supporting_feedback_ids": [
-        "6489ffa40370ff090a8af507",
-        "64f4adb66cbacd09633abd68",
-        "65d34b8e9dcc811d4a9300cf"
-      ],
-      "open_supporting_record_count": 3,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.767,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2024-02-19",
-      "latest_created_sort": "2024-02-19T12:37:34.130Z",
-      "primary_categories": [
-        "Observability & Debugging"
-      ],
-      "primary_subcategories": [
-        "Logs & error diagnostics"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Execution, monitoring & run control",
-      "needs_review": 0,
+      "needs_review": 1,
       "negative_records": 3,
       "rank": 20
     },
     {
-      "product_action_id": "PA-054",
-      "product_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
+      "product_action_id": "PA-011",
+      "product_action_title": "Support context-based Action placement rules",
       "product_action_is_curated": true,
-      "product_action_source_id": "67b20c2e5a5587585abe688c",
-      "product_action_source_wording": "Automatically tie affected entities to their action run at invocation time instead of requiring a manual API call",
+      "product_action_source_id": "656dffd9c9406ec6bc18eaa5",
+      "product_action_source_wording": "Allow action builders to hide or disable specific actions on individual entities within a blueprint.",
       "supporting_feedback_ids": [
-        "65788dd234dcbc6adbd713bb",
-        "67b20c2e5a5587585abe688c",
-        "697a6d812b05462f8a614382"
+        "656dffd9c9406ec6bc18eaa5",
+        "65b9006ef5018ed4ab27075b",
+        "678fa2d0541d91b91a772c41"
       ],
       "open_supporting_feedback_ids": [
-        "65788dd234dcbc6adbd713bb",
-        "67b20c2e5a5587585abe688c",
-        "697a6d812b05462f8a614382"
+        "656dffd9c9406ec6bc18eaa5",
+        "65b9006ef5018ed4ab27075b",
+        "678fa2d0541d91b91a772c41"
       ],
       "open_supporting_record_count": 3,
       "typical_severity": 3.0,
@@ -841,17 +841,17 @@
         "Port portal"
       ],
       "source_diversity": 1,
-      "latest_created_at": "2026-01-28",
-      "latest_created_sort": "2026-01-28T20:11:45.370Z",
+      "latest_created_at": "2025-01-21",
+      "latest_created_sort": "2025-01-21T13:36:16.461Z",
       "primary_categories": [
-        "Observability & Debugging"
+        "Discovery, Organization & Reuse"
       ],
       "primary_subcategories": [
-        "Run traceability & related entities"
+        "Action discovery, organization & placement"
       ],
       "top_problem_type": "Feature gap",
-      "top_journey_stage": "Execution, monitoring & run control",
-      "needs_review": 0,
+      "top_journey_stage": "Action discovery & organization",
+      "needs_review": 1,
       "negative_records": 3,
       "rank": 21
     },
@@ -875,7 +875,7 @@
       "typical_severity": 3.0,
       "severity_band": 3,
       "max_severity": 3,
-      "average_confidence": 0.733,
+      "average_confidence": 0.7,
       "source_systems": [
         "Port portal"
       ],
@@ -895,43 +895,80 @@
       "rank": 22
     },
     {
-      "product_action_id": "PA-067",
-      "product_action_title": "Provide an approver dashboard and a focused, readable decision view",
+      "product_action_id": "PA-059",
+      "product_action_title": "Make permission policies reusable and more expressive",
       "product_action_is_curated": true,
-      "product_action_source_id": "6a4b4a7e3395e568ba0e931f",
-      "product_action_source_wording": "Provide a simplified, scoped approval view for workflow Input nodes showing only the relevant description, fields and action buttons, with the full graph available optionally.",
+      "product_action_source_id": "66dad68c5c2fac7ded045460",
+      "product_action_source_wording": "Add a deny-based permission rule that lets admins block edit access to a specific property without restructuring the full permission set.",
       "supporting_feedback_ids": [
-        "67ae47018df2ac10d76e1fec",
-        "69d3359760115cf4136a1d87",
-        "6a4b4a7e3395e568ba0e931f"
+        "66b14531ed4315cc0258b909",
+        "66dad68c5c2fac7ded045460",
+        "68f8fbb8741fd60efd0e8d17"
       ],
       "open_supporting_feedback_ids": [
-        "67ae47018df2ac10d76e1fec",
-        "69d3359760115cf4136a1d87",
-        "6a4b4a7e3395e568ba0e931f"
+        "66b14531ed4315cc0258b909",
+        "66dad68c5c2fac7ded045460",
+        "68f8fbb8741fd60efd0e8d17"
       ],
       "open_supporting_record_count": 3,
       "typical_severity": 3.0,
       "severity_band": 3,
       "max_severity": 3,
-      "average_confidence": 0.717,
+      "average_confidence": 0.467,
       "source_systems": [
         "Port portal"
       ],
       "source_diversity": 1,
-      "latest_created_at": "2026-07-06",
-      "latest_created_sort": "2026-07-06T06:26:06.386Z",
+      "latest_created_at": "2025-10-22",
+      "latest_created_sort": "2025-10-22T15:43:52.192Z",
       "primary_categories": [
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver experience & notifications"
+        "Access control & action eligibility"
       ],
-      "top_problem_type": "Usability friction",
+      "top_problem_type": "Configuration complexity",
       "top_journey_stage": "Permissions & approvals",
-      "needs_review": 1,
+      "needs_review": 3,
       "negative_records": 3,
       "rank": 23
+    },
+    {
+      "product_action_id": "PA-018",
+      "product_action_title": "Add configurable cancellation for running Actions",
+      "product_action_is_curated": true,
+      "product_action_source_id": "650acbf95b34b73cc2493ca8",
+      "product_action_source_wording": "Add ability to cancel a running action execution",
+      "supporting_feedback_ids": [
+        "650acbf95b34b73cc2493ca8",
+        "67002abcd4bbc2b93566d305"
+      ],
+      "open_supporting_feedback_ids": [
+        "650acbf95b34b73cc2493ca8",
+        "67002abcd4bbc2b93566d305"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.9,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2024-10-04",
+      "latest_created_sort": "2024-10-04T17:49:48.806Z",
+      "primary_categories": [
+        "Execution Lifecycle"
+      ],
+      "primary_subcategories": [
+        "Retry, rerun, cancel & resume"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 24
     },
     {
       "product_action_id": "PA-066",
@@ -968,7 +1005,44 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 24
+      "rank": 25
+    },
+    {
+      "product_action_id": "PA-063",
+      "product_action_title": "Determine whether an approval is required from input values or external logic",
+      "product_action_is_curated": true,
+      "product_action_source_id": "65bb5ba2299d1b93acc3052d",
+      "product_action_source_wording": "Enable conditional approval policies triggered by specific action input values",
+      "supporting_feedback_ids": [
+        "65755f639cb7be20f870e3ce",
+        "65bb5ba2299d1b93acc3052d"
+      ],
+      "open_supporting_feedback_ids": [
+        "65755f639cb7be20f870e3ce",
+        "65bb5ba2299d1b93acc3052d"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.875,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2024-02-01",
+      "latest_created_sort": "2024-02-01T08:51:46.597Z",
+      "primary_categories": [
+        "Permissions & Approvals"
+      ],
+      "primary_subcategories": [
+        "Approval policies & approver routing"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 26
     },
     {
       "product_action_id": "PA-016",
@@ -1005,7 +1079,81 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 25
+      "rank": 27
+    },
+    {
+      "product_action_id": "PA-013",
+      "product_action_title": "Run one Action against selected or filtered entity sets",
+      "product_action_is_curated": true,
+      "product_action_source_id": "670e6d4f1d4ba786e2faa0df",
+      "product_action_source_wording": "Enable running a single action against the full set of filtered/selected entities in a table view, including passing them as payload references",
+      "supporting_feedback_ids": [
+        "670e6d4f1d4ba786e2faa0df",
+        "67dbf184d3db9fe5bd6f51f5"
+      ],
+      "open_supporting_feedback_ids": [
+        "670e6d4f1d4ba786e2faa0df",
+        "67dbf184d3db9fe5bd6f51f5"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.85,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2025-03-20",
+      "latest_created_sort": "2025-03-20T10:44:20.329Z",
+      "primary_categories": [
+        "Discovery, Organization & Reuse"
+      ],
+      "primary_subcategories": [
+        "Bulk actions"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Action discovery & organization",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 28
+    },
+    {
+      "product_action_id": "PA-022",
+      "product_action_title": "Populate dynamic form options from external APIs",
+      "product_action_is_curated": true,
+      "product_action_source_id": "6548e76c830f6a63732c6653",
+      "product_action_source_wording": "Support dropdown input options populated dynamically from external API responses",
+      "supporting_feedback_ids": [
+        "6548e76c830f6a63732c6653",
+        "68de67828ad773d9baab31b1"
+      ],
+      "open_supporting_feedback_ids": [
+        "6548e76c830f6a63732c6653",
+        "68de67828ad773d9baab31b1"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.825,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2025-10-02",
+      "latest_created_sort": "2025-10-02T11:52:34.064Z",
+      "primary_categories": [
+        "Form Configuration"
+      ],
+      "primary_subcategories": [
+        "Dynamic inputs, defaults & computed fields"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 29
     },
     {
       "product_action_id": "PA-072",
@@ -1043,7 +1191,7 @@
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 26
+      "rank": 30
     },
     {
       "product_action_id": "PA-021",
@@ -1063,7 +1211,7 @@
       "typical_severity": 3.0,
       "severity_band": 3,
       "max_severity": 3,
-      "average_confidence": 0.8,
+      "average_confidence": 0.825,
       "source_systems": [
         "Port portal"
       ],
@@ -1080,81 +1228,44 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 27
+      "rank": 31
     },
     {
-      "product_action_id": "PA-063",
-      "product_action_title": "Determine whether an approval is required from input values or external logic",
+      "product_action_id": "PA-014",
+      "product_action_title": "Support flexible backend-specific Run result states",
       "product_action_is_curated": true,
-      "product_action_source_id": "65755f639cb7be20f870e3ce",
-      "product_action_source_wording": "Enable dynamic, webhook-based determination of whether an action run requires approval before execution.",
+      "product_action_source_id": "6582ce708d54e728d31b780f",
+      "product_action_source_wording": "Expand supported run completion statuses to include all backend-specific status values such as GitLab pipeline statuses",
       "supporting_feedback_ids": [
-        "65755f639cb7be20f870e3ce",
-        "65bb5ba2299d1b93acc3052d"
+        "6582ce708d54e728d31b780f",
+        "699c78c2ebbb27ef14d76770"
       ],
       "open_supporting_feedback_ids": [
-        "65755f639cb7be20f870e3ce",
-        "65bb5ba2299d1b93acc3052d"
+        "6582ce708d54e728d31b780f",
+        "699c78c2ebbb27ef14d76770"
       ],
       "open_supporting_record_count": 2,
       "typical_severity": 3.0,
       "severity_band": 3,
       "max_severity": 3,
-      "average_confidence": 0.785,
+      "average_confidence": 0.815,
       "source_systems": [
         "Port portal"
       ],
       "source_diversity": 1,
-      "latest_created_at": "2024-02-01",
-      "latest_created_sort": "2024-02-01T08:51:46.597Z",
+      "latest_created_at": "2026-02-23",
+      "latest_created_sort": "2026-02-23T15:56:50.952Z",
       "primary_categories": [
-        "Permissions & Approvals"
+        "Execution Lifecycle"
       ],
       "primary_subcategories": [
-        "Approval policies & approver routing"
+        "Completion & result-state control"
       ],
       "top_problem_type": "Feature gap",
-      "top_journey_stage": "Permissions & approvals",
+      "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 28
-    },
-    {
-      "product_action_id": "PA-013",
-      "product_action_title": "Run one Action against selected or filtered entity sets",
-      "product_action_is_curated": true,
-      "product_action_source_id": "67dbf184d3db9fe5bd6f51f5",
-      "product_action_source_wording": "Enable bulk execution of self-service actions across multiple selected entities",
-      "supporting_feedback_ids": [
-        "670e6d4f1d4ba786e2faa0df",
-        "67dbf184d3db9fe5bd6f51f5"
-      ],
-      "open_supporting_feedback_ids": [
-        "670e6d4f1d4ba786e2faa0df",
-        "67dbf184d3db9fe5bd6f51f5"
-      ],
-      "open_supporting_record_count": 2,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.775,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-03-20",
-      "latest_created_sort": "2025-03-20T10:44:20.329Z",
-      "primary_categories": [
-        "Discovery, Organization & Reuse"
-      ],
-      "primary_subcategories": [
-        "Bulk actions"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Action discovery & organization",
-      "needs_review": 0,
-      "negative_records": 2,
-      "rank": 29
+      "rank": 32
     },
     {
       "product_action_id": "PA-052",
@@ -1192,44 +1303,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 30
-    },
-    {
-      "product_action_id": "PA-014",
-      "product_action_title": "Support flexible backend-specific Run result states",
-      "product_action_is_curated": true,
-      "product_action_source_id": "6582ce708d54e728d31b780f",
-      "product_action_source_wording": "Expand supported run completion statuses to include all backend-specific status values such as GitLab pipeline statuses",
-      "supporting_feedback_ids": [
-        "6582ce708d54e728d31b780f",
-        "699c78c2ebbb27ef14d76770"
-      ],
-      "open_supporting_feedback_ids": [
-        "6582ce708d54e728d31b780f",
-        "699c78c2ebbb27ef14d76770"
-      ],
-      "open_supporting_record_count": 2,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.75,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-02-23",
-      "latest_created_sort": "2026-02-23T15:56:50.952Z",
-      "primary_categories": [
-        "Execution Lifecycle"
-      ],
-      "primary_subcategories": [
-        "Completion & result-state control"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Execution, monitoring & run control",
-      "needs_review": 0,
-      "negative_records": 2,
-      "rank": 31
+      "rank": 33
     },
     {
       "product_action_id": "PA-060",
@@ -1249,7 +1323,7 @@
       "typical_severity": 3.0,
       "severity_band": 3,
       "max_severity": 3,
-      "average_confidence": 0.75,
+      "average_confidence": 0.6,
       "source_systems": [
         "Port portal"
       ],
@@ -1265,80 +1339,6 @@
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 1,
-      "negative_records": 2,
-      "rank": 32
-    },
-    {
-      "product_action_id": "PA-018",
-      "product_action_title": "Add configurable cancellation for running Actions",
-      "product_action_is_curated": true,
-      "product_action_source_id": "650acbf95b34b73cc2493ca8",
-      "product_action_source_wording": "Add ability to cancel a running action execution",
-      "supporting_feedback_ids": [
-        "650acbf95b34b73cc2493ca8",
-        "67002abcd4bbc2b93566d305"
-      ],
-      "open_supporting_feedback_ids": [
-        "650acbf95b34b73cc2493ca8",
-        "67002abcd4bbc2b93566d305"
-      ],
-      "open_supporting_record_count": 2,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.75,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2024-10-04",
-      "latest_created_sort": "2024-10-04T17:49:48.806Z",
-      "primary_categories": [
-        "Execution Lifecycle"
-      ],
-      "primary_subcategories": [
-        "Retry, rerun, cancel & resume"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Execution, monitoring & run control",
-      "needs_review": 0,
-      "negative_records": 2,
-      "rank": 33
-    },
-    {
-      "product_action_id": "PA-022",
-      "product_action_title": "Populate dynamic form options from external APIs",
-      "product_action_is_curated": true,
-      "product_action_source_id": "6548e76c830f6a63732c6653",
-      "product_action_source_wording": "Support dropdown input options populated dynamically from external API responses",
-      "supporting_feedback_ids": [
-        "6548e76c830f6a63732c6653",
-        "68de67828ad773d9baab31b1"
-      ],
-      "open_supporting_feedback_ids": [
-        "6548e76c830f6a63732c6653",
-        "68de67828ad773d9baab31b1"
-      ],
-      "open_supporting_record_count": 2,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.725,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-10-02",
-      "latest_created_sort": "2025-10-02T11:52:34.064Z",
-      "primary_categories": [
-        "Form Configuration"
-      ],
-      "primary_subcategories": [
-        "Dynamic inputs, defaults & computed fields"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Form & input configuration",
-      "needs_review": 0,
       "negative_records": 2,
       "rank": 34
     },
@@ -1378,6 +1378,76 @@
       "rank": 35
     },
     {
+      "product_action_id": "PA-040b",
+      "product_action_title": "Add configurable TLS trust behaviour to the execution agent",
+      "product_action_is_curated": true,
+      "product_action_source_id": "69a02d77006d0995d3c7e953",
+      "product_action_source_wording": "Add an SSL no-verify configuration option to the execution agent for connecting to internal servers",
+      "supporting_feedback_ids": [
+        "69a02d77006d0995d3c7e953"
+      ],
+      "open_supporting_feedback_ids": [
+        "69a02d77006d0995d3c7e953"
+      ],
+      "open_supporting_record_count": 1,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.88,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-02-26",
+      "latest_created_sort": "2026-02-26T11:24:39.313Z",
+      "primary_categories": [
+        "Invocation & Integrations"
+      ],
+      "primary_subcategories": [
+        "Execution agents & runners"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "negative_records": 1,
+      "rank": 36
+    },
+    {
+      "product_action_id": "PA-036c",
+      "product_action_title": "Provide a native Microsoft Teams Bot invocation backend",
+      "product_action_is_curated": true,
+      "product_action_source_id": "6728c6a7e9894c1a059aa821",
+      "product_action_source_wording": "Provide a native Microsoft Teams Bot integration usable as an action invocation backend for sending messages to Teams channels and users",
+      "supporting_feedback_ids": [
+        "6728c6a7e9894c1a059aa821"
+      ],
+      "open_supporting_feedback_ids": [
+        "6728c6a7e9894c1a059aa821"
+      ],
+      "open_supporting_record_count": 1,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.88,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2024-11-04",
+      "latest_created_sort": "2024-11-04T13:05:43.199Z",
+      "primary_categories": [
+        "Invocation & Integrations"
+      ],
+      "primary_subcategories": [
+        "Backends, APIs & event triggers"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "negative_records": 1,
+      "rank": 37
+    },
+    {
       "product_action_id": "PA-049c",
       "product_action_title": "Record the actor and change type behind every Run status change",
       "product_action_is_curated": true,
@@ -1410,7 +1480,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 36
+      "rank": 38
     },
     {
       "product_action_id": "PA-065b",
@@ -1445,7 +1515,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 37
+      "rank": 39
     },
     {
       "product_action_id": "PA-040",
@@ -1480,7 +1550,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 38
+      "rank": 40
     },
     {
       "product_action_id": "PA-037",
@@ -1516,7 +1586,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 39
+      "rank": 41
     },
     {
       "product_action_id": "PA-030c",
@@ -1551,7 +1621,7 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 40
+      "rank": 42
     },
     {
       "product_action_id": "PA-029",
@@ -1588,7 +1658,7 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 41
+      "rank": 43
     },
     {
       "product_action_id": "PA-056",
@@ -1624,7 +1694,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 42
+      "rank": 44
     },
     {
       "product_action_id": "PA-036b",
@@ -1659,7 +1729,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 43
+      "rank": 45
     },
     {
       "product_action_id": "PA-038b",
@@ -1694,7 +1764,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 44
+      "rank": 46
     },
     {
       "product_action_id": "PA-002",
@@ -1729,7 +1799,7 @@
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 45
+      "rank": 47
     },
     {
       "product_action_id": "PA-068b",
@@ -1764,7 +1834,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 46
+      "rank": 48
     },
     {
       "product_action_id": "PA-067b",
@@ -1799,7 +1869,43 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 47
+      "rank": 49
+    },
+    {
+      "product_action_id": "PA-041",
+      "product_action_title": "Provide universal payload transformation functions",
+      "product_action_is_curated": true,
+      "product_action_source_id": "6481fa485cf5a50d549eaa3c",
+      "product_action_source_wording": "Enable JQ-based payload transformation before invocation across all backend methods (Webhook, Kafka, GitHub Workflow, etc.)",
+      "supporting_feedback_ids": [
+        "6481fa485cf5a50d549eaa3c",
+        "6a0f0765f1bb95af4396d0aa"
+      ],
+      "open_supporting_feedback_ids": [
+        "6a0f0765f1bb95af4396d0aa"
+      ],
+      "open_supporting_record_count": 1,
+      "typical_severity": 3.0,
+      "severity_band": 3,
+      "max_severity": 3,
+      "average_confidence": 0.75,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-05-21",
+      "latest_created_sort": "2026-05-21T13:23:49.788Z",
+      "primary_categories": [
+        "Invocation & Integrations"
+      ],
+      "primary_subcategories": [
+        "Payload mapping & transformation"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "negative_records": 1,
+      "rank": 50
     },
     {
       "product_action_id": "PA-058",
@@ -1838,42 +1944,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 48
-    },
-    {
-      "product_action_id": "PA-073",
-      "product_action_title": "Add strict configurable validation to GitOps dry runs",
-      "product_action_is_curated": true,
-      "product_action_source_id": "67a32141d252e4db823dea60",
-      "product_action_source_wording": "Support configurable strict validation rules for GitOps file-to-entity mapping, including required identifiers, exact key matching, and full property mapping enforcement.",
-      "supporting_feedback_ids": [
-        "67a32141d252e4db823dea60"
-      ],
-      "open_supporting_feedback_ids": [
-        "67a32141d252e4db823dea60"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.75,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-02-05",
-      "latest_created_sort": "2025-02-05T08:28:49.627Z",
-      "primary_categories": [
-        "Validation & Rules"
-      ],
-      "primary_subcategories": [
-        "Form validation, messages & conditional rules"
-      ],
-      "top_problem_type": "Validation gap",
-      "top_journey_stage": "Validation, dependencies & conditional logic",
-      "needs_review": 1,
-      "negative_records": 1,
-      "rank": 49
+      "rank": 51
     },
     {
       "product_action_id": "PA-003",
@@ -1908,7 +1979,7 @@
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 50
+      "rank": 52
     },
     {
       "product_action_id": "PA-068f",
@@ -1943,7 +2014,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 51
+      "rank": 53
     },
     {
       "product_action_id": "PA-002b",
@@ -1978,7 +2049,7 @@
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 52
+      "rank": 54
     },
     {
       "product_action_id": "PA-017",
@@ -2013,7 +2084,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 53
+      "rank": 55
     },
     {
       "product_action_id": "PA-075",
@@ -2048,7 +2119,7 @@
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 54
+      "rank": 56
     },
     {
       "product_action_id": "PA-004b",
@@ -2083,14 +2154,14 @@
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 55
+      "rank": 57
     },
     {
       "product_action_id": "PA-042",
       "product_action_title": "Map selected and invoking entity data into payloads",
       "product_action_is_curated": true,
-      "product_action_source_id": "64b93341745be567b249a32f",
-      "product_action_source_wording": "Enable mapping of invoking entity properties into the action payload using JQ expressions",
+      "product_action_source_id": "652e8946856cd53595829199",
+      "product_action_source_wording": "Allow action builders to select which properties of a targeted entity are included in the action payload.",
       "supporting_feedback_ids": [
         "64b93341745be567b249a32f",
         "652e8946856cd53595829199"
@@ -2119,111 +2190,40 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 56
-    },
-    {
-      "product_action_id": "PA-041",
-      "product_action_title": "Provide universal payload transformation functions",
-      "product_action_is_curated": true,
-      "product_action_source_id": "6481fa485cf5a50d549eaa3c",
-      "product_action_source_wording": "Enable JQ-based payload transformation before invocation across all backend methods (Webhook, Kafka, GitHub Workflow, etc.)",
-      "supporting_feedback_ids": [
-        "6481fa485cf5a50d549eaa3c",
-        "6a0f0765f1bb95af4396d0aa"
-      ],
-      "open_supporting_feedback_ids": [
-        "6a0f0765f1bb95af4396d0aa"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.55,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-05-21",
-      "latest_created_sort": "2026-05-21T13:23:49.788Z",
-      "primary_categories": [
-        "Invocation & Integrations"
-      ],
-      "primary_subcategories": [
-        "Payload mapping & transformation"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Backend & invocation setup",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 57
-    },
-    {
-      "product_action_id": "PA-040b",
-      "product_action_title": "Add configurable TLS trust behaviour to the execution agent",
-      "product_action_is_curated": true,
-      "product_action_source_id": "69a02d77006d0995d3c7e953",
-      "product_action_source_wording": "Add an SSL no-verify configuration option to the execution agent for connecting to internal servers",
-      "supporting_feedback_ids": [
-        "69a02d77006d0995d3c7e953"
-      ],
-      "open_supporting_feedback_ids": [
-        "69a02d77006d0995d3c7e953"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.55,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-02-26",
-      "latest_created_sort": "2026-02-26T11:24:39.313Z",
-      "primary_categories": [
-        "Invocation & Integrations"
-      ],
-      "primary_subcategories": [
-        "Execution agents & runners"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Backend & invocation setup",
-      "needs_review": 0,
-      "negative_records": 1,
       "rank": 58
     },
     {
-      "product_action_id": "PA-036c",
-      "product_action_title": "Provide a native Microsoft Teams Bot invocation backend",
+      "product_action_id": "PA-073",
+      "product_action_title": "Add strict configurable validation to GitOps dry runs",
       "product_action_is_curated": true,
-      "product_action_source_id": "6728c6a7e9894c1a059aa821",
-      "product_action_source_wording": "Provide a native Microsoft Teams Bot integration usable as an action invocation backend for sending messages to Teams channels and users",
+      "product_action_source_id": "67a32141d252e4db823dea60",
+      "product_action_source_wording": "Support configurable strict validation rules for GitOps file-to-entity mapping, including required identifiers, exact key matching, and full property mapping enforcement.",
       "supporting_feedback_ids": [
-        "6728c6a7e9894c1a059aa821"
+        "67a32141d252e4db823dea60"
       ],
       "open_supporting_feedback_ids": [
-        "6728c6a7e9894c1a059aa821"
+        "67a32141d252e4db823dea60"
       ],
       "open_supporting_record_count": 1,
       "typical_severity": 3.0,
       "severity_band": 3,
       "max_severity": 3,
-      "average_confidence": 0.55,
+      "average_confidence": 0.4,
       "source_systems": [
         "Port portal"
       ],
       "source_diversity": 1,
-      "latest_created_at": "2024-11-04",
-      "latest_created_sort": "2024-11-04T13:05:43.199Z",
+      "latest_created_at": "2025-02-05",
+      "latest_created_sort": "2025-02-05T08:28:49.627Z",
       "primary_categories": [
-        "Invocation & Integrations"
+        "Validation & Rules"
       ],
       "primary_subcategories": [
-        "Backends, APIs & event triggers"
+        "Form validation, messages & conditional rules"
       ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Backend & invocation setup",
-      "needs_review": 0,
+      "top_problem_type": "Validation gap",
+      "top_journey_stage": "Validation, dependencies & conditional logic",
+      "needs_review": 1,
       "negative_records": 1,
       "rank": 59
     },
@@ -2249,7 +2249,7 @@
       "typical_severity": 2.0,
       "severity_band": 2,
       "max_severity": 3,
-      "average_confidence": 0.838,
+      "average_confidence": 0.75,
       "source_systems": [
         "Port portal"
       ],
@@ -2327,7 +2327,7 @@
       "typical_severity": 2.0,
       "severity_band": 2,
       "max_severity": 3,
-      "average_confidence": 0.767,
+      "average_confidence": 0.7,
       "source_systems": [
         "Port portal"
       ],
@@ -2345,6 +2345,43 @@
       "needs_review": 1,
       "negative_records": 3,
       "rank": 62
+    },
+    {
+      "product_action_id": "PA-046",
+      "product_action_title": "Expand the Run log-entry API",
+      "product_action_is_curated": true,
+      "product_action_source_id": "68fb8735235b71fd93744c18",
+      "product_action_source_wording": "Allow users to specify a custom timestamp for each log entry in the action run log stream.",
+      "supporting_feedback_ids": [
+        "659d2fac49ce63995d7e4269",
+        "68fb8735235b71fd93744c18"
+      ],
+      "open_supporting_feedback_ids": [
+        "659d2fac49ce63995d7e4269",
+        "68fb8735235b71fd93744c18"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 2.0,
+      "severity_band": 2,
+      "max_severity": 2,
+      "average_confidence": 0.825,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2025-10-24",
+      "latest_created_sort": "2025-10-24T14:03:33.363Z",
+      "primary_categories": [
+        "Observability & Debugging"
+      ],
+      "primary_subcategories": [
+        "Logs & error diagnostics"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Execution, monitoring & run control",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 63
     },
     {
       "product_action_id": "PA-048",
@@ -2382,7 +2419,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 63
+      "rank": 64
     },
     {
       "product_action_id": "PA-063b",
@@ -2419,7 +2456,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 64
+      "rank": 65
     },
     {
       "product_action_id": "PA-045",
@@ -2456,7 +2493,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 2,
-      "rank": 65
+      "rank": 66
     },
     {
       "product_action_id": "PA-010",
@@ -2492,43 +2529,6 @@
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Action discovery & organization",
-      "needs_review": 0,
-      "negative_records": 2,
-      "rank": 66
-    },
-    {
-      "product_action_id": "PA-046",
-      "product_action_title": "Expand the Run log-entry API",
-      "product_action_is_curated": true,
-      "product_action_source_id": "659d2fac49ce63995d7e4269",
-      "product_action_source_wording": "Enable editing of action run log messages via an API, including returning a message ID on log creation and a route to patch it by ID.",
-      "supporting_feedback_ids": [
-        "659d2fac49ce63995d7e4269",
-        "68fb8735235b71fd93744c18"
-      ],
-      "open_supporting_feedback_ids": [
-        "659d2fac49ce63995d7e4269",
-        "68fb8735235b71fd93744c18"
-      ],
-      "open_supporting_record_count": 2,
-      "typical_severity": 2.0,
-      "severity_band": 2,
-      "max_severity": 2,
-      "average_confidence": 0.75,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-10-24",
-      "latest_created_sort": "2025-10-24T14:03:33.363Z",
-      "primary_categories": [
-        "Observability & Debugging"
-      ],
-      "primary_subcategories": [
-        "Logs & error diagnostics"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 2,
       "rank": 67
@@ -2626,7 +2626,7 @@
       "typical_severity": 2.5,
       "severity_band": 2,
       "max_severity": 3,
-      "average_confidence": 0.66,
+      "average_confidence": 0.72,
       "source_systems": [
         "Port portal"
       ],
@@ -2752,6 +2752,41 @@
       "rank": 73
     },
     {
+      "product_action_id": "PA-036",
+      "product_action_title": "Add native invocation for Port-hosted actions and direct Lambda/OpenFAAS backends",
+      "product_action_is_curated": true,
+      "product_action_source_id": "662c18c1879e6a4fff5ed742",
+      "product_action_source_wording": "Add native invocation support for Port-hosted actions and direct Lambda/OpenFAAS backends",
+      "supporting_feedback_ids": [
+        "662c18c1879e6a4fff5ed742"
+      ],
+      "open_supporting_feedback_ids": [
+        "662c18c1879e6a4fff5ed742"
+      ],
+      "open_supporting_record_count": 1,
+      "typical_severity": 2.0,
+      "severity_band": 2,
+      "max_severity": 2,
+      "average_confidence": 0.85,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2024-04-26",
+      "latest_created_sort": "2024-04-26T21:12:33.394Z",
+      "primary_categories": [
+        "Invocation & Integrations"
+      ],
+      "primary_subcategories": [
+        "Backends, APIs & event triggers"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "negative_records": 1,
+      "rank": 74
+    },
+    {
       "product_action_id": "PA-025b",
       "product_action_title": "Allow early submission of a multi-step form once required inputs are valid",
       "product_action_is_curated": true,
@@ -2784,7 +2819,77 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 74
+      "rank": 75
+    },
+    {
+      "product_action_id": "PA-025c",
+      "product_action_title": "Support dynamic expressions for Action button text",
+      "product_action_is_curated": true,
+      "product_action_source_id": "6a1d45a5b06d5b62ae23dc43",
+      "product_action_source_wording": "Support dynamic expressions (e.g. JQ) for the action button text field so it can reflect prior form selections.",
+      "supporting_feedback_ids": [
+        "6a1d45a5b06d5b62ae23dc43"
+      ],
+      "open_supporting_feedback_ids": [
+        "6a1d45a5b06d5b62ae23dc43"
+      ],
+      "open_supporting_record_count": 1,
+      "typical_severity": 2.0,
+      "severity_band": 2,
+      "max_severity": 2,
+      "average_confidence": 0.75,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-06-01",
+      "latest_created_sort": "2026-06-01T08:41:09.221Z",
+      "primary_categories": [
+        "Form Configuration"
+      ],
+      "primary_subcategories": [
+        "Form presentation, layout & guidance"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 0,
+      "negative_records": 1,
+      "rank": 76
+    },
+    {
+      "product_action_id": "PA-009",
+      "product_action_title": "Allow controlled end-to-end Action execution in Slack",
+      "product_action_is_curated": true,
+      "product_action_source_id": "69a69c2bbd9e53f8d10aa84f",
+      "product_action_source_wording": "Add a configurable per-action or org-level policy allowing self-service actions initiated via Slack to execute automatically after parameters are collected.",
+      "supporting_feedback_ids": [
+        "69a69c2bbd9e53f8d10aa84f"
+      ],
+      "open_supporting_feedback_ids": [
+        "69a69c2bbd9e53f8d10aa84f"
+      ],
+      "open_supporting_record_count": 1,
+      "typical_severity": 2.0,
+      "severity_band": 2,
+      "max_severity": 2,
+      "average_confidence": 0.75,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-03-03",
+      "latest_created_sort": "2026-03-03T08:30:35.951Z",
+      "primary_categories": [
+        "Context, Targeting & Pre-fill"
+      ],
+      "primary_subcategories": [
+        "Contextual launch, targeting & pre-fill"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Contextual entry, targeting & pre-fill",
+      "needs_review": 0,
+      "negative_records": 1,
+      "rank": 77
     },
     {
       "product_action_id": "PA-019",
@@ -2820,7 +2925,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 75
+      "rank": 78
     },
     {
       "product_action_id": "PA-030d",
@@ -2855,7 +2960,7 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 76
+      "rank": 79
     },
     {
       "product_action_id": "PA-026",
@@ -2892,7 +2997,7 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 77
+      "rank": 80
     },
     {
       "product_action_id": "PA-004",
@@ -2927,7 +3032,7 @@
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 78
+      "rank": 81
     },
     {
       "product_action_id": "PA-007",
@@ -2963,7 +3068,7 @@
       "top_journey_stage": "Contextual entry, targeting & pre-fill",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 79
+      "rank": 82
     },
     {
       "product_action_id": "PA-030",
@@ -2998,7 +3103,7 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 80
+      "rank": 83
     },
     {
       "product_action_id": "PA-049b",
@@ -3033,7 +3138,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 81
+      "rank": 84
     },
     {
       "product_action_id": "PA-068c",
@@ -3068,7 +3173,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 82
+      "rank": 85
     },
     {
       "product_action_id": "PA-005",
@@ -3103,42 +3208,7 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 83
-    },
-    {
-      "product_action_id": "PA-009",
-      "product_action_title": "Allow controlled end-to-end Action execution in Slack",
-      "product_action_is_curated": true,
-      "product_action_source_id": "69a69c2bbd9e53f8d10aa84f",
-      "product_action_source_wording": "Add a configurable per-action or org-level policy allowing self-service actions initiated via Slack to execute automatically after parameters are collected.",
-      "supporting_feedback_ids": [
-        "69a69c2bbd9e53f8d10aa84f"
-      ],
-      "open_supporting_feedback_ids": [
-        "69a69c2bbd9e53f8d10aa84f"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 2.0,
-      "severity_band": 2,
-      "max_severity": 2,
-      "average_confidence": 0.72,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-03-03",
-      "latest_created_sort": "2026-03-03T08:30:35.951Z",
-      "primary_categories": [
-        "Context, Targeting & Pre-fill"
-      ],
-      "primary_subcategories": [
-        "Contextual launch, targeting & pre-fill"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Contextual entry, targeting & pre-fill",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 84
+      "rank": 86
     },
     {
       "product_action_id": "PA-068d",
@@ -3173,7 +3243,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 85
+      "rank": 87
     },
     {
       "product_action_id": "PA-030b",
@@ -3208,7 +3278,7 @@
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 86
+      "rank": 88
     },
     {
       "product_action_id": "PA-038",
@@ -3226,7 +3296,7 @@
       "typical_severity": 2.0,
       "severity_band": 2,
       "max_severity": 2,
-      "average_confidence": 0.65,
+      "average_confidence": 0.6,
       "source_systems": [
         "Port portal"
       ],
@@ -3242,76 +3312,6 @@
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 1,
-      "negative_records": 1,
-      "rank": 87
-    },
-    {
-      "product_action_id": "PA-025c",
-      "product_action_title": "Support dynamic expressions for Action button text",
-      "product_action_is_curated": true,
-      "product_action_source_id": "6a1d45a5b06d5b62ae23dc43",
-      "product_action_source_wording": "Support dynamic expressions (e.g. JQ) for the action button text field so it can reflect prior form selections.",
-      "supporting_feedback_ids": [
-        "6a1d45a5b06d5b62ae23dc43"
-      ],
-      "open_supporting_feedback_ids": [
-        "6a1d45a5b06d5b62ae23dc43"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 2.0,
-      "severity_band": 2,
-      "max_severity": 2,
-      "average_confidence": 0.6,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-06-01",
-      "latest_created_sort": "2026-06-01T08:41:09.221Z",
-      "primary_categories": [
-        "Form Configuration"
-      ],
-      "primary_subcategories": [
-        "Form presentation, layout & guidance"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Form & input configuration",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 88
-    },
-    {
-      "product_action_id": "PA-036",
-      "product_action_title": "Add native invocation for Port-hosted actions and direct Lambda/OpenFAAS backends",
-      "product_action_is_curated": true,
-      "product_action_source_id": "662c18c1879e6a4fff5ed742",
-      "product_action_source_wording": "Add native invocation support for Port-hosted actions and direct Lambda/OpenFAAS backends",
-      "supporting_feedback_ids": [
-        "662c18c1879e6a4fff5ed742"
-      ],
-      "open_supporting_feedback_ids": [
-        "662c18c1879e6a4fff5ed742"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 2.0,
-      "severity_band": 2,
-      "max_severity": 2,
-      "average_confidence": 0.6,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2024-04-26",
-      "latest_created_sort": "2024-04-26T21:12:33.394Z",
-      "primary_categories": [
-        "Invocation & Integrations"
-      ],
-      "primary_subcategories": [
-        "Backends, APIs & event triggers"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Backend & invocation setup",
-      "needs_review": 0,
       "negative_records": 1,
       "rank": 89
     },
@@ -3379,15 +3379,15 @@
           ]
         },
         {
-          "text": "Action builders can accidentally remove all execute permissions from an action",
-          "supporting_feedback_ids": [
-            "693ffd899279e1a4c35ca2c0"
-          ]
-        },
-        {
           "text": "Organizations with more than 1,000 users cannot get a complete list of eligible approvers",
           "supporting_feedback_ids": [
             "6925812013fb0ed2240adb99"
+          ]
+        },
+        {
+          "text": "When dynamic approver rules resolve to an empty list",
+          "supporting_feedback_ids": [
+            "66781226b894b19aca35a768"
           ]
         }
       ],
@@ -3635,7 +3635,7 @@
       "open_records": 31,
       "avg_severity": 3.02,
       "high_severity": 6,
-      "avg_confidence": 0.784,
+      "avg_confidence": 0.77,
       "subcategories_seen": 4
     },
     {
@@ -3644,7 +3644,7 @@
       "open_records": 23,
       "avg_severity": 2.42,
       "high_severity": 0,
-      "avg_confidence": 0.785,
+      "avg_confidence": 0.789,
       "subcategories_seen": 3
     },
     {
@@ -3653,7 +3653,7 @@
       "open_records": 28,
       "avg_severity": 2.42,
       "high_severity": 1,
-      "avg_confidence": 0.777,
+      "avg_confidence": 0.795,
       "subcategories_seen": 4
     },
     {
@@ -3662,7 +3662,7 @@
       "open_records": 13,
       "avg_severity": 2.75,
       "high_severity": 1,
-      "avg_confidence": 0.704,
+      "avg_confidence": 0.8,
       "subcategories_seen": 3
     },
     {
@@ -3671,7 +3671,7 @@
       "open_records": 12,
       "avg_severity": 3.92,
       "high_severity": 9,
-      "avg_confidence": 0.756,
+      "avg_confidence": 0.772,
       "subcategories_seen": 3
     },
     {
@@ -3680,7 +3680,7 @@
       "open_records": 9,
       "avg_severity": 2.4,
       "high_severity": 0,
-      "avg_confidence": 0.795,
+      "avg_confidence": 0.79,
       "subcategories_seen": 2
     },
     {
@@ -3689,7 +3689,7 @@
       "open_records": 9,
       "avg_severity": 2.9,
       "high_severity": 0,
-      "avg_confidence": 0.795,
+      "avg_confidence": 0.838,
       "subcategories_seen": 3
     },
     {
@@ -3698,7 +3698,7 @@
       "open_records": 9,
       "avg_severity": 3.3,
       "high_severity": 2,
-      "avg_confidence": 0.767,
+      "avg_confidence": 0.745,
       "subcategories_seen": 3
     },
     {
@@ -3716,7 +3716,7 @@
       "open_records": 3,
       "avg_severity": 2.83,
       "high_severity": 1,
-      "avg_confidence": 0.678,
+      "avg_confidence": 0.725,
       "subcategories_seen": 1
     },
     {
@@ -3725,7 +3725,7 @@
       "open_records": 3,
       "avg_severity": 3.33,
       "high_severity": 2,
-      "avg_confidence": 0.733,
+      "avg_confidence": 0.807,
       "subcategories_seen": 2
     }
   ],
@@ -4234,67 +4234,37 @@
       "6710640a41d1a5151b93a275",
       "6a62cdea0933efc13e70eab5"
     ],
-    "PA-033": [
-      "6915caf8c4c30db90d700b0b",
-      "69c1a3bff8901915c20c5ca3"
-    ],
     "PA-065": [
       "66781226b894b19aca35a768",
       "6925812013fb0ed2240adb99"
-    ],
-    "PA-055": [
-      "684c4e772523f38ddde65e37",
-      "6a5fd5a33da3c9382571e53c"
-    ],
-    "PA-069": [
-      "66b1434bd12b821c86cbc7fc",
-      "693ffd899279e1a4c35ca2c0"
     ],
     "PA-062": [
       "663e275443acb838cf19a5ba",
       "69f84ce3477db7829b2e1f27"
     ],
-    "PA-034": [
-      "69e62509bf8b6dbf40b878c7"
+    "PA-069": [
+      "66b1434bd12b821c86cbc7fc",
+      "693ffd899279e1a4c35ca2c0"
     ],
-    "PA-008": [
-      "6a3c68a73959e847601ffa6f"
+    "PA-055": [
+      "684c4e772523f38ddde65e37",
+      "6a5fd5a33da3c9382571e53c"
     ],
-    "PA-039": [
-      "6995741f6a0047498c59fa71"
+    "PA-033": [
+      "6915caf8c4c30db90d700b0b",
+      "69c1a3bff8901915c20c5ca3"
     ],
     "PA-032": [
       "695ce5f621c449e1fd7ce58e"
     ],
-    "PA-028": [
-      "67f4f44f1aac623580bb3589",
-      "68385892443469540b4ed3bd",
-      "6a28d09693ba6573b6a4a68e"
+    "PA-034": [
+      "69e62509bf8b6dbf40b878c7"
     ],
-    "PA-011": [
-      "656dffd9c9406ec6bc18eaa5",
-      "65b9006ef5018ed4ab27075b",
-      "678fa2d0541d91b91a772c41"
+    "PA-039": [
+      "6995741f6a0047498c59fa71"
     ],
-    "PA-047": [
-      "66e68c9ff85bef2fa5d4dc82",
-      "67c68b799784f92c6176416d",
-      "68127ab6fd3a32236bbbbeba"
-    ],
-    "PA-061": [
-      "6826b40db0070616c963e9bf",
-      "699328e947c850515815cb26",
-      "69fcfc2d78f2a5775788b55d"
-    ],
-    "PA-020": [
-      "666ec4697bfd74c4333701ac",
-      "66fab653f08e28ee955809ce",
-      "67e5118773bc7a1fd199885d"
-    ],
-    "PA-059": [
-      "66b14531ed4315cc0258b909",
-      "66dad68c5c2fac7ded045460",
-      "68f8fbb8741fd60efd0e8d17"
+    "PA-008": [
+      "6a3c68a73959e847601ffa6f"
     ],
     "PA-044": [
       "6489ffa40370ff090a8af507",
@@ -4306,23 +4276,69 @@
       "67b20c2e5a5587585abe688c",
       "697a6d812b05462f8a614382"
     ],
-    "PA-071": [
-      "66cc92d3c146ef3febde98ab",
-      "681b0a5d2c401ce3fc35e8bc",
-      "6899c7023d379b03f9f77df7"
+    "PA-047": [
+      "66e68c9ff85bef2fa5d4dc82",
+      "67c68b799784f92c6176416d",
+      "68127ab6fd3a32236bbbbeba"
+    ],
+    "PA-028": [
+      "67f4f44f1aac623580bb3589",
+      "68385892443469540b4ed3bd",
+      "6a28d09693ba6573b6a4a68e"
+    ],
+    "PA-061": [
+      "6826b40db0070616c963e9bf",
+      "699328e947c850515815cb26",
+      "69fcfc2d78f2a5775788b55d"
+    ],
+    "PA-020": [
+      "666ec4697bfd74c4333701ac",
+      "66fab653f08e28ee955809ce",
+      "67e5118773bc7a1fd199885d"
     ],
     "PA-067": [
       "67ae47018df2ac10d76e1fec",
       "69d3359760115cf4136a1d87",
       "6a4b4a7e3395e568ba0e931f"
     ],
+    "PA-011": [
+      "656dffd9c9406ec6bc18eaa5",
+      "65b9006ef5018ed4ab27075b",
+      "678fa2d0541d91b91a772c41"
+    ],
+    "PA-071": [
+      "66cc92d3c146ef3febde98ab",
+      "681b0a5d2c401ce3fc35e8bc",
+      "6899c7023d379b03f9f77df7"
+    ],
+    "PA-059": [
+      "66b14531ed4315cc0258b909",
+      "66dad68c5c2fac7ded045460",
+      "68f8fbb8741fd60efd0e8d17"
+    ],
+    "PA-018": [
+      "650acbf95b34b73cc2493ca8",
+      "67002abcd4bbc2b93566d305"
+    ],
     "PA-066": [
       "64f484d97fb24609a28e0250",
       "66bdca87e78e9ec286c639a3"
     ],
+    "PA-063": [
+      "65755f639cb7be20f870e3ce",
+      "65bb5ba2299d1b93acc3052d"
+    ],
     "PA-016": [
       "656771af070a907c6e635dc9",
       "6a0afd1159c18d657028cd5c"
+    ],
+    "PA-013": [
+      "670e6d4f1d4ba786e2faa0df",
+      "67dbf184d3db9fe5bd6f51f5"
+    ],
+    "PA-022": [
+      "6548e76c830f6a63732c6653",
+      "68de67828ad773d9baab31b1"
     ],
     "PA-072": [
       "68c1d18fa34b05cc8bf233c6",
@@ -4332,36 +4348,26 @@
       "6734db6c0c9bb03c11a23807",
       "68405b9c4ebfd09d591cf6e6"
     ],
-    "PA-063": [
-      "65755f639cb7be20f870e3ce",
-      "65bb5ba2299d1b93acc3052d"
-    ],
-    "PA-013": [
-      "670e6d4f1d4ba786e2faa0df",
-      "67dbf184d3db9fe5bd6f51f5"
+    "PA-014": [
+      "6582ce708d54e728d31b780f",
+      "699c78c2ebbb27ef14d76770"
     ],
     "PA-052": [
       "697141709b01af0c80a5efd1",
       "6a206c5f516b94d1532bef24"
     ],
-    "PA-014": [
-      "6582ce708d54e728d31b780f",
-      "699c78c2ebbb27ef14d76770"
-    ],
     "PA-060": [
       "682f670b596869f89577489f",
       "697a4fc771aad86079ed6ec7"
     ],
-    "PA-018": [
-      "650acbf95b34b73cc2493ca8",
-      "67002abcd4bbc2b93566d305"
-    ],
-    "PA-022": [
-      "6548e76c830f6a63732c6653",
-      "68de67828ad773d9baab31b1"
-    ],
     "PA-015": [
       "6583401b32150dedcd8f0e46"
+    ],
+    "PA-040b": [
+      "69a02d77006d0995d3c7e953"
+    ],
+    "PA-036c": [
+      "6728c6a7e9894c1a059aa821"
     ],
     "PA-049c": [
       "6a50eea591b05abba241121a"
@@ -4399,11 +4405,11 @@
     "PA-067b": [
       "6a211ea7d47059032854eafd"
     ],
+    "PA-041": [
+      "6a0f0765f1bb95af4396d0aa"
+    ],
     "PA-058": [
       "67bb1b378aff64bedccf9ae2"
-    ],
-    "PA-073": [
-      "67a32141d252e4db823dea60"
     ],
     "PA-003": [
       "669f73086d132f3ee45a4c86"
@@ -4426,14 +4432,8 @@
     "PA-042": [
       "64b93341745be567b249a32f"
     ],
-    "PA-041": [
-      "6a0f0765f1bb95af4396d0aa"
-    ],
-    "PA-040b": [
-      "69a02d77006d0995d3c7e953"
-    ],
-    "PA-036c": [
-      "6728c6a7e9894c1a059aa821"
+    "PA-073": [
+      "67a32141d252e4db823dea60"
     ],
     "PA-027": [
       "67bc9e20e167a610dfa628f4",
@@ -4451,6 +4451,10 @@
       "697b9fddcfbf975300198439",
       "6a2a7d26bd2d82218bddf0be"
     ],
+    "PA-046": [
+      "659d2fac49ce63995d7e4269",
+      "68fb8735235b71fd93744c18"
+    ],
     "PA-048": [
       "64f4abe4fd7c2d092c0ce671",
       "659fb8621779012e85e49c57"
@@ -4466,10 +4470,6 @@
     "PA-010": [
       "64edffb2ab1b040a223eadd5",
       "65e7390a0b8acf82dfc933fc"
-    ],
-    "PA-046": [
-      "659d2fac49ce63995d7e4269",
-      "68fb8735235b71fd93744c18"
     ],
     "PA-012": [
       "67479928414b9cbfe00bf473",
@@ -4492,8 +4492,17 @@
     "PA-068e": [
       "69a98a661fe40914834d9831"
     ],
+    "PA-036": [
+      "662c18c1879e6a4fff5ed742"
+    ],
     "PA-025b": [
       "672b52a3c45ed39e22567862"
+    ],
+    "PA-025c": [
+      "6a1d45a5b06d5b62ae23dc43"
+    ],
+    "PA-009": [
+      "69a69c2bbd9e53f8d10aa84f"
     ],
     "PA-019": [
       "69523d930fce6a18f6f14a07"
@@ -4522,9 +4531,6 @@
     "PA-005": [
       "649bdc0ecf7291098a1c28bf"
     ],
-    "PA-009": [
-      "69a69c2bbd9e53f8d10aa84f"
-    ],
     "PA-068d": [
       "66b884521be290a30c801053"
     ],
@@ -4533,12 +4539,6 @@
     ],
     "PA-038": [
       "65a512ccbb34b59cd65ce460"
-    ],
-    "PA-025c": [
-      "6a1d45a5b06d5b62ae23dc43"
-    ],
-    "PA-036": [
-      "662c18c1879e6a4fff5ed742"
     ],
     "PA-053": [
       "674613bc11c9ac3dbb882e6a"

@@ -46,9 +46,8 @@
       },
       "review_flag": {
         "threshold": 0.7,
-        "flagged": 17,
-        "cleared": 43,
-        "unjudged_cleared": 267,
+        "reviewed": 60,
+        "flagged": 24,
         "disagreements_without_verdict": 0
       }
     },
@@ -100,7 +99,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:49:46.384041+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "64a512f97525ac09ce7a21c4",
@@ -146,7 +145,7 @@
       ],
       "curated_action_id": "PA-010",
       "curated_action_title": "Add Action categorization and configurable ordering",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "689c4e5eda725fecc3d241bf",
@@ -180,7 +179,7 @@
       "short_summary": "Users cannot currently chain multiple inputs, approval steps, conditions and actions together into a single automated or self-service workflow.",
       "user_need": "The ability to combine several steps, decisions and approvals into one coordinated workflow instead of building separate disconnected actions.",
       "suggested_product_action": "Enable multi-step workflows that chain inputs, conditions, approvals and actions across both automatic triggers and self-service actions.",
-      "confidence": 0.6,
+      "confidence": 0.92,
       "needs_human_review": false,
       "evidence_excerpt": "Chain multiple inputs, approvals, conditions, and actions via automatic triggers or self-service",
       "secondary_categories": [
@@ -201,8 +200,7 @@
       ],
       "curated_action_id": "PA-055",
       "curated_action_title": "Make multi-step, multi-backend orchestration first class",
-      "review_reasons": [],
-      "review_confidence": 0.92
+      "human_reviewed": true
     },
     {
       "feedback_id": "66c458f7b657d8bbcce59e6f",
@@ -244,7 +242,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:50:26.595124+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "64d09ad21cf6f309b9affae5",
@@ -290,7 +288,7 @@
       ],
       "curated_action_id": "PA-019",
       "curated_action_title": "Retry or duplicate a Run while preserving inputs",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "689370a809cde968bdd30c8a",
@@ -332,7 +330,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:50:39.438206+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "64acb1620a49ed5883454283",
@@ -374,7 +372,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:50:43.723729+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69c0e8a9943dfd034f363563",
@@ -420,7 +418,7 @@
       ],
       "curated_action_id": "PA-072",
       "curated_action_title": "Expand native form validation rules and feedback",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "657042ba954a046b2cfa8ab1",
@@ -462,7 +460,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:50:57.156936+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65809c20bdd786e7c10ce20e",
@@ -508,7 +506,7 @@
       ],
       "curated_action_id": "PA-026",
       "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66c2e3fc26a6ce7012e28f00",
@@ -552,7 +550,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-069",
       "curated_action_title": "Add a guided permission authoring, validation and debugging experience",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "660e76e9c5ad749ac2a191e0",
@@ -594,7 +592,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:14.696345+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67fd6ef65f0ba2fc072cab94",
@@ -636,7 +634,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:21.472498+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65cb2a1d8c99793a14bf35b8",
@@ -678,7 +676,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:26.459290+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6548e76c830f6a63732c6653",
@@ -733,7 +731,7 @@
       ],
       "curated_action_id": "PA-022",
       "curated_action_title": "Populate dynamic form options from external APIs",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66c4a511a4e3557f499955b6",
@@ -775,7 +773,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:37.239160+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6678106680bb69546498d518",
@@ -817,7 +815,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:42.056347+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6708e7846dbf44702a18b7d2",
@@ -859,7 +857,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:46.843905+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66b884521be290a30c801053",
@@ -905,8 +903,7 @@
       ],
       "curated_action_id": "PA-068d",
       "curated_action_title": "Notify requesters when their request is approved or rejected",
-      "review_reasons": [],
-      "review_confidence": 0.72
+      "human_reviewed": true
     },
     {
       "feedback_id": "66b1434bd12b821c86cbc7fc",
@@ -959,8 +956,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-069",
       "curated_action_title": "Add a guided permission authoring, validation and debugging experience",
-      "review_reasons": [],
-      "review_confidence": 0.75
+      "human_reviewed": true
     },
     {
       "feedback_id": "68c27182f9c430044f39113f",
@@ -1006,7 +1002,7 @@
       ],
       "curated_action_id": "PA-058b",
       "curated_action_title": "Hide Actions a user cannot execute from catalog surfaces",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68ba82aac2bfaeb146b7e506",
@@ -1048,7 +1044,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:18.562966+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6481fa485cf5a50d549eaa3c",
@@ -1101,7 +1097,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-041",
       "curated_action_title": "Provide universal payload transformation functions",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6481f8653a354e3a958a0c03",
@@ -1143,7 +1139,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:39.492963+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66bdb75e9101ab1dd7336f90",
@@ -1185,7 +1181,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:44.213665+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "673de7fdb92a3254de6a3aea",
@@ -1227,7 +1223,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:48.736133+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67fe69fc077f02acb331e710",
@@ -1261,7 +1257,7 @@
       "short_summary": "Actions can only be linked to a single blueprint, forcing teams to duplicate actions to cover related entity types.",
       "user_need": "The user wants to trigger one action from multiple related entity types without creating duplicate actions.",
       "suggested_product_action": "Enable associating a single action with multiple blueprints for entity targeting.",
-      "confidence": 0.55,
+      "confidence": 0.78,
       "needs_human_review": false,
       "evidence_excerpt": "an action if associated with service overview entity cant be associated with the service blueprint entity - which means a new actions should be created",
       "secondary_categories": [
@@ -1282,8 +1278,7 @@
       ],
       "curated_action_id": "PA-006",
       "curated_action_title": "Decouple Actions from a single required Blueprint",
-      "review_reasons": [],
-      "review_confidence": 0.78
+      "human_reviewed": true
     },
     {
       "feedback_id": "66c8d155bc622140de9a1e79",
@@ -1317,7 +1312,7 @@
       "short_summary": "When an action requires approval, secret input fields do not function properly, forcing users to choose between using secrets or using approvals.",
       "user_need": "Action builders need to combine secret inputs with approval workflows so sensitive values remain protected even when a request must be reviewed and approved.",
       "suggested_product_action": "Support secret input fields correctly within actions that also require approver review",
-      "confidence": 0.6,
+      "confidence": 0.72,
       "needs_human_review": false,
       "evidence_excerpt": "defining an input as a secret does not work in cases where there is an approver on the action",
       "secondary_categories": [
@@ -1336,8 +1331,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-035",
       "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
-      "review_reasons": [],
-      "review_confidence": 0.72
+      "human_reviewed": true
     },
     {
       "feedback_id": "661812f8f2d3cbf4dabfe941",
@@ -1392,7 +1386,7 @@
       ],
       "curated_action_id": "PA-056",
       "curated_action_title": "Support approval gates inside running workflows",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66ed917798991dce147b5cff",
@@ -1447,7 +1441,7 @@
       ],
       "curated_action_id": "PA-068",
       "curated_action_title": "Target approval notifications using the same dynamic permission rules that select approvers",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "64f4abe4fd7c2d092c0ce671",
@@ -1493,7 +1487,7 @@
       ],
       "curated_action_id": "PA-048",
       "curated_action_title": "Provide global Run analytics and dashboard widgets",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6671999837fce115c9971b8d",
@@ -1522,7 +1516,7 @@
       "short_summary": "Users want actions triggered in Port to run using the identity and permissions of the person who started them, not a generic service account, so external systems enforce the same access rules.",
       "user_need": "Ensure that actions performed in external systems reflect the requesting user's own permissions and identity from the shared IAM provider.",
       "suggested_product_action": "Enable delegated execution of self-service actions using the invoking user's identity and permissions from the shared IAM provider",
-      "confidence": 0.75,
+      "confidence": 0.95,
       "needs_human_review": false,
       "evidence_excerpt": "the action should be performed on behalf of that user, inheriting their identity, role-based access controls (RBAC), and authorized privileges",
       "secondary_categories": [],
@@ -1539,8 +1533,7 @@
       ],
       "curated_action_id": "PA-031",
       "curated_action_title": "Support delegated and per-request authentication",
-      "review_reasons": [],
-      "review_confidence": 0.95
+      "human_reviewed": true
     },
     {
       "feedback_id": "65797cbdedc7e06daa98a9c7",
@@ -1582,7 +1575,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:53:43.320754+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "672b5615349fd99b0f353e36",
@@ -1628,7 +1621,7 @@
       ],
       "curated_action_id": "PA-001",
       "curated_action_title": "Make unsaved-change detection accurate and consistent",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6853d436533319bfbf13d0ae",
@@ -1657,7 +1650,7 @@
       "short_summary": "Action builders cannot use dynamic user attributes like email or team membership when defining who can run an action.",
       "user_need": "Ability to write permission conditions based on the current user's properties and relations.",
       "suggested_product_action": "Support dynamic user property functions such as getUserEmail and getUserTeams in action permission conditions",
-      "confidence": 0.85,
+      "confidence": 0.75,
       "needs_human_review": false,
       "evidence_excerpt": "using dynamic properties (getUserEmail, getUserTeams) is not available in day-2 action conditions",
       "secondary_categories": [],
@@ -1674,8 +1667,7 @@
       ],
       "curated_action_id": "PA-058",
       "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
-      "review_reasons": [],
-      "review_confidence": 0.75
+      "human_reviewed": true
     },
     {
       "feedback_id": "679265f3a7c7da4003832a79",
@@ -1704,7 +1696,7 @@
       "short_summary": "Users cannot filter dataset selection fields in self-service actions using calculated (derived) properties.",
       "user_need": "Action builders need to restrict or filter selectable entities in a form field based on calculated properties, not just raw properties.",
       "suggested_product_action": "Support calculated properties as valid criteria in self-service action dataset search conditions",
-      "confidence": 0.6,
+      "confidence": 0.72,
       "needs_human_review": false,
       "evidence_excerpt": "search conditions cannot be applied to calculated properties in self-service actions",
       "secondary_categories": [],
@@ -1721,8 +1713,7 @@
       ],
       "curated_action_id": "PA-024",
       "curated_action_title": "Allow calculated properties in dataset conditions",
-      "review_reasons": [],
-      "review_confidence": 0.72
+      "human_reviewed": true
     },
     {
       "feedback_id": "666ec4697bfd74c4333701ac",
@@ -1768,7 +1759,7 @@
       ],
       "curated_action_id": "PA-020",
       "curated_action_title": "Support reactive computed fields and read-only previews",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "676a8b4759632bda4876a0dc",
@@ -1810,7 +1801,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:54:16.238544+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65bb5ba2299d1b93acc3052d",
@@ -1844,7 +1835,7 @@
       "short_summary": "Builders cannot currently require manual approval only when a specific form field has a certain value.",
       "user_need": "The ability to trigger manual approval conditionally based on the value entered in a form field.",
       "suggested_product_action": "Enable conditional approval policies triggered by specific action input values",
-      "confidence": 0.72,
+      "confidence": 0.9,
       "needs_human_review": false,
       "evidence_excerpt": "decide if a certain input in the action form is a certain value, enforce manual approval",
       "secondary_categories": [
@@ -1865,8 +1856,7 @@
       ],
       "curated_action_id": "PA-063",
       "curated_action_title": "Determine whether an approval is required from input values or external logic",
-      "review_reasons": [],
-      "review_confidence": 0.9
+      "human_reviewed": true
     },
     {
       "feedback_id": "675b0c008682d4e202eeeb9a",
@@ -1900,7 +1890,7 @@
       "short_summary": "Action builders cannot show or hide certain steps of a multi-step form depending on conditions like whether an entity already exists.",
       "user_need": "Ability to conditionally show or skip form steps based on data such as entity existence.",
       "suggested_product_action": "Support conditional visibility of form steps or pages based on data conditions such as entity existence.",
-      "confidence": 0.65,
+      "confidence": 0.6,
       "needs_human_review": true,
       "evidence_excerpt": "I would like to be able to display or not some steps",
       "secondary_categories": [
@@ -1921,10 +1911,7 @@
       ],
       "curated_action_id": "PA-026b",
       "curated_action_title": "Support conditional visibility of form steps based on data conditions",
-      "review_reasons": [
-        "a conditionally shown step - form layout or conditional rules"
-      ],
-      "review_confidence": 0.6
+      "human_reviewed": true
     },
     {
       "feedback_id": "65b62b199794d2cfb2ae1c65",
@@ -1970,7 +1957,7 @@
       ],
       "curated_action_id": "PA-029",
       "curated_action_title": "Expand text, code, file and secret input controls",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6583401b32150dedcd8f0e46",
@@ -2016,7 +2003,7 @@
       ],
       "curated_action_id": "PA-015",
       "curated_action_title": "Make Action timeout configurable",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "673df29d75cc3fb760207945",
@@ -2058,7 +2045,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:54:51.857912+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69f8eba0b353740a01c46f5e",
@@ -2100,7 +2087,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:54:58.461802+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67ed10975a2279b95e58e906",
@@ -2142,7 +2129,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:55:04.400809+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6734db6c0c9bb03c11a23807",
@@ -2188,7 +2175,7 @@
       ],
       "curated_action_id": "PA-021",
       "curated_action_title": "Make default-value initialization predictable",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67002abcd4bbc2b93566d305",
@@ -2222,7 +2209,7 @@
       "short_summary": "Users cannot cancel a running self-service action once it has started, and there is no way to notify external systems when it is cancelled.",
       "user_need": "The ability to stop an in-progress action and trigger external communication when cancellation occurs.",
       "suggested_product_action": "Add a cancel/stop control for running actions that can trigger external notifications",
-      "confidence": 0.6,
+      "confidence": 0.9,
       "needs_human_review": false,
       "evidence_excerpt": "Add a cancel button to self service actions and allow configuration for the cancel button to invoke external communication.",
       "secondary_categories": [
@@ -2243,8 +2230,7 @@
       ],
       "curated_action_id": "PA-018",
       "curated_action_title": "Add configurable cancellation for running Actions",
-      "review_reasons": [],
-      "review_confidence": 0.9
+      "human_reviewed": true
     },
     {
       "feedback_id": "6a5f5f078c21fd6aad770522",
@@ -2286,7 +2272,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:55:23.806656+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6925812013fb0ed2240adb99",
@@ -2332,7 +2318,7 @@
       ],
       "curated_action_id": "PA-065",
       "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65a6324c5bd75e78b7682e60",
@@ -2366,7 +2352,7 @@
       "short_summary": "Users cannot see who the required approvers are for their action run, making it hard to know who to contact for approval.",
       "user_need": "The user needs to know who is responsible for approving their action run so they can follow up if needed.",
       "suggested_product_action": "Display the assigned approvers for an action run on the run details page.",
-      "confidence": 0.85,
+      "confidence": 0.72,
       "needs_human_review": false,
       "evidence_excerpt": "you can't see who is the action approvers in the run page",
       "secondary_categories": [
@@ -2387,8 +2373,7 @@
       ],
       "curated_action_id": "PA-065c",
       "curated_action_title": "Show the resolved approvers to the requester on the Run page",
-      "review_reasons": [],
-      "review_confidence": 0.72
+      "human_reviewed": true
     },
     {
       "feedback_id": "66c44eb2cd45c987968ca491",
@@ -2430,7 +2415,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:55:42.886246+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "659fb8621779012e85e49c57",
@@ -2476,7 +2461,7 @@
       ],
       "curated_action_id": "PA-048",
       "curated_action_title": "Provide global Run analytics and dashboard widgets",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67dbf184d3db9fe5bd6f51f5",
@@ -2520,7 +2505,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-013",
       "curated_action_title": "Run one Action against selected or filtered entity sets",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "658c538a96cacd7703dce9d5",
@@ -2562,7 +2547,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:56:01.232886+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6798fe909c392c244699944d",
@@ -2596,7 +2581,7 @@
       "short_summary": "The audit log records that an action's permissions changed but not what specifically changed, making it hard to debug permission issues.",
       "user_need": "Administrators need to see the exact details of permission changes to an action so they can track and debug access issues.",
       "suggested_product_action": "Show detailed before-and-after permission changes for actions in the audit log",
-      "confidence": 0.6,
+      "confidence": 0.55,
       "needs_human_review": true,
       "evidence_excerpt": "it doesn't show what the actual permission changes are",
       "secondary_categories": [
@@ -2615,10 +2600,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-070",
       "curated_action_title": "Show permission-definition changes in audit history",
-      "review_reasons": [
-        "the subject is permissions but the gap is in the audit log"
-      ],
-      "review_confidence": 0.55
+      "human_reviewed": true
     },
     {
       "feedback_id": "64e494a2a6c07309e3af5db7",
@@ -2664,7 +2646,7 @@
       ],
       "curated_action_id": "PA-045",
       "curated_action_title": "Make Run logs structured and readable",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "652552a8916365c76f187d12",
@@ -2717,8 +2699,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-075",
       "curated_action_title": "Support inline backend validation before form submission",
-      "review_reasons": [],
-      "review_confidence": 0.75
+      "human_reviewed": true
     },
     {
       "feedback_id": "669fced47627f58ee55d66ec",
@@ -2752,7 +2733,7 @@
       "short_summary": "Admins cannot configure a Self-Service Action to authenticate to a backend API using the running user's own OAuth2/JWT identity, only machine-to-machine tokens are supported today.",
       "user_need": "Admins need the ability to have an Action call a REST API using the requesting user's authenticated identity rather than a shared service identity.",
       "suggested_product_action": "Support configuring OAuth2/JWT delegated user authentication for Self-Service Action backend invocations",
-      "confidence": 0.75,
+      "confidence": 0.9,
       "needs_human_review": false,
       "evidence_excerpt": "call a REST API endpoint with the user token required by the API for authentication and authorization purpose",
       "secondary_categories": [
@@ -2773,8 +2754,7 @@
       ],
       "curated_action_id": "PA-031",
       "curated_action_title": "Support delegated and per-request authentication",
-      "review_reasons": [],
-      "review_confidence": 0.9
+      "human_reviewed": true
     },
     {
       "feedback_id": "6728c6a7e9894c1a059aa821",
@@ -2803,7 +2783,7 @@
       "short_summary": "Customers want a native Microsoft Teams Bot backend so Self-Service Actions can send messages to Teams users and channels without building custom infrastructure.",
       "user_need": "Easily deliver action-triggered notifications and messages into Microsoft Teams without building and maintaining a custom backend service.",
       "suggested_product_action": "Provide a native Microsoft Teams Bot integration usable as an action invocation backend for sending messages to Teams channels and users",
-      "confidence": 0.55,
+      "confidence": 0.88,
       "needs_human_review": false,
       "evidence_excerpt": "Currently we've got to consider building our own backend service to handle the event from Port and figure out how to deliver into Teams.",
       "secondary_categories": [],
@@ -2820,8 +2800,7 @@
       ],
       "curated_action_id": "PA-036c",
       "curated_action_title": "Provide a native Microsoft Teams Bot invocation backend",
-      "review_reasons": [],
-      "review_confidence": 0.88
+      "human_reviewed": true
     },
     {
       "feedback_id": "6813989004de8f03ddb52f90",
@@ -2863,7 +2842,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:56:44.774454+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66dff752ac492741f6508287",
@@ -2905,7 +2884,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:56:49.949185+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69f2529d03b1298401635428",
@@ -2951,7 +2930,7 @@
       ],
       "curated_action_id": "PA-064",
       "curated_action_title": "Support configurable multi-approver thresholds",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "693ffb35b3b50ecbaba2d6d4",
@@ -2981,7 +2960,7 @@
       "user_need": "The user wants the AWS integration to support real-time event updates rather than periodic sync.",
       "suggested_product_action": "Add live event support to the AWS integration V3",
       "confidence": 0.6,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Support live events in AWS V3",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -2993,7 +2972,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:03.338216+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68b85be373db9e11feb13bd1",
@@ -3023,7 +3002,7 @@
       "user_need": "The user needs finer-grained control over permission roles beyond the current fixed set.",
       "suggested_product_action": "Support creation and management of custom granular roles for platform-wide permissions",
       "confidence": 0.6,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Add support for creating and managing additional roles to improve flexibility in permissions.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -3035,7 +3014,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:09.309906+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65755f639cb7be20f870e3ce",
@@ -3090,7 +3069,7 @@
       ],
       "curated_action_id": "PA-063",
       "curated_action_title": "Determine whether an approval is required from input values or external logic",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65e7390a0b8acf82dfc933fc",
@@ -3136,7 +3115,7 @@
       ],
       "curated_action_id": "PA-010",
       "curated_action_title": "Add Action categorization and configurable ordering",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69553a67723320e3d9a93ab6",
@@ -3191,7 +3170,7 @@
       ],
       "curated_action_id": "PA-031",
       "curated_action_title": "Support delegated and per-request authentication",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66bcd5fd1f605d678af1aa7f",
@@ -3233,7 +3212,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:42.045717+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66d864d7542dcbf9633ce7ab",
@@ -3275,7 +3254,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:46.705163+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68bd7e90a9379b38bb16db1d",
@@ -3317,7 +3296,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:51.819375+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697724eee72002a91c1386a5",
@@ -3359,7 +3338,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:56.663271+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6830c7b5288a158fac75361b",
@@ -3401,7 +3380,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:01.397392+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "64f241ba50f7aa096976efe6",
@@ -3447,7 +3426,7 @@
       ],
       "curated_action_id": "PA-036b",
       "curated_action_title": "Add Codefresh Classic Pipelines as a supported invocation backend",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69f0734f1a722e24bcaec357",
@@ -3489,7 +3468,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:14.172969+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66d94baa3c9acf656ff773fa",
@@ -3531,7 +3510,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:19.519919+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "673cc7ccf5479baf4a9f4a75",
@@ -3573,7 +3552,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:24.470728+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6899c7023d379b03f9f77df7",
@@ -3619,7 +3598,7 @@
       ],
       "curated_action_id": "PA-071",
       "curated_action_title": "Modernize JQ authoring, validation and runtime visibility",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67098dae95ff13ed656df804",
@@ -3665,7 +3644,7 @@
       ],
       "curated_action_id": "PA-050",
       "curated_action_title": "Expose complete approval provenance in Run records",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6719946e0dbd2fbb0b335147",
@@ -3707,7 +3686,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:42.359537+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "670bd28134fe68a63374c0f7",
@@ -3749,7 +3728,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:48.094732+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "656860c290e00a0a8901b4fd",
@@ -3795,7 +3774,7 @@
       ],
       "curated_action_id": "PA-020",
       "curated_action_title": "Support reactive computed fields and read-only previews",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697343a26bf41cfd6bc9ac53",
@@ -3850,7 +3829,7 @@
       ],
       "curated_action_id": "PA-030b",
       "curated_action_title": "Add a Filters UI input type that outputs Search-API-compatible filter JSON",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67c68b799784f92c6176416d",
@@ -3896,7 +3875,7 @@
       ],
       "curated_action_id": "PA-047",
       "curated_action_title": "Surface complete backend and expression error diagnostics",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6972f975d5c93c87561968d0",
@@ -3938,7 +3917,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:27.161055+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68ba8692304d62593727db35",
@@ -3980,7 +3959,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:35.456317+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6877b06180165e9a89b9823d",
@@ -4022,7 +4001,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:39.970274+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "696536f00816995e2f225d04",
@@ -4064,7 +4043,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:46.412024+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67895534042ee09b4b24a302",
@@ -4106,7 +4085,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:51.480807+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "660d66b1dab230b40bbbfd84",
@@ -4148,7 +4127,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:59.710044+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "663e9081a5869a204ddd6ae1",
@@ -4190,7 +4169,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:00:05.867871+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6584045643d41b6fd0ac313c",
@@ -4224,7 +4203,7 @@
       "short_summary": "Users must attach every self-service action to a predefined blueprint, which limits flexibility for creating standalone processes or tasks.",
       "user_need": "The ability to quickly create new self-service actions for arbitrary tasks without first defining or attaching a blueprint.",
       "suggested_product_action": "Allow creation of self-service actions that are not required to target a predefined blueprint.",
-      "confidence": 0.55,
+      "confidence": 0.72,
       "needs_human_review": false,
       "evidence_excerpt": "I want the ability to create self-service actions directly within Port without the need for predefined blueprints",
       "secondary_categories": [
@@ -4245,8 +4224,7 @@
       ],
       "curated_action_id": "PA-006",
       "curated_action_title": "Decouple Actions from a single required Blueprint",
-      "review_reasons": [],
-      "review_confidence": 0.72
+      "human_reviewed": true
     },
     {
       "feedback_id": "682c35c03d53193a7ca01e11",
@@ -4288,7 +4266,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:01:32.600735+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "658017fae4e884edf5a34ea5",
@@ -4343,7 +4321,7 @@
       ],
       "curated_action_id": "PA-056",
       "curated_action_title": "Support approval gates inside running workflows",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "669f73086d132f3ee45a4c86",
@@ -4398,7 +4376,7 @@
       ],
       "curated_action_id": "PA-003",
       "curated_action_title": "Add Action maintenance mode",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "650acbf95b34b73cc2493ca8",
@@ -4444,7 +4422,7 @@
       ],
       "curated_action_id": "PA-018",
       "curated_action_title": "Add configurable cancellation for running Actions",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69bd58a10abc9096ad81862e",
@@ -4474,7 +4452,7 @@
       "user_need": "A faster way to test and iterate on workflow changes without regenerating events.",
       "suggested_product_action": "Add a re-run capability for previous workflow/automation runs to speed up testing iteration.",
       "confidence": 0.6,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Being able to re-run a previous workflow run would significantly speed up the iteration cycle.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -4486,7 +4464,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:01:58.173177+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66b8c7851d97c95490e72628",
@@ -4528,7 +4506,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:03.446498+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67081c59cbd03fd852327558",
@@ -4570,7 +4548,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:08.184490+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65b9006ef5018ed4ab27075b",
@@ -4616,7 +4594,7 @@
       ],
       "curated_action_id": "PA-011",
       "curated_action_title": "Support context-based Action placement rules",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "670e6d4f1d4ba786e2faa0df",
@@ -4650,7 +4628,7 @@
       "short_summary": "Users want to run a single action against all entities currently shown/filtered in a table view, not just bulk-running many separate actions.",
       "user_need": "Ability to reference a whole filtered set of entities as the target or payload of one action execution.",
       "suggested_product_action": "Enable running a single action against the full set of filtered/selected entities in a table view, including passing them as payload references",
-      "confidence": 0.7,
+      "confidence": 0.85,
       "needs_human_review": false,
       "evidence_excerpt": "I want to run a single action that references all entities",
       "secondary_categories": [
@@ -4669,8 +4647,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-013",
       "curated_action_title": "Run one Action against selected or filtered entity sets",
-      "review_reasons": [],
-      "review_confidence": 0.85
+      "human_reviewed": true
     },
     {
       "feedback_id": "6492ce2717e04538dd2b68f0",
@@ -4712,7 +4689,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:28.993873+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "684c4e772523f38ddde65e37",
@@ -4746,7 +4723,7 @@
       "short_summary": "Users cannot configure one self-service action to call different backend systems depending on the selected input, forcing them to merge unrelated automation logic into a single complex pipeline.",
       "user_need": "The user needs a single form-based action to dynamically route requests to different backend pipelines depending on the resource type selected, each with its own payload format.",
       "suggested_product_action": "Enable configuring multiple backends per action with conditional routing and per-backend payload mapping",
-      "confidence": 0.85,
+      "confidence": 0.6,
       "needs_human_review": true,
       "evidence_excerpt": "Due to Port's current setup, I have to combine these 5 GH actions into one since the SSA can only trigger one backend",
       "secondary_categories": [
@@ -4767,10 +4744,7 @@
       ],
       "curated_action_id": "PA-055",
       "curated_action_title": "Make multi-step, multi-backend orchestration first class",
-      "review_reasons": [
-        "one action, several backends - backend selection or workflow branching"
-      ],
-      "review_confidence": 0.6
+      "human_reviewed": true
     },
     {
       "feedback_id": "695bf72d297ab788de024c91",
@@ -4812,7 +4786,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:59.334049+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a42936d80bbb7363013edcf",
@@ -4842,7 +4816,7 @@
       "user_need": "A way to route human-in-the-loop approval requests to the right person or group dynamically, such as the on-call engineer.",
       "suggested_product_action": "Support team, role and dynamic policy based routing in the Workflows Input node",
       "confidence": 0.6,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Right now the Input node supports only a static list of users.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -4854,7 +4828,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:08.228005+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "670ec68530296ea5390dde1d",
@@ -4896,7 +4870,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:13.822654+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66ed8947ead64150da5c3793",
@@ -4938,7 +4912,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:23.761002+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67641f3021e6bd260f037ed5",
@@ -4984,7 +4958,7 @@
       ],
       "curated_action_id": "PA-037",
       "curated_action_title": "Expand native catalog entity mutation invocation",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6984c8667a1845e176fe3732",
@@ -5030,7 +5004,7 @@
       ],
       "curated_action_id": "PA-051",
       "curated_action_title": "Make Run history APIs complete and exportable",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69c4768e225c05c619446ff0",
@@ -5072,7 +5046,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:44.311339+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "659d2fac49ce63995d7e4269",
@@ -5127,7 +5101,7 @@
       ],
       "curated_action_id": "PA-046",
       "curated_action_title": "Expand the Run log-entry API",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6718f84b6fa72a26e29edf8c",
@@ -5169,7 +5143,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:56.704671+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "693c8d0033e00c27eae1da30",
@@ -5211,7 +5185,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:04:02.275024+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "672213c2691e04e14096b3b4",
@@ -5257,7 +5231,7 @@
       ],
       "curated_action_id": "PA-058",
       "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "656771af070a907c6e635dc9",
@@ -5303,7 +5277,7 @@
       ],
       "curated_action_id": "PA-016",
       "curated_action_title": "Prevent accidental duplicate and conflicting Runs",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68385892443469540b4ed3bd",
@@ -5349,7 +5323,7 @@
       ],
       "curated_action_id": "PA-028",
       "curated_action_title": "Add structured and repeatable collection inputs",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "681b0a5d2c401ce3fc35e8bc",
@@ -5395,7 +5369,7 @@
       ],
       "curated_action_id": "PA-071",
       "curated_action_title": "Modernize JQ authoring, validation and runtime visibility",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "659823830182c070291f2d87",
@@ -5441,7 +5415,7 @@
       ],
       "curated_action_id": "PA-017",
       "curated_action_title": "Add managed retry and backoff for transient failures",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "688cd5bf0590fd0cef3cbead",
@@ -5483,7 +5457,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:06:13.896943+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66bdca87e78e9ec286c639a3",
@@ -5529,7 +5503,7 @@
       ],
       "curated_action_id": "PA-066",
       "curated_action_title": "Let approvers correct submitted inputs before approval",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "663767aaaa732863041977e3",
@@ -5571,7 +5545,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:06:24.603297+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6710640a41d1a5151b93a275",
@@ -5605,7 +5579,7 @@
       "short_summary": "Users want the ability to control whether the payload details are visible to everyone in an action run.",
       "user_need": "The user needs a way to restrict who can see the detailed payload information for an action run.",
       "suggested_product_action": "Add a configurable toggle to enable or disable visibility of the payload 'See details' section for self-service action runs.",
-      "confidence": 0.55,
+      "confidence": 0.72,
       "needs_human_review": false,
       "evidence_excerpt": "Need a toggle to turn it on/off for the self-service actions.",
       "secondary_categories": [
@@ -5624,8 +5598,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-035",
       "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
-      "review_reasons": [],
-      "review_confidence": 0.72
+      "human_reviewed": true
     },
     {
       "feedback_id": "65c3900fc543d815a5cbf71b",
@@ -5671,7 +5644,7 @@
       ],
       "curated_action_id": "PA-068c",
       "curated_action_title": "Support Kafka as an approval notification channel",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "664dfc30f03c3cdb1e67c0b7",
@@ -5717,7 +5690,7 @@
       ],
       "curated_action_id": "PA-002b",
       "curated_action_title": "Add a validation-only dry-run flag to the port-github-action",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6682ab3ba742ae079012c2f5",
@@ -5759,7 +5732,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:11.247753+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68244c550f9886c27cc30388",
@@ -5801,7 +5774,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:16.053752+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "678ad59d8b818be882975a08",
@@ -5843,7 +5816,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:21.494446+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69b7e0ad6f9e96445f0f5256",
@@ -5885,7 +5858,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:27.572909+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69ba71afbd3e01f36afedec0",
@@ -5927,7 +5900,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:32.427576+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6759a71799b32f7ce302aef7",
@@ -5969,7 +5942,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:37.786245+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "692c3d3faadc67e83b9e014c",
@@ -6011,7 +5984,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:43.752814+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a206c5f516b94d1532bef24",
@@ -6066,7 +6039,7 @@
       ],
       "curated_action_id": "PA-052",
       "curated_action_title": "Show granular real-time Run and step progress",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a28d09693ba6573b6a4a68e",
@@ -6112,7 +6085,7 @@
       ],
       "curated_action_id": "PA-028",
       "curated_action_title": "Add structured and repeatable collection inputs",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68de67828ad773d9baab31b1",
@@ -6146,7 +6119,7 @@
       "short_summary": "Users cannot run custom scripts (JavaScript/Python) to pull form field values from external systems via API calls.",
       "user_need": "Action builders need to populate form fields with data fetched dynamically from external systems using custom logic.",
       "suggested_product_action": "Support executing custom scripts (e.g. JavaScript or Python) to fetch and populate dynamic form field values from external APIs.",
-      "confidence": 0.6,
+      "confidence": 0.8,
       "needs_human_review": false,
       "evidence_excerpt": "Lack of ability to run scripts on Port JS/PS/python",
       "secondary_categories": [
@@ -6167,8 +6140,7 @@
       ],
       "curated_action_id": "PA-022",
       "curated_action_title": "Populate dynamic form options from external APIs",
-      "review_reasons": [],
-      "review_confidence": 0.8
+      "human_reviewed": true
     },
     {
       "feedback_id": "66f2e05d64936aa378c31c74",
@@ -6210,7 +6182,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:08:12.219702+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697d2a94b7d019da22e8a296",
@@ -6252,7 +6224,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:08:17.955619+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "656c4a01ba5aabc9ac975d71",
@@ -6298,7 +6270,7 @@
       ],
       "curated_action_id": "PA-049",
       "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "662c18c1879e6a4fff5ed742",
@@ -6327,7 +6299,7 @@
       "short_summary": "Users want Port to natively host and run actions and support direct invocation of Lambda and OpenFAAS without needing external webhooks.",
       "user_need": "The user wants to invoke serverless functions and run simple actions directly through Port without configuring external webhook infrastructure.",
       "suggested_product_action": "Add native invocation support for Port-hosted actions and direct Lambda/OpenFAAS backends",
-      "confidence": 0.6,
+      "confidence": 0.85,
       "needs_human_review": false,
       "evidence_excerpt": "another invocation type that would be awesome, would be directly integrating with Lambda and OpenFAAS",
       "secondary_categories": [],
@@ -6344,8 +6316,7 @@
       ],
       "curated_action_id": "PA-036",
       "curated_action_title": "Add native invocation for Port-hosted actions and direct Lambda/OpenFAAS backends",
-      "review_reasons": [],
-      "review_confidence": 0.85
+      "human_reviewed": true
     },
     {
       "feedback_id": "6776cc6eb98f2dbf25dd06e7",
@@ -6391,7 +6362,7 @@
       ],
       "curated_action_id": "PA-029",
       "curated_action_title": "Expand text, code, file and secret input controls",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6970abf0757ff2b799889f3e",
@@ -6446,7 +6417,7 @@
       ],
       "curated_action_id": "PA-027",
       "curated_action_title": "Expand field display metadata and friendly labels",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67ff95a24f665abe872406a0",
@@ -6492,7 +6463,7 @@
       ],
       "curated_action_id": "PA-026",
       "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "687fa46eb2b52954223993ee",
@@ -6547,7 +6518,7 @@
       ],
       "curated_action_id": "PA-029",
       "curated_action_title": "Expand text, code, file and secret input controls",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69d7f5a35356befe54b0025c",
@@ -6600,7 +6571,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-074",
       "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68b6a3e99886b13d94348272",
@@ -6642,7 +6613,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:09:52.506528+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6508161951aa0709909e3647",
@@ -6688,7 +6659,7 @@
       ],
       "curated_action_id": "PA-023",
       "curated_action_title": "Support conditional field visibility and behavior",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "660d4069156ca7bcee9b5457",
@@ -6730,7 +6701,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:04.655969+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66faee7195519bf939d9fd2d",
@@ -6772,7 +6743,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:10.582879+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "64f9b9a2b9071e097d98d1c7",
@@ -6827,7 +6798,7 @@
       ],
       "curated_action_id": "PA-004b",
       "curated_action_title": "Support Action permission configuration in the Pulumi provider",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68a52b17d901352a36334062",
@@ -6869,7 +6840,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:26.980034+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65c2596f33b5159cfc5af44c",
@@ -6911,7 +6882,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:33.276982+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68f64cb7d2693237fd1b30d3",
@@ -6953,7 +6924,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:38.858324+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67307a74d292b32d23d20648",
@@ -6995,7 +6966,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:43.572039+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67cde8014e108cfcbdabd510",
@@ -7037,7 +7008,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:49.198354+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68a854381572a8c5cd972d1d",
@@ -7079,7 +7050,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:53.156876+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697b9fddcfbf975300198439",
@@ -7113,7 +7084,7 @@
       "short_summary": "The system only records who ran an action, not who approved it, so approver identity cannot be shown on the related entity.",
       "user_need": "Wants to display who approved an action run, including their name or email, alongside the run's context.",
       "suggested_product_action": "Include approver identity (name and email) in the action run's execution context for display on related entities",
-      "confidence": 0.75,
+      "confidence": 0.55,
       "needs_human_review": true,
       "evidence_excerpt": "There’s no way to display the approver’s name or email in entity today",
       "secondary_categories": [
@@ -7134,10 +7105,7 @@
       ],
       "curated_action_id": "PA-050",
       "curated_action_title": "Expose complete approval provenance in Run records",
-      "review_reasons": [
-        "the approver in run context - approvals, run history or run traceability"
-      ],
-      "review_confidence": 0.55
+      "human_reviewed": true
     },
     {
       "feedback_id": "6489ffa40370ff090a8af507",
@@ -7183,7 +7151,7 @@
       ],
       "curated_action_id": "PA-044",
       "curated_action_title": "Stream Run logs automatically and expose quick previews",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68fb13d31fe08c9a8443f746",
@@ -7225,7 +7193,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:11:21.435682+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a5fbd5942cf04e5383526bb",
@@ -7259,7 +7227,7 @@
       "short_summary": "There is no reliable way to send failure notifications from a workflow without either losing the failure status or falsely marking the run as successful.",
       "user_need": "The user needs to trigger alerts on workflow failure while still having the run accurately reflect that it failed.",
       "suggested_product_action": "Add a dedicated onWorkflowFailure or finally-style branch that runs cleanup/notification steps without altering the workflow's final failure status.",
-      "confidence": 0.55,
+      "confidence": 0.92,
       "needs_human_review": false,
       "evidence_excerpt": "Can't easily implement basic alerting without misrepresenting operational health.",
       "secondary_categories": [
@@ -7280,8 +7248,7 @@
       ],
       "curated_action_id": "PA-057",
       "curated_action_title": "Add workflow-level failure and finally branches",
-      "review_reasons": [],
-      "review_confidence": 0.92
+      "human_reviewed": true
     },
     {
       "feedback_id": "6943427596a1ed2e9f41c9a8",
@@ -7323,7 +7290,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:11:43.098748+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a61eb457560de5c7714679f",
@@ -7378,7 +7345,7 @@
       ],
       "curated_action_id": "PA-033b",
       "curated_action_title": "Add native runtime secret resolution from HashiCorp Vault",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67b20c2e5a5587585abe688c",
@@ -7422,7 +7389,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-054",
       "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "670fd226ff2831f9768b8724",
@@ -7468,7 +7435,7 @@
       ],
       "curated_action_id": "PA-001",
       "curated_action_title": "Make unsaved-change detection accurate and consistent",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a211ea7d47059032854eafd",
@@ -7523,7 +7490,7 @@
       ],
       "curated_action_id": "PA-067b",
       "curated_action_title": "Add an approver-to-requester messaging thread on Runs awaiting approval",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66dad68c5c2fac7ded045460",
@@ -7552,7 +7519,7 @@
       "short_summary": "Restricting edit access to a single property currently requires a cumbersome workaround of removing and re-adding roles across multiple settings.",
       "user_need": "The admin wants a simple way to block specific users or roles from editing one particular property without reconfiguring all other properties.",
       "suggested_product_action": "Add a deny-based permission rule that lets admins block edit access to a specific property without restructuring the full permission set.",
-      "confidence": 0.85,
+      "confidence": 0.5,
       "needs_human_review": true,
       "evidence_excerpt": "If Administrator wants to prohibit edit only one properties from set of 10 or more properties then configuration is a little complex.",
       "secondary_categories": [],
@@ -7569,10 +7536,7 @@
       ],
       "curated_action_id": "PA-059",
       "curated_action_title": "Make permission policies reusable and more expressive",
-      "review_reasons": [
-        "deny rules read as permission authoring, not eligibility"
-      ],
-      "review_confidence": 0.5
+      "human_reviewed": true
     },
     {
       "feedback_id": "6967774a6dfee8ee8e4ce896",
@@ -7614,7 +7578,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:13:22.239903+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69c8dc712c07035dee9433b5",
@@ -7656,7 +7620,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:13:28.626731+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69de783c96fa5683075c6f20",
@@ -7698,7 +7662,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:13:41.077901+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "694a6d94a4ea4d2d8a8639cb",
@@ -7740,7 +7704,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:13:45.975773+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67f4f44f1aac623580bb3589",
@@ -7795,7 +7759,7 @@
       ],
       "curated_action_id": "PA-028",
       "curated_action_title": "Add structured and repeatable collection inputs",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6760726f4a50f11189d6e973",
@@ -7841,7 +7805,7 @@
       ],
       "curated_action_id": "PA-007",
       "curated_action_title": "Expose a reusable Action-form launcher for embedded surfaces",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "649bdc0ecf7291098a1c28bf",
@@ -7896,8 +7860,7 @@
       ],
       "curated_action_id": "PA-005",
       "curated_action_title": "Generate Action inputs from Blueprint definitions",
-      "review_reasons": [],
-      "review_confidence": 0.75
+      "human_reviewed": true
     },
     {
       "feedback_id": "69bd84cb8555c6d9dff37d2e",
@@ -7939,7 +7902,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:14:29.363010+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66fab653f08e28ee955809ce",
@@ -7985,7 +7948,7 @@
       ],
       "curated_action_id": "PA-020",
       "curated_action_title": "Support reactive computed fields and read-only previews",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67c5b4848a1334bf39898f55",
@@ -8027,7 +7990,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:14:42.829196+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "678fa2d0541d91b91a772c41",
@@ -8056,7 +8019,7 @@
       "short_summary": "Users want actions to appear or hide automatically based on properties of the selected entity, so only relevant actions are shown.",
       "user_need": "The user wants to avoid showing irrelevant or nonsensical actions for a given entity, so people don't accidentally trigger actions that don't apply.",
       "suggested_product_action": "Enable conditional visibility of self-service actions based on entity property values",
-      "confidence": 0.75,
+      "confidence": 0.55,
       "needs_human_review": true,
       "evidence_excerpt": "the ability to make an action conditionally available (based on one of more properties of the selected entity)",
       "secondary_categories": [],
@@ -8073,10 +8036,7 @@
       ],
       "curated_action_id": "PA-011",
       "curated_action_title": "Support context-based Action placement rules",
-      "review_reasons": [
-        "conditional availability of an action - discovery and placement, or action eligibility"
-      ],
-      "review_confidence": 0.55
+      "human_reviewed": true
     },
     {
       "feedback_id": "67ff7c3fc33aac9a829e4a8d",
@@ -8106,7 +8066,7 @@
       "user_need": "Users need to submit natural text with standard punctuation without breaking entity creation.",
       "suggested_product_action": "Expand the allowed character set in the entity identifier regex pattern to include common punctuation such as apostrophes.",
       "confidence": 0.6,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "the entity creation fails if the title includes certain characters, such as apostrophes",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -8118,7 +8078,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:14:58.598639+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "686d29f00a9ee547d40f4afd",
@@ -8160,7 +8120,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:15:04.588047+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6915caf8c4c30db90d700b0b",
@@ -8189,7 +8149,7 @@
       "short_summary": "Webhook secrets configured for signature verification are stored as raw plain text, which exposes them when defined via infrastructure-as-code.",
       "user_need": "Configure webhook secrets securely without exposing sensitive values in source code or configuration files.",
       "suggested_product_action": "Support referencing stored Port secrets in webhook security configuration instead of raw secret values",
-      "confidence": 0.85,
+      "confidence": 0.4,
       "needs_human_review": true,
       "evidence_excerpt": "the secret is exposed in source code!",
       "secondary_categories": [],
@@ -8206,10 +8166,7 @@
       ],
       "curated_action_id": "PA-033",
       "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration",
-      "review_reasons": [
-        "a catalog webhook secret, not a self-service action - scope is disputed"
-      ],
-      "review_confidence": 0.4
+      "human_reviewed": true
     },
     {
       "feedback_id": "65f03ef6cb7414bcffae7545",
@@ -8238,7 +8195,7 @@
       "short_summary": "Port is adding a new way for self-service actions to directly create or update catalog entities without needing an external backend.",
       "user_need": "Action builders want a simple way to let end users update catalog data (like Service team or Tier) directly through a form.",
       "suggested_product_action": "Provide a native invocation method that lets self-service actions create or update catalog entities directly.",
-      "confidence": 0.75,
+      "confidence": 0.85,
       "needs_human_review": false,
       "evidence_excerpt": "will allow updating catalog entities as part of a self-service action form/automation execution",
       "secondary_categories": [],
@@ -8255,8 +8212,7 @@
       ],
       "curated_action_id": "PA-037",
       "curated_action_title": "Expand native catalog entity mutation invocation",
-      "review_reasons": [],
-      "review_confidence": 0.85
+      "human_reviewed": true
     },
     {
       "feedback_id": "68127ab6fd3a32236bbbbeba",
@@ -8302,7 +8258,7 @@
       ],
       "curated_action_id": "PA-047",
       "curated_action_title": "Surface complete backend and expression error diagnostics",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "672249d560b0d661a82e3e32",
@@ -8344,7 +8300,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:15:59.362713+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "652e8946856cd53595829199",
@@ -8378,7 +8334,7 @@
       "short_summary": "Action builders cannot choose which properties of a selected entity are included in the data sent to the action backend.",
       "user_need": "The ability to control exactly which entity properties are passed into the action's payload.",
       "suggested_product_action": "Allow action builders to select which properties of a targeted entity are included in the action payload.",
-      "confidence": 0.72,
+      "confidence": 0.9,
       "needs_human_review": false,
       "evidence_excerpt": "The self-service engineer should be able to choose which entity properties or property are relevant to send to the self-service action.",
       "secondary_categories": [
@@ -8397,8 +8353,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-042",
       "curated_action_title": "Map selected and invoking entity data into payloads",
-      "review_reasons": [],
-      "review_confidence": 0.9
+      "human_reviewed": true
     },
     {
       "feedback_id": "64b93341745be567b249a32f",
@@ -8451,7 +8406,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-042",
       "curated_action_title": "Map selected and invoking entity data into payloads",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "695fd7b5782c46b3dbb66644",
@@ -8493,7 +8448,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:16:25.113746+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "650fdbfb9a7a750967822366",
@@ -8539,7 +8494,7 @@
       ],
       "curated_action_id": "PA-058",
       "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6696f52ddaed01573b729714",
@@ -8594,7 +8549,7 @@
       ],
       "curated_action_id": "PA-068",
       "curated_action_title": "Target approval notifications using the same dynamic permission rules that select approvers",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6524c821ec2dd97343235238",
@@ -8640,7 +8595,7 @@
       ],
       "curated_action_id": "PA-064",
       "curated_action_title": "Support configurable multi-approver thresholds",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66781226b894b19aca35a768",
@@ -8686,7 +8641,7 @@
       ],
       "curated_action_id": "PA-065",
       "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65d34b8e9dcc811d4a9300cf",
@@ -8732,7 +8687,7 @@
       ],
       "curated_action_id": "PA-044",
       "curated_action_title": "Stream Run logs automatically and expose quick previews",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a4d1db5cc2f4154cf79e3d2",
@@ -8774,7 +8729,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:03.123898+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6912a0ff1465a5fbe7b1496c",
@@ -8816,7 +8771,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:09.430051+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69e62509bf8b6dbf40b878c7",
@@ -8871,7 +8826,7 @@
       ],
       "curated_action_id": "PA-034",
       "curated_action_title": "Use scoped service-account credentials for agent signing",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a4f588ed639d24023826725",
@@ -8913,7 +8868,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:29.493165+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "694122c9e3a0e204c6a92ecc",
@@ -8955,7 +8910,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:34.215827+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6837498890bd8f2627580951",
@@ -8997,7 +8952,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:48.421424+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67137ce7cd8120fbbbac44f0",
@@ -9039,7 +8994,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:53.908979+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a2a7d26bd2d82218bddf0be",
@@ -9085,7 +9040,7 @@
       ],
       "curated_action_id": "PA-050",
       "curated_action_title": "Expose complete approval provenance in Run records",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a214383d4705903285ef4fe",
@@ -9131,7 +9086,7 @@
       ],
       "curated_action_id": "PA-068b",
       "curated_action_title": "Support inline Approve and Reject actions inside Slack approval messages",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a436ebbac313b453851834b",
@@ -9173,7 +9128,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:18:17.459557+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a292ceff00721fb0e2d24cc",
@@ -9219,7 +9174,7 @@
       ],
       "curated_action_id": "PA-063b",
       "curated_action_title": "Provide approval bypass and admin override",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a5e16ea14f1993daab8df59",
@@ -9261,7 +9216,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:18:46.824476+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a5fd5a33da3c9382571e53c",
@@ -9316,7 +9271,7 @@
       ],
       "curated_action_id": "PA-055",
       "curated_action_title": "Make multi-step, multi-backend orchestration first class",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a62cdea0933efc13e70eab5",
@@ -9350,7 +9305,7 @@
       "short_summary": "Dynamic credentials like OAuth tokens fetched at runtime are stored unmasked in run history for up to 90 days, exposing sensitive secrets.",
       "user_need": "The ability to fetch short-lived dynamic credentials during a run without exposing their values in visible run history.",
       "suggested_product_action": "Enable marking specific run output variables as sensitive so their values are automatically redacted or masked in run history displays.",
-      "confidence": 0.85,
+      "confidence": 0.78,
       "needs_human_review": false,
       "evidence_excerpt": "There is currently no way to mark a variable as sensitive so that its value is redacted or masked in the run history display.",
       "secondary_categories": [
@@ -9369,8 +9324,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-035",
       "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
-      "review_reasons": [],
-      "review_confidence": 0.78
+      "human_reviewed": true
     },
     {
       "feedback_id": "699c78c2ebbb27ef14d76770",
@@ -9423,7 +9377,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-014",
       "curated_action_title": "Support flexible backend-specific Run result states",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69a7207e9505b9d5de41736b",
@@ -9469,7 +9423,7 @@
       ],
       "curated_action_id": "PA-051",
       "curated_action_title": "Make Run history APIs complete and exportable",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69d83042f465810c3a2b01fc",
@@ -9499,7 +9453,7 @@
       "user_need": "The user wants to manage all Port resources, including Workflows, consistently through code rather than the UI.",
       "suggested_product_action": "Add Terraform and Pulumi resource support for managing Workflows as code",
       "confidence": 0.6,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "it removes the gap where workflows must be managed via the UI while everything else is code-managed",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -9511,7 +9465,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:19:32.318642+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68f8fbb8741fd60efd0e8d17",
@@ -9545,7 +9499,7 @@
       "short_summary": "Users must recreate the same permission rules separately for actions, blueprints and automations instead of reusing a single policy.",
       "user_need": "Define a permission policy once and reference it across multiple actions, blueprints and automations.",
       "suggested_product_action": "Enable creation of reusable permission policy entities that can be referenced across self-service actions, blueprints and automations",
-      "confidence": 0.6,
+      "confidence": 0.45,
       "needs_human_review": true,
       "evidence_excerpt": "The ability to reference a permission policy instead of rewriting - reusage for SSA , Blueprints and possibly automations",
       "secondary_categories": [
@@ -9566,10 +9520,7 @@
       ],
       "curated_action_id": "PA-059",
       "curated_action_title": "Make permission policies reusable and more expressive",
-      "review_reasons": [
-        "policy reuse reads as permission authoring, not eligibility"
-      ],
-      "review_confidence": 0.45
+      "human_reviewed": true
     },
     {
       "feedback_id": "67adc340ed8cfaae72b680d0",
@@ -9603,7 +9554,7 @@
       "short_summary": "Users need Port to fetch a fresh authentication token and attach it to the request before each action call to their external API.",
       "user_need": "The user needs to authenticate every outbound action request with a per-request JWT to satisfy their security requirements.",
       "suggested_product_action": "Support pre-invocation authentication token retrieval and automatic injection into request headers for self-service actions.",
-      "confidence": 0.6,
+      "confidence": 0.5,
       "needs_human_review": true,
       "evidence_excerpt": "we need is to perform a request to obtain the JWT before each SSA action and then include it in the header of the action",
       "secondary_categories": [
@@ -9624,10 +9575,7 @@
       ],
       "curated_action_id": "PA-031",
       "curated_action_title": "Support delegated and per-request authentication",
-      "review_reasons": [
-        "fetching a token per request reads as request signing, not requester identity"
-      ],
-      "review_confidence": 0.5
+      "human_reviewed": true
     },
     {
       "feedback_id": "6a68eae5c3da61d5163bbf80",
@@ -9669,7 +9617,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:19:58.115967+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6826b40db0070616c963e9bf",
@@ -9724,7 +9672,7 @@
       ],
       "curated_action_id": "PA-061",
       "curated_action_title": "Add granular roles for Action authoring and Run management",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69fcfb5f510034cca6d534c3",
@@ -9766,7 +9714,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:20:40.790693+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69dd23a2310e0adffae43546",
@@ -9808,7 +9756,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:20:46.707718+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69fcfc2d78f2a5775788b55d",
@@ -9863,7 +9811,7 @@
       ],
       "curated_action_id": "PA-061",
       "curated_action_title": "Add granular roles for Action authoring and Run management",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a181600453998431fff58f5",
@@ -9905,7 +9853,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:22:05.396847+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "64edffb2ab1b040a223eadd5",
@@ -9951,7 +9899,7 @@
       ],
       "curated_action_id": "PA-010",
       "curated_action_title": "Add Action categorization and configurable ordering",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6700179a3e7d6b9933e460cd",
@@ -9993,7 +9941,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:22:17.130357+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a0a9800ce6cec3311444ac7",
@@ -10035,7 +9983,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:22:21.808989+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67e5118773bc7a1fd199885d",
@@ -10081,7 +10029,7 @@
       ],
       "curated_action_id": "PA-020",
       "curated_action_title": "Support reactive computed fields and read-only previews",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67bc9e20e167a610dfa628f4",
@@ -10127,7 +10075,7 @@
       ],
       "curated_action_id": "PA-027",
       "curated_action_title": "Expand field display metadata and friendly labels",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69d3359760115cf4136a1d87",
@@ -10173,7 +10121,7 @@
       ],
       "curated_action_id": "PA-067",
       "curated_action_title": "Provide an approver dashboard and a focused, readable decision view",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697bc2552c0e437d54520fb7",
@@ -10202,7 +10150,7 @@
       "short_summary": "Users want dropdown fields to show friendly labels while still sending the underlying technical value to the backend.",
       "user_need": "Present clear, human-readable choices in forms without changing the technical values sent to the backend.",
       "suggested_product_action": "Support enumLabels to display friendly labels for enum values while preserving technical values in action inputs",
-      "confidence": 0.9,
+      "confidence": 0.55,
       "needs_human_review": true,
       "evidence_excerpt": "Ability to show user-friendly display labels while passing technical keys/values to the backend",
       "secondary_categories": [],
@@ -10219,10 +10167,7 @@
       ],
       "curated_action_id": "PA-027",
       "curated_action_title": "Expand field display metadata and friendly labels",
-      "review_reasons": [
-        "enumLabels - input structure or form presentation"
-      ],
-      "review_confidence": 0.55
+      "human_reviewed": true
     },
     {
       "feedback_id": "69f1052c6a8c8903012ea194",
@@ -10268,7 +10213,7 @@
       ],
       "curated_action_id": "PA-025",
       "curated_action_title": "Allow builders to hide the Execute button on Action forms",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67bb136c8e2de556c2957dad",
@@ -10314,7 +10259,7 @@
       ],
       "curated_action_id": "PA-026",
       "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6719fefb0331afd33c16a86f",
@@ -10356,7 +10301,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:23:28.230545+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "683029f2c731d60cda67dc7d",
@@ -10398,7 +10343,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:23:33.363956+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6530c320bf9f35eea8c82626",
@@ -10440,7 +10385,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:23:37.642863+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67a32141d252e4db823dea60",
@@ -10474,7 +10419,7 @@
       "short_summary": "Users need stricter validation to catch missing identifiers, typos, and unmapped properties in GitOps file mappings.",
       "user_need": "Ensure that entity data mapped from YAML files is fully accurate and complete, catching errors like typos or missing values.",
       "suggested_product_action": "Support configurable strict validation rules for GitOps file-to-entity mapping, including required identifiers, exact key matching, and full property mapping enforcement.",
-      "confidence": 0.75,
+      "confidence": 0.4,
       "needs_human_review": true,
       "evidence_excerpt": "When the identifier is null, Port auto-generates an identifier with a UUID so no error is raised from Port API, even though we want to enforce it",
       "secondary_categories": [
@@ -10495,10 +10440,7 @@
       ],
       "curated_action_id": "PA-073",
       "curated_action_title": "Add strict configurable validation to GitOps dry runs",
-      "review_reasons": [
-        "GitOps file validation, not self-service actions - scope is disputed"
-      ],
-      "review_confidence": 0.4
+      "human_reviewed": true
     },
     {
       "feedback_id": "68c1d18fa34b05cc8bf233c6",
@@ -10544,7 +10486,7 @@
       ],
       "curated_action_id": "PA-072",
       "curated_action_title": "Expand native form validation rules and feedback",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "689373dfd5c68831b44281cd",
@@ -10586,7 +10528,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:12.401189+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "678ac8dde5b2728f84b8e992",
@@ -10628,7 +10570,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:18.014292+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "692497df9b0d1dfda8e72424",
@@ -10670,7 +10612,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:22.913389+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67ae96986cf677fdc79b6969",
@@ -10716,7 +10658,7 @@
       ],
       "curated_action_id": "PA-004",
       "curated_action_title": "Expose a complete, copyable Action definition with a working example",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "681cd1792e2a2f763a872a9d",
@@ -10758,7 +10700,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:34.346731+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69fce3c7aa7919d7184f46f4",
@@ -10800,7 +10742,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:40.751974+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68c96ec59af77f48feee618f",
@@ -10842,7 +10784,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:47.249789+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66b14531ed4315cc0258b909",
@@ -10876,7 +10818,7 @@
       "short_summary": "Admins cannot easily require multiple permission conditions to all be true, only that any one of them is met.",
       "user_need": "A simple way to require that all permission conditions be satisfied, not just one.",
       "suggested_product_action": "Add a toggle to switch dynamic permission condition evaluation between OR and AND logic",
-      "confidence": 0.85,
+      "confidence": 0.45,
       "needs_human_review": true,
       "evidence_excerpt": "Having the ability to change the behavior from OR to AND as needed would make this a lot easier for customers.",
       "secondary_categories": [
@@ -10897,10 +10839,7 @@
       ],
       "curated_action_id": "PA-059",
       "curated_action_title": "Make permission policies reusable and more expressive",
-      "review_reasons": [
-        "reads as permission authoring ergonomics, not who is eligible"
-      ],
-      "review_confidence": 0.45
+      "human_reviewed": true
     },
     {
       "feedback_id": "66718308988563c6da0bb9a9",
@@ -10955,7 +10894,7 @@
       ],
       "curated_action_id": "PA-068f",
       "curated_action_title": "Include the eligible approver list in the approval webhook payload",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67479928414b9cbfe00bf473",
@@ -11001,7 +10940,7 @@
       ],
       "curated_action_id": "PA-012",
       "curated_action_title": "Make Actions easier to inspect from catalog views",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68fb8735235b71fd93744c18",
@@ -11030,7 +10969,7 @@
       "short_summary": "Users cannot set a custom timestamp for log entries in action run logs; only the system-generated timestamp is shown.",
       "user_need": "Ability to specify a custom timestamp for log entries to reflect the actual event time rather than the system-generated time.",
       "suggested_product_action": "Allow users to specify a custom timestamp for each log entry in the action run log stream.",
-      "confidence": 0.7,
+      "confidence": 0.85,
       "needs_human_review": false,
       "evidence_excerpt": "change the system-generated timestamp that Port assigns to each log entry to a custom timestamp we manually specify",
       "secondary_categories": [],
@@ -11047,8 +10986,7 @@
       ],
       "curated_action_id": "PA-046",
       "curated_action_title": "Expand the Run log-entry API",
-      "review_reasons": [],
-      "review_confidence": 0.85
+      "human_reviewed": true
     },
     {
       "feedback_id": "64f4adb66cbacd09633abd68",
@@ -11077,7 +11015,7 @@
       "short_summary": "Users must manually call an API to send logs from a file during an action run instead of it happening automatically.",
       "user_need": "Users want log data to be automatically captured and streamed from a file during action execution without extra manual steps.",
       "suggested_product_action": "Enable automatic log streaming from a file during action runs instead of requiring a manual API call",
-      "confidence": 0.6,
+      "confidence": 0.88,
       "needs_human_review": false,
       "evidence_excerpt": "Instead of requiring a dedicated API call done by the user",
       "secondary_categories": [],
@@ -11094,8 +11032,7 @@
       ],
       "curated_action_id": "PA-044",
       "curated_action_title": "Stream Run logs automatically and expose quick previews",
-      "review_reasons": [],
-      "review_confidence": 0.88
+      "human_reviewed": true
     },
     {
       "feedback_id": "69c68407d76b1fe6b0cdd182",
@@ -11125,7 +11062,7 @@
       "user_need": "Ability to monitor overall platform operations, including but not limited to self-service workflows, using existing observability tools.",
       "suggested_product_action": "Provide OpenTelemetry-based export of platform metrics and logs for external observability tools.",
       "confidence": 0.6,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "consume operational metrics and log data using an open format within my standard observability platform",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -11137,7 +11074,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:25:57.136319+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697b5ddec17133b939a63970",
@@ -11179,7 +11116,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:02.279540+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65788dd234dcbc6adbd713bb",
@@ -11213,7 +11150,7 @@
       "short_summary": "The default GitLab pipeline configuration does not include a link back to the pipeline run, unlike the Terraform example.",
       "user_need": "Wants an easy way to access the triggered GitLab pipeline from the run without manual searching.",
       "suggested_product_action": "Include the pipeline URL in the default GitLab payload configuration for easy access from the run",
-      "confidence": 0.55,
+      "confidence": 0.8,
       "needs_human_review": false,
       "evidence_excerpt": "The Gitlab default payload config should reflect back a url to the pipeline for easy access",
       "secondary_categories": [
@@ -11232,8 +11169,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-054",
       "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
-      "review_reasons": [],
-      "review_confidence": 0.8
+      "human_reviewed": true
     },
     {
       "feedback_id": "6971456c9974c06421a7fd9e",
@@ -11275,8 +11211,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:20.177341+00:00",
       "topic_tags": [],
-      "review_reasons": [],
-      "review_confidence": 0.85
+      "human_reviewed": true
     },
     {
       "feedback_id": "6582ce708d54e728d31b780f",
@@ -11310,7 +11245,7 @@
       "short_summary": "The run status list only supports Success and Failure, but GitLab pipelines have many more possible statuses that should be reflected.",
       "user_need": "The user needs Port to accurately reflect the full range of GitLab pipeline statuses in the action run status.",
       "suggested_product_action": "Expand supported run completion statuses to include all backend-specific status values such as GitLab pipeline statuses",
-      "confidence": 0.75,
+      "confidence": 0.88,
       "needs_human_review": false,
       "evidence_excerpt": "the list should contain all Gitlab's possible pipeline statuses: (created, waiting_for_resource, preparing, pending, running, success, failed, canceled, skipped, manual, scheduled)",
       "secondary_categories": [
@@ -11329,8 +11264,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-014",
       "curated_action_title": "Support flexible backend-specific Run result states",
-      "review_reasons": [],
-      "review_confidence": 0.88
+      "human_reviewed": true
     },
     {
       "feedback_id": "69aea7465215d6801a4895da",
@@ -11372,7 +11306,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:48.388117+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a4f5459edeedc4c95a9ee18",
@@ -11414,7 +11348,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:53.405831+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a3c68a73959e847601ffa6f",
@@ -11448,7 +11382,7 @@
       "short_summary": "Users cannot set dynamic default values for team, array, or string inputs based on the current user or triggering entity.",
       "user_need": "Automatically pre-fill form inputs like team or user pickers using properties of the current user or triggering entity.",
       "suggested_product_action": "Support dynamic JQ-based defaults for entity, team, and user picker inputs derived from current user or triggering entity context",
-      "confidence": 0.75,
+      "confidence": 0.6,
       "needs_human_review": true,
       "evidence_excerpt": "It seems that `default` only supports a static string.",
       "secondary_categories": [
@@ -11469,10 +11403,7 @@
       ],
       "curated_action_id": "PA-008",
       "curated_action_title": "Support context-aware filters and pre-filled pickers",
-      "review_reasons": [
-        "dynamic picker defaults - input configuration or contextual pre-fill"
-      ],
-      "review_confidence": 0.6
+      "human_reviewed": true
     },
     {
       "feedback_id": "6a1d45a5b06d5b62ae23dc43",
@@ -11506,7 +11437,7 @@
       "short_summary": "Users cannot make the action button's text change dynamically based on earlier form selections.",
       "user_need": "The ability to show a button label that reflects the user's previous choices in the form.",
       "suggested_product_action": "Support dynamic expressions (e.g. JQ) for the action button text field so it can reflect prior form selections.",
-      "confidence": 0.6,
+      "confidence": 0.75,
       "needs_human_review": false,
       "evidence_excerpt": "Can we allow dynamic value using jqqyery for executeActionButtonText field, so that the button text can change based on previous selection.",
       "secondary_categories": [
@@ -11527,8 +11458,7 @@
       ],
       "curated_action_id": "PA-025c",
       "curated_action_title": "Support dynamic expressions for Action button text",
-      "review_reasons": [],
-      "review_confidence": 0.75
+      "human_reviewed": true
     },
     {
       "feedback_id": "6a0f0765f1bb95af4396d0aa",
@@ -11562,7 +11492,7 @@
       "short_summary": "Users configuring actions that need Basic Auth must manually encode credentials outside of Port instead of within the action configuration.",
       "user_need": "Users need to construct authentication headers like Basic Auth directly inside the action configuration without leaving Port.",
       "suggested_product_action": "Add a native Base64 encoding function available within action expression/payload configuration for building authentication headers.",
-      "confidence": 0.55,
+      "confidence": 0.75,
       "needs_human_review": false,
       "evidence_excerpt": "base64 encoding username:PAT (or :PAT) is the correct approach, and right now you have to do so outside of Port",
       "secondary_categories": [
@@ -11581,8 +11511,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-041",
       "curated_action_title": "Provide universal payload transformation functions",
-      "review_reasons": [],
-      "review_confidence": 0.75
+      "human_reviewed": true
     },
     {
       "feedback_id": "6a3586ab940f0b4a269d450c",
@@ -11616,7 +11545,7 @@
       "short_summary": "Validation rules defined in the action form are only enforced in the UI, so submissions via API, JSON mode, or MCP can bypass them entirely.",
       "user_need": "Ensure that data submitted through any entry point into an action is validated consistently, not only when using the form UI.",
       "suggested_product_action": "Enforce form-defined input and permission validation rules server-side across all invocation paths including API, JSON mode, and MCP.",
-      "confidence": 0.72,
+      "confidence": 0.95,
       "needs_human_review": false,
       "evidence_excerpt": "Any execution path that bypasses the form UI, JSON mode, direct API calls, or Port's MCP, skips these validations entirely, allowing invalid or unauthorized inputs to be submitted.",
       "secondary_categories": [
@@ -11635,8 +11564,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-074",
       "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation",
-      "review_reasons": [],
-      "review_confidence": 0.95
+      "human_reviewed": true
     },
     {
       "feedback_id": "6a4b4a7e3395e568ba0e931f",
@@ -11670,7 +11598,7 @@
       "short_summary": "Approvers who just need to approve or decline a pending step are shown the entire workflow graph instead of a simple, focused decision screen.",
       "user_need": "Non-technical approvers need a simple, distraction-free way to review and act on a pending approval without navigating a complex workflow diagram.",
       "suggested_product_action": "Provide a simplified, scoped approval view for workflow Input nodes showing only the relevant description, fields and action buttons, with the full graph available optionally.",
-      "confidence": 0.7,
+      "confidence": 0.55,
       "needs_human_review": true,
       "evidence_excerpt": "it shouldn't be the default landing experience for someone who just needs to approve or decline",
       "secondary_categories": [
@@ -11691,10 +11619,7 @@
       ],
       "curated_action_id": "PA-067",
       "curated_action_title": "Provide an approver dashboard and a focused, readable decision view",
-      "review_reasons": [
-        "an approver view inside a workflow node - workflow approvals or approver experience"
-      ],
-      "review_confidence": 0.55
+      "human_reviewed": true
     },
     {
       "feedback_id": "6a50eea591b05abba241121a",
@@ -11749,7 +11674,7 @@
       ],
       "curated_action_id": "PA-049c",
       "curated_action_title": "Record the actor and change type behind every Run status change",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a0afd1159c18d657028cd5c",
@@ -11795,7 +11720,7 @@
       ],
       "curated_action_id": "PA-016",
       "curated_action_title": "Prevent accidental duplicate and conflicting Runs",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a5979a17cd0080dd647c575",
@@ -11841,7 +11766,7 @@
       ],
       "curated_action_id": "PA-038b",
       "curated_action_title": "Allow automations to trigger generically across all Actions",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68f8e6c4600c5095c076abc7",
@@ -11883,7 +11808,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:29:54.450729+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "699da93f7e35df0d59976c69",
@@ -11938,7 +11863,7 @@
       ],
       "curated_action_id": "PA-065b",
       "curated_action_title": "Preview and test dynamic approver rules before relying on them",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697141709b01af0c80a5efd1",
@@ -11993,7 +11918,7 @@
       ],
       "curated_action_id": "PA-052",
       "curated_action_title": "Show granular real-time Run and step progress",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "668387c9b72e5d2f6bdb59e3",
@@ -12035,7 +11960,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:30:39.443705+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6714c78145252ac617ed7510",
@@ -12077,7 +12002,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:30:44.882948+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66cf1d13222e72ba0a6a3449",
@@ -12119,7 +12044,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:30:49.731284+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697a4fc771aad86079ed6ec7",
@@ -12148,7 +12073,7 @@
       "short_summary": "Users granted permission to create new entities still cannot fill in all fields unless they are also given separate update permissions.",
       "user_need": "Users need a single permission grant that lets them populate all fields when creating an entity, without requiring extra permission assignments.",
       "suggested_product_action": "Allow register permission to grant field population rights during entity creation without requiring separate updateProperties permissions",
-      "confidence": 0.75,
+      "confidence": 0.45,
       "needs_human_review": true,
       "evidence_excerpt": "Users with entity register permission should be able to fill all blueprint fields during creation without requiring additional updateProperties permissions.",
       "secondary_categories": [],
@@ -12165,10 +12090,7 @@
       ],
       "curated_action_id": "PA-060",
       "curated_action_title": "Enforce permissions consistently in entity inputs and creation",
-      "review_reasons": [
-        "catalog entity permissions, not action permissions - scope is disputed"
-      ],
-      "review_confidence": 0.45
+      "human_reviewed": true
     },
     {
       "feedback_id": "69960f60aac09c7ab5f383b1",
@@ -12210,7 +12132,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:01.034859+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "697a6d812b05462f8a614382",
@@ -12263,7 +12185,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-054",
       "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "689b92a16f57ecb47b6a4946",
@@ -12305,7 +12227,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:13.025309+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68abd0d0ab8356cd24d26bf7",
@@ -12347,7 +12269,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:18.009585+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "692dc7e9488f8201c774af52",
@@ -12389,7 +12311,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:24.685494+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "692079dd3d1696e11915f881",
@@ -12431,7 +12353,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:29.733894+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6682e6f542028024f03af599",
@@ -12473,7 +12395,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:34.539111+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "656dffd9c9406ec6bc18eaa5",
@@ -12519,7 +12441,7 @@
       ],
       "curated_action_id": "PA-011",
       "curated_action_title": "Support context-based Action placement rules",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66a5e31d8a37596baba1b970",
@@ -12565,7 +12487,7 @@
       ],
       "curated_action_id": "PA-045",
       "curated_action_title": "Make Run logs structured and readable",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69f84ce3477db7829b2e1f27",
@@ -12620,7 +12542,7 @@
       ],
       "curated_action_id": "PA-062",
       "curated_action_title": "Control machine-token and invocation-source access",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a428d9c292f2041042ba04e",
@@ -12666,7 +12588,7 @@
       ],
       "curated_action_id": "PA-007",
       "curated_action_title": "Expose a reusable Action-form launcher for embedded surfaces",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "665ede26e43d7a73fc2e947a",
@@ -12712,7 +12634,7 @@
       ],
       "curated_action_id": "PA-030",
       "curated_action_title": "Support entity-selection inputs that also allow creating a new entity by free text",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6693781aa31de39613529762",
@@ -12767,7 +12689,7 @@
       ],
       "curated_action_id": "PA-030c",
       "curated_action_title": "Add a map input type presenting friendly labels over submitted values",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68c9c5736bddc38edb2a4072",
@@ -12822,7 +12744,7 @@
       ],
       "curated_action_id": "PA-072",
       "curated_action_title": "Expand native form validation rules and feedback",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6995741f6a0047498c59fa71",
@@ -12856,7 +12778,7 @@
       "short_summary": "Using a dynamic expression for the installationId field prevents the integration action from being invoked, even though the value renders correctly in the payload preview.",
       "user_need": "The user needs to dynamically select which integration installation runs the action based on the selected repository, rather than hard-coding a fixed installation id.",
       "suggested_product_action": "Support computed/dynamic expressions for the installationId field in INTEGRATION_ACTION invocation configuration",
-      "confidence": 0.72,
+      "confidence": 0.8,
       "needs_human_review": false,
       "evidence_excerpt": "The template renders correctly in the payload preview, but the integration is never invoked (no GitHub workflow run, nothing in the GitHub integration logs).",
       "secondary_categories": [
@@ -12877,8 +12799,7 @@
       ],
       "curated_action_id": "PA-039",
       "curated_action_title": "Allow dynamic integration installation selection",
-      "review_reasons": [],
-      "review_confidence": 0.8
+      "human_reviewed": true
     },
     {
       "feedback_id": "6874c373410d522ad019cd56",
@@ -12933,7 +12854,7 @@
       ],
       "curated_action_id": "PA-027",
       "curated_action_title": "Expand field display metadata and friendly labels",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68405b9c4ebfd09d591cf6e6",
@@ -12967,7 +12888,7 @@
       "short_summary": "Default values applied to form fields cause validation errors to appear before the user has had a chance to fill in the form.",
       "user_need": "Wants form defaults to be applied without triggering premature validation errors on load.",
       "suggested_product_action": "Support a UI-level default value option that applies defaults without triggering validation on initial form load.",
-      "confidence": 0.75,
+      "confidence": 0.8,
       "needs_human_review": false,
       "evidence_excerpt": "preventing validation from triggering too soon during form initialization",
       "secondary_categories": [
@@ -12988,8 +12909,7 @@
       ],
       "curated_action_id": "PA-021",
       "curated_action_title": "Make default-value initialization predictable",
-      "review_reasons": [],
-      "review_confidence": 0.8
+      "human_reviewed": true
     },
     {
       "feedback_id": "6a39593eadcbcb23ea8c10c1",
@@ -13031,7 +12951,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:33:30.325073+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67d16cc97af3f6f3fce8c5f5",
@@ -13073,7 +12993,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:33:34.611396+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67bca8557957f25a12b68129",
@@ -13115,7 +13035,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:33:39.989151+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67b21bec4539d5e7dda6a3ff",
@@ -13157,7 +13077,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:33:44.955605+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "695ce5f621c449e1fd7ce58e",
@@ -13186,7 +13106,7 @@
       "short_summary": "Actions only get a limited, trusted set of the requester's information, forcing builders to consider using an unsafe, spoofable field to get richer user context like team membership.",
       "user_need": "Builders need reliable, trustworthy information about who is running an action (including team relationships) without risking impersonation.",
       "suggested_product_action": "Expose additional trusted executing-user context (such as team relationships) in the action backend payload without relying on user-editable inputs",
-      "confidence": 0.72,
+      "confidence": 0.9,
       "needs_human_review": false,
       "evidence_excerpt": "Passing the User Form .user object to the backend is not safe, as it can be spoofed and allow user impersonation.",
       "secondary_categories": [],
@@ -13203,8 +13123,7 @@
       ],
       "curated_action_id": "PA-032",
       "curated_action_title": "Expose trusted requester context to Action backends",
-      "review_reasons": [],
-      "review_confidence": 0.9
+      "human_reviewed": true
     },
     {
       "feedback_id": "69c1a3bff8901915c20c5ca3",
@@ -13250,7 +13169,7 @@
       ],
       "curated_action_id": "PA-033",
       "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6a02b8cf83cc90c4a7254469",
@@ -13292,7 +13211,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:35:09.228821+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66b1311546017d98d92156e3",
@@ -13338,7 +13257,7 @@
       ],
       "curated_action_id": "PA-058",
       "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "663e275443acb838cf19a5ba",
@@ -13372,7 +13291,7 @@
       "short_summary": "Admins cannot currently configure action permissions to let organization-generated tokens trigger actions.",
       "user_need": "The ability to grant machine-generated tokens permission to run self-service actions.",
       "suggested_product_action": "Allow configuring action permission rules to grant organization-generated tokens the ability to trigger actions",
-      "confidence": 0.6,
+      "confidence": 0.85,
       "needs_human_review": false,
       "evidence_excerpt": "Allow the configuring of action permissions to allow organization generated tokens to trigger actions",
       "secondary_categories": [
@@ -13393,8 +13312,7 @@
       ],
       "curated_action_id": "PA-062",
       "curated_action_title": "Control machine-token and invocation-source access",
-      "review_reasons": [],
-      "review_confidence": 0.85
+      "human_reviewed": true
     },
     {
       "feedback_id": "682f670b596869f89577489f",
@@ -13449,7 +13367,7 @@
       ],
       "curated_action_id": "PA-060",
       "curated_action_title": "Enforce permissions consistently in entity inputs and creation",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67bb1b378aff64bedccf9ae2",
@@ -13495,7 +13413,7 @@
       ],
       "curated_action_id": "PA-058",
       "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66717334f17d76cbe67bf49f",
@@ -13541,7 +13459,7 @@
       ],
       "curated_action_id": "PA-065",
       "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67ae47018df2ac10d76e1fec",
@@ -13575,7 +13493,7 @@
       "short_summary": "Approvers lack a centralized, filterable dashboard to view, track and act on their approval requests, including handling multiple requests at once.",
       "user_need": "Approvers need an efficient way to see all pending and past approval requests and act on multiple requests quickly.",
       "suggested_product_action": "Provide an approver dashboard with queue view, approval history, status filtering, and bulk approve/reject actions.",
-      "confidence": 0.6,
+      "confidence": 0.92,
       "needs_human_review": false,
       "evidence_excerpt": "offer advanced filtering options to easily focus on those \"Waiting for Approval.\"",
       "secondary_categories": [
@@ -13596,8 +13514,7 @@
       ],
       "curated_action_id": "PA-067",
       "curated_action_title": "Provide an approver dashboard and a focused, readable decision view",
-      "review_reasons": [],
-      "review_confidence": 0.92
+      "human_reviewed": true
     },
     {
       "feedback_id": "67583e21f84a4af5d432d045",
@@ -13643,7 +13560,7 @@
       ],
       "curated_action_id": "PA-012",
       "curated_action_title": "Make Actions easier to inspect from catalog views",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65b60179d9cc3038ffc233d3",
@@ -13698,7 +13615,7 @@
       ],
       "curated_action_id": "PA-052",
       "curated_action_title": "Show granular real-time Run and step progress",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "674613bc11c9ac3dbb882e6a",
@@ -13744,7 +13661,7 @@
       ],
       "curated_action_id": "PA-053",
       "curated_action_title": "Allow users to dismiss Run notification badges",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66fabe27f08e28ee95624d41",
@@ -13790,7 +13707,7 @@
       ],
       "curated_action_id": "PA-051",
       "curated_action_title": "Make Run history APIs complete and exportable",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6989da7e28d1e2672b8d1f83",
@@ -13832,7 +13749,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:36:31.378378+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69a69c2bbd9e53f8d10aa84f",
@@ -13866,7 +13783,7 @@
       "short_summary": "Admins want the option to let self-service actions run fully within Slack instead of always redirecting users back to the Port UI to confirm.",
       "user_need": "Developers want to complete action workflows entirely in Slack without switching context, while admins need to control when this is allowed.",
       "suggested_product_action": "Add a configurable per-action or org-level policy allowing self-service actions initiated via Slack to execute automatically after parameters are collected.",
-      "confidence": 0.72,
+      "confidence": 0.75,
       "needs_human_review": false,
       "evidence_excerpt": "the bot intentionally does not execute the action automatically. Instead, it collects some parameters and then redirects the user back to the Port UI",
       "secondary_categories": [
@@ -13887,8 +13804,7 @@
       ],
       "curated_action_id": "PA-009",
       "curated_action_title": "Allow controlled end-to-end Action execution in Slack",
-      "review_reasons": [],
-      "review_confidence": 0.75
+      "human_reviewed": true
     },
     {
       "feedback_id": "693717e9a5e8f26790db4e71",
@@ -13922,7 +13838,7 @@
       "short_summary": "Users configuring the Execution Agent want an option to disable payload transformation and forward the full incoming payload (headers and body) unchanged.",
       "user_need": "The ability to bypass payload manipulation and have the Execution Agent simply pass through everything it receives.",
       "suggested_product_action": "Add a configuration toggle to disable payload transformation in the Execution Agent so it forwards the full received payload, including headers and body, unmodified.",
-      "confidence": 0.6,
+      "confidence": 0.72,
       "needs_human_review": false,
       "evidence_excerpt": "I mean for it to just forward whatever payload it receives: headers, body",
       "secondary_categories": [
@@ -13941,8 +13857,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-043",
       "curated_action_title": "Make Execution Agent payload handling configurable in the UI",
-      "review_reasons": [],
-      "review_confidence": 0.72
+      "human_reviewed": true
     },
     {
       "feedback_id": "672b52a3c45ed39e22567862",
@@ -13988,7 +13903,7 @@
       ],
       "curated_action_id": "PA-025b",
       "curated_action_title": "Allow early submission of a multi-step form once required inputs are valid",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69846d1a0515435e29b373eb",
@@ -14030,7 +13945,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:37:04.480958+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "696f2e14d1352674295c2e11",
@@ -14074,7 +13989,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-040",
       "curated_action_title": "Add a configurable cluster identifier so Runs reach the intended execution agent",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69a02d77006d0995d3c7e953",
@@ -14108,7 +14023,7 @@
       "short_summary": "Users need the execution agent to skip SSL certificate verification so it can talk to internal services using self-signed certificates without extra setup.",
       "user_need": "Ability to connect the execution agent to internal services secured with self-signed certificates without manually managing certificate trust.",
       "suggested_product_action": "Add an SSL no-verify configuration option to the execution agent for connecting to internal servers",
-      "confidence": 0.55,
+      "confidence": 0.88,
       "needs_human_review": false,
       "evidence_excerpt": "We want to communicate with an internal service without the hassle of handling the self signed certificates",
       "secondary_categories": [
@@ -14127,8 +14042,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-040b",
       "curated_action_title": "Add configurable TLS trust behaviour to the execution agent",
-      "review_reasons": [],
-      "review_confidence": 0.88
+      "human_reviewed": true
     },
     {
       "feedback_id": "6833b6005e235d7e91968c71",
@@ -14170,7 +14084,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:37:26.049042+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65eeca8579a657ae7bb6cf98",
@@ -14212,7 +14126,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:37:31.503484+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "64f484d97fb24609a28e0250",
@@ -14258,7 +14172,7 @@
       ],
       "curated_action_id": "PA-066",
       "curated_action_title": "Let approvers correct submitted inputs before approval",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "67173cd806d353fc3299f57b",
@@ -14304,7 +14218,7 @@
       ],
       "curated_action_id": "PA-049",
       "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "687ced0964a12a95ef832dd9",
@@ -14359,7 +14273,7 @@
       ],
       "curated_action_id": "PA-030d",
       "curated_action_title": "Add an address input with autocomplete from a configurable mapping provider",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "649bdc45bc9cc409261c2477",
@@ -14401,7 +14315,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:38:01.284430+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "660da56051cc0bb9c88ec814",
@@ -14443,7 +14357,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:38:07.409326+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66cc92d3c146ef3febde98ab",
@@ -14477,7 +14391,7 @@
       "short_summary": "When a JQ expression produces an invalid result inside an action form, no one is alerted, so bad values can go unnoticed.",
       "user_need": "Wants to be notified when a calculated value used in an action is invalid so it can be fixed before causing problems.",
       "suggested_product_action": "Detect and alert relevant stakeholders when a JQ expression result used in an action is invalid",
-      "confidence": 0.6,
+      "confidence": 0.5,
       "needs_human_review": true,
       "evidence_excerpt": "We should find a way to alert relevant stakeholders to the fact that the calculated value is invalid when it occurs.",
       "secondary_categories": [
@@ -14498,10 +14412,7 @@
       ],
       "curated_action_id": "PA-071",
       "curated_action_title": "Modernize JQ authoring, validation and runtime visibility",
-      "review_reasons": [
-        "near-identical to the surface-JQ-errors record, which is filed under logs and error diagnostics"
-      ],
-      "review_confidence": 0.5
+      "human_reviewed": true
     },
     {
       "feedback_id": "66e68c9ff85bef2fa5d4dc82",
@@ -14535,7 +14446,7 @@
       "short_summary": "When a JQ expression used in an action fails, the action is silently skipped with no visible error, leaving builders unaware anything went wrong.",
       "user_need": "Builders need to know when and why a JQ-based rule fails so they can fix broken actions or automations.",
       "suggested_product_action": "Surface JQ evaluation errors in a monitorable log or alert so failures in actions and automations are visible and actionable.",
-      "confidence": 0.72,
+      "confidence": 0.8,
       "needs_human_review": false,
       "evidence_excerpt": "when there is an error with a JQ, you can't see it, and usually, the action is skipped",
       "secondary_categories": [
@@ -14556,8 +14467,7 @@
       ],
       "curated_action_id": "PA-047",
       "curated_action_title": "Surface complete backend and expression error diagnostics",
-      "review_reasons": [],
-      "review_confidence": 0.8
+      "human_reviewed": true
     },
     {
       "feedback_id": "673bceee3240094e0c96bc6c",
@@ -14599,7 +14509,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:38:29.969143+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66e985470be4dcfd3da6e336",
@@ -14654,7 +14564,7 @@
       ],
       "curated_action_id": "PA-002",
       "curated_action_title": "Use representative entity data in the backend JQ testing playground",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65a512ccbb34b59cd65ce460",
@@ -14683,7 +14593,7 @@
       "short_summary": "There is no standardized way to send log messages to a specific action run from an external system.",
       "user_need": "A generic, standardized way to attach log messages to a running action from outside systems.",
       "suggested_product_action": "Add a generic invocation method that sends log messages to a specified action run ID",
-      "confidence": 0.65,
+      "confidence": 0.6,
       "needs_human_review": true,
       "evidence_excerpt": "Add the option to use a generic invocation method that sends a log message to an action run ID provided as an input.",
       "secondary_categories": [],
@@ -14700,10 +14610,7 @@
       ],
       "curated_action_id": "PA-038",
       "curated_action_title": "Provide a generic invocation method that posts log messages to a Run",
-      "review_reasons": [
-        "a new invocation method whose purpose is logging - artifact and outcome sit in different categories"
-      ],
-      "review_confidence": 0.6
+      "human_reviewed": true
     },
     {
       "feedback_id": "6589bbb30ae0869b95c141cd",
@@ -14756,7 +14663,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-043",
       "curated_action_title": "Make Execution Agent payload handling configurable in the UI",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "6481fb245cf5a50d549f4fdb",
@@ -14802,7 +14709,7 @@
       ],
       "curated_action_id": "PA-049",
       "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "693ffd899279e1a4c35ca2c0",
@@ -14836,7 +14743,7 @@
       "short_summary": "Action builders can accidentally remove all execute permissions from an action, leaving no one able to run it.",
       "user_need": "Ensure an action always retains at least one valid execute permission so it does not become unusable.",
       "suggested_product_action": "Prevent saving an action configuration with zero execute permissions, or default to retaining admin execute access",
-      "confidence": 0.85,
+      "confidence": 0.75,
       "needs_human_review": false,
       "evidence_excerpt": "execute permissions can be removed entirely, which allows an action to be saved with no execute permissions at all",
       "secondary_categories": [
@@ -14855,8 +14762,7 @@
       "topic_tags": [],
       "curated_action_id": "PA-069",
       "curated_action_title": "Add a guided permission authoring, validation and debugging experience",
-      "review_reasons": [],
-      "review_confidence": 0.75
+      "human_reviewed": true
     },
     {
       "feedback_id": "6481f12a7635744f37484976",
@@ -14890,7 +14796,7 @@
       "short_summary": "Administrators need the ability to require approval before certain sensitive self-service actions can run.",
       "user_need": "Ensure sensitive actions are reviewed and approved before execution while still letting users self-serve.",
       "suggested_product_action": "Enable configurable approval steps on self-service actions with notification of the approving party",
-      "confidence": 0.6,
+      "confidence": 0.95,
       "needs_human_review": false,
       "evidence_excerpt": "Admins can define an approval step on chosen self-service actions.",
       "secondary_categories": [
@@ -14911,8 +14817,7 @@
       ],
       "curated_action_id": "PA-063c",
       "curated_action_title": "Provide a configurable manual approval step on Actions",
-      "review_reasons": [],
-      "review_confidence": 0.95
+      "human_reviewed": true
     },
     {
       "feedback_id": "69a98a661fe40914834d9831",
@@ -14967,7 +14872,7 @@
       ],
       "curated_action_id": "PA-068e",
       "curated_action_title": "Allow builders to exclude hidden inputs from approval emails",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "68f92f09f3aea6791833224b",
@@ -15013,7 +14918,7 @@
       ],
       "curated_action_id": "PA-063b",
       "curated_action_title": "Provide approval bypass and admin override",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "699328e947c850515815cb26",
@@ -15068,7 +14973,7 @@
       ],
       "curated_action_id": "PA-061",
       "curated_action_title": "Add granular roles for Action authoring and Run management",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65685e7528ed3bfa080d5deb",
@@ -15114,7 +15019,7 @@
       ],
       "curated_action_id": "PA-048",
       "curated_action_title": "Provide global Run analytics and dashboard widgets",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "662a16854790d8da141e4e6e",
@@ -15160,7 +15065,7 @@
       ],
       "curated_action_id": "PA-049b",
       "curated_action_title": "Support configurable dynamic Run names derived from inputs and entity properties",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "69523d930fce6a18f6f14a07",
@@ -15206,7 +15111,7 @@
       ],
       "curated_action_id": "PA-019",
       "curated_action_title": "Retry or duplicate a Run while preserving inputs",
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "65df7d3e35b41704bb704566",
@@ -15248,7 +15153,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:42:15.226629+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "66c7442779c2903026d548f3",
@@ -15290,7 +15195,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:42:20.849801+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     },
     {
       "feedback_id": "669f74497bdca315573a9352",
@@ -15332,7 +15237,7 @@
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:42:26.842578+00:00",
       "topic_tags": [],
-      "review_reasons": []
+      "human_reviewed": false
     }
   ]
 }

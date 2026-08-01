@@ -1,10 +1,13 @@
-"""The review flag means one thing: a reviewer read the record and was unsure.
+"""The review flag is exactly one rule: confidence < THRESHOLD.
 
-These guard the property that made the flag worth rebuilding. Before, it was a
-boolean set by three unrelated causes, so "Needs human review" could sit beside
-"Confidence 0.85" and read as a contradiction. The tests below fail if anything
--- a reconciliation re-run, a reclassification, a hand edit -- puts a flag on a
-record for any reason other than a reviewer's verdict.
+Before, "needs_human_review" was a boolean set by three unrelated causes --
+classifier confidence, a workbook disagreement, a migration marker -- so a
+card could read "Confidence 0.85" beside "Needs human review" and look like
+the app contradicting itself. 59 previously flagged records were read by a
+reviewer, who gave each one a confidence of their own; for those records
+`confidence` in the data now *is* the reviewer's number, and the flag is
+just a threshold on whichever number -- reviewer's or classifier's -- sits in
+that one field. The tests below fail if anything reintroduces a second cause.
 """
 
 from __future__ import annotations
@@ -29,81 +32,68 @@ def verdicts() -> dict[str, dict]:
     return review.load_adjudications()
 
 
-def test_every_flag_traces_to_a_verdict_below_threshold(records, verdicts):
-    """No record is flagged unless a reviewer judged it below the threshold."""
+def test_the_flag_is_exactly_confidence_below_threshold(records):
+    """No exceptions: not scope, not a workbook marker, not a disagreement."""
     for record in records:
-        if not record.get(review.FLAG_FIELD):
-            continue
-        fid = str(record["feedback_id"])
-        verdict = verdicts.get(fid)
-        assert verdict is not None, f"{fid} is flagged with no reviewer verdict"
-        assert verdict["confidence"] < review.THRESHOLD, (
-            f"{fid} is flagged but the reviewer scored it "
-            f"{verdict['confidence']}, at or above {review.THRESHOLD}")
+        expected = float(record.get(review.CONFIDENCE_FIELD) or 1.0) < review.THRESHOLD
+        assert bool(record.get(review.FLAG_FIELD)) is expected, (
+            f"{record['feedback_id']}: confidence "
+            f"{record.get(review.CONFIDENCE_FIELD)} but flag is "
+            f"{record.get(review.FLAG_FIELD)}")
 
 
-def test_every_verdict_at_or_above_threshold_is_cleared(records, verdicts):
-    """The converse: being sure clears the flag, it does not merely allow it."""
+def test_a_reviewed_records_confidence_is_the_reviewers_own_number(records, verdicts):
+    """For the 59 (60, with the one the safety net caught), the field is mine."""
     by_id = {str(r["feedback_id"]): r for r in records}
     for fid, verdict in verdicts.items():
         record = by_id.get(fid)
         if record is None:
             continue  # a verdict for a record a later run dropped
-        expected = verdict["confidence"] < review.THRESHOLD
-        assert bool(record.get(review.FLAG_FIELD)) is expected, (
-            f"{fid}: reviewer scored {verdict['confidence']} but the flag is "
-            f"{record.get(review.FLAG_FIELD)}")
+        assert record[review.CONFIDENCE_FIELD] == pytest.approx(verdict["confidence"]), (
+            f"{fid}: reviewer scored {verdict['confidence']} but the record's "
+            f"confidence is {record[review.CONFIDENCE_FIELD]}")
+        assert record.get(review.REVIEWED_FIELD) is True
 
 
-def test_a_flagged_record_says_why(records):
-    """The badge names the reason, so a flag with no reason cannot ship."""
+def test_an_unreviewed_record_keeps_its_own_field_and_flag(records, verdicts):
+    """The instruction was explicit: leave every non-reviewed record as is."""
+    unreviewed = [r for r in records
+                 if str(r["feedback_id"]) not in verdicts]
+    assert unreviewed, "no unreviewed records in this dataset -- fixture is stale"
+    for record in unreviewed:
+        assert record.get(review.REVIEWED_FIELD) is False
+
+
+def test_no_stray_reasons_or_review_confidence_field(records):
+    """The two-field, reasoned design was replaced, not layered on top of."""
     for record in records:
-        if record.get(review.FLAG_FIELD):
-            reasons = record.get(review.REASONS_FIELD) or []
-            assert reasons and all(str(r).strip() for r in reasons), (
-                f"{record['feedback_id']} is flagged with no reason to show")
+        assert "review_reasons" not in record, record["feedback_id"]
+        assert "review_confidence" not in record, record["feedback_id"]
 
 
-def test_an_unflagged_record_carries_no_stray_reason(records):
-    """A cleared record must not keep the wording that explained its flag."""
-    for record in records:
-        if not record.get(review.FLAG_FIELD):
-            assert not (record.get(review.REASONS_FIELD) or []), (
-                f"{record['feedback_id']} is not flagged but still has reasons")
-
-
-def test_confidence_alone_never_sets_the_flag(records):
-    """The bug that started this: the classifier's own score does not decide.
-
-    A low-confidence record the reviewer was sure about is cleared, and that is
-    the point -- so at least one such record must exist, or the test is passing
-    on an empty set.
+def test_apply_computes_the_flag_from_the_final_confidence():
+    """Applied to a record flagged by something else, the flag is recomputed
+    from whichever confidence ends up on the record -- reviewer's if there is
+    a verdict, the record's own otherwise.
     """
-    cleared_despite_low_confidence = [
-        r for r in records
-        if not r.get(review.FLAG_FIELD) and float(r.get("confidence") or 1.0) < 0.7
-    ]
-    assert cleared_despite_low_confidence, (
-        "no low-confidence record was cleared -- the flag may have silently "
-        "gone back to tracking classifier confidence")
-
-
-def test_apply_is_the_only_thing_that_sets_the_flag():
-    """Applied to a record flagged by something else, the flag is recomputed."""
     stale = [
-        {"feedback_id": "a", "needs_human_review": True,
-         "review_reasons": ["low classifier confidence"]},
-        {"feedback_id": "b", "needs_human_review": False},
+        {"feedback_id": "a", "confidence": 0.95, "needs_human_review": True},
+        {"feedback_id": "b", "confidence": 0.95, "needs_human_review": False},
+        {"feedback_id": "c", "confidence": 0.4, "needs_human_review": False},
     ]
-    counts = review.apply_adjudications(stale, {
-        "b": {"confidence": 0.4, "note": "genuinely ambiguous"},
-    })
+    counts = review.apply_adjudications(stale, {"b": {"confidence": 0.4}})
 
-    assert stale[0][review.FLAG_FIELD] is False, "a flag with no verdict survived"
-    assert stale[0][review.REASONS_FIELD] == []
-    assert stale[1][review.FLAG_FIELD] is True, "a verdict below threshold did not flag"
-    assert stale[1][review.REASONS_FIELD] == ["genuinely ambiguous"]
-    assert counts == {"flagged": 1, "cleared": 0, "unjudged_cleared": 1}
+    assert stale[0][review.FLAG_FIELD] is False, "high confidence but still flagged"
+    assert stale[0][review.REVIEWED_FIELD] is False
+
+    assert stale[1][review.CONFIDENCE_FIELD] == 0.4, "reviewer's number wasn't substituted"
+    assert stale[1][review.FLAG_FIELD] is True
+    assert stale[1][review.REVIEWED_FIELD] is True
+
+    assert stale[2][review.CONFIDENCE_FIELD] == 0.4, "untouched record's confidence changed"
+    assert stale[2][review.FLAG_FIELD] is True
+
+    assert counts == {"reviewed": 1, "flagged": 2}
 
 
 def _card(**record) -> str:
@@ -121,35 +111,27 @@ def _card(**record) -> str:
     return render_feedback_cards([{**base, **record}])
 
 
-def test_the_card_names_whose_confidence_it_shows():
-    """The model's score and the reviewer's are different judgements.
-
-    Showing one unlabelled beside the other's verdict is what made a card read
-    as self-contradictory in both directions: 0.85 next to a flag, and 0.55
-    next to no flag.
+def test_the_card_shows_one_confidence_and_a_plain_badge():
+    """The badge no longer carries a reason -- the confidence chip already
+    tells the reader whose number it is showing.
     """
-    html = _card(confidence=0.55, review_confidence=0.92,
-                 needs_human_review=False, review_reasons=[])
-    assert "Model confidence 0.55" in html
+    html = _card(confidence=0.92, human_reviewed=True, needs_human_review=False)
+    assert "Model confidence 0.92" in html
     assert "Reviewed - classification confirmed" in html
     assert "Needs human review" not in html
 
 
-def test_a_record_nobody_reviewed_claims_nothing():
-    """NaN is truthy and formats as "nan"; the card must not report it."""
-    html = _card(review_confidence=float("nan"), needs_human_review=False)
-    assert "Reviewed" not in html
-    assert "nan" not in html.lower().replace("canonical", "")
-
-    missing = _card(needs_human_review=False)
-    assert "Reviewed" not in missing
-
-
-def test_a_flagged_card_shows_the_reason_not_the_confirmation():
-    html = _card(confidence=0.85, review_confidence=0.45,
-                 needs_human_review=True, review_reasons=["genuinely ambiguous"])
-    assert "Needs human review: genuinely ambiguous" in html
+def test_a_flagged_card_shows_the_plain_badge_only():
+    html = _card(confidence=0.45, human_reviewed=True, needs_human_review=True)
+    assert "Needs human review</span>" in html, "badge must not carry a reason"
     assert "Reviewed - classification confirmed" not in html
+
+
+def test_an_unreviewed_cleared_card_shows_no_confirmation():
+    """Nobody looked at this record; the card must not claim otherwise."""
+    html = _card(confidence=0.9, human_reviewed=False, needs_human_review=False)
+    assert "Reviewed" not in html
+    assert "Needs human review" not in html
 
 
 def test_a_missing_verdict_file_is_not_a_crash(tmp_path):

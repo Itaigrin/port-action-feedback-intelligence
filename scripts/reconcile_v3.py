@@ -162,11 +162,12 @@ def main() -> int:
         if str(row.get("assignment_review_status", "")).strip() == REVIEW_STATUS_FLAG:
             stats["workbook_review_flag"] += 1
 
-    # The review flag is set here and nowhere else, from the reviewer's
-    # verdicts alone -- so re-running reconciliation cannot reintroduce a flag
-    # that mixes classifier confidence, a workbook disagreement and a migration
-    # marker into one boolean nobody can act on.
-    counts = review.apply_adjudications(records)
+    # The review flag is set here and nowhere else: confidence < THRESHOLD, one
+    # rule, so re-running reconciliation cannot reintroduce a flag that mixes
+    # classifier confidence, a workbook disagreement and a migration marker
+    # into one boolean nobody can act on. A reviewed record's confidence is the
+    # reviewer's own number; every other record keeps the classifier's.
+    review_counts = review.apply_adjudications(records)
 
     # A disagreement no reviewer has ruled on would otherwise be cleared in
     # silence, which is the one way this design could lose information. Named,
@@ -187,8 +188,9 @@ def main() -> int:
         "taxonomy_agreed": stats["taxonomy_agreed"],
         "taxonomy_disagreements": stats["taxonomy_disagreement"],
         "relevance_disagreements": stats["relevance_disagreement"],
-        "by_model": {name: dict(counts) for name, counts in per_model.items()},
-        "review_flag": {"threshold": review.THRESHOLD, **counts,
+        "by_model": {name: dict(model_counts)
+                    for name, model_counts in per_model.items()},
+        "review_flag": {"threshold": review.THRESHOLD, **review_counts,
                         "disagreements_without_verdict": len(unjudged)},
     }
 
@@ -202,25 +204,24 @@ def main() -> int:
           f"(workbook kept, flagged)")
     print(f"relevance disagreements : {stats['relevance_disagreement']} "
           f"(workbook kept, flagged)")
-    print(f"\nreview flag, from the reviewer's verdicts only "
-          f"(threshold {review.THRESHOLD}):")
-    print(f"  kept flagged          : {counts['flagged']}")
-    print(f"  cleared by a verdict  : {counts['cleared']}")
-    print(f"  no verdict, cleared   : {counts['unjudged_cleared']}")
+    print(f"\nreview flag: confidence < {review.THRESHOLD}, reviewer's number "
+          f"where one exists:")
+    print(f"  records reviewed       : {review_counts['reviewed']}")
+    print(f"  flagged now            : {review_counts['flagged']}")
     if unjudged:
-        print(f"  !! {len(unjudged)} disagreement(s) have no reviewer verdict "
-              f"and were cleared:")
+        print(f"  !! {len(unjudged)} disagreement(s) have no reviewer verdict:")
         for d in unjudged[:10]:
             print(f"     {d['feedback_id']}  {d['title']}")
 
     # Per model, because a single agreement rate across two different models
     # would describe neither of them.
     print("\n  agreement by model (in-scope records only):")
-    for name, counts in sorted(per_model.items()):
-        seen = counts["taxonomy_agreed"] + counts["taxonomy_disagreement"]
-        rate = f"{counts['taxonomy_agreed'] / seen:.1%}" if seen else "n/a"
-        print(f"    {name:18} {counts['taxonomy_agreed']:>3}/{seen:<3} = {rate:>6}"
-              f"   (+{counts['out_of_scope_agreed']} out-of-scope agreed)")
+    for name, model_counts in sorted(per_model.items()):
+        seen = model_counts["taxonomy_agreed"] + model_counts["taxonomy_disagreement"]
+        rate = f"{model_counts['taxonomy_agreed'] / seen:.1%}" if seen else "n/a"
+        print(f"    {name:18} {model_counts['taxonomy_agreed']:>3}/{seen:<3} = "
+              f"{rate:>6}   (+{model_counts['out_of_scope_agreed']} "
+              f"out-of-scope agreed)")
     if not complete:
         print(f"\n!! INCOMPLETE: {len(unclassified)} records were never classified.")
         print("   Re-run `python -m src.analysis.classify` to fill the gap; the "
