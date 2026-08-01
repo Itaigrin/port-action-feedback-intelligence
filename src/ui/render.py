@@ -547,7 +547,15 @@ def render_feedback_cards(records: list[dict]) -> str:
         )
         meta.append(f'<span class="afi-badge b-purple">{_esc(r["persona"])}</span>')
         if r.get("needs_human_review"):
-            meta.append('<span class="afi-badge b-amber">Needs human review</span>')
+            # Say *why*. The flag carries several unrelated meanings -- the
+            # classifier was unsure, the v3 migration marked it, or the
+            # reclassification disagreed with the assignment it was given --
+            # and a bare badge beside "Confidence 0.85" reads as the app
+            # contradicting itself rather than as a queue of things to settle.
+            reasons = [str(x) for x in (r.get("review_reasons") or []) if x]
+            why = f": {'; '.join(reasons)}" if reasons else ""
+            meta.append(f'<span class="afi-badge b-amber">Needs human review'
+                        f'{_esc(why)}</span>')
         # A reader must be able to tell a human label from a model one, so an
         # edited record says so on its face rather than only in the file.
         if r.get("manually_edited"):

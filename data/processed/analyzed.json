@@ -92,7 +92,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:49:46.384041+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "64a512f97525ac09ce7a21c4",
@@ -137,7 +138,8 @@
         "Action discovery, grouping & ordering"
       ],
       "curated_action_id": "PA-010",
-      "curated_action_title": "Add Action categorization and configurable ordering"
+      "curated_action_title": "Add Action categorization and configurable ordering",
+      "review_reasons": []
     },
     {
       "feedback_id": "689c4e5eda725fecc3d241bf",
@@ -191,7 +193,11 @@
         "Multi-step workflows"
       ],
       "curated_action_id": "PA-055",
-      "curated_action_title": "Make multi-step, multi-backend orchestration first class"
+      "curated_action_title": "Make multi-step, multi-backend orchestration first class",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "66c458f7b657d8bbcce59e6f",
@@ -232,7 +238,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:50:26.595124+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "64d09ad21cf6f309b9affae5",
@@ -277,7 +284,8 @@
         "Retry, rerun & duplicate execution"
       ],
       "curated_action_id": "PA-019",
-      "curated_action_title": "Retry or duplicate a Run while preserving inputs"
+      "curated_action_title": "Retry or duplicate a Run while preserving inputs",
+      "review_reasons": []
     },
     {
       "feedback_id": "689370a809cde968bdd30c8a",
@@ -318,7 +326,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:50:39.438206+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "64acb1620a49ed5883454283",
@@ -359,7 +368,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:50:43.723729+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69c0e8a9943dfd034f363563",
@@ -404,7 +414,8 @@
         "Input & cross-field validation"
       ],
       "curated_action_id": "PA-072",
-      "curated_action_title": "Expand native form validation rules and feedback"
+      "curated_action_title": "Expand native form validation rules and feedback",
+      "review_reasons": []
     },
     {
       "feedback_id": "657042ba954a046b2cfa8ab1",
@@ -445,7 +456,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:50:57.156936+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "65809c20bdd786e7c10ce20e",
@@ -490,7 +502,8 @@
         "Form layout, sections & multi-page forms"
       ],
       "curated_action_id": "PA-026",
-      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing"
+      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing",
+      "review_reasons": []
     },
     {
       "feedback_id": "66c2e3fc26a6ce7012e28f00",
@@ -533,7 +546,8 @@
       "analyzed_at": "2026-07-31T09:51:09.390623+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-069",
-      "curated_action_title": "Add a guided permission authoring, validation and debugging experience"
+      "curated_action_title": "Add a guided permission authoring, validation and debugging experience",
+      "review_reasons": []
     },
     {
       "feedback_id": "660e76e9c5ad749ac2a191e0",
@@ -574,7 +588,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:14.696345+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67fd6ef65f0ba2fc072cab94",
@@ -615,7 +630,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:21.472498+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "65cb2a1d8c99793a14bf35b8",
@@ -656,7 +672,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:26.459290+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6548e76c830f6a63732c6653",
@@ -710,7 +727,8 @@
         "Dynamic & dependent inputs"
       ],
       "curated_action_id": "PA-022",
-      "curated_action_title": "Populate dynamic form options from external APIs"
+      "curated_action_title": "Populate dynamic form options from external APIs",
+      "review_reasons": []
     },
     {
       "feedback_id": "66c4a511a4e3557f499955b6",
@@ -751,7 +769,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:37.239160+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6678106680bb69546498d518",
@@ -792,7 +811,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:42.056347+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6708e7846dbf44702a18b7d2",
@@ -833,7 +853,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:51:46.843905+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66b884521be290a30c801053",
@@ -878,7 +899,10 @@
         "Approval notifications"
       ],
       "curated_action_id": "PA-068d",
-      "curated_action_title": "Notify requesters when their request is approved or rejected"
+      "curated_action_title": "Notify requesters when their request is approved or rejected",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "66b1434bd12b821c86cbc7fc",
@@ -930,7 +954,10 @@
       "analyzed_at": "2026-07-31T09:52:05.609776+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-069",
-      "curated_action_title": "Add a guided permission authoring, validation and debugging experience"
+      "curated_action_title": "Add a guided permission authoring, validation and debugging experience",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "68c27182f9c430044f39113f",
@@ -975,7 +1002,8 @@
         "Action visibility & eligibility"
       ],
       "curated_action_id": "PA-058b",
-      "curated_action_title": "Hide Actions a user cannot execute from catalog surfaces"
+      "curated_action_title": "Hide Actions a user cannot execute from catalog surfaces",
+      "review_reasons": []
     },
     {
       "feedback_id": "68ba82aac2bfaeb146b7e506",
@@ -1016,7 +1044,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:18.562966+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6481fa485cf5a50d549eaa3c",
@@ -1068,7 +1097,8 @@
       "analyzed_at": "2026-07-31T09:52:33.767934+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-041",
-      "curated_action_title": "Provide universal payload transformation functions"
+      "curated_action_title": "Provide universal payload transformation functions",
+      "review_reasons": []
     },
     {
       "feedback_id": "6481f8653a354e3a958a0c03",
@@ -1109,7 +1139,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:39.492963+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66bdb75e9101ab1dd7336f90",
@@ -1150,7 +1181,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:44.213665+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "673de7fdb92a3254de6a3aea",
@@ -1191,7 +1223,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:52:48.736133+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67fe69fc077f02acb331e710",
@@ -1245,7 +1278,11 @@
         "Entity and resource targeting"
       ],
       "curated_action_id": "PA-006",
-      "curated_action_title": "Decouple Actions from a single required Blueprint"
+      "curated_action_title": "Decouple Actions from a single required Blueprint",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "66c8d155bc622140de9a1e79",
@@ -1297,7 +1334,12 @@
       "analyzed_at": "2026-07-31T09:53:06.672126+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-035",
-      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data"
+      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
+      "review_reasons": [
+        "classification disputed",
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "661812f8f2d3cbf4dabfe941",
@@ -1351,7 +1393,8 @@
         "Intermediate approvals"
       ],
       "curated_action_id": "PA-056",
-      "curated_action_title": "Support approval gates inside running workflows"
+      "curated_action_title": "Support approval gates inside running workflows",
+      "review_reasons": []
     },
     {
       "feedback_id": "66ed917798991dce147b5cff",
@@ -1405,7 +1448,8 @@
         "Approval notifications"
       ],
       "curated_action_id": "PA-068",
-      "curated_action_title": "Target approval notifications using the same dynamic permission rules that select approvers"
+      "curated_action_title": "Target approval notifications using the same dynamic permission rules that select approvers",
+      "review_reasons": []
     },
     {
       "feedback_id": "64f4abe4fd7c2d092c0ce671",
@@ -1450,7 +1494,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-048",
-      "curated_action_title": "Provide global Run analytics and dashboard widgets"
+      "curated_action_title": "Provide global Run analytics and dashboard widgets",
+      "review_reasons": []
     },
     {
       "feedback_id": "6671999837fce115c9971b8d",
@@ -1480,7 +1525,7 @@
       "user_need": "Ensure that actions performed in external systems reflect the requesting user's own permissions and identity from the shared IAM provider.",
       "suggested_product_action": "Enable delegated execution of self-service actions using the invoking user's identity and permissions from the shared IAM provider",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "the action should be performed on behalf of that user, inheriting their identity, role-based access controls (RBAC), and authorized privileges",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -1495,7 +1540,10 @@
         "Authentication & delegated execution"
       ],
       "curated_action_id": "PA-031",
-      "curated_action_title": "Support delegated and per-request authentication"
+      "curated_action_title": "Support delegated and per-request authentication",
+      "review_reasons": [
+        "the classifier asked for review"
+      ]
     },
     {
       "feedback_id": "65797cbdedc7e06daa98a9c7",
@@ -1536,7 +1584,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:53:43.320754+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "672b5615349fd99b0f353e36",
@@ -1581,7 +1630,8 @@
         "Editing & unsaved-change safety"
       ],
       "curated_action_id": "PA-001",
-      "curated_action_title": "Make unsaved-change detection accurate and consistent"
+      "curated_action_title": "Make unsaved-change detection accurate and consistent",
+      "review_reasons": []
     },
     {
       "feedback_id": "6853d436533319bfbf13d0ae",
@@ -1626,7 +1676,10 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-058",
-      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "679265f3a7c7da4003832a79",
@@ -1671,7 +1724,11 @@
         "Dynamic & dependent inputs"
       ],
       "curated_action_id": "PA-024",
-      "curated_action_title": "Allow calculated properties in dataset conditions"
+      "curated_action_title": "Allow calculated properties in dataset conditions",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "666ec4697bfd74c4333701ac",
@@ -1716,7 +1773,8 @@
         "Defaults & computed fields"
       ],
       "curated_action_id": "PA-020",
-      "curated_action_title": "Support reactive computed fields and read-only previews"
+      "curated_action_title": "Support reactive computed fields and read-only previews",
+      "review_reasons": []
     },
     {
       "feedback_id": "676a8b4759632bda4876a0dc",
@@ -1757,7 +1815,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:54:16.238544+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "65bb5ba2299d1b93acc3052d",
@@ -1811,7 +1870,10 @@
         "Approval policies & thresholds"
       ],
       "curated_action_id": "PA-063",
-      "curated_action_title": "Determine whether an approval is required from input values or external logic"
+      "curated_action_title": "Determine whether an approval is required from input values or external logic",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "675b0c008682d4e202eeeb9a",
@@ -1865,7 +1927,11 @@
         "Form layout, sections & multi-page forms"
       ],
       "curated_action_id": "PA-026b",
-      "curated_action_title": "Support conditional visibility of form steps based on data conditions"
+      "curated_action_title": "Support conditional visibility of form steps based on data conditions",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "65b62b199794d2cfb2ae1c65",
@@ -1910,7 +1976,8 @@
         "Input types & controls"
       ],
       "curated_action_id": "PA-029",
-      "curated_action_title": "Expand text, code, file and secret input controls"
+      "curated_action_title": "Expand text, code, file and secret input controls",
+      "review_reasons": []
     },
     {
       "feedback_id": "6583401b32150dedcd8f0e46",
@@ -1955,7 +2022,8 @@
         "Timeouts"
       ],
       "curated_action_id": "PA-015",
-      "curated_action_title": "Make Action timeout configurable"
+      "curated_action_title": "Make Action timeout configurable",
+      "review_reasons": []
     },
     {
       "feedback_id": "673df29d75cc3fb760207945",
@@ -1996,7 +2064,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:54:51.857912+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69f8eba0b353740a01c46f5e",
@@ -2037,7 +2106,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:54:58.461802+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67ed10975a2279b95e58e906",
@@ -2078,7 +2148,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:55:04.400809+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6734db6c0c9bb03c11a23807",
@@ -2123,7 +2194,8 @@
         "Defaults & computed fields"
       ],
       "curated_action_id": "PA-021",
-      "curated_action_title": "Make default-value initialization predictable"
+      "curated_action_title": "Make default-value initialization predictable",
+      "review_reasons": []
     },
     {
       "feedback_id": "67002abcd4bbc2b93566d305",
@@ -2177,7 +2249,11 @@
         "Cancel, stop & resume"
       ],
       "curated_action_id": "PA-018",
-      "curated_action_title": "Add configurable cancellation for running Actions"
+      "curated_action_title": "Add configurable cancellation for running Actions",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6a5f5f078c21fd6aad770522",
@@ -2218,7 +2294,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:55:23.806656+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6925812013fb0ed2240adb99",
@@ -2263,7 +2340,8 @@
         "Approver routing & identity"
       ],
       "curated_action_id": "PA-065",
-      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale"
+      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale",
+      "review_reasons": []
     },
     {
       "feedback_id": "65a6324c5bd75e78b7682e60",
@@ -2317,7 +2395,10 @@
         "Approver routing & identity"
       ],
       "curated_action_id": "PA-065c",
-      "curated_action_title": "Show the resolved approvers to the requester on the Run page"
+      "curated_action_title": "Show the resolved approvers to the requester on the Run page",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "66c44eb2cd45c987968ca491",
@@ -2358,7 +2439,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:55:42.886246+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "659fb8621779012e85e49c57",
@@ -2403,7 +2485,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-048",
-      "curated_action_title": "Provide global Run analytics and dashboard widgets"
+      "curated_action_title": "Provide global Run analytics and dashboard widgets",
+      "review_reasons": []
     },
     {
       "feedback_id": "67dbf184d3db9fe5bd6f51f5",
@@ -2446,7 +2529,8 @@
       "analyzed_at": "2026-07-31T09:55:56.266168+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-013",
-      "curated_action_title": "Run one Action against selected or filtered entity sets"
+      "curated_action_title": "Run one Action against selected or filtered entity sets",
+      "review_reasons": []
     },
     {
       "feedback_id": "658c538a96cacd7703dce9d5",
@@ -2487,7 +2571,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:56:01.232886+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6798fe909c392c244699944d",
@@ -2539,7 +2624,12 @@
       "analyzed_at": "2026-07-31T09:56:07.888237+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-070",
-      "curated_action_title": "Show permission-definition changes in audit history"
+      "curated_action_title": "Show permission-definition changes in audit history",
+      "review_reasons": [
+        "classification disputed",
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "64e494a2a6c07309e3af5db7",
@@ -2584,7 +2674,8 @@
         "Logs & log streaming"
       ],
       "curated_action_id": "PA-045",
-      "curated_action_title": "Make Run logs structured and readable"
+      "curated_action_title": "Make Run logs structured and readable",
+      "review_reasons": []
     },
     {
       "feedback_id": "652552a8916365c76f187d12",
@@ -2636,7 +2727,10 @@
       "analyzed_at": "2026-07-31T09:56:23.112455+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-075",
-      "curated_action_title": "Support inline backend validation before form submission"
+      "curated_action_title": "Support inline backend validation before form submission",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "669fced47627f58ee55d66ec",
@@ -2671,7 +2765,7 @@
       "user_need": "Admins need the ability to have an Action call a REST API using the requesting user's authenticated identity rather than a shared service identity.",
       "suggested_product_action": "Support configuring OAuth2/JWT delegated user authentication for Self-Service Action backend invocations",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "call a REST API endpoint with the user token required by the API for authentication and authorization purpose",
       "secondary_categories": [
         "Identity, Secrets & Security"
@@ -2690,7 +2784,10 @@
         "Authentication & delegated execution"
       ],
       "curated_action_id": "PA-031",
-      "curated_action_title": "Support delegated and per-request authentication"
+      "curated_action_title": "Support delegated and per-request authentication",
+      "review_reasons": [
+        "the classifier asked for review"
+      ]
     },
     {
       "feedback_id": "6728c6a7e9894c1a059aa821",
@@ -2735,7 +2832,11 @@
         "Backend & invocation method selection"
       ],
       "curated_action_id": "PA-036c",
-      "curated_action_title": "Provide a native Microsoft Teams Bot invocation backend"
+      "curated_action_title": "Provide a native Microsoft Teams Bot invocation backend",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6813989004de8f03ddb52f90",
@@ -2776,7 +2877,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:56:44.774454+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66dff752ac492741f6508287",
@@ -2817,7 +2919,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:56:49.949185+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69f2529d03b1298401635428",
@@ -2862,7 +2965,8 @@
         "Approval policies & thresholds"
       ],
       "curated_action_id": "PA-064",
-      "curated_action_title": "Support configurable multi-approver thresholds"
+      "curated_action_title": "Support configurable multi-approver thresholds",
+      "review_reasons": []
     },
     {
       "feedback_id": "693ffb35b3b50ecbaba2d6d4",
@@ -2903,7 +3007,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:03.338216+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68b85be373db9e11feb13bd1",
@@ -2944,7 +3049,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:09.309906+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "65755f639cb7be20f870e3ce",
@@ -2998,7 +3104,8 @@
         "Approval policies & thresholds"
       ],
       "curated_action_id": "PA-063",
-      "curated_action_title": "Determine whether an approval is required from input values or external logic"
+      "curated_action_title": "Determine whether an approval is required from input values or external logic",
+      "review_reasons": []
     },
     {
       "feedback_id": "65e7390a0b8acf82dfc933fc",
@@ -3043,7 +3150,8 @@
         "Action discovery, grouping & ordering"
       ],
       "curated_action_id": "PA-010",
-      "curated_action_title": "Add Action categorization and configurable ordering"
+      "curated_action_title": "Add Action categorization and configurable ordering",
+      "review_reasons": []
     },
     {
       "feedback_id": "69553a67723320e3d9a93ab6",
@@ -3097,7 +3205,8 @@
         "Authentication & delegated execution"
       ],
       "curated_action_id": "PA-031",
-      "curated_action_title": "Support delegated and per-request authentication"
+      "curated_action_title": "Support delegated and per-request authentication",
+      "review_reasons": []
     },
     {
       "feedback_id": "66bcd5fd1f605d678af1aa7f",
@@ -3138,7 +3247,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:42.045717+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66d864d7542dcbf9633ce7ab",
@@ -3179,7 +3289,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:46.705163+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68bd7e90a9379b38bb16db1d",
@@ -3220,7 +3331,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:51.819375+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "697724eee72002a91c1386a5",
@@ -3261,7 +3373,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:57:56.663271+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6830c7b5288a158fac75361b",
@@ -3302,7 +3415,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:01.397392+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "64f241ba50f7aa096976efe6",
@@ -3347,7 +3461,8 @@
         "Backend & invocation method selection"
       ],
       "curated_action_id": "PA-036b",
-      "curated_action_title": "Add Codefresh Classic Pipelines as a supported invocation backend"
+      "curated_action_title": "Add Codefresh Classic Pipelines as a supported invocation backend",
+      "review_reasons": []
     },
     {
       "feedback_id": "69f0734f1a722e24bcaec357",
@@ -3388,7 +3503,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:14.172969+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66d94baa3c9acf656ff773fa",
@@ -3429,7 +3545,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:19.519919+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "673cc7ccf5479baf4a9f4a75",
@@ -3470,7 +3587,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:24.470728+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6899c7023d379b03f9f77df7",
@@ -3515,7 +3633,8 @@
         "Expression and JQ rule authoring"
       ],
       "curated_action_id": "PA-071",
-      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility"
+      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility",
+      "review_reasons": []
     },
     {
       "feedback_id": "67098dae95ff13ed656df804",
@@ -3560,7 +3679,8 @@
         "Approval audit & context"
       ],
       "curated_action_id": "PA-050",
-      "curated_action_title": "Expose complete approval provenance in Run records"
+      "curated_action_title": "Expose complete approval provenance in Run records",
+      "review_reasons": []
     },
     {
       "feedback_id": "6719946e0dbd2fbb0b335147",
@@ -3601,7 +3721,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:42.359537+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "670bd28134fe68a63374c0f7",
@@ -3642,7 +3763,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:58:48.094732+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "656860c290e00a0a8901b4fd",
@@ -3687,7 +3809,8 @@
         "Defaults & computed fields"
       ],
       "curated_action_id": "PA-020",
-      "curated_action_title": "Support reactive computed fields and read-only previews"
+      "curated_action_title": "Support reactive computed fields and read-only previews",
+      "review_reasons": []
     },
     {
       "feedback_id": "697343a26bf41cfd6bc9ac53",
@@ -3741,7 +3864,8 @@
         "Input types & controls"
       ],
       "curated_action_id": "PA-030b",
-      "curated_action_title": "Add a Filters UI input type that outputs Search-API-compatible filter JSON"
+      "curated_action_title": "Add a Filters UI input type that outputs Search-API-compatible filter JSON",
+      "review_reasons": []
     },
     {
       "feedback_id": "67c68b799784f92c6176416d",
@@ -3786,7 +3910,8 @@
         "Error messages & backend responses"
       ],
       "curated_action_id": "PA-047",
-      "curated_action_title": "Surface complete backend and expression error diagnostics"
+      "curated_action_title": "Surface complete backend and expression error diagnostics",
+      "review_reasons": []
     },
     {
       "feedback_id": "6972f975d5c93c87561968d0",
@@ -3827,7 +3952,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:27.161055+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68ba8692304d62593727db35",
@@ -3868,7 +3994,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:35.456317+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6877b06180165e9a89b9823d",
@@ -3909,7 +4036,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:39.970274+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "696536f00816995e2f225d04",
@@ -3950,7 +4078,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:46.412024+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67895534042ee09b4b24a302",
@@ -3991,7 +4120,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:51.480807+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "660d66b1dab230b40bbbfd84",
@@ -4032,7 +4162,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T09:59:59.710044+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "663e9081a5869a204ddd6ae1",
@@ -4073,7 +4204,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:00:05.867871+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6584045643d41b6fd0ac313c",
@@ -4127,7 +4259,12 @@
         "Entity and resource targeting"
       ],
       "curated_action_id": "PA-006",
-      "curated_action_title": "Decouple Actions from a single required Blueprint"
+      "curated_action_title": "Decouple Actions from a single required Blueprint",
+      "review_reasons": [
+        "classification disputed",
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "682c35c03d53193a7ca01e11",
@@ -4168,7 +4305,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:01:32.600735+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "658017fae4e884edf5a34ea5",
@@ -4222,7 +4360,8 @@
         "Intermediate approvals"
       ],
       "curated_action_id": "PA-056",
-      "curated_action_title": "Support approval gates inside running workflows"
+      "curated_action_title": "Support approval gates inside running workflows",
+      "review_reasons": []
     },
     {
       "feedback_id": "669f73086d132f3ee45a4c86",
@@ -4276,7 +4415,8 @@
         "Drafts, publishing & disablement"
       ],
       "curated_action_id": "PA-003",
-      "curated_action_title": "Add Action maintenance mode"
+      "curated_action_title": "Add Action maintenance mode",
+      "review_reasons": []
     },
     {
       "feedback_id": "650acbf95b34b73cc2493ca8",
@@ -4321,7 +4461,8 @@
         "Cancel, stop & resume"
       ],
       "curated_action_id": "PA-018",
-      "curated_action_title": "Add configurable cancellation for running Actions"
+      "curated_action_title": "Add configurable cancellation for running Actions",
+      "review_reasons": []
     },
     {
       "feedback_id": "69bd58a10abc9096ad81862e",
@@ -4362,7 +4503,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:01:58.173177+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66b8c7851d97c95490e72628",
@@ -4403,7 +4545,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:03.446498+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67081c59cbd03fd852327558",
@@ -4444,7 +4587,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:08.184490+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "65b9006ef5018ed4ab27075b",
@@ -4489,7 +4633,8 @@
         "Conditional availability & placement"
       ],
       "curated_action_id": "PA-011",
-      "curated_action_title": "Support context-based Action placement rules"
+      "curated_action_title": "Support context-based Action placement rules",
+      "review_reasons": []
     },
     {
       "feedback_id": "670e6d4f1d4ba786e2faa0df",
@@ -4541,7 +4686,10 @@
       "analyzed_at": "2026-07-31T10:02:22.419129+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-013",
-      "curated_action_title": "Run one Action against selected or filtered entity sets"
+      "curated_action_title": "Run one Action against selected or filtered entity sets",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "6492ce2717e04538dd2b68f0",
@@ -4582,7 +4730,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:28.993873+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "684c4e772523f38ddde65e37",
@@ -4617,7 +4766,7 @@
       "user_need": "The user needs a single form-based action to dynamically route requests to different backend pipelines depending on the resource type selected, each with its own payload format.",
       "suggested_product_action": "Enable configuring multiple backends per action with conditional routing and per-backend payload mapping",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Due to Port's current setup, I have to combine these 5 GH actions into one since the SSA can only trigger one backend",
       "secondary_categories": [
         "Invocation & Integrations"
@@ -4636,7 +4785,10 @@
         "Multi-backend & multi-system sequencing"
       ],
       "curated_action_id": "PA-055",
-      "curated_action_title": "Make multi-step, multi-backend orchestration first class"
+      "curated_action_title": "Make multi-step, multi-backend orchestration first class",
+      "review_reasons": [
+        "the classifier asked for review"
+      ]
     },
     {
       "feedback_id": "695bf72d297ab788de024c91",
@@ -4677,7 +4829,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:02:59.334049+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a42936d80bbb7363013edcf",
@@ -4718,7 +4871,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:08.228005+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "670ec68530296ea5390dde1d",
@@ -4759,7 +4913,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:13.822654+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66ed8947ead64150da5c3793",
@@ -4800,7 +4955,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:23.761002+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67641f3021e6bd260f037ed5",
@@ -4845,7 +5001,8 @@
         "Backend & invocation method selection"
       ],
       "curated_action_id": "PA-037",
-      "curated_action_title": "Expand native catalog entity mutation invocation"
+      "curated_action_title": "Expand native catalog entity mutation invocation",
+      "review_reasons": []
     },
     {
       "feedback_id": "6984c8667a1845e176fe3732",
@@ -4890,7 +5047,8 @@
         "Run-history APIs & export"
       ],
       "curated_action_id": "PA-051",
-      "curated_action_title": "Make Run history APIs complete and exportable"
+      "curated_action_title": "Make Run history APIs complete and exportable",
+      "review_reasons": []
     },
     {
       "feedback_id": "69c4768e225c05c619446ff0",
@@ -4931,7 +5089,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:44.311339+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "659d2fac49ce63995d7e4269",
@@ -4985,7 +5144,8 @@
         "Logs & log streaming"
       ],
       "curated_action_id": "PA-046",
-      "curated_action_title": "Expand the Run log-entry API"
+      "curated_action_title": "Expand the Run log-entry API",
+      "review_reasons": []
     },
     {
       "feedback_id": "6718f84b6fa72a26e29edf8c",
@@ -5026,7 +5186,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:03:56.704671+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "693c8d0033e00c27eae1da30",
@@ -5067,7 +5228,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:04:02.275024+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "672213c2691e04e14096b3b4",
@@ -5112,7 +5274,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-058",
-      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
+      "review_reasons": []
     },
     {
       "feedback_id": "656771af070a907c6e635dc9",
@@ -5157,7 +5320,8 @@
         "Concurrency, rate limits & duplicate prevention"
       ],
       "curated_action_id": "PA-016",
-      "curated_action_title": "Prevent accidental duplicate and conflicting Runs"
+      "curated_action_title": "Prevent accidental duplicate and conflicting Runs",
+      "review_reasons": []
     },
     {
       "feedback_id": "68385892443469540b4ed3bd",
@@ -5202,7 +5366,8 @@
         "Structured & repeatable inputs"
       ],
       "curated_action_id": "PA-028",
-      "curated_action_title": "Add structured and repeatable collection inputs"
+      "curated_action_title": "Add structured and repeatable collection inputs",
+      "review_reasons": []
     },
     {
       "feedback_id": "681b0a5d2c401ce3fc35e8bc",
@@ -5247,7 +5412,8 @@
         "Expression and JQ rule authoring"
       ],
       "curated_action_id": "PA-071",
-      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility"
+      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility",
+      "review_reasons": []
     },
     {
       "feedback_id": "659823830182c070291f2d87",
@@ -5292,7 +5458,8 @@
         "Reliability & transient-failure handling"
       ],
       "curated_action_id": "PA-017",
-      "curated_action_title": "Add managed retry and backoff for transient failures"
+      "curated_action_title": "Add managed retry and backoff for transient failures",
+      "review_reasons": []
     },
     {
       "feedback_id": "688cd5bf0590fd0cef3cbead",
@@ -5333,7 +5500,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:06:13.896943+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66bdca87e78e9ec286c639a3",
@@ -5378,7 +5546,8 @@
         "Approver experience & request editing"
       ],
       "curated_action_id": "PA-066",
-      "curated_action_title": "Let approvers correct submitted inputs before approval"
+      "curated_action_title": "Let approvers correct submitted inputs before approval",
+      "review_reasons": []
     },
     {
       "feedback_id": "663767aaaa732863041977e3",
@@ -5419,7 +5588,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:06:24.603297+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6710640a41d1a5151b93a275",
@@ -5471,7 +5641,11 @@
       "analyzed_at": "2026-07-31T10:06:43.235721+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-035",
-      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data"
+      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "65c3900fc543d815a5cbf71b",
@@ -5516,7 +5690,8 @@
         "Approval notifications"
       ],
       "curated_action_id": "PA-068c",
-      "curated_action_title": "Support Kafka as an approval notification channel"
+      "curated_action_title": "Support Kafka as an approval notification channel",
+      "review_reasons": []
     },
     {
       "feedback_id": "664dfc30f03c3cdb1e67c0b7",
@@ -5561,7 +5736,8 @@
         "Preview & dry run"
       ],
       "curated_action_id": "PA-002b",
-      "curated_action_title": "Add a validation-only dry-run flag to the port-github-action"
+      "curated_action_title": "Add a validation-only dry-run flag to the port-github-action",
+      "review_reasons": []
     },
     {
       "feedback_id": "6682ab3ba742ae079012c2f5",
@@ -5602,7 +5778,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:11.247753+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68244c550f9886c27cc30388",
@@ -5643,7 +5820,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:16.053752+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "678ad59d8b818be882975a08",
@@ -5684,7 +5862,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:21.494446+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69b7e0ad6f9e96445f0f5256",
@@ -5725,7 +5904,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:27.572909+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69ba71afbd3e01f36afedec0",
@@ -5766,7 +5946,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:32.427576+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6759a71799b32f7ce302aef7",
@@ -5807,7 +5988,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:37.786245+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "692c3d3faadc67e83b9e014c",
@@ -5848,7 +6030,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:07:43.752814+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a206c5f516b94d1532bef24",
@@ -5902,7 +6085,8 @@
         "Run status & progress"
       ],
       "curated_action_id": "PA-052",
-      "curated_action_title": "Show granular real-time Run and step progress"
+      "curated_action_title": "Show granular real-time Run and step progress",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a28d09693ba6573b6a4a68e",
@@ -5947,7 +6131,8 @@
         "Structured & repeatable inputs"
       ],
       "curated_action_id": "PA-028",
-      "curated_action_title": "Add structured and repeatable collection inputs"
+      "curated_action_title": "Add structured and repeatable collection inputs",
+      "review_reasons": []
     },
     {
       "feedback_id": "68de67828ad773d9baab31b1",
@@ -6001,7 +6186,11 @@
         "Dynamic & dependent inputs"
       ],
       "curated_action_id": "PA-022",
-      "curated_action_title": "Populate dynamic form options from external APIs"
+      "curated_action_title": "Populate dynamic form options from external APIs",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "66f2e05d64936aa378c31c74",
@@ -6042,7 +6231,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:08:12.219702+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "697d2a94b7d019da22e8a296",
@@ -6083,7 +6273,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:08:17.955619+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "656c4a01ba5aabc9ac975d71",
@@ -6128,7 +6319,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-049",
-      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details"
+      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details",
+      "review_reasons": []
     },
     {
       "feedback_id": "662c18c1879e6a4fff5ed742",
@@ -6173,7 +6365,11 @@
         "Backend & invocation method selection"
       ],
       "curated_action_id": "PA-036",
-      "curated_action_title": "Add native invocation for Port-hosted actions and direct Lambda/OpenFAAS backends"
+      "curated_action_title": "Add native invocation for Port-hosted actions and direct Lambda/OpenFAAS backends",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6776cc6eb98f2dbf25dd06e7",
@@ -6218,7 +6414,8 @@
         "Input types & controls"
       ],
       "curated_action_id": "PA-029",
-      "curated_action_title": "Expand text, code, file and secret input controls"
+      "curated_action_title": "Expand text, code, file and secret input controls",
+      "review_reasons": []
     },
     {
       "feedback_id": "6970abf0757ff2b799889f3e",
@@ -6272,7 +6469,8 @@
         "Labels, descriptions & display controls"
       ],
       "curated_action_id": "PA-027",
-      "curated_action_title": "Expand field display metadata and friendly labels"
+      "curated_action_title": "Expand field display metadata and friendly labels",
+      "review_reasons": []
     },
     {
       "feedback_id": "67ff95a24f665abe872406a0",
@@ -6317,7 +6515,8 @@
         "Form layout, sections & multi-page forms"
       ],
       "curated_action_id": "PA-026",
-      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing"
+      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing",
+      "review_reasons": []
     },
     {
       "feedback_id": "687fa46eb2b52954223993ee",
@@ -6371,7 +6570,8 @@
         "Input types & controls"
       ],
       "curated_action_id": "PA-029",
-      "curated_action_title": "Expand text, code, file and secret input controls"
+      "curated_action_title": "Expand text, code, file and secret input controls",
+      "review_reasons": []
     },
     {
       "feedback_id": "69d7f5a35356befe54b0025c",
@@ -6423,7 +6623,8 @@
       "analyzed_at": "2026-07-31T10:09:47.095856+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-074",
-      "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation"
+      "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation",
+      "review_reasons": []
     },
     {
       "feedback_id": "68b6a3e99886b13d94348272",
@@ -6464,7 +6665,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:09:52.506528+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6508161951aa0709909e3647",
@@ -6509,7 +6711,8 @@
         "Dynamic & dependent inputs"
       ],
       "curated_action_id": "PA-023",
-      "curated_action_title": "Support conditional field visibility and behavior"
+      "curated_action_title": "Support conditional field visibility and behavior",
+      "review_reasons": []
     },
     {
       "feedback_id": "660d4069156ca7bcee9b5457",
@@ -6550,7 +6753,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:04.655969+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66faee7195519bf939d9fd2d",
@@ -6591,7 +6795,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:10.582879+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "64f9b9a2b9071e097d98d1c7",
@@ -6645,7 +6850,8 @@
         "API & IaC configuration management"
       ],
       "curated_action_id": "PA-004b",
-      "curated_action_title": "Support Action permission configuration in the Pulumi provider"
+      "curated_action_title": "Support Action permission configuration in the Pulumi provider",
+      "review_reasons": []
     },
     {
       "feedback_id": "68a52b17d901352a36334062",
@@ -6686,7 +6892,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:26.980034+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "65c2596f33b5159cfc5af44c",
@@ -6727,7 +6934,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:33.276982+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68f64cb7d2693237fd1b30d3",
@@ -6768,7 +6976,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:38.858324+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67307a74d292b32d23d20648",
@@ -6809,7 +7018,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:43.572039+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67cde8014e108cfcbdabd510",
@@ -6850,7 +7060,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:49.198354+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68a854381572a8c5cd972d1d",
@@ -6891,7 +7102,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:10:53.156876+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "697b9fddcfbf975300198439",
@@ -6945,7 +7157,10 @@
         "Approval audit & context"
       ],
       "curated_action_id": "PA-050",
-      "curated_action_title": "Expose complete approval provenance in Run records"
+      "curated_action_title": "Expose complete approval provenance in Run records",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "6489ffa40370ff090a8af507",
@@ -6990,7 +7205,8 @@
         "Logs & log streaming"
       ],
       "curated_action_id": "PA-044",
-      "curated_action_title": "Stream Run logs automatically and expose quick previews"
+      "curated_action_title": "Stream Run logs automatically and expose quick previews",
+      "review_reasons": []
     },
     {
       "feedback_id": "68fb13d31fe08c9a8443f746",
@@ -7031,7 +7247,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:11:21.435682+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a5fbd5942cf04e5383526bb",
@@ -7085,7 +7302,11 @@
         "Step-level error handling & recovery"
       ],
       "curated_action_id": "PA-057",
-      "curated_action_title": "Add workflow-level failure and finally branches"
+      "curated_action_title": "Add workflow-level failure and finally branches",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6943427596a1ed2e9f41c9a8",
@@ -7126,7 +7347,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:11:43.098748+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a61eb457560de5c7714679f",
@@ -7180,7 +7402,8 @@
         "Credentials & secrets management"
       ],
       "curated_action_id": "PA-033b",
-      "curated_action_title": "Add native runtime secret resolution from HashiCorp Vault"
+      "curated_action_title": "Add native runtime secret resolution from HashiCorp Vault",
+      "review_reasons": []
     },
     {
       "feedback_id": "67b20c2e5a5587585abe688c",
@@ -7223,7 +7446,8 @@
       "analyzed_at": "2026-07-31T10:11:57.553804+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-054",
-      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources"
+      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
+      "review_reasons": []
     },
     {
       "feedback_id": "670fd226ff2831f9768b8724",
@@ -7268,7 +7492,8 @@
         "Editing & unsaved-change safety"
       ],
       "curated_action_id": "PA-001",
-      "curated_action_title": "Make unsaved-change detection accurate and consistent"
+      "curated_action_title": "Make unsaved-change detection accurate and consistent",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a211ea7d47059032854eafd",
@@ -7322,7 +7547,8 @@
         "Approver experience & request editing"
       ],
       "curated_action_id": "PA-067b",
-      "curated_action_title": "Add an approver-to-requester messaging thread on Runs awaiting approval"
+      "curated_action_title": "Add an approver-to-requester messaging thread on Runs awaiting approval",
+      "review_reasons": []
     },
     {
       "feedback_id": "66dad68c5c2fac7ded045460",
@@ -7367,7 +7593,10 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-059",
-      "curated_action_title": "Make permission policies reusable and more expressive"
+      "curated_action_title": "Make permission policies reusable and more expressive",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "6967774a6dfee8ee8e4ce896",
@@ -7408,7 +7637,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:13:22.239903+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69c8dc712c07035dee9433b5",
@@ -7449,7 +7679,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:13:28.626731+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69de783c96fa5683075c6f20",
@@ -7490,7 +7721,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:13:41.077901+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "694a6d94a4ea4d2d8a8639cb",
@@ -7531,7 +7763,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:13:45.975773+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67f4f44f1aac623580bb3589",
@@ -7585,7 +7818,8 @@
         "Structured & repeatable inputs"
       ],
       "curated_action_id": "PA-028",
-      "curated_action_title": "Add structured and repeatable collection inputs"
+      "curated_action_title": "Add structured and repeatable collection inputs",
+      "review_reasons": []
     },
     {
       "feedback_id": "6760726f4a50f11189d6e973",
@@ -7630,7 +7864,8 @@
         "Embedded & alternative launch surfaces"
       ],
       "curated_action_id": "PA-007",
-      "curated_action_title": "Expose a reusable Action-form launcher for embedded surfaces"
+      "curated_action_title": "Expose a reusable Action-form launcher for embedded surfaces",
+      "review_reasons": []
     },
     {
       "feedback_id": "649bdc0ecf7291098a1c28bf",
@@ -7684,7 +7919,10 @@
         "Reusability & templates"
       ],
       "curated_action_id": "PA-005",
-      "curated_action_title": "Generate Action inputs from Blueprint definitions"
+      "curated_action_title": "Generate Action inputs from Blueprint definitions",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "69bd84cb8555c6d9dff37d2e",
@@ -7725,7 +7963,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:14:29.363010+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66fab653f08e28ee955809ce",
@@ -7770,7 +8009,8 @@
         "Dynamic & dependent inputs"
       ],
       "curated_action_id": "PA-020",
-      "curated_action_title": "Support reactive computed fields and read-only previews"
+      "curated_action_title": "Support reactive computed fields and read-only previews",
+      "review_reasons": []
     },
     {
       "feedback_id": "67c5b4848a1334bf39898f55",
@@ -7811,7 +8051,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:14:42.829196+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "678fa2d0541d91b91a772c41",
@@ -7841,7 +8082,7 @@
       "user_need": "The user wants to avoid showing irrelevant or nonsensical actions for a given entity, so people don't accidentally trigger actions that don't apply.",
       "suggested_product_action": "Enable conditional visibility of self-service actions based on entity property values",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "the ability to make an action conditionally available (based on one of more properties of the selected entity)",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -7856,7 +8097,10 @@
         "Conditional availability & placement"
       ],
       "curated_action_id": "PA-011",
-      "curated_action_title": "Support context-based Action placement rules"
+      "curated_action_title": "Support context-based Action placement rules",
+      "review_reasons": [
+        "the classifier asked for review"
+      ]
     },
     {
       "feedback_id": "67ff7c3fc33aac9a829e4a8d",
@@ -7897,7 +8141,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:14:58.598639+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "686d29f00a9ee547d40f4afd",
@@ -7938,7 +8183,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:15:04.588047+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6915caf8c4c30db90d700b0b",
@@ -7983,7 +8229,10 @@
         "Credentials & secrets management"
       ],
       "curated_action_id": "PA-033",
-      "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration"
+      "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration",
+      "review_reasons": [
+        "scope disputed"
+      ]
     },
     {
       "feedback_id": "65f03ef6cb7414bcffae7545",
@@ -8013,7 +8262,7 @@
       "user_need": "Action builders want a simple way to let end users update catalog data (like Service team or Tier) directly through a form.",
       "suggested_product_action": "Provide a native invocation method that lets self-service actions create or update catalog entities directly.",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "will allow updating catalog entities as part of a self-service action form/automation execution",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -8028,7 +8277,10 @@
         "Backend & invocation method selection"
       ],
       "curated_action_id": "PA-037",
-      "curated_action_title": "Expand native catalog entity mutation invocation"
+      "curated_action_title": "Expand native catalog entity mutation invocation",
+      "review_reasons": [
+        "the classifier asked for review"
+      ]
     },
     {
       "feedback_id": "68127ab6fd3a32236bbbbeba",
@@ -8073,7 +8325,8 @@
         "Error messages & backend responses"
       ],
       "curated_action_id": "PA-047",
-      "curated_action_title": "Surface complete backend and expression error diagnostics"
+      "curated_action_title": "Surface complete backend and expression error diagnostics",
+      "review_reasons": []
     },
     {
       "feedback_id": "672249d560b0d661a82e3e32",
@@ -8114,7 +8367,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:15:59.362713+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "652e8946856cd53595829199",
@@ -8166,7 +8420,10 @@
       "analyzed_at": "2026-07-31T10:16:09.551160+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-042",
-      "curated_action_title": "Map selected and invoking entity data into payloads"
+      "curated_action_title": "Map selected and invoking entity data into payloads",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "64b93341745be567b249a32f",
@@ -8218,7 +8475,8 @@
       "analyzed_at": "2026-07-31T10:16:17.801681+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-042",
-      "curated_action_title": "Map selected and invoking entity data into payloads"
+      "curated_action_title": "Map selected and invoking entity data into payloads",
+      "review_reasons": []
     },
     {
       "feedback_id": "695fd7b5782c46b3dbb66644",
@@ -8259,7 +8517,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:16:25.113746+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "650fdbfb9a7a750967822366",
@@ -8304,7 +8563,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-058",
-      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
+      "review_reasons": []
     },
     {
       "feedback_id": "6696f52ddaed01573b729714",
@@ -8358,7 +8618,8 @@
         "Approval notifications"
       ],
       "curated_action_id": "PA-068",
-      "curated_action_title": "Target approval notifications using the same dynamic permission rules that select approvers"
+      "curated_action_title": "Target approval notifications using the same dynamic permission rules that select approvers",
+      "review_reasons": []
     },
     {
       "feedback_id": "6524c821ec2dd97343235238",
@@ -8403,7 +8664,8 @@
         "Approval policies & thresholds"
       ],
       "curated_action_id": "PA-064",
-      "curated_action_title": "Support configurable multi-approver thresholds"
+      "curated_action_title": "Support configurable multi-approver thresholds",
+      "review_reasons": []
     },
     {
       "feedback_id": "66781226b894b19aca35a768",
@@ -8448,7 +8710,8 @@
         "Approver routing & identity"
       ],
       "curated_action_id": "PA-065",
-      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale"
+      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale",
+      "review_reasons": []
     },
     {
       "feedback_id": "65d34b8e9dcc811d4a9300cf",
@@ -8493,7 +8756,8 @@
         "Logs & log streaming"
       ],
       "curated_action_id": "PA-044",
-      "curated_action_title": "Stream Run logs automatically and expose quick previews"
+      "curated_action_title": "Stream Run logs automatically and expose quick previews",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a4d1db5cc2f4154cf79e3d2",
@@ -8534,7 +8798,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:03.123898+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6912a0ff1465a5fbe7b1496c",
@@ -8575,7 +8840,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:09.430051+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69e62509bf8b6dbf40b878c7",
@@ -8629,7 +8895,8 @@
         "Message signing & webhook security"
       ],
       "curated_action_id": "PA-034",
-      "curated_action_title": "Use scoped service-account credentials for agent signing"
+      "curated_action_title": "Use scoped service-account credentials for agent signing",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a4f588ed639d24023826725",
@@ -8670,7 +8937,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:29.493165+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "694122c9e3a0e204c6a92ecc",
@@ -8711,7 +8979,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:34.215827+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6837498890bd8f2627580951",
@@ -8752,7 +9021,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:48.421424+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67137ce7cd8120fbbbac44f0",
@@ -8793,7 +9063,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:17:53.908979+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a2a7d26bd2d82218bddf0be",
@@ -8838,7 +9109,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-050",
-      "curated_action_title": "Expose complete approval provenance in Run records"
+      "curated_action_title": "Expose complete approval provenance in Run records",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a214383d4705903285ef4fe",
@@ -8883,7 +9155,8 @@
         "Approver experience & request editing"
       ],
       "curated_action_id": "PA-068b",
-      "curated_action_title": "Support inline Approve and Reject actions inside Slack approval messages"
+      "curated_action_title": "Support inline Approve and Reject actions inside Slack approval messages",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a436ebbac313b453851834b",
@@ -8924,7 +9197,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:18:17.459557+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a292ceff00721fb0e2d24cc",
@@ -8969,7 +9243,8 @@
         "Approval policies & thresholds"
       ],
       "curated_action_id": "PA-063b",
-      "curated_action_title": "Provide approval bypass and admin override"
+      "curated_action_title": "Provide approval bypass and admin override",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a5e16ea14f1993daab8df59",
@@ -9010,7 +9285,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:18:46.824476+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a5fd5a33da3c9382571e53c",
@@ -9064,7 +9340,8 @@
         "Shared context & output passing"
       ],
       "curated_action_id": "PA-055",
-      "curated_action_title": "Make multi-step, multi-backend orchestration first class"
+      "curated_action_title": "Make multi-step, multi-backend orchestration first class",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a62cdea0933efc13e70eab5",
@@ -9116,7 +9393,10 @@
       "analyzed_at": "2026-07-31T10:19:02.212072+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-035",
-      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data"
+      "curated_action_title": "Apply configurable masking and visibility controls to sensitive Run data",
+      "review_reasons": [
+        "scope disputed"
+      ]
     },
     {
       "feedback_id": "699c78c2ebbb27ef14d76770",
@@ -9168,7 +9448,8 @@
       "analyzed_at": "2026-07-31T10:19:10.376448+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-014",
-      "curated_action_title": "Support flexible backend-specific Run result states"
+      "curated_action_title": "Support flexible backend-specific Run result states",
+      "review_reasons": []
     },
     {
       "feedback_id": "69a7207e9505b9d5de41736b",
@@ -9213,7 +9494,8 @@
         "Run-history APIs & export"
       ],
       "curated_action_id": "PA-051",
-      "curated_action_title": "Make Run history APIs complete and exportable"
+      "curated_action_title": "Make Run history APIs complete and exportable",
+      "review_reasons": []
     },
     {
       "feedback_id": "69d83042f465810c3a2b01fc",
@@ -9254,7 +9536,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:19:32.318642+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68f8fbb8741fd60efd0e8d17",
@@ -9308,7 +9591,12 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-059",
-      "curated_action_title": "Make permission policies reusable and more expressive"
+      "curated_action_title": "Make permission policies reusable and more expressive",
+      "review_reasons": [
+        "classification disputed",
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "67adc340ed8cfaae72b680d0",
@@ -9362,7 +9650,12 @@
         "Authentication & delegated execution"
       ],
       "curated_action_id": "PA-031",
-      "curated_action_title": "Support delegated and per-request authentication"
+      "curated_action_title": "Support delegated and per-request authentication",
+      "review_reasons": [
+        "classification disputed",
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6a68eae5c3da61d5163bbf80",
@@ -9403,7 +9696,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:19:58.115967+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6826b40db0070616c963e9bf",
@@ -9457,7 +9751,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-061",
-      "curated_action_title": "Add granular roles for Action authoring and Run management"
+      "curated_action_title": "Add granular roles for Action authoring and Run management",
+      "review_reasons": []
     },
     {
       "feedback_id": "69fcfb5f510034cca6d534c3",
@@ -9498,7 +9793,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:20:40.790693+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69dd23a2310e0adffae43546",
@@ -9539,7 +9835,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:20:46.707718+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69fcfc2d78f2a5775788b55d",
@@ -9593,7 +9890,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-061",
-      "curated_action_title": "Add granular roles for Action authoring and Run management"
+      "curated_action_title": "Add granular roles for Action authoring and Run management",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a181600453998431fff58f5",
@@ -9634,7 +9932,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:22:05.396847+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "64edffb2ab1b040a223eadd5",
@@ -9679,7 +9978,8 @@
         "Action discovery, grouping & ordering"
       ],
       "curated_action_id": "PA-010",
-      "curated_action_title": "Add Action categorization and configurable ordering"
+      "curated_action_title": "Add Action categorization and configurable ordering",
+      "review_reasons": []
     },
     {
       "feedback_id": "6700179a3e7d6b9933e460cd",
@@ -9720,7 +10020,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:22:17.130357+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a0a9800ce6cec3311444ac7",
@@ -9761,7 +10062,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:22:21.808989+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67e5118773bc7a1fd199885d",
@@ -9806,7 +10108,8 @@
         "Defaults & computed fields"
       ],
       "curated_action_id": "PA-020",
-      "curated_action_title": "Support reactive computed fields and read-only previews"
+      "curated_action_title": "Support reactive computed fields and read-only previews",
+      "review_reasons": []
     },
     {
       "feedback_id": "67bc9e20e167a610dfa628f4",
@@ -9851,7 +10154,8 @@
         "Labels, descriptions & display controls"
       ],
       "curated_action_id": "PA-027",
-      "curated_action_title": "Expand field display metadata and friendly labels"
+      "curated_action_title": "Expand field display metadata and friendly labels",
+      "review_reasons": []
     },
     {
       "feedback_id": "69d3359760115cf4136a1d87",
@@ -9896,7 +10200,8 @@
         "Approver experience & request editing"
       ],
       "curated_action_id": "PA-067",
-      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view"
+      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view",
+      "review_reasons": []
     },
     {
       "feedback_id": "697bc2552c0e437d54520fb7",
@@ -9941,7 +10246,10 @@
         "Labels, descriptions & display controls"
       ],
       "curated_action_id": "PA-027",
-      "curated_action_title": "Expand field display metadata and friendly labels"
+      "curated_action_title": "Expand field display metadata and friendly labels",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "69f1052c6a8c8903012ea194",
@@ -9986,7 +10294,8 @@
         "Labels, descriptions & display controls"
       ],
       "curated_action_id": "PA-025",
-      "curated_action_title": "Allow builders to hide the Execute button on Action forms"
+      "curated_action_title": "Allow builders to hide the Execute button on Action forms",
+      "review_reasons": []
     },
     {
       "feedback_id": "67bb136c8e2de556c2957dad",
@@ -10031,7 +10340,8 @@
         "Form layout, sections & multi-page forms"
       ],
       "curated_action_id": "PA-026",
-      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing"
+      "curated_action_title": "Support collapsible sections, standalone text/dividers and configurable form sizing",
+      "review_reasons": []
     },
     {
       "feedback_id": "6719fefb0331afd33c16a86f",
@@ -10072,7 +10382,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:23:28.230545+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "683029f2c731d60cda67dc7d",
@@ -10113,7 +10424,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:23:33.363956+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6530c320bf9f35eea8c82626",
@@ -10154,7 +10466,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:23:37.642863+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67a32141d252e4db823dea60",
@@ -10208,7 +10521,10 @@
         "Input & cross-field validation"
       ],
       "curated_action_id": "PA-073",
-      "curated_action_title": "Add strict configurable validation to GitOps dry runs"
+      "curated_action_title": "Add strict configurable validation to GitOps dry runs",
+      "review_reasons": [
+        "scope disputed"
+      ]
     },
     {
       "feedback_id": "68c1d18fa34b05cc8bf233c6",
@@ -10253,7 +10569,8 @@
         "Input & cross-field validation"
       ],
       "curated_action_id": "PA-072",
-      "curated_action_title": "Expand native form validation rules and feedback"
+      "curated_action_title": "Expand native form validation rules and feedback",
+      "review_reasons": []
     },
     {
       "feedback_id": "689373dfd5c68831b44281cd",
@@ -10294,7 +10611,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:12.401189+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "678ac8dde5b2728f84b8e992",
@@ -10335,7 +10653,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:18.014292+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "692497df9b0d1dfda8e72424",
@@ -10376,7 +10695,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:22.913389+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67ae96986cf677fdc79b6969",
@@ -10421,7 +10741,8 @@
         "API & IaC configuration management"
       ],
       "curated_action_id": "PA-004",
-      "curated_action_title": "Expose a complete, copyable Action definition with a working example"
+      "curated_action_title": "Expose a complete, copyable Action definition with a working example",
+      "review_reasons": []
     },
     {
       "feedback_id": "681cd1792e2a2f763a872a9d",
@@ -10462,7 +10783,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:34.346731+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69fce3c7aa7919d7184f46f4",
@@ -10503,7 +10825,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:40.751974+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68c96ec59af77f48feee618f",
@@ -10544,7 +10867,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:24:47.249789+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66b14531ed4315cc0258b909",
@@ -10598,7 +10922,10 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-059",
-      "curated_action_title": "Make permission policies reusable and more expressive"
+      "curated_action_title": "Make permission policies reusable and more expressive",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "66718308988563c6da0bb9a9",
@@ -10652,7 +10979,8 @@
         "Approval notifications"
       ],
       "curated_action_id": "PA-068f",
-      "curated_action_title": "Include the eligible approver list in the approval webhook payload"
+      "curated_action_title": "Include the eligible approver list in the approval webhook payload",
+      "review_reasons": []
     },
     {
       "feedback_id": "67479928414b9cbfe00bf473",
@@ -10697,7 +11025,8 @@
         "Action discovery, grouping & ordering"
       ],
       "curated_action_id": "PA-012",
-      "curated_action_title": "Make Actions easier to inspect from catalog views"
+      "curated_action_title": "Make Actions easier to inspect from catalog views",
+      "review_reasons": []
     },
     {
       "feedback_id": "68fb8735235b71fd93744c18",
@@ -10727,7 +11056,7 @@
       "user_need": "Ability to specify a custom timestamp for log entries to reflect the actual event time rather than the system-generated time.",
       "suggested_product_action": "Allow users to specify a custom timestamp for each log entry in the action run log stream.",
       "confidence": 0.7,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "change the system-generated timestamp that Port assigns to each log entry to a custom timestamp we manually specify",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -10742,7 +11071,10 @@
         "Logs & log streaming"
       ],
       "curated_action_id": "PA-046",
-      "curated_action_title": "Expand the Run log-entry API"
+      "curated_action_title": "Expand the Run log-entry API",
+      "review_reasons": [
+        "the classifier asked for review"
+      ]
     },
     {
       "feedback_id": "64f4adb66cbacd09633abd68",
@@ -10787,7 +11119,11 @@
         "Logs & log streaming"
       ],
       "curated_action_id": "PA-044",
-      "curated_action_title": "Stream Run logs automatically and expose quick previews"
+      "curated_action_title": "Stream Run logs automatically and expose quick previews",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "69c68407d76b1fe6b0cdd182",
@@ -10828,7 +11164,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:25:57.136319+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "697b5ddec17133b939a63970",
@@ -10869,7 +11206,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:02.279540+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "65788dd234dcbc6adbd713bb",
@@ -10921,7 +11259,11 @@
       "analyzed_at": "2026-07-31T10:26:12.035621+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-054",
-      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources"
+      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6971456c9974c06421a7fd9e",
@@ -10962,7 +11304,10 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:20.177341+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": [
+        "scope disputed"
+      ]
     },
     {
       "feedback_id": "6582ce708d54e728d31b780f",
@@ -11014,7 +11359,10 @@
       "analyzed_at": "2026-07-31T10:26:43.609605+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-014",
-      "curated_action_title": "Support flexible backend-specific Run result states"
+      "curated_action_title": "Support flexible backend-specific Run result states",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "69aea7465215d6801a4895da",
@@ -11055,7 +11403,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:48.388117+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a4f5459edeedc4c95a9ee18",
@@ -11096,7 +11445,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:26:53.405831+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6a3c68a73959e847601ffa6f",
@@ -11150,7 +11500,10 @@
         "Pre-fill & context-specific defaults"
       ],
       "curated_action_id": "PA-008",
-      "curated_action_title": "Support context-aware filters and pre-filled pickers"
+      "curated_action_title": "Support context-aware filters and pre-filled pickers",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "6a1d45a5b06d5b62ae23dc43",
@@ -11204,7 +11557,12 @@
         "Labels, descriptions & display controls"
       ],
       "curated_action_id": "PA-025c",
-      "curated_action_title": "Support dynamic expressions for Action button text"
+      "curated_action_title": "Support dynamic expressions for Action button text",
+      "review_reasons": [
+        "classification disputed",
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6a0f0765f1bb95af4396d0aa",
@@ -11256,7 +11614,11 @@
       "analyzed_at": "2026-07-31T10:28:59.258380+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-041",
-      "curated_action_title": "Provide universal payload transformation functions"
+      "curated_action_title": "Provide universal payload transformation functions",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6a3586ab940f0b4a269d450c",
@@ -11308,7 +11670,10 @@
       "analyzed_at": "2026-07-31T10:29:07.242356+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-074",
-      "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation"
+      "curated_action_title": "Enforce Action form rules across API, JSON and MCP invocation",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "6a4b4a7e3395e568ba0e931f",
@@ -11362,7 +11727,11 @@
         "Approver experience & request editing"
       ],
       "curated_action_id": "PA-067",
-      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view"
+      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view",
+      "review_reasons": [
+        "classification disputed",
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "6a50eea591b05abba241121a",
@@ -11416,7 +11785,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-049c",
-      "curated_action_title": "Record the actor and change type behind every Run status change"
+      "curated_action_title": "Record the actor and change type behind every Run status change",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a0afd1159c18d657028cd5c",
@@ -11461,7 +11831,8 @@
         "Concurrency, rate limits & duplicate prevention"
       ],
       "curated_action_id": "PA-016",
-      "curated_action_title": "Prevent accidental duplicate and conflicting Runs"
+      "curated_action_title": "Prevent accidental duplicate and conflicting Runs",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a5979a17cd0080dd647c575",
@@ -11506,7 +11877,8 @@
         "Event triggers & action-to-automation integration"
       ],
       "curated_action_id": "PA-038b",
-      "curated_action_title": "Allow automations to trigger generically across all Actions"
+      "curated_action_title": "Allow automations to trigger generically across all Actions",
+      "review_reasons": []
     },
     {
       "feedback_id": "68f8e6c4600c5095c076abc7",
@@ -11547,7 +11919,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:29:54.450729+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "699da93f7e35df0d59976c69",
@@ -11601,7 +11974,8 @@
         "Approver routing & identity"
       ],
       "curated_action_id": "PA-065b",
-      "curated_action_title": "Preview and test dynamic approver rules before relying on them"
+      "curated_action_title": "Preview and test dynamic approver rules before relying on them",
+      "review_reasons": []
     },
     {
       "feedback_id": "697141709b01af0c80a5efd1",
@@ -11655,7 +12029,8 @@
         "Run status & progress"
       ],
       "curated_action_id": "PA-052",
-      "curated_action_title": "Show granular real-time Run and step progress"
+      "curated_action_title": "Show granular real-time Run and step progress",
+      "review_reasons": []
     },
     {
       "feedback_id": "668387c9b72e5d2f6bdb59e3",
@@ -11696,7 +12071,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:30:39.443705+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6714c78145252ac617ed7510",
@@ -11737,7 +12113,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:30:44.882948+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66cf1d13222e72ba0a6a3449",
@@ -11778,7 +12155,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:30:49.731284+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "697a4fc771aad86079ed6ec7",
@@ -11823,7 +12201,10 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-060",
-      "curated_action_title": "Enforce permissions consistently in entity inputs and creation"
+      "curated_action_title": "Enforce permissions consistently in entity inputs and creation",
+      "review_reasons": [
+        "scope disputed"
+      ]
     },
     {
       "feedback_id": "69960f60aac09c7ab5f383b1",
@@ -11864,7 +12245,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:01.034859+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "697a6d812b05462f8a614382",
@@ -11916,7 +12298,8 @@
       "analyzed_at": "2026-07-31T10:31:07.002824+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-054",
-      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources"
+      "curated_action_title": "Provide end-to-end traceability from Runs to actors and affected resources",
+      "review_reasons": []
     },
     {
       "feedback_id": "689b92a16f57ecb47b6a4946",
@@ -11957,7 +12340,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:13.025309+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "68abd0d0ab8356cd24d26bf7",
@@ -11998,7 +12382,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:18.009585+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "692dc7e9488f8201c774af52",
@@ -12039,7 +12424,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:24.685494+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "692079dd3d1696e11915f881",
@@ -12080,7 +12466,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:29.733894+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "6682e6f542028024f03af599",
@@ -12121,7 +12508,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:31:34.539111+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "656dffd9c9406ec6bc18eaa5",
@@ -12166,7 +12554,8 @@
         "Conditional availability & placement"
       ],
       "curated_action_id": "PA-011",
-      "curated_action_title": "Support context-based Action placement rules"
+      "curated_action_title": "Support context-based Action placement rules",
+      "review_reasons": []
     },
     {
       "feedback_id": "66a5e31d8a37596baba1b970",
@@ -12211,7 +12600,8 @@
         "Logs & log streaming"
       ],
       "curated_action_id": "PA-045",
-      "curated_action_title": "Make Run logs structured and readable"
+      "curated_action_title": "Make Run logs structured and readable",
+      "review_reasons": []
     },
     {
       "feedback_id": "69f84ce3477db7829b2e1f27",
@@ -12265,7 +12655,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-062",
-      "curated_action_title": "Control machine-token and invocation-source access"
+      "curated_action_title": "Control machine-token and invocation-source access",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a428d9c292f2041042ba04e",
@@ -12310,7 +12701,8 @@
         "Embedded & alternative launch surfaces"
       ],
       "curated_action_id": "PA-007",
-      "curated_action_title": "Expose a reusable Action-form launcher for embedded surfaces"
+      "curated_action_title": "Expose a reusable Action-form launcher for embedded surfaces",
+      "review_reasons": []
     },
     {
       "feedback_id": "665ede26e43d7a73fc2e947a",
@@ -12355,7 +12747,8 @@
         "Input types & controls"
       ],
       "curated_action_id": "PA-030",
-      "curated_action_title": "Support entity-selection inputs that also allow creating a new entity by free text"
+      "curated_action_title": "Support entity-selection inputs that also allow creating a new entity by free text",
+      "review_reasons": []
     },
     {
       "feedback_id": "6693781aa31de39613529762",
@@ -12409,7 +12802,8 @@
         "Input types & controls"
       ],
       "curated_action_id": "PA-030c",
-      "curated_action_title": "Add a map input type presenting friendly labels over submitted values"
+      "curated_action_title": "Add a map input type presenting friendly labels over submitted values",
+      "review_reasons": []
     },
     {
       "feedback_id": "68c9c5736bddc38edb2a4072",
@@ -12463,7 +12857,8 @@
         "Input & cross-field validation"
       ],
       "curated_action_id": "PA-072",
-      "curated_action_title": "Expand native form validation rules and feedback"
+      "curated_action_title": "Expand native form validation rules and feedback",
+      "review_reasons": []
     },
     {
       "feedback_id": "6995741f6a0047498c59fa71",
@@ -12517,7 +12912,10 @@
         "Backend & invocation method selection"
       ],
       "curated_action_id": "PA-039",
-      "curated_action_title": "Allow dynamic integration installation selection"
+      "curated_action_title": "Allow dynamic integration installation selection",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "6874c373410d522ad019cd56",
@@ -12571,7 +12969,8 @@
         "Labels, descriptions & display controls"
       ],
       "curated_action_id": "PA-027",
-      "curated_action_title": "Expand field display metadata and friendly labels"
+      "curated_action_title": "Expand field display metadata and friendly labels",
+      "review_reasons": []
     },
     {
       "feedback_id": "68405b9c4ebfd09d591cf6e6",
@@ -12606,7 +13005,7 @@
       "user_need": "Wants form defaults to be applied without triggering premature validation errors on load.",
       "suggested_product_action": "Support a UI-level default value option that applies defaults without triggering validation on initial form load.",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "preventing validation from triggering too soon during form initialization",
       "secondary_categories": [
         "Validation & Rules"
@@ -12625,7 +13024,10 @@
         "Defaults & computed fields"
       ],
       "curated_action_id": "PA-021",
-      "curated_action_title": "Make default-value initialization predictable"
+      "curated_action_title": "Make default-value initialization predictable",
+      "review_reasons": [
+        "the classifier asked for review"
+      ]
     },
     {
       "feedback_id": "6a39593eadcbcb23ea8c10c1",
@@ -12666,7 +13068,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:33:30.325073+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67d16cc97af3f6f3fce8c5f5",
@@ -12707,7 +13110,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:33:34.611396+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67bca8557957f25a12b68129",
@@ -12748,7 +13152,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:33:39.989151+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "67b21bec4539d5e7dda6a3ff",
@@ -12789,7 +13194,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:33:44.955605+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "695ce5f621c449e1fd7ce58e",
@@ -12834,7 +13240,10 @@
         "Current-user and context propagation"
       ],
       "curated_action_id": "PA-032",
-      "curated_action_title": "Expose trusted requester context to Action backends"
+      "curated_action_title": "Expose trusted requester context to Action backends",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "69c1a3bff8901915c20c5ca3",
@@ -12879,7 +13288,8 @@
         "Message signing & webhook security"
       ],
       "curated_action_id": "PA-033",
-      "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration"
+      "curated_action_title": "Support Port secret references and secret template syntax in webhook security configuration",
+      "review_reasons": []
     },
     {
       "feedback_id": "6a02b8cf83cc90c4a7254469",
@@ -12920,7 +13330,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:35:09.228821+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66b1311546017d98d92156e3",
@@ -12965,7 +13376,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-058",
-      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
+      "review_reasons": []
     },
     {
       "feedback_id": "663e275443acb838cf19a5ba",
@@ -13019,7 +13431,11 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-062",
-      "curated_action_title": "Control machine-token and invocation-source access"
+      "curated_action_title": "Control machine-token and invocation-source access",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "682f670b596869f89577489f",
@@ -13073,7 +13489,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-060",
-      "curated_action_title": "Enforce permissions consistently in entity inputs and creation"
+      "curated_action_title": "Enforce permissions consistently in entity inputs and creation",
+      "review_reasons": []
     },
     {
       "feedback_id": "67bb1b378aff64bedccf9ae2",
@@ -13118,7 +13535,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-058",
-      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions"
+      "curated_action_title": "Expose richer user, team, relation and entity attributes to dynamic permission conditions",
+      "review_reasons": []
     },
     {
       "feedback_id": "66717334f17d76cbe67bf49f",
@@ -13163,7 +13581,8 @@
         "Approver routing & identity"
       ],
       "curated_action_id": "PA-065",
-      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale"
+      "curated_action_title": "Resolve the dynamic approver set correctly, by ownership and at organisation scale",
+      "review_reasons": []
     },
     {
       "feedback_id": "67ae47018df2ac10d76e1fec",
@@ -13217,7 +13636,11 @@
         "Approver experience & request editing"
       ],
       "curated_action_id": "PA-067",
-      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view"
+      "curated_action_title": "Provide an approver dashboard and a focused, readable decision view",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "67583e21f84a4af5d432d045",
@@ -13262,7 +13685,8 @@
         "Action discovery, grouping & ordering"
       ],
       "curated_action_id": "PA-012",
-      "curated_action_title": "Make Actions easier to inspect from catalog views"
+      "curated_action_title": "Make Actions easier to inspect from catalog views",
+      "review_reasons": []
     },
     {
       "feedback_id": "65b60179d9cc3038ffc233d3",
@@ -13316,7 +13740,8 @@
         "Run status & progress"
       ],
       "curated_action_id": "PA-052",
-      "curated_action_title": "Show granular real-time Run and step progress"
+      "curated_action_title": "Show granular real-time Run and step progress",
+      "review_reasons": []
     },
     {
       "feedback_id": "674613bc11c9ac3dbb882e6a",
@@ -13361,7 +13786,8 @@
         "Run status & progress"
       ],
       "curated_action_id": "PA-053",
-      "curated_action_title": "Allow users to dismiss Run notification badges"
+      "curated_action_title": "Allow users to dismiss Run notification badges",
+      "review_reasons": []
     },
     {
       "feedback_id": "66fabe27f08e28ee95624d41",
@@ -13406,7 +13832,8 @@
         "Run-history APIs & export"
       ],
       "curated_action_id": "PA-051",
-      "curated_action_title": "Make Run history APIs complete and exportable"
+      "curated_action_title": "Make Run history APIs complete and exportable",
+      "review_reasons": []
     },
     {
       "feedback_id": "6989da7e28d1e2672b8d1f83",
@@ -13447,7 +13874,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:36:31.378378+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "69a69c2bbd9e53f8d10aa84f",
@@ -13501,7 +13929,11 @@
         "Embedded & alternative launch surfaces"
       ],
       "curated_action_id": "PA-009",
-      "curated_action_title": "Allow controlled end-to-end Action execution in Slack"
+      "curated_action_title": "Allow controlled end-to-end Action execution in Slack",
+      "review_reasons": [
+        "classification disputed",
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "693717e9a5e8f26790db4e71",
@@ -13553,7 +13985,11 @@
       "analyzed_at": "2026-07-31T10:36:53.093786+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-043",
-      "curated_action_title": "Make Execution Agent payload handling configurable in the UI"
+      "curated_action_title": "Make Execution Agent payload handling configurable in the UI",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "672b52a3c45ed39e22567862",
@@ -13598,7 +14034,8 @@
         "Form layout, sections & multi-page forms"
       ],
       "curated_action_id": "PA-025b",
-      "curated_action_title": "Allow early submission of a multi-step form once required inputs are valid"
+      "curated_action_title": "Allow early submission of a multi-step form once required inputs are valid",
+      "review_reasons": []
     },
     {
       "feedback_id": "69846d1a0515435e29b373eb",
@@ -13639,7 +14076,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:37:04.480958+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "696f2e14d1352674295c2e11",
@@ -13682,7 +14120,8 @@
       "analyzed_at": "2026-07-31T10:37:11.948027+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-040",
-      "curated_action_title": "Add a configurable cluster identifier so Runs reach the intended execution agent"
+      "curated_action_title": "Add a configurable cluster identifier so Runs reach the intended execution agent",
+      "review_reasons": []
     },
     {
       "feedback_id": "69a02d77006d0995d3c7e953",
@@ -13734,7 +14173,11 @@
       "analyzed_at": "2026-07-31T10:37:20.507169+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-040b",
-      "curated_action_title": "Add configurable TLS trust behaviour to the execution agent"
+      "curated_action_title": "Add configurable TLS trust behaviour to the execution agent",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6833b6005e235d7e91968c71",
@@ -13775,7 +14218,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:37:26.049042+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "65eeca8579a657ae7bb6cf98",
@@ -13816,7 +14260,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:37:31.503484+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "64f484d97fb24609a28e0250",
@@ -13861,7 +14306,8 @@
         "Approver experience & request editing"
       ],
       "curated_action_id": "PA-066",
-      "curated_action_title": "Let approvers correct submitted inputs before approval"
+      "curated_action_title": "Let approvers correct submitted inputs before approval",
+      "review_reasons": []
     },
     {
       "feedback_id": "67173cd806d353fc3299f57b",
@@ -13906,7 +14352,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-049",
-      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details"
+      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details",
+      "review_reasons": []
     },
     {
       "feedback_id": "687ced0964a12a95ef832dd9",
@@ -13960,7 +14407,8 @@
         "Input types & controls"
       ],
       "curated_action_id": "PA-030d",
-      "curated_action_title": "Add an address input with autocomplete from a configurable mapping provider"
+      "curated_action_title": "Add an address input with autocomplete from a configurable mapping provider",
+      "review_reasons": []
     },
     {
       "feedback_id": "649bdc45bc9cc409261c2477",
@@ -14001,7 +14449,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:38:01.284430+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "660da56051cc0bb9c88ec814",
@@ -14042,7 +14491,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:38:07.409326+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66cc92d3c146ef3febde98ab",
@@ -14096,7 +14546,11 @@
         "Expression and JQ rule authoring"
       ],
       "curated_action_id": "PA-071",
-      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility"
+      "curated_action_title": "Modernize JQ authoring, validation and runtime visibility",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "66e68c9ff85bef2fa5d4dc82",
@@ -14150,7 +14604,10 @@
         "Error messages & backend responses"
       ],
       "curated_action_id": "PA-047",
-      "curated_action_title": "Surface complete backend and expression error diagnostics"
+      "curated_action_title": "Surface complete backend and expression error diagnostics",
+      "review_reasons": [
+        "flagged during the v3 migration"
+      ]
     },
     {
       "feedback_id": "673bceee3240094e0c96bc6c",
@@ -14191,7 +14648,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:38:29.969143+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66e985470be4dcfd3da6e336",
@@ -14245,7 +14703,8 @@
         "Playground, examples & in-product help"
       ],
       "curated_action_id": "PA-002",
-      "curated_action_title": "Use representative entity data in the backend JQ testing playground"
+      "curated_action_title": "Use representative entity data in the backend JQ testing playground",
+      "review_reasons": []
     },
     {
       "feedback_id": "65a512ccbb34b59cd65ce460",
@@ -14275,7 +14734,7 @@
       "user_need": "A generic, standardized way to attach log messages to a running action from outside systems.",
       "suggested_product_action": "Add a generic invocation method that sends log messages to a specified action run ID",
       "confidence": 0.65,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Add the option to use a generic invocation method that sends a log message to an action run ID provided as an input.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -14290,7 +14749,10 @@
         "Backend & invocation method selection"
       ],
       "curated_action_id": "PA-038",
-      "curated_action_title": "Provide a generic invocation method that posts log messages to a Run"
+      "curated_action_title": "Provide a generic invocation method that posts log messages to a Run",
+      "review_reasons": [
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "6589bbb30ae0869b95c141cd",
@@ -14342,7 +14804,8 @@
       "analyzed_at": "2026-07-31T10:38:56.678764+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-043",
-      "curated_action_title": "Make Execution Agent payload handling configurable in the UI"
+      "curated_action_title": "Make Execution Agent payload handling configurable in the UI",
+      "review_reasons": []
     },
     {
       "feedback_id": "6481fb245cf5a50d549f4fdb",
@@ -14387,7 +14850,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-049",
-      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details"
+      "curated_action_title": "Show submitted inputs and the dispatched payload in Run history and Run details",
+      "review_reasons": []
     },
     {
       "feedback_id": "693ffd899279e1a4c35ca2c0",
@@ -14439,7 +14903,10 @@
       "analyzed_at": "2026-07-31T10:39:08.218192+00:00",
       "topic_tags": [],
       "curated_action_id": "PA-069",
-      "curated_action_title": "Add a guided permission authoring, validation and debugging experience"
+      "curated_action_title": "Add a guided permission authoring, validation and debugging experience",
+      "review_reasons": [
+        "classification disputed"
+      ]
     },
     {
       "feedback_id": "6481f12a7635744f37484976",
@@ -14493,7 +14960,11 @@
         "Approval policies & thresholds"
       ],
       "curated_action_id": "PA-063c",
-      "curated_action_title": "Provide a configurable manual approval step on Actions"
+      "curated_action_title": "Provide a configurable manual approval step on Actions",
+      "review_reasons": [
+        "flagged during the v3 migration",
+        "low classifier confidence"
+      ]
     },
     {
       "feedback_id": "69a98a661fe40914834d9831",
@@ -14547,7 +15018,8 @@
         "Approval notifications"
       ],
       "curated_action_id": "PA-068e",
-      "curated_action_title": "Allow builders to exclude hidden inputs from approval emails"
+      "curated_action_title": "Allow builders to exclude hidden inputs from approval emails",
+      "review_reasons": []
     },
     {
       "feedback_id": "68f92f09f3aea6791833224b",
@@ -14592,7 +15064,8 @@
         "Approval policies & thresholds"
       ],
       "curated_action_id": "PA-063b",
-      "curated_action_title": "Provide approval bypass and admin override"
+      "curated_action_title": "Provide approval bypass and admin override",
+      "review_reasons": []
     },
     {
       "feedback_id": "699328e947c850515815cb26",
@@ -14646,7 +15119,8 @@
         "RBAC & dynamic permissions"
       ],
       "curated_action_id": "PA-061",
-      "curated_action_title": "Add granular roles for Action authoring and Run management"
+      "curated_action_title": "Add granular roles for Action authoring and Run management",
+      "review_reasons": []
     },
     {
       "feedback_id": "65685e7528ed3bfa080d5deb",
@@ -14691,7 +15165,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-048",
-      "curated_action_title": "Provide global Run analytics and dashboard widgets"
+      "curated_action_title": "Provide global Run analytics and dashboard widgets",
+      "review_reasons": []
     },
     {
       "feedback_id": "662a16854790d8da141e4e6e",
@@ -14736,7 +15211,8 @@
         "Run history, audit & filtering"
       ],
       "curated_action_id": "PA-049b",
-      "curated_action_title": "Support configurable dynamic Run names derived from inputs and entity properties"
+      "curated_action_title": "Support configurable dynamic Run names derived from inputs and entity properties",
+      "review_reasons": []
     },
     {
       "feedback_id": "69523d930fce6a18f6f14a07",
@@ -14781,7 +15257,8 @@
         "Retry, rerun & duplicate execution"
       ],
       "curated_action_id": "PA-019",
-      "curated_action_title": "Retry or duplicate a Run while preserving inputs"
+      "curated_action_title": "Retry or duplicate a Run while preserving inputs",
+      "review_reasons": []
     },
     {
       "feedback_id": "65df7d3e35b41704bb704566",
@@ -14822,7 +15299,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:42:15.226629+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "66c7442779c2903026d548f3",
@@ -14863,7 +15341,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:42:20.849801+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     },
     {
       "feedback_id": "669f74497bdca315573a9352",
@@ -14904,7 +15383,8 @@
       "schema_version": "v3.0",
       "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
       "analyzed_at": "2026-07-31T10:42:26.842578+00:00",
-      "topic_tags": []
+      "topic_tags": [],
+      "review_reasons": []
     }
   ]
 }

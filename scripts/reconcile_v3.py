@@ -48,6 +48,24 @@ CLEAN = PROC / "feedback_clean.csv"
 
 REVIEW_STATUS_FLAG = "Recommended - review during v3 rerun"
 
+# Why a record is flagged. The flag used to be one boolean carrying three
+# unrelated meanings at once, so a card could read "Confidence 0.85" beside
+# "Needs human review" and look like the app contradicting itself. Recording
+# the reason is what lets the badge say which of the three it is.
+LOW_CONFIDENCE = 0.7
+REASON_LOW_CONFIDENCE = "low classifier confidence"
+REASON_TAXONOMY = "classification disputed"
+REASON_SCOPE = "scope disputed"
+REASON_MIGRATION = "flagged during the v3 migration"
+REASON_MODEL = "the classifier asked for review"
+
+
+def _add_reason(record: dict, reason: str) -> None:
+    reasons = record.setdefault("review_reasons", [])
+    if reason not in reasons:
+        reasons.append(reason)
+    record["needs_human_review"] = True
+
 
 def _cached_classification(title: str, description: str | None,
                            models: list[str]) -> tuple[dict | None, str | None]:
@@ -104,6 +122,9 @@ def main() -> int:
 
     for record in records:
         fid = str(record["feedback_id"])
+        # Recomputed every run so a resolved reason disappears instead of
+        # accumulating across reconciliations.
+        record["review_reasons"] = []
         want_relevant = scope.get(fid)
         if want_relevant is None:
             stats["not_in_workbook"] += 1
@@ -126,7 +147,7 @@ def main() -> int:
                 "model": bool(got.get("is_relevant")), "workbook": want_relevant,
                 "title": str(record.get("title", ""))[:90],
             })
-            record["needs_human_review"] = True
+            _add_reason(record, REASON_SCOPE)
             per_model[model]["relevance_disagreement"] += 1
             continue
 
@@ -154,7 +175,23 @@ def main() -> int:
                 "title": str(record.get("title", ""))[:90],
             })
             # The workbook already sits on the record. Only the flag changes.
-            record["needs_human_review"] = True
+            _add_reason(record, REASON_TAXONOMY)
+
+        # Reasons that apply whether or not the model agreed.
+        if str(row.get("assignment_review_status", "")).strip() == REVIEW_STATUS_FLAG:
+            _add_reason(record, REASON_MIGRATION)
+            stats["workbook_review_flag"] += 1
+
+        if float(record.get("confidence") or 1.0) < LOW_CONFIDENCE:
+            _add_reason(record, REASON_LOW_CONFIDENCE)
+        elif got.get("needs_human_review") and not record["review_reasons"]:
+            # The classifier asked for review for something other than
+            # confidence: ambiguity, or two categories equally plausible.
+            _add_reason(record, REASON_MODEL)
+
+        # A flag with no surviving reason is a flag nobody can action.
+        if not record["review_reasons"]:
+            record["needs_human_review"] = False
 
     in_scope = stats["taxonomy_agreed"] + stats["taxonomy_disagreement"]
     complete = not unclassified

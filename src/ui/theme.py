@@ -217,6 +217,10 @@ body {{ overflow-x: hidden; }}
 }}
 
 /* ----------------------------------------------------------------- badges */
+/* The review badge now names its reason, so it is the one badge that can get
+   long. Every other badge stays nowrap; this one wraps rather than pushing
+   past the card edge on a narrow screen. */
+.afi-badge.b-amber {{ white-space: normal; max-width: 100%; }}
 .afi-badge {{
   display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
   border-radius: 999px; padding: 3px 8px; font-size: 11px; font-weight: 700;
