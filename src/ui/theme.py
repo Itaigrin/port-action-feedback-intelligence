@@ -191,9 +191,10 @@ body {{ overflow-x: hidden; }}
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto auto 1fr;
   align-content: start;
-  padding: 16px;
-  min-height: 168px;
+  padding: 24px;
+  min-height: 240px;
   box-shadow: 0 13px 32px rgba(33,53,97,.07);
   background: #fff;
   border: 1px solid #cbd6e9; border-radius: 15px;
@@ -204,7 +205,7 @@ body {{ overflow-x: hidden; }}
 }}
 .afi-kpi-growth::before {{
   content: "↗";
-  position: absolute; top: 16px; left: 16px;
+  position: absolute; top: 24px; left: 24px;
   display: grid; place-items: center;
   width: 34px; height: 34px;
   border-radius: 9px;
@@ -215,22 +216,23 @@ body {{ overflow-x: hidden; }}
   grid-column: 1 / -1;
   display: block;
   min-height: 13px;
-  padding-left: 48px;
+  padding-left: 52px;
   color: #8995aa; font-size: 9px; font-weight: 800;
   line-height: 1.25; letter-spacing: .08em; text-transform: uppercase;
 }}
 .afi-growth-name {{
   grid-column: 1 / -1;
-  display: block; font-size: 15px; font-weight: 750; letter-spacing: -.02em;
-  min-height: 22px;
-  margin: 4px 0 10px; padding: 0 0 11px 48px;
+  display: block; font-family: inherit; font-size: 20px; font-weight: 400;
+  letter-spacing: -.025em;
+  min-height: 32px;
+  margin: 8px 0 14px; padding: 0 0 20px 52px;
   border-bottom: 1px solid #e2e7f0;
-  line-height: 1.25; color: var(--ink);
+  line-height: 1.35; color: var(--ink);
   /* Long names wrap instead of clipping or spilling past the border. */
   overflow-wrap: anywhere; hyphens: auto;
 }}
 .afi-growth-stat {{
-  display: grid; align-content: start; gap: 3px;
+  display: grid; align-content: center; gap: 5px;
   min-width: 0; padding-right: 10px;
   border-right: 1px solid #e2e7f0;
   color: #7a879f; font-size: 9px; line-height: 1.25;
