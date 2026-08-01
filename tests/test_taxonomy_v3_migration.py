@@ -166,6 +166,55 @@ def test_out_of_scope_records_carry_no_taxonomy_at_all(records):
 
 
 # --- preserved detail ------------------------------------------------------
+def test_reconciliation_state_is_recorded_honestly(records):
+    """An incomplete reclassification must say so in the artifact.
+
+    classify.py rewrites analyzed.json with whatever it managed to process,
+    so a run that dies partway truncates the dataset silently -- one did,
+    stopping at 290 of 327 when the API balance ran out, and left the file
+    holding 290 records. Two guards came out of that: the dataset is checked
+    for its full size, and the reconciliation records whether it actually
+    finished rather than letting a partial run read as a complete one.
+    """
+    analyzed = json.loads((PROC / "analyzed.json").read_text(encoding="utf-8"))
+    assert len(records) == EXPECTED_TOTAL, (
+        "analyzed.json is truncated -- a classification run was interrupted")
+
+    reconciliation = analyzed.get("meta", {}).get("v3_reconciliation")
+    if reconciliation is None:
+        pytest.skip("no reconciliation has been run against this dataset")
+
+    assert "complete" in reconciliation, "completeness must be stated, not implied"
+    compared = reconciliation["records_compared"]
+    missing = reconciliation["records_without_classification"]
+    assert compared + missing == EXPECTED_TOTAL, (
+        "the reconciliation does not account for every record")
+    assert reconciliation["complete"] == (missing == 0), (
+        "the complete flag disagrees with the record counts behind it")
+
+
+def test_disagreements_keep_the_workbook_and_are_flagged(relevant):
+    """A disagreement is information; resolving it silently discards it."""
+    report = PROC / "v3_reconciliation.json"
+    if not report.exists():
+        pytest.skip("no reconciliation report in this checkout")
+
+    data = json.loads(report.read_text(encoding="utf-8"))
+    by_id = {str(r["feedback_id"]): r for r in relevant}
+    for entry in data["disagreements"]:
+        record = by_id.get(entry["feedback_id"])
+        if record is None:          # a relevance disagreement on an OOS record
+            continue
+        assert record["needs_human_review"], (
+            f"{entry['feedback_id']} disagreed with the model but arrived "
+            f"looking settled")
+        if entry["field"] == "taxonomy":
+            kept = f'{record["primary_taxonomy_category"]} / ' \
+                   f'{record["primary_taxonomy_subcategory"]}'
+            assert kept == entry["workbook"], (
+                f"{entry['feedback_id']} took the model's side over the workbook")
+
+
 def test_the_former_subcategory_is_preserved_as_topic_tags(relevant):
     """Consolidation loses a group on purpose; it must not lose the detail."""
     tagged = [r for r in relevant if r.get("topic_tags")]

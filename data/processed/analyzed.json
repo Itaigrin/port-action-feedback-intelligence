@@ -20,7 +20,16 @@
     "needs_review": 48,
     "irrelevant": 142,
     "with_secondary": 101,
-    "note": "The LLM classifies only. All counts, averages, rankings and scores in the dashboard are computed in Python from these records."
+    "note": "The LLM classifies only. All counts, averages, rankings and scores in the dashboard are computed in Python from these records.",
+    "v3_reconciliation": {
+      "workbook": "Port_Feedback_Taxonomy_v3_Assignments.xlsx",
+      "complete": false,
+      "records_compared": 290,
+      "records_without_classification": 37,
+      "taxonomy_agreed": 137,
+      "taxonomy_disagreements": 17,
+      "relevance_disagreements": 5
+    }
   },
   "records": [
     {
@@ -867,7 +876,7 @@
       "user_need": "Understand exactly which permission condition or policy rule caused an action to be denied so it can be fixed.",
       "suggested_product_action": "Provide detailed error messages that identify the specific dynamic permission condition or policy clause that caused an action denial.",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "the error message logged provides no context about what specific part of the dynamic permission caused the action to be denied",
       "secondary_categories": [
         "Observability & Debugging"
@@ -1545,7 +1554,7 @@
       "user_need": "Ability to write permission conditions based on the current user's properties and relations.",
       "suggested_product_action": "Support dynamic user property functions such as getUserEmail and getUserTeams in action permission conditions",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "using dynamic properties (getUserEmail, getUserTeams) is not available in day-2 action conditions",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -2212,7 +2221,7 @@
       "user_need": "The user needs to know who is responsible for approving their action run so they can follow up if needed.",
       "suggested_product_action": "Display the assigned approvers for an action run on the run details page.",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "you can't see who is the action approvers in the run page",
       "secondary_categories": [
         "Observability & Debugging"
@@ -2523,7 +2532,7 @@
       "user_need": "To know if an input is valid before submitting the entire form so they don't have to redo all fields after an error.",
       "suggested_product_action": "Enable pre-submission backend validation requests per field with inline error display in the action form.",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "validate the user input for corectness against custom business logic, and display an error returned from the backend under the text field, without actually submitting the form",
       "secondary_categories": [
         "Validation & Rules"
@@ -6742,7 +6751,7 @@
       "user_need": "Wants to display who approved an action run, including their name or email, alongside the run's context.",
       "suggested_product_action": "Include approver identity (name and email) in the action run's execution context for display on related entities",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "There’s no way to display the approver’s name or email in entity today",
       "secondary_categories": [
         "Observability & Debugging"
@@ -7154,7 +7163,7 @@
       "user_need": "The admin wants a simple way to block specific users or roles from editing one particular property without reconfiguring all other properties.",
       "suggested_product_action": "Add a deny-based permission rule that lets admins block edit access to a specific property without restructuring the full permission set.",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "If Administrator wants to prohibit edit only one properties from set of 10 or more properties then configuration is a little complex.",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -7461,7 +7470,7 @@
       "user_need": "Reduce repetitive manual configuration by reusing existing blueprint property definitions when building actions.",
       "suggested_product_action": "Enable auto-generating action inputs from an existing blueprint's properties, with the option to customize afterward.",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "that action has to be created and its inputs need to be configured manually",
       "secondary_categories": [
         "Form Configuration"
@@ -7758,7 +7767,7 @@
       "user_need": "Configure webhook secrets securely without exposing sensitive values in source code or configuration files.",
       "suggested_product_action": "Support referencing stored Port secrets in webhook security configuration instead of raw secret values",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "the secret is exposed in source code!",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -8859,7 +8868,7 @@
       "user_need": "The ability to fetch short-lived dynamic credentials during a run without exposing their values in visible run history.",
       "suggested_product_action": "Enable marking specific run output variables as sensitive so their values are automatically redacted or masked in run history displays.",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "There is currently no way to mark a variable as sensitive so that its value is redacted or masked in the run history display.",
       "secondary_categories": [
         "Identity, Secrets & Security"
@@ -9664,7 +9673,7 @@
       "user_need": "Present clear, human-readable choices in forms without changing the technical values sent to the backend.",
       "suggested_product_action": "Support enumLabels to display friendly labels for enum values while preserving technical values in action inputs",
       "confidence": 0.9,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Ability to show user-friendly display labels while passing technical keys/values to the backend",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -9921,7 +9930,7 @@
       "user_need": "Ensure that entity data mapped from YAML files is fully accurate and complete, catching errors like typos or missing values.",
       "suggested_product_action": "Support configurable strict validation rules for GitOps file-to-entity mapping, including required identifiers, exact key matching, and full property mapping enforcement.",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "When the identifier is null, Port auto-generates an identifier with a UUID so no error is raised from Port API, even though we want to enforce it",
       "secondary_categories": [
         "Validation & Rules"
@@ -10305,7 +10314,7 @@
       "user_need": "A simple way to require that all permission conditions be satisfied, not just one.",
       "suggested_product_action": "Add a toggle to switch dynamic permission condition evaluation between OR and AND logic",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Having the ability to change the behavior from OR to AND as needed would make this a lot easier for customers.",
       "secondary_categories": [
         "Validation & Rules"
@@ -10665,7 +10674,7 @@
       "user_need": "A need for reliable, enterprise-grade tooling to manage and migrate catalog configuration across environments and organizations.",
       "suggested_product_action": "Improve reliability of Terraform-based export, import, and multi-org migration for catalog configuration",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Improve export/import reliability, environment promotion, and multi-org migration to prevent rollout delays",
       "secondary_categories": [],
       "secondary_subcategories": [],
@@ -10843,7 +10852,7 @@
       "user_need": "Automatically pre-fill form inputs like team or user pickers using properties of the current user or triggering entity.",
       "suggested_product_action": "Support dynamic JQ-based defaults for entity, team, and user picker inputs derived from current user or triggering entity context",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "It seems that `default` only supports a static string.",
       "secondary_categories": [
         "Form Configuration"
@@ -11500,7 +11509,7 @@
       "user_need": "Users need a single permission grant that lets them populate all fields when creating an entity, without requiring extra permission assignments.",
       "suggested_product_action": "Allow register permission to grant field population rights during entity creation without requiring separate updateProperties permissions",
       "confidence": 0.75,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "Users with entity register permission should be able to fill all blueprint fields during creation without requiring additional updateProperties permissions.",
       "secondary_categories": [],
       "secondary_subcategories": [],

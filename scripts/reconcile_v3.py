@@ -1,22 +1,27 @@
-"""Reconcile a fresh v3 reclassification against the assignment workbook.
+"""Reconcile a v3 reclassification against the assignment workbook.
 
-Run after `python -m src.analysis.classify` has rewritten analyzed.json under
-the v3 taxonomy. The reclassification is a genuine second opinion, not a label
-rename -- but it does not get the last word:
+Reads the classification **cache**, not a rewritten analyzed.json.
 
-  * Where the model agrees with the workbook, the assignment stands.
-  * Where it disagrees, the WORKBOOK wins and the record is flagged for human
-    review. A disagreement is information, and silently taking either side
-    would throw it away. Flagging is what turns it into a queue.
-  * Relevance is pinned to the workbook the same way. A record the model newly
-    considers out of scope would otherwise change the 185/142 split that every
-    downstream figure and test depends on.
+That is deliberate. `python -m src.analysis.classify` overwrites analyzed.json
+with whatever it managed to process, so a run that dies partway -- an expired
+key, an exhausted balance, a dropped connection -- silently truncates the
+dataset to the records it reached. That happened here: a run stopped at 290
+of 327 and left analyzed.json holding 290 records. Reading the cache instead
+means a partial run degrades to partial *information* rather than to data
+loss, and reconciling can be re-run any time without another API call.
 
-topic_tags are restored here too. classify.py rebuilds analyzed.json from the
-model's output, and the model does not emit tags -- the former v2.1
-subcategory is knowledge the workbook has and the model would only guess at.
+What it does with a second opinion:
 
-    python -m scripts.reconcile_v3 <workbook.xlsx> [--dry-run]
+  * Agreement leaves the assignment alone.
+  * Disagreement keeps the WORKBOOK and flags the record for human review.
+    Silently taking either side would throw away the one thing a
+    disagreement tells you.
+  * Relevance is pinned to the workbook the same way, so a model that
+    re-scopes a record cannot move the 185/142 split every figure rests on.
+  * Records with no cached classification are counted and named, never
+    quietly treated as agreeing.
+
+    python -m scripts.reconcile_v3 <workbook.xlsx> [--dry-run] [--report out.json]
 """
 
 from __future__ import annotations
@@ -32,132 +37,153 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from src.analysis.classify import DEFAULT_MODEL, cache_key  # noqa: E402
+from src.models.prompt import source_text  # noqa: E402
 from src.models.taxonomy import TAXONOMY_VERSION  # noqa: E402
 
-ANALYZED = ROOT / "data" / "processed" / "analyzed.json"
+PROC = ROOT / "data" / "processed"
+CACHE = ROOT / "data" / "cache"
+ANALYZED = PROC / "analyzed.json"
+CLEAN = PROC / "feedback_clean.csv"
+
 REVIEW_STATUS_FLAG = "Recommended - review during v3 rerun"
+
+
+def _cached_classification(title: str, description: str | None, model: str):
+    """The cached v3 classification for one record, or None."""
+    src = source_text(title, description)
+    path = CACHE / f"{cache_key(src, model)}.json"
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))["classification"]
+    except (json.JSONDecodeError, KeyError, OSError):
+        return None
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("workbook", type=Path)
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--report", type=Path, default=None,
-                        help="write the per-record disagreement list here")
+    parser.add_argument("--report", type=Path,
+                        default=PROC / "v3_reconciliation.json")
+    parser.add_argument("--model", default=DEFAULT_MODEL)
     args = parser.parse_args()
 
-    wb_all = pd.read_excel(args.workbook, sheet_name="All Records")
-    wb_rel = pd.read_excel(args.workbook, sheet_name="Relevant Assignments")
+    all_rows = pd.read_excel(args.workbook, sheet_name="All Records")
+    rel_rows = pd.read_excel(args.workbook, sheet_name="Relevant Assignments")
+    scope = {str(r["feedback_id"]): str(r["is_relevant"]).strip().lower() == "yes"
+             for _, r in all_rows.iterrows()}
+    assignment = {str(r["feedback_id"]): r for _, r in rel_rows.iterrows()}
 
-    relevant_by_id = {str(r["feedback_id"]): r for _, r in wb_rel.iterrows()}
-    scope_by_id = {str(r["feedback_id"]): (str(r["is_relevant"]).strip().lower() == "yes")
-                   for _, r in wb_all.iterrows()}
+    clean = pd.read_csv(CLEAN)
+    source = {str(r.feedback_id): (str(r.title),
+                                   None if pd.isna(r.description) else str(r.description))
+              for r in clean.itertuples(index=False)}
 
     data = json.loads(ANALYZED.read_text(encoding="utf-8"))
     records = data["records"]
 
     stats = Counter()
     disagreements: list[dict] = []
+    unclassified: list[str] = []
 
     for record in records:
         fid = str(record["feedback_id"])
-        expected_relevant = scope_by_id.get(fid)
-
-        if expected_relevant is None:
+        want_relevant = scope.get(fid)
+        if want_relevant is None:
             stats["not_in_workbook"] += 1
             continue
 
+        title, description = source.get(fid, (record.get("title", ""), None))
+        got = _cached_classification(title, description, args.model)
+        if got is None:
+            stats["no_cached_classification"] += 1
+            unclassified.append(fid)
+            continue
+        stats["compared"] += 1
+
         # --- relevance -----------------------------------------------------
-        if bool(record.get("is_relevant")) != expected_relevant:
+        if bool(got.get("is_relevant")) != want_relevant:
             stats["relevance_disagreement"] += 1
             disagreements.append({
                 "feedback_id": fid, "field": "is_relevant",
-                "model": bool(record.get("is_relevant")),
-                "workbook": expected_relevant,
-                "title": record.get("title", "")[:80],
+                "model": bool(got.get("is_relevant")), "workbook": want_relevant,
+                "title": str(record.get("title", ""))[:90],
             })
-            record["is_relevant"] = expected_relevant
             record["needs_human_review"] = True
-
-        if not expected_relevant:
-            stats["out_of_scope"] += 1
-            record["primary_taxonomy_category"] = None
-            record["primary_taxonomy_subcategory"] = None
-            record["secondary_assignments"] = []
-            record["secondary_categories"] = []
-            record["secondary_subcategories"] = []
-            record["problem_type"] = None
-            record["journey_stage"] = None
-            record["topic_tags"] = []
             continue
 
-        stats["relevant"] += 1
-        row = relevant_by_id[fid]
-        wb_cat = str(row["recommended_category_v3"])
-        wb_sub = str(row["recommended_subcategory_v3"])
-        got_cat = record.get("primary_taxonomy_category")
-        got_sub = record.get("primary_taxonomy_subcategory")
+        if not want_relevant:
+            stats["out_of_scope_agreed"] += 1
+            continue
 
-        if got_sub == wb_sub and got_cat == wb_cat:
-            stats["agreed"] += 1
+        row = assignment[fid]
+        want = (str(row["recommended_category_v3"]),
+                str(row["recommended_subcategory_v3"]))
+        mine = (got.get("primary_taxonomy_category"),
+                got.get("primary_taxonomy_subcategory"))
+
+        if mine == want:
+            stats["taxonomy_agreed"] += 1
         else:
             stats["taxonomy_disagreement"] += 1
             disagreements.append({
                 "feedback_id": fid, "field": "taxonomy",
-                "model": f"{got_cat} / {got_sub}",
-                "workbook": f"{wb_cat} / {wb_sub}",
-                "title": record.get("title", "")[:80],
+                "model": f"{mine[0]} / {mine[1]}",
+                "workbook": f"{want[0]} / {want[1]}",
+                "title": str(record.get("title", ""))[:90],
             })
-            record["primary_taxonomy_category"] = wb_cat
-            record["primary_taxonomy_subcategory"] = wb_sub
+            # The workbook already sits on the record. Only the flag changes.
             record["needs_human_review"] = True
 
-        # The workbook's review flag survives a run that happened to agree.
-        if str(row.get("assignment_review_status", "")) == REVIEW_STATUS_FLAG:
-            record["needs_human_review"] = True
-            stats["workbook_review_flag"] += 1
-
-        # Tags the model never produced.
-        former = row.get("current_subcategory_v2.1")
-        tags: list[str] = []
-        for tag in (former, row.get("topic_tag")):
-            tag = "" if tag is None or pd.isna(tag) else str(tag).strip()
-            if tag and tag != wb_sub and tag not in tags:
-                tags.append(tag)
-        record["topic_tags"] = tags
+    in_scope = stats["taxonomy_agreed"] + stats["taxonomy_disagreement"]
+    complete = not unclassified
 
     meta = data.setdefault("meta", {})
     meta["taxonomy_version"] = TAXONOMY_VERSION
-    meta["reconciled_against_workbook"] = args.workbook.name
-    meta["taxonomy_disagreements"] = stats["taxonomy_disagreement"]
-    meta["relevance_disagreements"] = stats["relevance_disagreement"]
-    meta["records_relevant"] = stats["relevant"]
-    meta["records_irrelevant"] = stats["out_of_scope"]
+    meta["v3_reconciliation"] = {
+        "workbook": args.workbook.name,
+        "complete": complete,
+        "records_compared": stats["compared"],
+        "records_without_classification": stats["no_cached_classification"],
+        "taxonomy_agreed": stats["taxonomy_agreed"],
+        "taxonomy_disagreements": stats["taxonomy_disagreement"],
+        "relevance_disagreements": stats["relevance_disagreement"],
+    }
 
-    total_rel = stats["relevant"] or 1
-    print(f"records                : {len(records)}")
-    print(f"relevant               : {stats['relevant']}")
-    print(f"out of scope           : {stats['out_of_scope']}")
-    print(f"agreed with workbook   : {stats['agreed']} "
-          f"({stats['agreed'] / total_rel:.1%})")
-    print(f"taxonomy disagreements : {stats['taxonomy_disagreement']} (workbook kept, flagged)")
-    print(f"relevance disagreements: {stats['relevance_disagreement']} (workbook kept, flagged)")
-    print(f"not in workbook        : {stats['not_in_workbook']}")
-    print(f"flagged for review     : "
+    print(f"records in dataset      : {len(records)}")
+    print(f"compared against model  : {stats['compared']}")
+    print(f"no cached classification: {stats['no_cached_classification']}")
+    print(f"out-of-scope agreed     : {stats['out_of_scope_agreed']}")
+    print(f"taxonomy agreed         : {stats['taxonomy_agreed']}"
+          + (f" ({stats['taxonomy_agreed'] / in_scope:.1%})" if in_scope else ""))
+    print(f"taxonomy disagreements  : {stats['taxonomy_disagreement']} "
+          f"(workbook kept, flagged)")
+    print(f"relevance disagreements : {stats['relevance_disagreement']} "
+          f"(workbook kept, flagged)")
+    print(f"flagged for review now  : "
           f"{sum(1 for r in records if r.get('needs_human_review'))}")
+    if not complete:
+        print(f"\n!! INCOMPLETE: {len(unclassified)} records were never classified.")
+        print("   Re-run `python -m src.analysis.classify` to fill the gap; the "
+              "cache means only the missing records cost a call.")
 
-    if args.report and disagreements:
-        args.report.write_text(
-            json.dumps(disagreements, indent=2, ensure_ascii=False), encoding="utf-8")
-        print(f"\nwrote {len(disagreements)} disagreements to {args.report}")
+    args.report.write_text(json.dumps({
+        "complete": complete,
+        "stats": dict(stats),
+        "unclassified_feedback_ids": unclassified,
+        "disagreements": disagreements,
+    }, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"\nwrote {args.report.relative_to(ROOT)}")
 
     if args.dry_run:
-        print("\n--dry-run: nothing written")
+        print("--dry-run: analyzed.json not written")
         return 0
 
-    ANALYZED.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"\nwrote {ANALYZED.relative_to(ROOT)}")
+    ANALYZED.write_text(json.dumps(data, indent=2, ensure_ascii=False),
+                        encoding="utf-8")
+    print(f"wrote {ANALYZED.relative_to(ROOT)}")
     return 0
 
 

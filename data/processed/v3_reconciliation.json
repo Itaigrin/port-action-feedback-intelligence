@@ -1,0 +1,206 @@
+{
+  "complete": false,
+  "stats": {
+    "compared": 290,
+    "out_of_scope_agreed": 131,
+    "taxonomy_agreed": 137,
+    "taxonomy_disagreement": 17,
+    "relevance_disagreement": 5,
+    "no_cached_classification": 37
+  },
+  "unclassified_feedback_ids": [
+    "67ae47018df2ac10d76e1fec",
+    "67583e21f84a4af5d432d045",
+    "65b60179d9cc3038ffc233d3",
+    "674613bc11c9ac3dbb882e6a",
+    "66fabe27f08e28ee95624d41",
+    "6989da7e28d1e2672b8d1f83",
+    "69a69c2bbd9e53f8d10aa84f",
+    "693717e9a5e8f26790db4e71",
+    "672b52a3c45ed39e22567862",
+    "69846d1a0515435e29b373eb",
+    "696f2e14d1352674295c2e11",
+    "69a02d77006d0995d3c7e953",
+    "6833b6005e235d7e91968c71",
+    "65eeca8579a657ae7bb6cf98",
+    "64f484d97fb24609a28e0250",
+    "67173cd806d353fc3299f57b",
+    "687ced0964a12a95ef832dd9",
+    "649bdc45bc9cc409261c2477",
+    "660da56051cc0bb9c88ec814",
+    "66cc92d3c146ef3febde98ab",
+    "66e68c9ff85bef2fa5d4dc82",
+    "673bceee3240094e0c96bc6c",
+    "66e985470be4dcfd3da6e336",
+    "65a512ccbb34b59cd65ce460",
+    "6589bbb30ae0869b95c141cd",
+    "6481fb245cf5a50d549f4fdb",
+    "693ffd899279e1a4c35ca2c0",
+    "6481f12a7635744f37484976",
+    "69a98a661fe40914834d9831",
+    "68f92f09f3aea6791833224b",
+    "699328e947c850515815cb26",
+    "65685e7528ed3bfa080d5deb",
+    "662a16854790d8da141e4e6e",
+    "69523d930fce6a18f6f14a07",
+    "65df7d3e35b41704bb704566",
+    "66c7442779c2903026d548f3",
+    "669f74497bdca315573a9352"
+  ],
+  "disagreements": [
+    {
+      "feedback_id": "66b1434bd12b821c86cbc7fc",
+      "field": "taxonomy",
+      "model": "Permissions & Approvals / Access control & action eligibility",
+      "workbook": "Permissions & Approvals / Permission authoring & testing",
+      "title": "Better Error Messages for Denied Dynamic Permissions"
+    },
+    {
+      "feedback_id": "66c8d155bc622140de9a1e79",
+      "field": "taxonomy",
+      "model": "Identity, Secrets & Security / Credentials, secrets & request signing",
+      "workbook": "Identity, Secrets & Security / Sensitive-data masking & redaction",
+      "title": "Support Input Secrets with Approvals in Self Service Actions"
+    },
+    {
+      "feedback_id": "6853d436533319bfbf13d0ae",
+      "field": "taxonomy",
+      "model": "Validation & Rules / Form validation, messages & conditional rules",
+      "workbook": "Permissions & Approvals / Access control & action eligibility",
+      "title": "Enable dynamic user properties for actions conditions"
+    },
+    {
+      "feedback_id": "65a6324c5bd75e78b7682e60",
+      "field": "taxonomy",
+      "model": "Permissions & Approvals / Approver experience & notifications",
+      "workbook": "Permissions & Approvals / Approval policies & approver routing",
+      "title": "Manual Approvals | Show approvers"
+    },
+    {
+      "feedback_id": "6798fe909c392c244699944d",
+      "field": "taxonomy",
+      "model": "Observability & Debugging / Run history, audit, APIs & export",
+      "workbook": "Permissions & Approvals / Permission authoring & testing",
+      "title": "Show action permission changes in audit log"
+    },
+    {
+      "feedback_id": "652552a8916365c76f187d12",
+      "field": "taxonomy",
+      "model": "Validation & Rules / Form validation, messages & conditional rules",
+      "workbook": "Validation & Rules / Server-side & API enforcement",
+      "title": "Dynamic user input validation"
+    },
+    {
+      "feedback_id": "6584045643d41b6fd0ac313c",
+      "field": "taxonomy",
+      "model": "Authoring, Testing & Management / Action authoring, testing & release management",
+      "workbook": "Context, Targeting & Pre-fill / Contextual launch, targeting & pre-fill",
+      "title": "Self service action without requiring blueprint"
+    },
+    {
+      "feedback_id": "697b9fddcfbf975300198439",
+      "field": "taxonomy",
+      "model": "Observability & Debugging / Run traceability & related entities",
+      "workbook": "Observability & Debugging / Run history, audit, APIs & export",
+      "title": "Expose Approver Context in Runs"
+    },
+    {
+      "feedback_id": "66dad68c5c2fac7ded045460",
+      "field": "taxonomy",
+      "model": "Permissions & Approvals / Permission authoring & testing",
+      "workbook": "Permissions & Approvals / Access control & action eligibility",
+      "title": "Deny action in permissions configuration"
+    },
+    {
+      "feedback_id": "649bdc0ecf7291098a1c28bf",
+      "field": "taxonomy",
+      "model": "Form Configuration / Input types & structured data",
+      "workbook": "Authoring, Testing & Management / Reusable configuration, API & IaC management",
+      "title": "Auto-generate action inputs from blueprint definition"
+    },
+    {
+      "feedback_id": "6915caf8c4c30db90d700b0b",
+      "field": "is_relevant",
+      "model": false,
+      "workbook": true,
+      "title": "Support secrets on webhook security configuration"
+    },
+    {
+      "feedback_id": "6a62cdea0933efc13e70eab5",
+      "field": "is_relevant",
+      "model": false,
+      "workbook": true,
+      "title": "Sensitive output masking / redaction flag for workflow node variables"
+    },
+    {
+      "feedback_id": "68f8fbb8741fd60efd0e8d17",
+      "field": "taxonomy",
+      "model": "Permissions & Approvals / Permission authoring & testing",
+      "workbook": "Permissions & Approvals / Access control & action eligibility",
+      "title": "Dynamic Permission policies as Policies Entities"
+    },
+    {
+      "feedback_id": "67adc340ed8cfaae72b680d0",
+      "field": "taxonomy",
+      "model": "Identity, Secrets & Security / Credentials, secrets & request signing",
+      "workbook": "Identity, Secrets & Security / Authentication, execution identity & requester context",
+      "title": "Implementing RBAC for API Requests."
+    },
+    {
+      "feedback_id": "697bc2552c0e437d54520fb7",
+      "field": "taxonomy",
+      "model": "Form Configuration / Input types & structured data",
+      "workbook": "Form Configuration / Form presentation, layout & guidance",
+      "title": "Support for enumLabels in self-service action inputs"
+    },
+    {
+      "feedback_id": "67a32141d252e4db823dea60",
+      "field": "is_relevant",
+      "model": false,
+      "workbook": true,
+      "title": "GitOps dry run - Support custom validations"
+    },
+    {
+      "feedback_id": "66b14531ed4315cc0258b909",
+      "field": "taxonomy",
+      "model": "Permissions & Approvals / Permission authoring & testing",
+      "workbook": "Permissions & Approvals / Access control & action eligibility",
+      "title": "Allow toggle of conditions array in dynamic permission from OR to AND"
+    },
+    {
+      "feedback_id": "6971456c9974c06421a7fd9e",
+      "field": "is_relevant",
+      "model": true,
+      "workbook": false,
+      "title": "IaC Maturity & Multi-Org"
+    },
+    {
+      "feedback_id": "6a3c68a73959e847601ffa6f",
+      "field": "taxonomy",
+      "model": "Form Configuration / Dynamic inputs, defaults & computed fields",
+      "workbook": "Context, Targeting & Pre-fill / Contextual launch, targeting & pre-fill",
+      "title": "Entity and user/team pickers should allow dynamic filters and defaults"
+    },
+    {
+      "feedback_id": "6a1d45a5b06d5b62ae23dc43",
+      "field": "taxonomy",
+      "model": "Form Configuration / Dynamic inputs, defaults & computed fields",
+      "workbook": "Form Configuration / Form presentation, layout & guidance",
+      "title": "Allow dynamic value for ActionButton Text"
+    },
+    {
+      "feedback_id": "6a4b4a7e3395e568ba0e931f",
+      "field": "taxonomy",
+      "model": "Orchestration / Workflow approvals, error handling & recovery",
+      "workbook": "Permissions & Approvals / Approver experience & notifications",
+      "title": "Give Input node approvers a focused decision view instead of the full workflow graph"
+    },
+    {
+      "feedback_id": "697a4fc771aad86079ed6ec7",
+      "field": "is_relevant",
+      "model": false,
+      "workbook": true,
+      "title": "Register Permission Should Allow Populating Properties for Member users"
+    }
+  ]
+}
