@@ -191,6 +191,9 @@ body {{ overflow-x: hidden; }}
   display: flex; flex-direction: column;
   padding: 16px; box-shadow: none; background: rgba(255,255,255,.78);
   border: 1px solid var(--line); border-radius: 14px;
+  /* Same warning mark as a high-severity action card: this row only ever
+     reports negative feedback rising. */
+  border-left: 4px solid var(--red);
   min-width: 0; overflow-wrap: anywhere;
 }}
 .afi-kpi-growth .label {{ color: var(--muted); font-size: 13.5px; font-weight: 600; }}
@@ -301,8 +304,14 @@ body {{ overflow-x: hidden; }}
   display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
   align-items: stretch;
 }}
+/* Red left bar, matching a high-severity product action card.
+   These four cards -- the two largest-increase cards and the two
+   most-negative-feedback cards -- all report something getting worse, so they
+   carry the same warning mark the ranked actions use rather than reading as
+   neutral surfaces. */
 .afi-insight-card {{
   padding: 16px; display: flex; flex-direction: column;
+  border-left: 4px solid var(--red);
 }}
 /* The example list takes the slack, so the cards end level. */
 .afi-insight-examples {{ margin-top: auto; }}
