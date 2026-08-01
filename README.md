@@ -211,6 +211,18 @@ v3.0 keeps the **11 categories unchanged** and consolidates the subcategories to
 
 **The migration was a reclassification, not a rename.** The cache key includes the taxonomy version, so bumping to v3.0 invalidates every cached classification by construction. All 327 records were re-run against the new definitions and compared with the workbook: where the model agreed, the assignment stands; where it disagreed, **the workbook wins and the record is flagged for human review** rather than silently changed. A disagreement is information, and taking either side quietly would throw it away.
 
+**Two models produced that second opinion, and the split is reported rather than averaged.** The Anthropic run reached 290 of 327 before its API balance ran out; the remaining 37 were classified with `deepseek-chat` against the same prompt and the same Pydantic schema. That seam is only tolerable because **reconciliation never lets a model overwrite the workbook** — a model can raise a review flag, it cannot change an assignment — so a second model can add caution but cannot corrupt a single record. `model_name` is stored per record and agreement is reported per model, because one blended rate across two models would describe neither.
+
+| Model | In-scope agreement | Out-of-scope agreed |
+|---|---|---|
+| `claude-sonnet-5` | 137/154 = **89.0%** | 131 |
+| `deepseek-chat` | 25/27 = **92.6%** | 10 |
+| **Combined** | 162/181 = **89.5%** | 141 |
+
+19 taxonomy disagreements and 5 relevance disagreements, all keeping the workbook and all flagged. The per-record list is in `data/processed/v3_reconciliation.json`.
+
+DeepSeek has no equivalent of Anthropic's grammar-constrained output, so the schema is enforced the hard way there: JSON mode, Pydantic validation, then a retry that feeds the validation error back so the model corrects rather than repeats. A response that never validates is skipped and reported, never coerced in. All 35 validated first time, with every quote grounded.
+
 | Guarantee | Where it is enforced |
 |---|---|
 | 327 records, 185 in scope, 142 out | `tests/test_taxonomy_v3_migration.py` |

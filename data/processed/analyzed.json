@@ -23,12 +23,27 @@
     "note": "The LLM classifies only. All counts, averages, rankings and scores in the dashboard are computed in Python from these records.",
     "v3_reconciliation": {
       "workbook": "Port_Feedback_Taxonomy_v3_Assignments.xlsx",
-      "complete": false,
-      "records_compared": 290,
-      "records_without_classification": 37,
-      "taxonomy_agreed": 137,
-      "taxonomy_disagreements": 17,
-      "relevance_disagreements": 5
+      "complete": true,
+      "records_compared": 327,
+      "records_without_classification": 0,
+      "taxonomy_agreed": 162,
+      "taxonomy_disagreements": 19,
+      "relevance_disagreements": 5,
+      "by_model": {
+        "claude-sonnet-5": {
+          "compared": 290,
+          "out_of_scope_agreed": 131,
+          "taxonomy_agreed": 137,
+          "taxonomy_disagreement": 17,
+          "relevance_disagreement": 5
+        },
+        "deepseek-chat": {
+          "compared": 37,
+          "taxonomy_agreed": 25,
+          "out_of_scope_agreed": 10,
+          "taxonomy_disagreement": 2
+        }
+      }
     }
   },
   "records": [
@@ -14047,7 +14062,7 @@
       "user_need": "Ensure an action always retains at least one valid execute permission so it does not become unusable.",
       "suggested_product_action": "Prevent saving an action configuration with zero execute permissions, or default to retaining admin execute access",
       "confidence": 0.85,
-      "needs_human_review": false,
+      "needs_human_review": true,
       "evidence_excerpt": "execute permissions can be removed entirely, which allows an action to be saved with no execute permissions at all",
       "secondary_categories": [
         "Permissions & Approvals"

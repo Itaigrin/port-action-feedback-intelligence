@@ -29,7 +29,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import pandas as pd
@@ -49,16 +49,27 @@ CLEAN = PROC / "feedback_clean.csv"
 REVIEW_STATUS_FLAG = "Recommended - review during v3 rerun"
 
 
-def _cached_classification(title: str, description: str | None, model: str):
-    """The cached v3 classification for one record, or None."""
+def _cached_classification(title: str, description: str | None,
+                           models: list[str]) -> tuple[dict | None, str | None]:
+    """The cached v3 classification for one record, and which model produced it.
+
+    Tries each model in order. The dataset was classified by two: the
+    Anthropic run covered 290 records before its balance ran out, and the rest
+    were finished on DeepSeek. Returning the model alongside the answer is what
+    lets agreement be reported per model -- one blended figure across two
+    models would describe neither.
+    """
     src = source_text(title, description)
-    path = CACHE / f"{cache_key(src, model)}.json"
-    if not path.exists():
-        return None
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))["classification"]
-    except (json.JSONDecodeError, KeyError, OSError):
-        return None
+    for model in models:
+        path = CACHE / f"{cache_key(src, model)}.json"
+        if not path.exists():
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            return payload["classification"], payload.get("model_name", model)
+        except (json.JSONDecodeError, KeyError, OSError):
+            continue
+    return None, None
 
 
 def main() -> int:
@@ -67,7 +78,9 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--report", type=Path,
                         default=PROC / "v3_reconciliation.json")
-    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--models", nargs="+",
+                        default=[DEFAULT_MODEL, "deepseek-chat"],
+                        help="cache lookup order; first hit wins")
     args = parser.parse_args()
 
     all_rows = pd.read_excel(args.workbook, sheet_name="All Records")
@@ -85,6 +98,7 @@ def main() -> int:
     records = data["records"]
 
     stats = Counter()
+    per_model: dict[str, Counter] = defaultdict(Counter)
     disagreements: list[dict] = []
     unclassified: list[str] = []
 
@@ -96,12 +110,13 @@ def main() -> int:
             continue
 
         title, description = source.get(fid, (record.get("title", ""), None))
-        got = _cached_classification(title, description, args.model)
+        got, model = _cached_classification(title, description, args.models)
         if got is None:
             stats["no_cached_classification"] += 1
             unclassified.append(fid)
             continue
         stats["compared"] += 1
+        per_model[model]["compared"] += 1
 
         # --- relevance -----------------------------------------------------
         if bool(got.get("is_relevant")) != want_relevant:
@@ -112,10 +127,12 @@ def main() -> int:
                 "title": str(record.get("title", ""))[:90],
             })
             record["needs_human_review"] = True
+            per_model[model]["relevance_disagreement"] += 1
             continue
 
         if not want_relevant:
             stats["out_of_scope_agreed"] += 1
+            per_model[model]["out_of_scope_agreed"] += 1
             continue
 
         row = assignment[fid]
@@ -126,10 +143,12 @@ def main() -> int:
 
         if mine == want:
             stats["taxonomy_agreed"] += 1
+            per_model[model]["taxonomy_agreed"] += 1
         else:
             stats["taxonomy_disagreement"] += 1
+            per_model[model]["taxonomy_disagreement"] += 1
             disagreements.append({
-                "feedback_id": fid, "field": "taxonomy",
+                "feedback_id": fid, "field": "taxonomy", "model_name": model,
                 "model": f"{mine[0]} / {mine[1]}",
                 "workbook": f"{want[0]} / {want[1]}",
                 "title": str(record.get("title", ""))[:90],
@@ -150,6 +169,7 @@ def main() -> int:
         "taxonomy_agreed": stats["taxonomy_agreed"],
         "taxonomy_disagreements": stats["taxonomy_disagreement"],
         "relevance_disagreements": stats["relevance_disagreement"],
+        "by_model": {name: dict(counts) for name, counts in per_model.items()},
     }
 
     print(f"records in dataset      : {len(records)}")
@@ -164,6 +184,15 @@ def main() -> int:
           f"(workbook kept, flagged)")
     print(f"flagged for review now  : "
           f"{sum(1 for r in records if r.get('needs_human_review'))}")
+
+    # Per model, because a single agreement rate across two different models
+    # would describe neither of them.
+    print("\n  agreement by model (in-scope records only):")
+    for name, counts in sorted(per_model.items()):
+        seen = counts["taxonomy_agreed"] + counts["taxonomy_disagreement"]
+        rate = f"{counts['taxonomy_agreed'] / seen:.1%}" if seen else "n/a"
+        print(f"    {name:18} {counts['taxonomy_agreed']:>3}/{seen:<3} = {rate:>6}"
+              f"   (+{counts['out_of_scope_agreed']} out-of-scope agreed)")
     if not complete:
         print(f"\n!! INCOMPLETE: {len(unclassified)} records were never classified.")
         print("   Re-run `python -m src.analysis.classify` to fill the gap; the "

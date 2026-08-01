@@ -53,7 +53,7 @@
     "top_product_action_category": "Validation & Rules",
     "negative_records": 178,
     "subcategories_covered": 30,
-    "records_needing_review": 50,
+    "records_needing_review": 51,
     "records_with_secondary": 84,
     "low_confidence_records": 26,
     "unverified_evidence": 1,
@@ -326,7 +326,7 @@
       ],
       "top_problem_type": "Validation gap",
       "top_journey_stage": "Permissions & approvals",
-      "needs_review": 0,
+      "needs_review": 1,
       "negative_records": 1,
       "rank": 8
     },

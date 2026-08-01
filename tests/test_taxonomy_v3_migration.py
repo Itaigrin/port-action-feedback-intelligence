@@ -193,6 +193,37 @@ def test_reconciliation_state_is_recorded_honestly(records):
         "the complete flag disagrees with the record counts behind it")
 
 
+def test_agreement_is_reported_per_model_not_blended():
+    """Two models classified this dataset; one rate would describe neither.
+
+    The Anthropic run covered 290 records before its balance ran out and the
+    remaining 37 were finished on DeepSeek. That seam is only survivable
+    because reconciliation never lets a model overwrite the workbook -- a
+    model can raise a review flag, never change an assignment -- so what has
+    to be true is that the split stays visible rather than averaged away.
+    """
+    analyzed = json.loads((PROC / "analyzed.json").read_text(encoding="utf-8"))
+    reconciliation = analyzed.get("meta", {}).get("v3_reconciliation")
+    if reconciliation is None:
+        pytest.skip("no reconciliation has been run against this dataset")
+
+    by_model = reconciliation.get("by_model")
+    assert by_model, "the per-model breakdown must be recorded"
+
+    compared = sum(counts["compared"] for counts in by_model.values())
+    assert compared == reconciliation["records_compared"], (
+        "the per-model counts do not add up to the total compared")
+
+    for name, counts in by_model.items():
+        assert name, "every classification must name the model that produced it"
+        agreed = counts.get("taxonomy_agreed", 0)
+        disagreed = counts.get("taxonomy_disagreement", 0)
+        oos = counts.get("out_of_scope_agreed", 0)
+        relevance = counts.get("relevance_disagreement", 0)
+        assert agreed + disagreed + oos + relevance == counts["compared"], (
+            f"{name}: outcomes do not account for every record compared")
+
+
 def test_disagreements_keep_the_workbook_and_are_flagged(relevant):
     """A disagreement is information; resolving it silently discards it."""
     report = PROC / "v3_reconciliation.json"
