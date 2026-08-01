@@ -188,32 +188,70 @@ body {{ overflow-x: hidden; }}
   gap: 14px; margin-bottom: 20px; align-items: stretch;
 }}
 .afi-kpi-growth {{
-  display: flex; flex-direction: column;
-  padding: 16px; box-shadow: none; background: rgba(255,255,255,.78);
-  border: 1px solid var(--line); border-radius: 14px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  padding: 16px;
+  min-height: 168px;
+  box-shadow: 0 13px 32px rgba(33,53,97,.07);
+  background: #fff;
+  border: 1px solid #cbd6e9; border-radius: 15px;
   /* Same warning mark as a high-severity action card: this row only ever
      reports negative feedback rising. */
   border-left: 4px solid var(--red);
   min-width: 0; overflow-wrap: anywhere;
 }}
-.afi-kpi-growth .label {{ color: var(--muted); font-size: 13.5px; font-weight: 600; }}
+.afi-kpi-growth::before {{
+  content: "↗";
+  position: absolute; top: 16px; left: 16px;
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: var(--red-soft); color: var(--red);
+  font-size: 17px; font-weight: 800; line-height: 1;
+}}
+.afi-kpi-growth .label {{
+  grid-column: 1 / -1;
+  display: block;
+  min-height: 13px;
+  padding-left: 48px;
+  color: #8995aa; font-size: 9px; font-weight: 800;
+  line-height: 1.25; letter-spacing: .08em; text-transform: uppercase;
+}}
 .afi-growth-name {{
+  grid-column: 1 / -1;
   display: block; font-size: 15px; font-weight: 750; letter-spacing: -.02em;
-  margin: 5px 0 7px; line-height: 1.25; color: var(--ink);
+  min-height: 22px;
+  margin: 4px 0 10px; padding: 0 0 11px 48px;
+  border-bottom: 1px solid #e2e7f0;
+  line-height: 1.25; color: var(--ink);
   /* Long names wrap instead of clipping or spilling past the border. */
   overflow-wrap: anywhere; hyphens: auto;
 }}
 .afi-growth-stat {{
-  display: block; font-size: 11.5px; color: var(--muted); line-height: 1.5;
+  display: grid; align-content: start; gap: 3px;
+  min-width: 0; padding-right: 10px;
+  border-right: 1px solid #e2e7f0;
+  color: #7a879f; font-size: 9px; line-height: 1.25;
+}}
+.afi-growth-stat:last-child {{ border-right: 0; padding-left: 10px; padding-right: 0; }}
+.afi-growth-stat:nth-last-child(2) {{ padding-left: 10px; }}
+.afi-growth-stat b {{
+  display: block; color: var(--ink);
+  font-size: 21px; font-weight: 750; line-height: 1.05;
+  letter-spacing: -.04em;
 }}
 /* The increase is the number the ranking is built on; growth % is only ever
    context beside it, so it stays muted and unbolded even inside a red row. */
-.afi-growth-increase {{ color: var(--red); font-weight: 750; }}
+.afi-growth-stat b.afi-growth-increase {{ color: var(--red); font-weight: 750; }}
 .afi-growth-pct {{
-  color: var(--muted); font-weight: 600; margin-left: 4px; font-size: 11px;
+  display: block; color: var(--red); font-weight: 650;
+  margin: 0; font-size: 9px;
 }}
 .afi-growth-empty {{
-  display: block; margin-top: 6px; font-size: 12px; color: var(--muted);
+  grid-column: 1 / -1;
+  display: block; margin: 8px 0 0 48px; font-size: 12px; color: var(--muted);
 }}
 
 /* ----------------------------------------------------------------- badges */
