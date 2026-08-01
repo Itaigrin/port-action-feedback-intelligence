@@ -23,19 +23,23 @@ OUT = ROOT / "docs" / "screenshots"
 URL = "http://localhost:8504"
 
 # (filename, tab index, anchor text to scroll to, extra height in px)
+#
+# Anchors are literal heading text from src/ui/render.py and app.py's
+# render_guide(). Several headings were renamed or removed as the app
+# evolved (the old dashboard "persona and secondary areas" chart no longer
+# exists; the guide's "Worked examples" section was removed) -- when a
+# heading changes, update the anchor here, not just the caption in README.md.
 SHOTS = [
-    ("01-executive-summary.png", 0, "What to build next for Port Actions", 900),
+    ("01-executive-summary.png", 0, "Action Feedback Analyzer", 900),
     ("02-product-actions.png", 0, "Recommended product actions", 1100),
-    ("03-categories.png", 0, "Where the problems concentrate", 900),
-    ("04-journey.png", 0, "Where in the journey users get stuck", 900),
-    # Anchored on the caption, not the "Who is asking" heading: the page title
-    # ends with "...and who is asking for it", so the heading text is not unique.
-    ("05-persona-secondary.png", 0, "Persona is independent of product area", 800),
-    ("06-evidence.png", 0, "Evidence explorer", 800),
-    ("07-guide-intro.png", 1, "The four questions every record answers", 900),
+    ("03-categories.png", 0, "Matching feedback by category", 900),
+    ("04-journey.png", 0, "Matching feedback by Journey stage", 900),
+    ("05-where-users-struggle.png", 0, "Where users struggle most", 900),
+    ("06-evidence.png", 0, "Feedback behind recommended actions", 800),
+    ("07-guide-intro.png", 1, "Themes & Journey Stages Guide", 900),
     ("08-guide-categories.png", 1, "The 11 categories", 900),
     ("09-guide-stages.png", 1, "The 8 journey stages", 900),
-    ("10-guide-examples.png", 1, "Worked examples", 900),
+    ("10-guide-severity-personas.png", 1, "Severity and personas", 900),
 ]
 
 # Streamlit tabs are divs, not buttons with role=tab.

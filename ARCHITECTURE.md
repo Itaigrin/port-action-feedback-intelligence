@@ -86,6 +86,8 @@ This is the strongest anti-fabrication control in the system: the model cannot a
 ### D-6 — Confidence is a quality signal, never a ranking input
 `confidence` measures *the model's certainty*, not *how much the problem matters*. Letting it lift a position would mean well-phrased feedback outranks urgent-but-ambiguous feedback. It appears only as the fifth tie-breaker — used when four earlier keys are already identical — and is shown separately as a data-quality indicator.
 
+`needs_human_review` is exactly `confidence < 0.70`, one rule everywhere — not a disagreement flag, not a migration marker. For 60 records a reviewer read individually, `confidence` holds the reviewer's own number rather than the classifier's; the field's name and meaning to the reader ("how sure is the app") don't change, only who supplied the number. See [Review flag: one rule, not three](README.md#review-flag-one-rule-not-three) in the README for why, and `src/analysis/review.py` for the implementation.
+
 ### D-7 — No weighted score, and no vote-based ranking
 An earlier version ranked themes by `0.45 × votes + 0.30 × frequency + 0.25 × severity`. Both halves of that were wrong.
 
@@ -140,7 +142,7 @@ A sixth alphabetical key on the title makes the order total.
 
 It drives the two "where users struggle most" cards and the three-month trend chart, both of which count only Negative records — answering *where is the pain* rather than *where is the volume*.
 
-## Layout## Layout
+## Layout
 
 ```
 app.py                  Streamlit app -- Dashboard tab + Taxonomy & Journey Guide tab
@@ -211,6 +213,6 @@ All offline. No test makes a network or API call.
 | Open-record count, severity, source diversity | Plus customer segment, ARR, churn risk, engineering effort |
 | Public feedback only | Joined to internal telemetry — the Part 1 funnel |
 
-**Why a fixed taxonomy is right here and wrong at scale:** with ~60 records, a taxonomy drawn from Port's own documentation produces findings that point at pages the team already owns, and every record can be inspected by hand. Clustering 60 records produces unstable, hard-to-interpret groups. At thousands of records the trade reverses — a fixed taxonomy cannot discover a category nobody thought to name, and per-record LLM calls stop being economic.
+**Why a fixed taxonomy is right here and wrong at scale:** with ~185 in-scope records, a taxonomy drawn from Port's own documentation produces findings that point at pages the team already owns, and every record can be inspected by hand. Clustering records at this size produces unstable, hard-to-interpret groups. At thousands of records the trade reverses — a fixed taxonomy cannot discover a category nobody thought to name, and per-record LLM calls stop being economic.
 
 Slack, Zendesk, and Gong connections are **explained, not implemented**.

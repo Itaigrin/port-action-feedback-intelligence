@@ -105,7 +105,7 @@ Three cases the arithmetic cannot express are handled rather than printed:
 
 The increase is red because it is the number the ranking is built on; the percentage next to it stays a muted, smaller supporting fact rather than competing with it for attention.
 
-**"Needs human review" keeps its card in the original four-KPI row.** Its classification, filter, and card badge were never touched — the trend cards live in their own row below rather than displacing it.
+**"Needs human review" keeps its card in the original four-KPI row** — the trend cards live in their own row below rather than displacing it. What decides the flag has since changed; see [Review flag: one rule, not three](#review-flag-one-rule-not-three).
 
 ![Recommended product actions](docs/screenshots/02-product-actions.png)
 
@@ -119,9 +119,9 @@ The increase is red because it is the number the ranking is built on; the percen
 
 *Where friction falls across the eight stages of setting up an action, heaviest stage first. Stages on the same count stay in chronological lifecycle order, and stages with no feedback are shown rather than dropped — an empty stage is a finding, not a gap in the chart.*
 
-![Persona and secondary areas](docs/screenshots/05-persona-secondary.png)
+![Where users struggle most](docs/screenshots/05-where-users-struggle.png)
 
-*Who is asking, and which areas get pulled into other areas' problems. **Invocation & Integrations owns 17 records but is named as a contributing area in 19**, and Validation & Rules owns 9 against 12 — both are dragged into other teams' feedback more than they generate their own. Secondary mentions are counted in their own column and never enter a primary total or a ranking, so no record is counted twice.*
+*Two cards, counting only Negative feedback: the journey stage and the subcategory carrying the most pain. Each names a **recommended focus** — the problem type that is over-represented here against records outside the group, not just the most common one — plus up to three concise, de-duplicated examples. See [Where users struggle most](#where-users-struggle-most) for how the focus line and the examples are picked.*
 
 ![Evidence explorer](docs/screenshots/06-evidence.png)
 
@@ -131,19 +131,19 @@ The increase is red because it is the number the ranking is built on; the percen
 
 ![Guide introduction](docs/screenshots/07-guide-intro.png)
 
-*Explains what an Action is, why every record carries four independent labels rather than one, and how to place a record in four steps.*
+*Written for a reader with no software or DevOps background. Four cards state the four independent dimensions every record is labelled on — category, subcategory, problem type, journey stage — each with a plain-language question and a live count from the current dataset.*
 
 ![Categories](docs/screenshots/08-guide-categories.png)
 
-*All 11 categories and their 30 subcategories, each with a plain-language meaning, the former v2.1 groups it now covers, real examples quoted from records actually assigned to it, and live record counts from the current dataset.*
+*All 11 categories and their 30 subcategories, each with a plain-language meaning, a boundary rule for when it does *not* apply, real examples quoted from records actually assigned to it, and live record counts from the current dataset. Retired v2.1 names are deliberately not printed here — a reference view that shows a name the code no longer implements teaches a scheme that no longer exists.*
 
 ![Journey stages](docs/screenshots/09-guide-stages.png)
 
 *The 8 stages as a numbered timeline in lifecycle order, each with what the user was trying to do and a live record count.*
 
-![Worked examples](docs/screenshots/10-guide-examples.png)
+![Severity and personas](docs/screenshots/10-guide-severity-personas.png)
 
-*Eight worked classification examples with the reasoning shown, plus the eight side-by-side pairs that are most commonly confused.*
+*The two remaining independent dimensions, defined for a non-technical reader: what each severity level means, and who each persona is — with a live record count next to each.*
 
 ---
 
@@ -219,7 +219,7 @@ v3.0 keeps the **11 categories unchanged** and consolidates the subcategories to
 | `deepseek-chat` | 25/27 = **92.6%** | 10 |
 | **Combined** | 162/181 = **89.5%** | 141 |
 
-19 taxonomy disagreements and 5 relevance disagreements, all keeping the workbook and all flagged. The per-record list is in `data/processed/v3_reconciliation.json`.
+19 taxonomy disagreements and 5 relevance disagreements, all keeping the workbook. Every one of them was read by a reviewer — see [Review flag: one rule, not three](#review-flag-one-rule-not-three) for what happened next. The per-record list is in `data/processed/v3_reconciliation.json`.
 
 DeepSeek has no equivalent of Anthropic's grammar-constrained output, so the schema is enforced the hard way there: JSON mode, Pydantic validation, then a retry that feeds the validation error back so the model corrects rather than repeats. A response that never validates is skipped and reported, never coerced in. All 35 validated first time, with every quote grounded.
 
@@ -232,6 +232,30 @@ DeepSeek has no equivalent of Anthropic's grammar-constrained output, so the sch
 | No retired name appears in any UI or reference view | asserted against `app.py`, `render.py`, `theme.py` |
 
 One thing worth recording, because it shaped the design: **`topic_tags` could not be a model output.** Adding an array of strings to the classification schema pushed the structured-output grammar past its compile budget, and the API answered `Grammar compilation timed out` on every call — measured with everything else held identical, and bounding the item length did not help. Nothing is lost by moving it: what v3 needs preserved is each record's *former* subcategory, which the migration knows exactly and the model would only be guessing at. It is now written by the migration, never by the model.
+
+---
+
+### Review flag: one rule, not three
+
+Reconciliation left **59 records** flagged `needs_human_review`, but the flag itself was three unrelated causes wearing one name: the classifier's own confidence, a disagreement with the v3 assignment workbook, and a row the workbook had separately marked for a second look. A card could read `Confidence 0.85` beside `Needs human review` and look like the app contradicting itself — only one of the three causes had anything to do with that number.
+
+Every flagged record was **read by a reviewer** — the 59, plus a 60th that a consistency check surfaced afterward: a scope disagreement on an out-of-scope record that had never been in the original 59. Each was given a reviewer confidence, on the same 0–1 scale the classifier uses.
+
+**`confidence` now holds that reviewer's number for those 60 records**, in place of the classifier's. The field keeps its name and its place on the card, "Model confidence" — from the reader's side it is still the one figure saying how sure the app is; only who supplied it changed. Every other record's confidence is untouched.
+
+The flag is now **one rule everywhere, no exceptions**: `needs_human_review = confidence < 0.70`. Not scope, not a workbook disagreement, not a migration marker — just the number on the card versus the threshold.
+
+| | Count |
+|---|---|
+| Records reviewed | 60 |
+| Reviewer confidence ≥ 0.70 → cleared | 43 |
+| Reviewer confidence < 0.70 → still flagged | **17** |
+
+The verdicts and the reviewer's one-line reasoning for each live in `data/processed/review_adjudication.json`, kept separate from `analyzed.json` for the same reason `overrides.json` is: a judgement that only exists inside a regenerated file is a judgement that gets silently overwritten. `scripts/reconcile_v3.py` no longer sets the flag from a disagreement — it substitutes the reviewer's number where a verdict exists and applies the rule — and it names any disagreement that reaches it with no verdict attached rather than clearing it in silence, which is exactly how the 60th record was caught.
+
+A card that a reviewer confirmed shows `Reviewed - classification confirmed`, so a record someone read and cleared is not indistinguishable from one nobody has ever looked at — but nothing about the flag rule depends on that badge; it is a footnote, not a fourth cause.
+
+Implementation: [`src/analysis/review.py`](src/analysis/review.py). Tests: [`tests/test_review_adjudication.py`](tests/test_review_adjudication.py) — assert the flag is exactly `confidence < 0.70` for every record, with no exception route back in.
 
 ---
 
@@ -264,7 +288,7 @@ The app's second tab, **Taxonomy & Journey Guide**, explains all of this in plai
 
 **2. Quote grounding.** Every `evidence_excerpt` is checked **in Python** as an exact substring of the source text. Only the verified portion is stored, so anything displayed is guaranteed verbatim. **The model cannot attribute a complaint to a customer who never made it, because it cannot produce a quote that is not in the source.** Result: 184 of 185 in-scope records carry a verified quote; the 1 that failed is excluded from display, not shown.
 
-**3. Confidence is a quality signal, not a ranking input.** It measures the model's certainty, not how much a problem matters. Letting it drive ranking would mean well-phrased feedback outranks urgent-but-ambiguous feedback. It appears only as the fifth tie-breaker, used when four earlier keys are already identical; 18 records fall below 0.7 and 26 are flagged for human review — surfaced, not hidden.
+**3. Confidence is a quality signal, not a ranking input.** It measures the model's certainty, not how much a problem matters. Letting it drive ranking would mean well-phrased feedback outranks urgent-but-ambiguous feedback. It appears only as the fifth tie-breaker, used when four earlier keys are already identical; 17 records fall below 0.7 and are flagged for human review — surfaced, not hidden. See [Review flag: one rule, not three](#review-flag-one-rule-not-three) for how that number was reached.
 
 **Reproducibility, stated honestly.** `temperature` no longer exists on current models, so run-to-run identical output is not achievable. Consistency comes from a fixed versioned prompt, closed enums, and low effort — and the real guarantee is that **classification results are committed to the repo**. The dashboard replays stored results rather than re-running the model.
 
@@ -398,7 +422,7 @@ A weekly line chart below the cards, `Negative feedback by Journey stage — las
 
 It is inline SVG with a CSS-only hover, not Plotly: re-adding a plotting library for one line chart would bring back the canvas, toolbar, font and margin conflicts that removing it solved, and a scripted tooltip would have to live in a component iframe that cannot draw over the page.
 
-### Verification### Verification
+### Verification
 
 The counts behind the ranked actions are recomputed by hand from the raw records, independently of the aggregation code, and the order is asserted lexicographic and total — `tests/test_pipeline.py::test_ranking_recomputed_by_hand` and `::test_ranking_is_lexicographic_and_total`. Implementation: [`src/analysis/aggregate.py`](src/analysis/aggregate.py) → `RANK_KEYS` and `product_actions()`.
 
