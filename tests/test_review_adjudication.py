@@ -106,6 +106,52 @@ def test_apply_is_the_only_thing_that_sets_the_flag():
     assert counts == {"flagged": 1, "cleared": 0, "unjudged_cleared": 1}
 
 
+def _card(**record) -> str:
+    from src.ui.render import render_feedback_cards
+    base = {"feedback_id": "x", "source_system": "Port portal",
+            "lifecycle_status": "In progress", "created_at": "2026-07-21",
+            "confidence": 0.55, "persona": "Action builder", "title": "t",
+            "suggested_product_action": "a", "evidence_excerpt": "q",
+            "source_url": "https://example.invalid/1", "severity": 4,
+            "primary_taxonomy_category": "Orchestration",
+            "primary_taxonomy_subcategory": "Workflow approvals, error handling "
+                                            "& recovery",
+            "problem_type": "Feature gap", "journey_stage": "Backend & "
+                                                            "invocation setup"}
+    return render_feedback_cards([{**base, **record}])
+
+
+def test_the_card_names_whose_confidence_it_shows():
+    """The model's score and the reviewer's are different judgements.
+
+    Showing one unlabelled beside the other's verdict is what made a card read
+    as self-contradictory in both directions: 0.85 next to a flag, and 0.55
+    next to no flag.
+    """
+    html = _card(confidence=0.55, review_confidence=0.92,
+                 needs_human_review=False, review_reasons=[])
+    assert "Model confidence 0.55" in html
+    assert "Reviewed - classification confirmed" in html
+    assert "Needs human review" not in html
+
+
+def test_a_record_nobody_reviewed_claims_nothing():
+    """NaN is truthy and formats as "nan"; the card must not report it."""
+    html = _card(review_confidence=float("nan"), needs_human_review=False)
+    assert "Reviewed" not in html
+    assert "nan" not in html.lower().replace("canonical", "")
+
+    missing = _card(needs_human_review=False)
+    assert "Reviewed" not in missing
+
+
+def test_a_flagged_card_shows_the_reason_not_the_confirmation():
+    html = _card(confidence=0.85, review_confidence=0.45,
+                 needs_human_review=True, review_reasons=["genuinely ambiguous"])
+    assert "Needs human review: genuinely ambiguous" in html
+    assert "Reviewed - classification confirmed" not in html
+
+
 def test_a_missing_verdict_file_is_not_a_crash(tmp_path):
     """The dashboard must still start on a checkout without the file."""
     assert review.load_adjudications(tmp_path / "nope.json") == {}

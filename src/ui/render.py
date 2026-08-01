@@ -527,6 +527,20 @@ def _severity_badge(severity: int) -> str:
            f"Severity {severity}</span>"
 
 
+def _reviewer_confidence(record: dict) -> float | None:
+    """The reviewer's own score, or None when nobody ruled on this record.
+
+    NaN-safe deliberately. Records reach the cards through a DataFrame, and a
+    column that is only set on some rows arrives as NaN on the rest -- and NaN
+    is truthy, so a plain `or` test would report every unreviewed record as
+    reviewed, with a score that formats as "nan".
+    """
+    value = record.get("review_confidence")
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return None if value != value else float(value)
+
+
 def render_feedback_cards(records: list[dict]) -> str:
     if not records:
         return ('<div class="afi-empty">No feedback matches these filters. '
@@ -541,21 +555,28 @@ def render_feedback_cards(records: list[dict]) -> str:
         created = (r.get("created_at") or "")[:10]
         if created:
             meta.append(f'<span class="afi-badge b-neutral">{_esc(created)}</span>')
+        # "Model confidence", not "Confidence": the review badge beside it is a
+        # *reviewer's* judgement, and two different judgements on one card with
+        # only one of them named is what made 0.55 look like it contradicted an
+        # unflagged record -- and 0.85 look like it contradicted a flagged one.
         meta.append(
             f'<span class="afi-badge b-neutral">'
-            f'Confidence {float(r["confidence"]):.2f}</span>'
+            f'Model confidence {float(r["confidence"]):.2f}</span>'
         )
         meta.append(f'<span class="afi-badge b-purple">{_esc(r["persona"])}</span>')
+        reviewed = _reviewer_confidence(r)
         if r.get("needs_human_review"):
-            # Say *why*. The flag carries several unrelated meanings -- the
-            # classifier was unsure, the v3 migration marked it, or the
-            # reclassification disagreed with the assignment it was given --
-            # and a bare badge beside "Confidence 0.85" reads as the app
-            # contradicting itself rather than as a queue of things to settle.
+            # Say *why*: a bare badge is a queue item nobody can act on.
             reasons = [str(x) for x in (r.get("review_reasons") or []) if x]
             why = f": {'; '.join(reasons)}" if reasons else ""
             meta.append(f'<span class="afi-badge b-amber">Needs human review'
                         f'{_esc(why)}</span>')
+        elif reviewed is not None:
+            # The other half of the story. Without it, a record the model was
+            # unsure about and a reviewer settled is indistinguishable from one
+            # nobody ever looked at.
+            meta.append('<span class="afi-badge b-green">Reviewed - '
+                        "classification confirmed</span>")
         # A reader must be able to tell a human label from a model one, so an
         # edited record says so on its face rather than only in the file.
         if r.get("manually_edited"):
