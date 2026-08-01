@@ -899,11 +899,17 @@ def render_guide() -> None:
                 st.caption(f"Usual journey stage: `{block['default_stage']}`")
                 for sub_name, sub in block["subcategories"].items():
                     sub_count = sub_counts.get(sub_name, 0)
-                    use_for = "; ".join(sub["use_for"]) + "."
                     examples_html = "".join(
                         f'<div class="afi-subcat-example">{example}</div>'
                         for example in sub["examples"]
                     )
+                    # The definition and the boundary, then real quotes.
+                    #
+                    # `use_for` is deliberately not rendered here: in v3 it
+                    # holds the v2.1 subcategories each group absorbed, which
+                    # is useful context for the classifier but is a list of
+                    # retired names, and a reference view that prints retired
+                    # names teaches a scheme the code no longer implements.
                     st.markdown(
                         '<div class="afi-subcat">'
                         '<div class="afi-subcat-head">'
@@ -912,7 +918,8 @@ def render_guide() -> None:
                         f'{"s" if sub_count != 1 else ""}</span>'
                         "</div>"
                         f'<p class="afi-subcat-desc">{sub["plain"]}</p>'
-                        f'<p class="afi-subcat-usefor"><b>Use it for:</b> {use_for}</p>'
+                        f'<p class="afi-subcat-usefor"><b>Not this one when:</b> '
+                        f'{sub["avoid"]}</p>'
                         f'<div class="afi-subcat-examples">{examples_html}</div>'
                         "</div>",
                         unsafe_allow_html=True,

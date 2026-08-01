@@ -20,7 +20,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, model_validator
 
 from .taxonomy import (
-    ALL_SUBCATEGORY_NAMES,
+    ASSIGNABLE_SUBCATEGORY_NAMES,
     CATEGORY_NAMES,
     PERSONA_NAMES,
     POLARITY_NAMES,
@@ -31,13 +31,30 @@ from .taxonomy import (
 
 # Literal types are built from the taxonomy so the two can never drift apart.
 TaxonomyCategory = Literal[CATEGORY_NAMES]        # type: ignore[valid-type]
-TaxonomySubcategory = Literal[ALL_SUBCATEGORY_NAMES]  # type: ignore[valid-type]
+# Assignable, not core: the schema must permit the fallback so unmatched
+# feedback has somewhere legal to go. Views and counts use the core list.
+TaxonomySubcategory = Literal[ASSIGNABLE_SUBCATEGORY_NAMES]  # type: ignore[valid-type]
 JourneyStage = Literal[STAGE_NAMES]               # type: ignore[valid-type]
 ProblemType = Literal[PROBLEM_TYPE_NAMES]         # type: ignore[valid-type]
 Persona = Literal[PERSONA_NAMES]                  # type: ignore[valid-type]
 Polarity = Literal[POLARITY_NAMES]                # type: ignore[valid-type]
 
 MAX_SECONDARY_ASSIGNMENTS = 2
+
+# topic_tags is a stored field on the record, NOT a field the model returns.
+#
+# It was tried as a model output first and could not ship: adding an array of
+# strings to this schema pushed the structured-output grammar past its compile
+# budget, and the API answered "Grammar compilation timed out" on every call.
+# Measured, with everything else identical -- with the array the request fails
+# after ~120s; without it the same request succeeds. Bounding the item length
+# did not help; the array itself is the cost.
+#
+# Nothing is lost by moving it. What v3 needs preserved is the former v2.1
+# subcategory of each existing record, which the migration knows exactly and
+# the model would only be guessing at. scripts/migrate_taxonomy_v3.py writes
+# it, and the reconcile step restores it after a reclassification run.
+MAX_TOPIC_TAGS = 4
 
 
 class SecondaryAssignment(BaseModel):
@@ -208,6 +225,9 @@ class FeedbackClassification(BaseModel):
             self.problem_type = None
             self.journey_stage = None
             self.secondary_assignments = []
+            # Tags go too. They are taxonomy detail, and an out-of-scope record
+            # carrying "Approval policies & thresholds" would still surface in
+            # a tag search as though it had been classified.
 
         # A secondary that repeats the primary, or repeats another secondary,
         # would double-count the same area in the drill-down.
@@ -241,6 +261,9 @@ class AnalyzedRecord(BaseModel):
     source_url: str
 
     classification: FeedbackClassification
+
+    # Written by the migration, never by the model -- see MAX_TOPIC_TAGS.
+    topic_tags: list[str] = Field(default_factory=list, max_length=MAX_TOPIC_TAGS)
 
     feedback_polarity: str
     # provenance -- recorded so any figure can be traced to what produced it

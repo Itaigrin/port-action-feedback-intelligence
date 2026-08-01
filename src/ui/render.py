@@ -22,7 +22,10 @@ from __future__ import annotations
 
 from html import escape
 
-from ..models.taxonomy import SEVERITY_SCALE  # noqa: F401  (documents the 1-5 scale)
+from ..models.taxonomy import (  # noqa: F401  (SEVERITY_SCALE documents the 1-5 scale)
+    SEVERITY_SCALE,
+    TAXONOMY_VERSION,
+)
 from .theme import SEVERITY_BADGE
 
 # Anchor id for the feedback section, so a focus click can scroll to the records
@@ -60,7 +63,11 @@ def _plural(n: int, word: str) -> str:
 
 # --------------------------------------------------------------------------
 def render_topbar(meta: dict) -> str:
-    taxonomy = _esc(meta.get("taxonomy_version", "v2.0"))
+    # Falls back to the taxonomy the code is built against, not a literal: a
+    # hardcoded version here read "v2.0" long after the taxonomy had moved on,
+    # so the one place a reader checks which scheme they are looking at was
+    # the one place guaranteed to go stale.
+    taxonomy = _esc(meta.get("taxonomy_version") or TAXONOMY_VERSION)
     return (
         '<div class="afi-topbar">'
         '<div class="afi-brand">'

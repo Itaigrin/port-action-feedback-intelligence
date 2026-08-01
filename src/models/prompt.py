@@ -4,7 +4,7 @@ Split deliberately:
   SYSTEM  -- taxonomy, definitions, rules. Identical on every call, so it is
              marked for prompt caching and read at ~0.1x cost after the first
              request. This is what makes a taxonomy this detailed affordable:
-             the 63 subcategory definitions are sent once and cached, not
+             the 30 subcategory definitions are sent once and cached, not
              re-billed at full rate on all ~330 records.
   USER    -- only the record's title, body, source and category.
 
@@ -20,6 +20,8 @@ genuine reclassification rather than replaying stale labels.
 from __future__ import annotations
 
 from .taxonomy import (
+    FALLBACK_CATEGORY_HINT,
+    FALLBACK_SUBCATEGORY,
     JOURNEY_STAGES,
     PERSONAS,
     POLARITIES,
@@ -34,11 +36,11 @@ from .taxonomy import (
 # lifecycle status. Bumping this reclassifies every record, which is required:
 # polarity cannot be back-filled from any field already stored.
 #
-# v3.0 -- hierarchical taxonomy (11 categories / 63 subcategories), independent
+# v4.1 -- taxonomy v3.0 (11 categories / 30 core subcategories), topic_tags
 # problem type, persona, secondary assignments and a grouping-oriented
 # suggested_product_action. Bumping this invalidates every cache key, which is
 # intended: v2.0 labels are not translatable into this structure.
-PROMPT_VERSION = "v4.0"
+PROMPT_VERSION = "v4.1"
 
 _NL = chr(10)
 
@@ -142,11 +144,16 @@ no pain. Do NOT use Neutral as a soft landing for feedback you find hard to
 read; if it describes friction, it is Negative, and if you truly cannot tell,
 set needs_human_review.
 
-## Taxonomy -- 11 categories, 63 subcategories
+## Taxonomy -- 11 categories, 30 subcategories
 
 Choose exactly ONE primary category and ONE subcategory that belongs to it.
 Selecting a subcategory from a different category is invalid and will be
 rejected.
+
+There is one further subcategory, "{FALLBACK_SUBCATEGORY}", valid under any
+category. {FALLBACK_CATEGORY_HINT} Reaching for it when a core subcategory
+genuinely fits is the more damaging error of the two: it hides a real signal
+in a bucket nobody reviews.
 
 {_render_taxonomy()}
 

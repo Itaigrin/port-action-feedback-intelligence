@@ -8,7 +8,7 @@ How every piece of feedback is categorised. Defined **before** any data was clas
 
 Single source of truth: [`src/models/taxonomy.py`](src/models/taxonomy.py). The classifier, the Pydantic schema, the dashboard, the in-app guide and this document all read from it. This file is generated from that module, so it cannot describe a taxonomy the code does not implement.
 
-> **Version v2.1.** The flat theme list was replaced by a two-level structure of 11 categories and 63 subcategories, with problem type, persona, lifecycle status and source system split out as independent dimensions. Because the change is semantic rather than cosmetic, every record was **reclassified** rather than relabelled — the classification cache is keyed on the taxonomy version precisely so that a revision cannot replay old labels.
+> **Version v3.0.** The flat theme list was replaced by a two-level structure of 11 categories and 30 subcategories, with problem type, persona, lifecycle status and source system split out as independent dimensions. Because the change is semantic rather than cosmetic, every record was **reclassified** rather than relabelled — the classification cache is keyed on the taxonomy version precisely so that a revision cannot replay old labels.
 
 ---
 
@@ -17,7 +17,7 @@ Single source of truth: [`src/models/taxonomy.py`](src/models/taxonomy.py). The 
 | Dimension | Question it answers | Count |
 |---|---|---|
 | **Taxonomy category** | *Which broad product area* does this concern? | **11** |
-| **Taxonomy subcategory** | *Which specific part* of that area needs work? | **63** |
+| **Taxonomy subcategory** | *Which specific part* of that area needs work? | **30** |
 | **Problem type** | *What kind* of problem is it? | **14** |
 | **Journey stage** | *Where* in the Action lifecycle does the user hit it? | **8** |
 
@@ -44,7 +44,7 @@ Order is load-bearing: every chart, filter and guide section derives its order f
 
 ---
 
-## Categories and subcategories (11 × 63)
+## Categories and subcategories (11 × 30)
 
 Each subcategory carries a **Do NOT use when** rule. Those rules matter more than the definitions: almost every misclassification is a confusion between two adjacent subcategories, and the avoid line is what names the neighbour and sends you to it.
 
@@ -55,49 +55,27 @@ How users find, organize, display and reuse Actions.
 *Usual journey stage:* `Action discovery & organization`  
 *Most often confused with:* *Permissions & Approvals*, *Context, Targeting & Pre-fill*
 
-#### Action discovery, grouping & ordering
+#### Action discovery, organization & placement
 
-Finding the right Action in a crowded catalog.
+Finding, organizing, ordering and placing Actions so users see the right Action in the right catalog surface.
 
-**Use for:** Searching for an Action; Categories, subcategories, folders, tags; Sorting and ordering; Unclear Action names; Too many Actions in one catalog; Organizing Actions in menus or catalogs.
+**Use for:** Action discovery, grouping & ordering; Conditional availability & placement.
 
-> ⛔ **Do NOT use when:** The Action is hidden because the user lacks permission -- that is Permissions & Approvals.
+> ⛔ **Do NOT use when:** Authorization-based visibility belongs to Access control & action eligibility. Multi-entity execution belongs to Bulk actions.
 
-- "There are too many Actions on the page and no way to group them."
-- "We cannot tell which Action deploys a service from the name alone."
-
-#### Conditional availability & placement
-
-Controlling where an Action appears, for non-authorization reasons.
-
-**Use for:** Showing an Action only on a specific page or surface; Showing an Action only for a specific Blueprint or Entity type; Placement rules that are not authorization rules.
-
-> ⛔ **Do NOT use when:** Hidden because of permissions -> Permissions & Approvals. Retaining the launch context -> Context, Targeting & Pre-fill.
-
-- "This Action should only appear on Service pages, not everywhere."
-- "Show the deploy Action only for Blueprints that have a repo."
+- “there is a requirement to filter Self Service Actions on custom catalogue pages”
+- “Allow categorizing self service actions for ease of finding appropriate actions for your needs.”
 
 #### Bulk actions
 
-Running one Action against many Entities at once.
+Running one Action against multiple selected or filtered entities in a single operation.
 
-**Use for:** Running one Action against several Entities; Selecting multiple targets; Batch execution and bulk configuration operations.
+**Use for:** Bulk actions.
 
-> ⛔ **Do NOT use when:** Several backend steps inside one Action -- that is Orchestration.
+> ⛔ **Do NOT use when:** Several backend steps inside one Action belong to Orchestration. Payload shaping belongs to Payload mapping & transformation.
 
-- "Let me run this Action on all 40 services at once."
-- "Select multiple entities from the table and trigger one Action."
-
-#### Reusability & templates
-
-Reusing an Action definition instead of rebuilding it each time.
-
-**Use for:** Reusing an Action definition, templates, shared configurations; Reusing an Action across Blueprints or teams; Avoiding repeated manual Action setup; Cloning standardized Action configurations.
-
-> ⛔ **Do NOT use when:** If the reusable object is specifically a permission policy, the primary category may be Permissions & Approvals with this as secondary.
-
-- "We copy the same Action definition into six Blueprints by hand."
-- "Give us Action templates so teams start from a standard config."
+- “It would be great to have an option to do bulk actions(day2 and DELETE) on entities”
+- “I want to run a single action that references all entities”
 
 ---
 
@@ -108,60 +86,16 @@ Using what Port already knows so the Action opens in the right context and stops
 *Usual journey stage:* `Contextual entry, targeting & pre-fill`  
 *Most often confused with:* *Form Configuration*, *Discovery, Organization & Reuse*
 
-#### Contextual entry & deep links
+#### Contextual launch, targeting & pre-fill
 
-Opening an Action from a specific place, with that context intact.
+Launching an Action from the right surface with the intended entity/resource and values Port can infer from context.
 
-**Use for:** Direct links to an Action; Links that carry Action context; Opening an Action from a specific page; Preserving context through a URL; Deep-linking to a form with known values.
+**Use for:** Contextual entry & deep links; Entity and resource targeting; Pre-fill & context-specific defaults; Embedded & alternative launch surfaces.
 
-> ⛔ **Do NOT use when:** A fixed default configured for everyone is not contextual -- that is Form Configuration.
+> ⛔ **Do NOT use when:** General defaults not derived from launch context belong to Dynamic inputs, defaults & computed fields. Acting as the requester belongs to Authentication, execution identity & requester context.
 
-- "Send a link that opens this Action already filled in for this service."
-- "We want a URL that deep-links straight into the request form."
-
-#### Entity and resource targeting
-
-Deciding which Entity or resource the Action applies to.
-
-**Use for:** Selecting which Entity or resource the Action applies to; Automatically determining the target; Target Blueprint, Service, Namespace, Environment or Resource; Avoiding ambiguous Action targets.
-
-> ⛔ **Do NOT use when:** Adding a new selector field is Form Configuration.
-
-- "The Action should know it applies to the namespace I came from."
-- "It is ambiguous which resource this Action will actually change."
-
-#### Pre-fill & context-specific defaults
-
-Filling in values Port can already infer from where the user was.
-
-**Use for:** Automatically filling known values; Values derived from the current Entity; Values derived from the originating page; Context-specific defaults; Avoiding repeated manual selection.
-
-> ⛔ **Do NOT use when:** A fixed default configured for every user may belong to Form Configuration -> Defaults & computed fields.
-
-- "I opened the Action from this Service page, so the Service should already be selected."
-- "Stop asking me for the environment when the page already knows it."
-
-#### Embedded & alternative launch surfaces
-
-Launching the Action from somewhere other than the Self-Service page.
-
-**Use for:** Opening the Action in a modal; Opening the Action inside an Entity page; Launching from a widget; Launching from Slack or another surface; Avoiding navigation to the general Self-Service page.
-
-> ⛔ **Do NOT use when:** Changing which users can see the Action is Permissions & Approvals.
-
-- "Let us trigger this Action straight from Slack."
-- "Open the Action in a modal instead of navigating away."
-
-#### Current-user and context propagation
-
-Passing who the requester is, and their org context, into the Action.
-
-**Use for:** Passing the current user; Passing team, organization, Entity, Blueprint, account or environment context; Using requester identity as an input; Propagating context into the Action or backend invocation.
-
-> ⛔ **Do NOT use when:** Executing *as* that user, or authenticating as them, is Identity, Secrets & Security.
-
-- "The backend needs to know which team the requester belongs to."
-- "Pass the current user's email into the payload automatically."
+- “an action if associated with service overview entity cant be associated with the service blueprint entity - which means a new actions should be created”
+- “the bot intentionally does not execute the action automatically. Instead, it collects some parameters and then redirects the user back to the Port UI”
 
 ---
 
@@ -172,71 +106,38 @@ The visible form, the fields it contains, and how users complete it.
 *Usual journey stage:* `Form & input configuration`  
 *Most often confused with:* *Validation & Rules*, *Context, Targeting & Pre-fill*, *Orchestration*
 
-#### Input types & controls
+#### Input types & structured data
 
-Which kinds of form field exist at all.
+The field and control types available in Action forms, including arrays, objects, tables and repeatable groups.
 
-**Use for:** Text, number, date, file upload, dropdown, multi-select; Maps, tables, long text, boolean controls; Any missing or limited form control.
+**Use for:** Input types & controls; Structured & repeatable inputs.
 
-> ⛔ **Do NOT use when:** A field that changes because of another field is Dynamic & dependent inputs.
+> ⛔ **Do NOT use when:** Fields that change based on another value belong to Dynamic inputs, defaults & computed fields. Visual arrangement belongs to Form presentation, layout & guidance.
 
-- "We need a file upload field to attach a config."
-- "There is no map or key-value input type."
+- “requiring users to manually select each item one by one — which becomes tedious and time-consuming when dealing with large lists”
+- “Without a table view, the UX is not good”
 
-#### Structured & repeatable inputs
+#### Dynamic inputs, defaults & computed fields
 
-Repeating a group of fields, or entering a list of objects.
+Form values, options, visibility or editability that are populated or recalculated from other inputs, data or context.
 
-**Use for:** Arrays of objects; Repeatable sections, adding or removing rows; Structured lists and nested input groups; Repeating the same group of fields multiple times.
+**Use for:** Dynamic & dependent inputs; Defaults & computed fields.
 
-> ⛔ **Do NOT use when:** Several backend steps -> Orchestration. Several form pages -> Form layout, sections & multi-page forms.
+> ⛔ **Do NOT use when:** Context inherited from the launch surface belongs to Contextual launch, targeting & pre-fill. Acceptance rules belong to Form validation, messages & conditional rules.
 
-- "Let users add several environment-variable rows."
-- "We need an array of objects, not one flat text field."
+- “This is done by calculating values based on the data of other form inputs, user data, and entity data.”
+- “auto-generated from the previous inputs and NOT EDITABLE from the user form”
 
-#### Dynamic & dependent inputs
+#### Form presentation, layout & guidance
 
-Fields that change by themselves based on other fields or data.
+How the form is arranged, navigated, labelled and explained to the end user.
 
-**Use for:** Dropdown values changing based on another field; One field depending on another; Options loaded from an API or dataset; Conditional field visibility; Dynamically enabled, disabled or read-only fields; Inputs that adapt while the user fills in the form.
+**Use for:** Form layout, sections & multi-page forms; Labels, descriptions & display controls.
 
-> ⛔ **Do NOT use when:** If the issue is only whether the entered value is acceptable, that is Validation & Rules.
+> ⛔ **Do NOT use when:** New input capabilities belong to Input types & structured data. Invalid-value explanations belong to Form validation, messages & conditional rules.
 
-- "The region options should change after I pick a cloud provider."
-- "Show the risk field only when environment is Production."
-
-#### Defaults & computed fields
-
-Values the form fills in or calculates on its own.
-
-**Use for:** General default values; Computed fields, formula-derived inputs; Automatically calculated values; Values derived from other form fields.
-
-> ⛔ **Do NOT use when:** If the value comes from the page or Entity the Action was opened from, use Context, Targeting & Pre-fill.
-
-- "Default the replica count to 3 for everyone."
-- "Compute the resource name from the two fields above."
-
-#### Form layout, sections & multi-page forms
-
-How the form is arranged and broken up visually.
-
-**Use for:** Field ordering, grouping, form sections, collapsible sections; Reducing form complexity; Splitting a long form into several visual pages; Wizard-like form navigation; Filters placed before large selectors.
-
-> ⛔ **Do NOT use when:** IMPORTANT: several visual PAGES belong here; several backend OPERATIONS in sequence belong to Orchestration.
-
-- "Split this 25-field form into three steps."
-- "Group the network settings into a collapsible section."
-
-#### Labels, descriptions & display controls
-
-The wording and presentation around each field.
-
-**Use for:** Field labels, descriptions, placeholder text, help text; Units and display formatting; Hiding labels; Improving the clarity of a field.
-
-> ⛔ **Do NOT use when:** An unclear message about an invalid value is Validation & Rules -> Validation messages.
-
-- "Nobody understands what this field wants; we need help text."
-- "Show the unit (GB) next to the size field."
+- “This button will allow users to initiate the action immediately if they do not need to modify any fields in subsequent steps.”
+- “the button is always displayed, even for forms intended purely for informational or navigational purposes, which can confuse users”
 
 ---
 
@@ -247,60 +148,38 @@ Rules deciding whether the values are acceptable and submission may proceed.
 *Usual journey stage:* `Validation, dependencies & conditional logic`  
 *Most often confused with:* *Form Configuration*, *Observability & Debugging*
 
-#### Input & cross-field validation
+#### Form validation, messages & conditional rules
 
-Checking that entered values are acceptable.
+Pre-submission rules that determine whether form values are valid and explain how users should correct them.
 
-**Use for:** Required fields, format validation; Minimum or maximum values, regex validation; Comparing two fields, date rules, cross-field checks; Preventing invalid form submission.
+**Use for:** Input & cross-field validation; Conditional logic; Validation messages.
 
-> ⛔ **Do NOT use when:** A dropdown merely changing its options is Form Configuration -> Dynamic & dependent inputs.
+> ⛔ **Do NOT use when:** Rules that must also hold through API/MCP belong to Server-side & API enforcement. Runtime failures belong to Logs & error diagnostics.
 
-- "Replica count must be at least 3 in production."
-- "The end date must be after the start date."
-
-#### Conditional logic
-
-Business rules that decide whether submission can continue.
-
-**Use for:** "If A, then B is required"; Rules that determine whether submission can proceed; Conditional requirements; Business rules applied before execution.
-
-> ⛔ **Do NOT use when:** A dropdown simply changing its options -> Form Configuration -> Dynamic & dependent inputs.
-
-- "If the tier is Enterprise, the approval reason becomes required."
-- "Block submission unless a cost centre is supplied."
+- “When the identifier is null, Port auto-generates an identifier with a UUID so no error is raised from Port API, even though we want to enforce it”
+- “conditional logic like "replica count must be at least 3 when deploying to production", cross-field rules like email confirmation, and meaningful error messages”
 
 #### Server-side & API enforcement
 
-Making the rules hold even when the UI is not used.
+Consistent validation and guardrail enforcement across UI, API, MCP, JSON and other non-UI invocation paths.
 
-**Use for:** Validation that works only in the UI; API, MCP, webhook or backend paths bypassing validation; Consistent enforcement across UI and non-UI invocation paths; Security-sensitive server-side validation.
+**Use for:** Server-side & API enforcement.
 
-> ⛔ **Do NOT use when:** Missing an integration entirely is Invocation & Integrations.
+> ⛔ **Do NOT use when:** Missing integrations belong to Backends, APIs & event triggers. UI-only validation belongs to Form validation, messages & conditional rules.
 
-- "The API accepts values the form would have rejected."
-- "MCP execution bypasses our front-end validation."
+- “validate the user input for corectness against custom business logic, and display an error returned from the backend under the text field, without actually submitting the form”
+- “Any execution path that bypasses the form UI, JSON mode, direct API calls, or Port's MCP, skips these validations entirely, allowing invalid or unauthorized inputs to be submitted.”
 
-#### Validation messages
+#### Expression & JQ authoring
 
-Explaining clearly what is wrong before submission.
+Writing, testing, understanding and maintaining JQ or other expressions used in Action configuration.
 
-**Use for:** Unclear pre-submission error messages; Missing explanation of which value is invalid; Messages that do not explain how to correct the form; Custom validation messages.
+**Use for:** Expression and JQ rule authoring.
 
-> ⛔ **Do NOT use when:** Errors AFTER the Action started belong to Observability & Debugging -> Error messages & backend responses.
+> ⛔ **Do NOT use when:** Runtime expression failures belong to Logs & error diagnostics. Payload reshaping belongs to Payload mapping & transformation.
 
-- "It says invalid but never says which format it wants."
-- "Let us write our own message for this regex rule."
-
-#### Expression and JQ rule authoring
-
-Writing, testing and debugging the rule expressions themselves.
-
-**Use for:** Writing JQ expressions; Testing rule expressions; Rule-builder usability; Debugging condition syntax; Previewing rule results and expression validation.
-
-> ⛔ **Do NOT use when:** Runtime JQ failures during execution are Observability & Debugging.
-
-- "The jqQuery becomes unreadable with five conditions."
-- "We need a way to preview what this expression evaluates to."
+- “it is not possible to use JQ when creating conditions for Day-2 or Delete actions”
+- “We should find a way to alert relevant stakeholders to the fact that the calculated value is invalid when it occurs.”
 
 ---
 
@@ -311,60 +190,38 @@ How the submitted Action connects to the system that does the work.
 *Usual journey stage:* `Backend & invocation setup`  
 *Most often confused with:* *Identity, Secrets & Security*, *Orchestration*
 
-#### Backend & invocation method selection
+#### Backends, APIs & event triggers
 
-Choosing what actually runs when the form is submitted.
+Choosing and connecting the backend, API, integration or event mechanism that invokes or triggers the work.
 
-**Use for:** Selecting a webhook, pipeline, GitHub workflow, GitLab pipeline, Kafka target; Choosing how the Action is invoked; Supporting additional invocation methods; Configuring which execution mechanism should run.
+**Use for:** Backend & invocation method selection; APIs & external integrations; Event triggers & action-to-automation integration.
 
-> ⛔ **Do NOT use when:** Viewing or controlling a Run that already started is Execution Lifecycle or Observability & Debugging.
+> ⛔ **Do NOT use when:** Payload shape belongs to Payload mapping & transformation. Private execution infrastructure belongs to Execution agents & runners.
 
-- "We need to trigger an Azure DevOps pipeline, not just GitHub."
-- "Support Kafka as an invocation target."
+- “another invocation type that would be awesome, would be directly integrating with Lambda and OpenFAAS”
+- “Add the option to use a generic invocation method that sends a log message to an action run ID provided as an input.”
 
 #### Payload mapping & transformation
 
-Shaping the data sent to the backend.
+Selecting, reshaping, encoding, previewing or passing through the data sent to a backend.
 
-**Use for:** Building the outbound payload; Renaming submitted fields, transforming values; Mapping form inputs to backend parameters; Restructuring JSON, adding or removing payload fields; Previewing the outgoing payload.
+**Use for:** Payload mapping & transformation.
 
-> ⛔ **Do NOT use when:** Changing what the user sees in the form is Form Configuration.
+> ⛔ **Do NOT use when:** Information inherited from the launch context belongs to Contextual launch, targeting & pre-fill. Authentication identity belongs to Identity, Secrets & Security.
 
-- "Use JQ to reshape the payload before sending it to the workflow."
-- "Let us preview exactly what will be POSTed."
-
-#### APIs & external integrations
-
-Connecting Actions to outside systems.
-
-**Use for:** Connecting Actions to external APIs; Integration configuration; Missing API support; External systems used by the Action; API-specific invocation behavior.
-
-> ⛔ **Do NOT use when:** Do not use just because an API supplies dropdown values -- that is Form Configuration -> Dynamic & dependent inputs.
-
-- "We need a native ServiceNow integration for this Action."
-- "The Action must call our internal provisioning API."
+- “The self-service engineer should be able to choose which entity properties or property are relevant to send to the self-service action.”
+- “base64 encoding username:PAT (or :PAT) is the correct approach, and right now you have to do so outside of Port”
 
 #### Execution agents & runners
 
-Where the Action physically runs, and reaching it.
+Where an Action physically executes, including agent selection, routing, connectivity and runner configuration.
 
-**Use for:** Execution agents, runners, agent configuration; Selecting where the Action runs; Connectivity between Port and the execution environment.
+**Use for:** Execution agents & runners.
 
-> ⛔ **Do NOT use when:** Security or identity issues involving the runner may primarily belong to Identity, Secrets & Security.
+> ⛔ **Do NOT use when:** Selecting a normal SaaS backend belongs to Backends, APIs & event triggers. Credentials belong to Credentials, secrets & request signing.
 
-- "The agent cannot reach our private network."
-- "Let us choose which runner executes this Action."
-
-#### Event triggers & action-to-automation integration
-
-Wiring an Action to events and automations.
-
-**Use for:** Connecting an Action to an Automation; Triggering workflows or automations from an Action; Event-based invocation; Action-trigger configuration; Passing Action events into another system.
-
-> ⛔ **Do NOT use when:** General Automation authoring unrelated to Actions is out of scope entirely -- mark is_relevant=false.
-
-- "Trigger a downstream automation when this Action completes."
-- "Fire this Action from an external event."
+- “You cannot control which agent processes which message at the moment.”
+- “We want to communicate with an internal service without the hassle of handling the self signed certificates”
 
 ---
 
@@ -375,60 +232,38 @@ Who or what executes the Action, and how sensitive data is protected.
 *Usual journey stage:* `Backend & invocation setup`  
 *Most often confused with:* *Invocation & Integrations*, *Permissions & Approvals*
 
-#### Authentication & delegated execution
+#### Authentication, execution identity & requester context
 
-Running the Action as a particular identity.
+Who or what executes the Action and which trusted requester identity/context is propagated to downstream systems.
 
-**Use for:** OAuth, JWT, authentication flows; Running on behalf of a user, impersonation; Delegated authorization; Passing user identity to a backend.
+**Use for:** Authentication & delegated execution; Service accounts & execution identity; Current-user and context propagation.
 
-> ⛔ **Do NOT use when:** Deciding *whether* a user may run it is Permissions & Approvals.
+> ⛔ **Do NOT use when:** Permission to start the Action belongs to Access control & action eligibility. Secret storage belongs to Credentials, secrets & request signing.
 
-- "Run the Action as the requesting user, not a shared token."
-- "We need OAuth delegation to the downstream system."
+- “Passing the User Form .user object to the backend is not safe, as it can be spoofed and allow user impersonation.”
+- “we need is to perform a request to obtain the JWT before each SSA action and then include it in the header of the action”
 
-#### Service accounts & execution identity
+#### Credentials, secrets & request signing
 
-Which machine identity performs the work.
+Securely storing, resolving and using credentials, tokens and signatures for Action invocations.
 
-**Use for:** Service accounts; Selecting the identity that performs the Action; Per-Action execution identity, scoped credentials; Organization-level versus Action-level identity.
+**Use for:** Credentials & secrets management; Message signing & webhook security.
 
-> ⛔ **Do NOT use when:** Storing the secret itself is Credentials & secrets management.
+> ⛔ **Do NOT use when:** Preventing sensitive values from appearing in UI/logs belongs to Sensitive-data masking & redaction.
 
-- "Each Action should use its own scoped service account."
-- "One org-wide token is too broad for this Action."
-
-#### Credentials & secrets management
-
-Storing and retrieving passwords, tokens and secrets.
-
-**Use for:** Passwords, tokens, secret inputs; HashiCorp Vault; Secret storage, retrieval and rotation; Credentials used by an Action.
-
-> ⛔ **Do NOT use when:** Hiding a secret from view is Sensitive-data masking & redaction.
-
-- "Secrets must live in Vault, not inside Port."
-- "We need to rotate the Action's token without editing it."
-
-#### Message signing & webhook security
-
-Proving a request really came from Port.
-
-**Use for:** Signing webhook messages, signature verification; Request integrity; Secure communication between Port and execution agents; Webhook authentication mechanisms.
-
-> ⛔ **Do NOT use when:** Choosing the webhook target is Invocation & Integrations.
-
-- "Sign agent messages with a service account credential."
-- "We cannot verify the webhook actually came from Port."
+- “Infosec policy mandates all secrets stored in HashiCorp Vault only”
+- “Allow the {{ .secrets.<secret_name> }} syntax in the secret field for webhook, consistent with how secrets are already used in self-service action and automation payloads.”
 
 #### Sensitive-data masking & redaction
 
-Keeping secrets out of forms, logs and Run history.
+Preventing sensitive inputs, payload fields, outputs and logs from being exposed to unauthorized viewers.
 
-**Use for:** Hiding secrets from the form, masking sensitive inputs; Redacting logs; Preventing sensitive outputs appearing in Run history; Protecting credentials during approval flows.
+**Use for:** Sensitive-data masking & redaction.
 
-> ⛔ **Do NOT use when:** General log detail is Observability & Debugging.
+> ⛔ **Do NOT use when:** Secret storage and retrieval belong to Credentials, secrets & request signing. General payload visibility belongs to Observability unless the restriction is security-driven.
 
-- "The token appears in plain text in the run output."
-- "Mask the password input so approvers cannot read it."
+- “There is currently no way to mark a variable as sensitive so that its value is redacted or masked in the run history display.”
+- “defining an input as a secret does not work in cases where there is an approver on the action”
 
 ---
 
@@ -439,93 +274,49 @@ Who can see or run an Action, and who must approve it before it runs.
 *Usual journey stage:* `Permissions & approvals`  
 *Most often confused with:* *Identity, Secrets & Security*, *Discovery, Organization & Reuse*
 
-#### RBAC & dynamic permissions
+#### Access control & action eligibility
 
-Rules deciding who is allowed to do what.
+Rules deciding who may view, create, edit, trigger or inspect an Action and whether the UI reflects that eligibility early.
 
-**Use for:** Role-based access, attribute-based access; User, team, group or role permissions; Dynamic permission conditions; Permission behavior based on Entity properties.
+**Use for:** RBAC & dynamic permissions; Action visibility & eligibility.
 
-> ⛔ **Do NOT use when:** Platform-wide admin RBAC unrelated to Actions is out of scope.
+> ⛔ **Do NOT use when:** The UI for creating/testing permission rules belongs to Permission authoring & testing. Downstream execution identity belongs to Identity, Secrets & Security.
 
-- "Only the owning team should be able to run this Action."
-- "Permissions should depend on the entity's environment property."
-
-#### Action visibility & eligibility
-
-Hiding what a user cannot run, and telling them early.
-
-**Use for:** Hiding Actions users cannot run; Determining whether a user is eligible; Showing unavailable Actions; Rejecting a user only after they completed the entire form; Controlling visibility based on authorization.
-
-> ⛔ **Do NOT use when:** Placement rules that are not about authorization belong to Discovery -> Conditional availability & placement.
-
-- "I filled in the whole form and only then was told I am not permitted."
-- "Hide Actions the user has no permission to run."
+- “those values aren't present on the .user object in the dynamic permissions/self service action context”
+- “I want to allow some users to be able to create self-service actions in our STG environment without giving them full Admin access.”
 
 #### Permission authoring & testing
 
-Building and checking permission rules without guessing.
+Creating, previewing, testing and debugging permission rules and their outcomes.
 
-**Use for:** Creating permission rules; Previewing permission outcomes; Testing whether a user can execute an Action; Debugging permission conditions; Improving the permission configuration UI.
+**Use for:** Permission authoring & testing.
 
-> ⛔ **Do NOT use when:** Testing the Action itself is Authoring, Testing & Management.
+> ⛔ **Do NOT use when:** New access-control capability belongs to Access control & action eligibility. Action-definition release lifecycle belongs to Authoring, Testing & Management.
 
-- "Managing dynamic permissions requires specific skills and is hard to verify."
-- "Let us preview whether this user would pass the rule."
+- “the error message logged provides no context about what specific part of the dynamic permission caused the action to be denied”
+- “execute permissions can be removed entirely, which allows an action to be saved with no execute permissions at all”
 
-#### Approval policies & thresholds
+#### Approval policies & approver routing
 
-Whether approval is needed, and how much of it.
+Deciding when approval is required, how many approvals are needed and who should receive the request.
 
-**Use for:** Whether approval is required, conditional approval, automatic approval; Production versus non-production approval; Number of required approvals, "two out of five approvers"; Risk-based approval, guardrails for sensitive Actions.
+**Use for:** Approval policies & thresholds; Approver routing & identity.
 
-> ⛔ **Do NOT use when:** Who may start the Action at all is Action visibility & eligibility.
+> ⛔ **Do NOT use when:** The approver's decision UI and messages belong to Approver experience & notifications. Mid-workflow approvals belong to Orchestration.
 
-- "Production deploys need two approvals; staging needs none."
-- "Require approval only above a cost threshold."
+- “Allows Port Admins to intervene and instantly approve any pending request manually.”
+- “we approve our own requests... we have to approve our own request, which is just extra work”
 
-#### Approver routing & identity
+#### Approver experience & notifications
 
-Finding and reaching the right approver.
+How approvers are notified, understand the request, communicate, edit permitted values and approve or reject it.
 
-**Use for:** Selecting the correct approver, dynamic approver selection; Routing to a team, manager, owner or Entity relation; Finding the responsible approver; Escalation to another approver.
+**Use for:** Approver experience & request editing; Approval notifications.
 
-> ⛔ **Do NOT use when:** The notification itself is Approval notifications.
+> ⛔ **Do NOT use when:** Policy configuration and approver selection belong to Approval policies & approver routing. Historical approval evidence belongs to Run history, audit, APIs & export.
 
-- "Route approval to the entity's owning team automatically."
-- "If no approver responds, escalate to their manager."
-
-#### Approver experience & request editing
-
-What the approver sees and can change before deciding.
-
-**Use for:** Approval UI, information shown to the approver; Approvers editing request inputs; Comments during approval; Approver decision experience; Viewing relevant context before approving.
-
-> ⛔ **Do NOT use when:** Recording what happened after the fact is Approval audit & context.
-
-- "Approvers cannot see which values they are approving."
-- "Let the approver correct a typo instead of rejecting."
-
-#### Approval notifications
-
-Telling someone that their approval is needed.
-
-**Use for:** Slack, email, Teams or other notifications requesting approval; Missing approval request notification; Approval reminders; Notification routing to approvers.
-
-> ⛔ **Do NOT use when:** Success or failure notifications AFTER execution belong to Observability & Debugging -> Execution notifications & alerting.
-
-- "The approver never received the approval request."
-- "Send approval requests to Slack, not only email."
-
-#### Approval audit & context
-
-The record of who approved what, and why.
-
-**Use for:** Who approved and when; Approval decision history; Reason for approval or rejection; Context displayed in the approval record; Auditability of approval decisions.
-
-> ⛔ **Do NOT use when:** General Run history is Observability & Debugging.
-
-- "We cannot tell afterwards who approved this deployment."
-- "Capture the rejection reason in the run record."
+- “the admin that approves the request will want to make a change to the inputs provided by the user”
+- “both the approver and the requester should be able to exchange messages/comments directly within the action run context in Port”
 
 ---
 
@@ -536,71 +327,27 @@ Actions containing several connected execution steps, decisions or systems.
 *Usual journey stage:* `Backend & invocation setup`  
 *Most often confused with:* *Form Configuration*, *Invocation & Integrations*, *Execution Lifecycle*
 
-#### Multi-step workflows
+#### Multi-step orchestration, branching & data flow
 
-One Action performing several backend operations in order.
+Building multi-step workflows with sequencing, branches, multiple systems and data passed between steps.
 
-**Use for:** Several execution steps; Ordered workflow stages, sequential operations; One Action containing multiple backend tasks.
+**Use for:** Multi-step workflows; Shared context & output passing; Branching & conditional paths; Multi-backend & multi-system sequencing.
 
-> ⛔ **Do NOT use when:** IMPORTANT: several form PAGES are Form Configuration. Several execution STEPS are Orchestration.
+> ⛔ **Do NOT use when:** Multiple visual pages in a form belong to Form Configuration. Selecting a single backend belongs to Invocation & Integrations.
 
-- "Provision, then configure, then register -- as one Action."
-- "Chain several backend calls in a defined order."
+- “the .outputs available to downstream JQ expressions only include workflowRunUrl and workflowRunId, not result, workflowStatus, or any error detail”
+- “Due to Port's current setup, I have to combine these 5 GH actions into one since the SSA can only trigger one backend”
 
-#### Shared context & output passing
+#### Workflow approvals, error handling & recovery
 
-Using the result of one step in the next.
+Controlling workflow steps through intermediate approvals, failure branches, retries, compensation and recovery behavior.
 
-**Use for:** Passing output from one step to another; Shared variables and shared context; Reusing intermediate results; Referencing previous step outputs.
+**Use for:** Intermediate approvals; Step-level error handling & recovery.
 
-> ⛔ **Do NOT use when:** Passing launch context into the Action is Context, Targeting & Pre-fill.
+> ⛔ **Do NOT use when:** Approval before an Action starts belongs to Permissions & Approvals. Whole-run retry/cancel belongs to Execution Lifecycle.
 
-- "Step two needs the resource ID that step one created."
-- "Reference the previous step's output in the payload."
-
-#### Branching & conditional paths
-
-Different execution routes depending on conditions.
-
-**Use for:** If/else paths, conditional branches; Different execution paths based on inputs or previous results; Parallel paths.
-
-> ⛔ **Do NOT use when:** Conditional form behaviour is Form Configuration or Validation & Rules.
-
-- "If the environment is prod, take the approval path."
-- "Run these two backend steps in parallel."
-
-#### Intermediate approvals
-
-Pausing mid-workflow for a human decision.
-
-**Use for:** Approval between execution steps; Pause for approval in the middle of a workflow; Approval before a specific destructive step.
-
-> ⛔ **Do NOT use when:** Approval before the Action starts at all is Permissions & Approvals.
-
-- "Pause before the destructive step and ask for sign-off."
-- "Approve between provisioning and deployment."
-
-#### Step-level error handling & recovery
-
-What happens when one step of many fails.
-
-**Use for:** Retrying one workflow step; Catch or finally behavior; Recovery after a partial failure; Rollback or compensation; Continuing after a non-critical step failure.
-
-> ⛔ **Do NOT use when:** Retrying the whole Run is Execution Lifecycle.
-
-- "If step three fails, roll back what step two created."
-- "We need a catch-all branch for workflow failures."
-
-#### Multi-backend & multi-system sequencing
-
-Coordinating several different systems in one Action.
-
-**Use for:** Several backends in one Action; Coordinating multiple systems; Routing different steps to different execution mechanisms; Sequential operations across multiple integrations.
-
-> ⛔ **Do NOT use when:** Choosing a single backend is Invocation & Integrations.
-
-- "This Action must hit GitHub, then Jira, then our API."
-- "Route each step to a different backend."
+- “Can't easily implement basic alerting without misrepresenting operational health.”
+- “prompt an approval request and based on the approval, invoke another trigger”
 
 ---
 
@@ -611,71 +358,38 @@ What users can do to a Run, and how the Run behaves over its life.
 *Usual journey stage:* `Execution, monitoring & run control`  
 *Most often confused with:* *Observability & Debugging*, *Orchestration*
 
-#### Retry, rerun & duplicate execution
+#### Retry, rerun, cancel & resume
 
-Running it again after a failure or to repeat work.
+User controls for repeating, interrupting or continuing an Action run.
 
-**Use for:** Retry after failure, rerun with the same inputs; Duplicate a previous Run; Start another similar Run; Retry while preserving execution context.
+**Use for:** Retry, rerun & duplicate execution; Cancel, stop & resume.
 
-> ⛔ **Do NOT use when:** Explaining *why* it failed is Observability & Debugging.
+> ⛔ **Do NOT use when:** Automatic resilience belongs to Reliability, timeouts & concurrency. Step-level recovery belongs to Orchestration.
 
-- "Let me retry the failed Run without refilling the form."
-- "Duplicate this Run with the same inputs."
+- “Ability to cancel the execution of an action after triggering it”
+- “Adding a retry action for a run can be nice addition”
 
-#### Cancel, stop & resume
+#### Reliability, timeouts & concurrency
 
-Interrupting or continuing a Run in progress.
+Runtime safeguards governing duration, simultaneous execution, duplicate prevention and automatic handling of transient failures.
 
-**Use for:** Cancel, stop, pause, resume, abort; Continue an interrupted Run.
+**Use for:** Timeouts; Concurrency, rate limits & duplicate prevention; Reliability & transient-failure handling.
 
-> ⛔ **Do NOT use when:** Preventing a Run from starting is Permissions & Approvals.
+> ⛔ **Do NOT use when:** Manual retry/cancel belongs to Retry, rerun, cancel & resume. A deterministic product defect remains a Bug problem type.
 
-- "Add a cancel button to a running Action."
-- "I triggered it by mistake and cannot stop it."
-
-#### Timeouts
-
-How long a Run may take before it is cut off.
-
-**Use for:** Run timeout configuration; Long-running Actions, timeout limits and behavior; Extending or customizing timeout duration.
-
-> ⛔ **Do NOT use when:** Slow performance at scale is a Performance problem type, not necessarily this subcategory.
-
-- "Our Action needs a 30-minute timeout, not 10."
-- "Make the timeout configurable per Action."
-
-#### Concurrency, rate limits & duplicate prevention
-
-Stopping the same work from running twice or too often.
-
-**Use for:** Preventing multiple Runs at the same time; Concurrency control, rate limiting; Duplicate request prevention, locks, queuing.
-
-> ⛔ **Do NOT use when:** Bulk execution across entities is Discovery -> Bulk actions.
-
-- "Two people triggered the same deploy simultaneously."
-- "Queue Runs instead of running them all at once."
-
-#### Reliability & transient-failure handling
-
-Coping with flaky backends and temporary outages.
-
-**Use for:** Intermittent failures, automatic retry; Temporary backend outages, network instability; Resilience behavior, backoff.
-
-> ⛔ **Do NOT use when:** A consistent, reproducible failure is a Bug / defect.
-
-- "Transient 502s fail the Run instead of retrying."
-- "Add exponential backoff for backend errors."
+- “Ability to configure timeout values for actions within Port so that certain operations, like deploying a service, do not exceed a certain duration.”
+- “users can click the button multiple times, unintentionally triggering duplicate executions”
 
 #### Completion & result-state control
 
-Deciding and correcting when a Run counts as done.
+Determining, setting or correcting when a Run is complete and which terminal/result state it has.
 
-**Use for:** Marking a Run completed or failed; Custom completion state; Overriding or correcting Run outcome; Determining when a long-running Action is considered complete.
+**Use for:** Completion & result-state control.
 
-> ⛔ **Do NOT use when:** Displaying the status is Observability & Debugging -> Run status & progress.
+> ⛔ **Do NOT use when:** Displaying status belongs to Run status, progress & notifications. Failure explanation belongs to Logs & error diagnostics.
 
-- "Let us mark this Run as successful manually."
-- "The Run never reaches a terminal state."
+- “I would like to have the same ability just with create/update invocation type.”
+- “the list should contain all Gitlab's possible pipeline statuses: (created, waiting_for_resource, preparing, pending, running, success, failed, canceled, skipped, manual, scheduled)”
 
 ---
 
@@ -686,82 +400,49 @@ Helping users understand what happened during or after a Run.
 *Usual journey stage:* `Execution, monitoring & run control`  
 *Most often confused with:* *Execution Lifecycle*, *Validation & Rules*, *Permissions & Approvals*
 
-#### Run status & progress
+#### Run status, progress & notifications
 
-Seeing where a Run currently is.
+Showing current run state/progress and proactively notifying users of success, failure, delay or completion.
 
-**Use for:** Current Run state, progress indicators; Step progress, pending or running state; Live execution status.
+**Use for:** Run status & progress; Execution notifications & alerting.
 
-> ⛔ **Do NOT use when:** Changing the state is Execution Lifecycle -> Completion & result-state control.
+> ⛔ **Do NOT use when:** Changing the state belongs to Completion & result-state control. Detailed diagnostics belong to Logs & error diagnostics.
 
-- "There is no indication the job is queued rather than stuck."
-- "Show step-by-step progress while it runs."
+- “action run status are predefined and limited to "Success", "Failure" and "In progress"”
+- “There is no indication of whether the action is queued, rate-limited, or encountered an error during startup.”
 
-#### Logs & log streaming
+#### Logs & error diagnostics
 
-Reading the detailed output of a Run.
+Detailed runtime logs, backend responses and actionable explanations of execution failures.
 
-**Use for:** Viewing logs, streaming logs; More detailed runtime output, step-level logs; Log retention.
+**Use for:** Logs & log streaming; Error messages & backend responses.
 
-> ⛔ **Do NOT use when:** Hiding secrets in logs is Identity, Secrets & Security.
+> ⛔ **Do NOT use when:** Pre-submission errors belong to Validation & Rules. Sensitive-log masking belongs to Identity, Secrets & Security.
 
-- "We need real-time logs while the Action runs."
-- "Attach the backend logs to the Run page."
+- “users must wait for an action to complete or a certain amount of data to be processed before logs can be viewed”
+- “Currently, there is no way to edit current action logs.”
 
-#### Error messages & backend responses
+#### Run history, audit, APIs & export
 
-Explaining clearly why a Run failed.
+Searching, auditing, filtering, exporting or programmatically querying historical Run and approval records.
 
-**Use for:** Vague runtime errors, truncated errors; Missing HTTP response or backend response body; Diagnostic context; Explaining why the Run failed.
+**Use for:** Run history, audit & filtering; Run-history APIs & export; Approval audit & context.
 
-> ⛔ **Do NOT use when:** Use only AFTER the Action started. Pre-submission errors belong to Validation & Rules -> Validation messages.
+> ⛔ **Do NOT use when:** Linking a Run to the objects it changed belongs to Run traceability & related entities. Definition-change history belongs to Authoring, Testing & Management.
 
-- "The Run failed and the page does not say why."
-- "We never see the backend's HTTP response body."
-
-#### Run history, audit & filtering
-
-Finding past Runs and who triggered them.
-
-**Use for:** Run history, audit trail; Filtering and searching Runs; Who triggered the Action and when; Historical execution records.
-
-> ⛔ **Do NOT use when:** General platform audit logs not specific to Action Runs are out of scope -- mark is_relevant=false.
-
-- "We cannot filter Runs by who triggered them."
-- "Run history only keeps the last few days."
-
-#### Run-history APIs & export
-
-Getting Run data out programmatically.
-
-**Use for:** API access to Run history, pagination; Exporting Run data; Programmatic Run querying; Missing API filters for Action Runs.
-
-> ⛔ **Do NOT use when:** Invoking the Action via API is Invocation & Integrations.
-
-- "The Runs API has no filter for action identifier."
-- "We need to export Run history for analysis."
-
-#### Execution notifications & alerting
-
-Telling people the Run succeeded or failed.
-
-**Use for:** Success, failure and completion notifications; Slack, email, Teams, Kafka or other runtime alerts; Alerts for long-running or failed Actions.
-
-> ⛔ **Do NOT use when:** Approval REQUEST notifications belong to Permissions & Approvals -> Approval notifications.
-
-- "Nobody was told the overnight Run failed."
-- "Notify the requester in Slack when it completes."
+- “A dashboard/homepage widget that displays the runs of a specific self-service action.”
+- “there is not enough ability for filtering of the returned runs, there is no "include" parameter, and the limit is set to max of 1000 runs without ability for pagination”
 
 #### Run traceability & related entities
 
-Connecting a Run to what it actually changed.
+Connecting a Run to its Action, requester, pipeline and the entities/resources it affected.
 
-**Use for:** Linking a Run to the affected Entity; Showing which resource changed; Tracing a Run back to its Action and requester; Connecting Runs to related objects; End-to-end execution traceability.
+**Use for:** Run traceability & related entities.
 
-> ⛔ **Do NOT use when:** Approval provenance is Permissions & Approvals -> Approval audit & context.
+> ⛔ **Do NOT use when:** General historical querying belongs to Run history, audit, APIs & export. Outbound payload construction belongs to Payload mapping & transformation.
 
-- "We cannot tell which entity this Run modified."
-- "Link the Run back to the service it deployed."
+- “The Gitlab default payload config should reflect back a url to the pipeline for easy access”
+- “Currently it's only possible tying entities to an action run by manually sending an API request to the entities with the `run_id`”
 
 ---
 
@@ -772,71 +453,27 @@ Helping builders safely create, test, edit, publish and maintain Actions.
 *Usual journey stage:* `Testing, editing & publishing`  
 *Most often confused with:* *Execution Lifecycle*, *Validation & Rules*
 
-#### Preview & dry run
+#### Action authoring, testing & release management
 
-Trying an Action without real consequences.
+Safely creating, learning, previewing, editing, publishing, disabling, versioning and rolling back Action definitions.
 
-**Use for:** Previewing an Action, dry run; Testing without real side effects; Viewing the expected payload or outcome; Validation before publishing.
+**Use for:** Preview & dry run; Playground, examples & in-product help; Editing & unsaved-change safety; Drafts, publishing & disablement; Versioning, change detection & rollback.
 
-> ⛔ **Do NOT use when:** A real user's submitted Run is Execution Lifecycle or Observability & Debugging.
+> ⛔ **Do NOT use when:** Form fields and end-user form UX belong to Form Configuration. Programmatic configuration and reuse belong to Reusable configuration, API & IaC management.
 
-- "Let us dry-run the Action to check it before release."
-- "Show the payload that would be sent, without sending it."
+- “In the GUI mode, users may accidentally navigate away without saving their changes.”
+- “The examples that are being provided are automatically generated and in some cases are not aligned with the actual data.”
 
-#### Playground, examples & in-product help
+#### Reusable configuration, API & IaC management
 
-Learning how to build an Action while building it.
+Creating reusable Action definitions and managing or moving them programmatically through API, IaC, templates, import or export.
 
-**Use for:** Interactive examples, playground, sample configurations; In-product guidance; Documentation shown during Action creation; Builder onboarding.
+**Use for:** API & IaC configuration management; Reusability & templates.
 
-> ⛔ **Do NOT use when:** Missing end-user help text on a field is Form Configuration -> Labels, descriptions & display controls.
+> ⛔ **Do NOT use when:** Invoking an Action via API belongs to Invocation & Integrations. Reusing only a permission policy remains primarily Access control & action eligibility.
 
-- "Show a working example next to the JQ editor."
-- "New builders have nowhere to experiment safely."
-
-#### Editing & unsaved-change safety
-
-Changing an existing Action without losing work.
-
-**Use for:** Editing existing Actions; Unsaved-change warnings, preventing accidental loss; Edit-form usability; Duplicating an Action for editing.
-
-> ⛔ **Do NOT use when:** Version history is Versioning, change detection & rollback.
-
-- "I lost my edits because nothing warned me."
-- "It asks about unsaved changes even when nothing changed."
-
-#### Drafts, publishing & disablement
-
-Controlling whether an Action is live.
-
-**Use for:** Saving a draft, publishing, unpublishing; Disabling an Action; Returning to unfinished configuration; Separating draft and live states.
-
-> ⛔ **Do NOT use when:** Hiding it from certain users is Permissions & Approvals.
-
-- "Let us save a half-built Action as a draft."
-- "Temporarily disable an Action without deleting it."
-
-#### Versioning, change detection & rollback
-
-Tracking and undoing changes to an Action definition.
-
-**Use for:** Version history, comparing versions; Detecting configuration changes; Rollback, restoring an earlier version; Audit of Action-definition changes.
-
-> ⛔ **Do NOT use when:** Run-level history is Observability & Debugging.
-
-- "We cannot see who changed this Action or roll it back."
-- "Compare this Action's config against last week's."
-
-#### API & IaC configuration management
-
-Managing Action definitions as code.
-
-**Use for:** Managing Action definitions through API; Terraform, Pulumi, Infrastructure as Code; Exporting or importing Action configuration; Programmatic configuration management.
-
-> ⛔ **Do NOT use when:** Invoking the Action programmatically is Invocation & Integrations.
-
-- "Manage all our Actions through Terraform."
-- "Export an Action definition and import it elsewhere."
+- “It would be really nice if you could go into a self service action and see a similar view.”
+- “that action has to be created and its inputs need to be configured manually”
 
 ---
 
@@ -960,7 +597,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 | **Form Configuration → Dynamic & dependent inputs**<br>"The region options should change when I choose a cloud provider." | **Validation & Rules**<br>"The selected region is not allowed for this environment." |
 | **Form Configuration**<br>"Divide the form into three screens." | **Orchestration**<br>"Run three backend operations in sequence." |
 | **Invocation & Integrations**<br>"Send the form to GitHub Actions." | **Identity, Secrets & Security**<br>"Use a scoped service account to authenticate." |
-| **Permissions & Approvals — permissions side**<br>"Who may run the Action?" | **Permissions & Approvals — approvals side**<br>"Who must approve the Action?" |
+| **Permissions & Approvals - permissions side**<br>"Who may run the Action?" | **Permissions & Approvals - approvals side**<br>"Who must approve the Action?" |
 | **Execution Lifecycle**<br>"Let me retry the failed Run." | **Observability & Debugging**<br>"Explain why the Run failed." |
 | **Permissions & Approvals → Approval notifications**<br>"The approver did not receive the request." | **Observability & Debugging → Execution notifications & alerting**<br>"The requester did not receive a failure alert." |
 
@@ -969,7 +606,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 **"I launched the Action from a Service page, but I still have to select the Service manually."**
 
 - Category: `Context, Targeting & Pre-fill`
-- Subcategory: `Pre-fill & context-specific defaults`
+- Subcategory: `Contextual launch, targeting & pre-fill`
 - Problem type: `Usability friction`
 - Journey stage: `Contextual entry, targeting & pre-fill`
 - *Why:* The problem is not the type of input. Port already knows the relevant Service and should fill it in automatically.
@@ -977,7 +614,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 **"The available regions should change after I select a cloud provider."**
 
 - Category: `Form Configuration`
-- Subcategory: `Dynamic & dependent inputs`
+- Subcategory: `Dynamic inputs, defaults & computed fields`
 - Problem type: `Feature gap`
 - Journey stage: `Form & input configuration`
 - *Why:* The field's options must react to another selection. Nothing is being checked for validity yet, so this is not Validation.
@@ -985,7 +622,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 **"The user can run the Action, but a manager must approve production deployments."**
 
 - Category: `Permissions & Approvals`
-- Subcategory: `Approval policies & thresholds`
+- Subcategory: `Approval policies & approver routing`
 - Problem type: `Feature gap`
 - Journey stage: `Permissions & approvals`
 - *Why:* The issue is not whether the user may start the Action. It is the approval required before it executes.
@@ -993,7 +630,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 **"The Action started and failed, but the run page does not explain why."**
 
 - Category: `Observability & Debugging`
-- Subcategory: `Error messages & backend responses`
+- Subcategory: `Logs & error diagnostics`
 - Problem type: `Poor error message`
 - Journey stage: `Execution, monitoring & run control`
 - *Why:* The failure happened after submission, so it belongs to execution rather than form validation.
@@ -1001,7 +638,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 **"Divide this long form into three screens."**
 
 - Category: `Form Configuration`
-- Subcategory: `Form layout, sections & multi-page forms`
+- Subcategory: `Form presentation, layout & guidance`
 - Problem type: `Usability friction`
 - Journey stage: `Form & input configuration`
 - *Why:* Several visual pages are a form-layout concern. Only several BACKEND operations would be Orchestration.
@@ -1009,7 +646,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 **"The approver never received the Slack request to approve."**
 
 - Category: `Permissions & Approvals`
-- Subcategory: `Approval notifications`
+- Subcategory: `Approver experience & notifications`
 - Problem type: `Bug / defect`
 - Journey stage: `Permissions & approvals`
 - *Why:* An approval-request notification blocks the user at the approval stage, not at execution -- unlike a success or failure alert.
@@ -1017,7 +654,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 **"Secrets must be stored in HashiCorp Vault, not inside Port."**
 
 - Category: `Identity, Secrets & Security`
-- Subcategory: `Credentials & secrets management`
+- Subcategory: `Credentials, secrets & request signing`
 - Problem type: `Security or privacy concern`
 - Journey stage: `Backend & invocation setup`
 - *Why:* Storing and retrieving the credential is a secrets concern, even though the credential is used during invocation.
@@ -1025,7 +662,7 @@ Where a record could reasonably go either of two ways, these decide. Whatever am
 **"Let me retry the failed Run without filling in the form again."**
 
 - Category: `Execution Lifecycle`
-- Subcategory: `Retry, rerun & duplicate execution`
+- Subcategory: `Retry, rerun, cancel & resume`
 - Problem type: `Feature gap`
 - Journey stage: `Execution, monitoring & run control`
 - *Why:* Acting on the Run is Execution Lifecycle. Explaining why it failed would instead be Observability & Debugging.

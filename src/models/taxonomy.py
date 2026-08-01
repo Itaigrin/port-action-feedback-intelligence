@@ -7,9 +7,14 @@ category, subcategory, stage, problem type or status anywhere else.
 FOUR INDEPENDENT DIMENSIONS
 ---------------------------
   TAXONOMY CATEGORY   (11)  -- what broad product area does this concern?
-  TAXONOMY SUBCATEGORY(63)  -- what specific part of that area needs attention?
+  TAXONOMY SUBCATEGORY(30)  -- what specific part of that area needs attention?
   PROBLEM TYPE        (14)  -- what kind of problem is this?
   JOURNEY STAGE       (8)   -- where in the Action experience does it happen?
+
+The 30 subcategories are v3.0, consolidated from 63 in v2.1. The finer v2.1
+name survives per record as `topic_tags`: the distinction was often real but
+too thin to carry a group of its own, and a group of one or two records
+cannot support a trend, a share, or a ranking.
 
 They are deliberately independent. A dynamic-permission failure sits in the
 Permissions & Approvals *category* while its *problem type* is "Poor error
@@ -30,13 +35,30 @@ from __future__ import annotations
 
 # Bumping these invalidates the classification cache, which is what forces a
 # genuine reclassification rather than a label rename.
-TAXONOMY_VERSION = "v2.1"
+TAXONOMY_VERSION = "v3.0"
 SCHEMA_VERSION = "v3.0"
 
+# The fallback bucket. Deliberately NOT one of the 30 core subcategories: it
+# exists so future feedback that genuinely fits nowhere has a home instead of
+# being forced into the nearest core group, which would quietly corrupt that
+# group's count. It is excluded from every "30 core" figure, and the reference
+# views hide it until something is actually filed under it.
+FALLBACK_SUBCATEGORY = "Other / Emerging"
+FALLBACK_CATEGORY_HINT = (
+    "Use only when the feedback is about Action configuration but matches no "
+    "core subcategory. Prefer a core subcategory whenever one genuinely fits."
+)
+
 
 # ===========================================================================
-# TAXONOMY: 11 categories -> 63 subcategories
+# TAXONOMY v3.0: 11 categories -> 30 core subcategories
 # ===========================================================================
+# Consolidated from the 63 v2.1 subcategories; SUBCATEGORY_MIGRATION below
+# records where each of the 63 went. Definitions and boundaries are generated
+# from the assignment workbook by scripts/build_taxonomy_v3.py, and the
+# examples are real evidence excerpts from records assigned to each group --
+# invented ones would teach a distinction the data does not contain.
+#
 # Per category:  plain / default_stage / confusable / subcategories
 # Per subcategory: plain / use_for[] / avoid / examples[]
 TAXONOMY: dict[str, dict] = {
@@ -45,63 +67,36 @@ TAXONOMY: dict[str, dict] = {
         "default_stage": "Action discovery & organization",
         "confusable": ["Permissions & Approvals", "Context, Targeting & Pre-fill"],
         "subcategories": {
-            "Action discovery, grouping & ordering": {
-                "plain": "Finding the right Action in a crowded catalog.",
+            "Action discovery, organization & placement": {
+                "plain": "Finding, organizing, ordering and placing Actions so users "
+                          "see the right Action in the right catalog surface.",
                 "use_for": [
-                    "Searching for an Action",
-                    "Categories, subcategories, folders, tags",
-                    "Sorting and ordering",
-                    "Unclear Action names",
-                    "Too many Actions in one catalog",
-                    "Organizing Actions in menus or catalogs",
+                    "Action discovery, grouping & ordering",
+                    "Conditional availability & placement",
                 ],
-                "avoid": "The Action is hidden because the user lacks permission "
-                         "-- that is Permissions & Approvals.",
+                "avoid": "Authorization-based visibility belongs to Access control & "
+                          "action eligibility. Multi-entity execution belongs to Bulk "
+                          "actions.",
                 "examples": [
-                    "\"There are too many Actions on the page and no way to group them.\"",
-                    "\"We cannot tell which Action deploys a service from the name alone.\"",
-                ],
-            },
-            "Conditional availability & placement": {
-                "plain": "Controlling where an Action appears, for non-authorization reasons.",
-                "use_for": [
-                    "Showing an Action only on a specific page or surface",
-                    "Showing an Action only for a specific Blueprint or Entity type",
-                    "Placement rules that are not authorization rules",
-                ],
-                "avoid": "Hidden because of permissions -> Permissions & Approvals. "
-                         "Retaining the launch context -> Context, Targeting & Pre-fill.",
-                "examples": [
-                    "\"This Action should only appear on Service pages, not everywhere.\"",
-                    "\"Show the deploy Action only for Blueprints that have a repo.\"",
+                    "“there is a requirement to filter Self Service Actions on custom "
+                    "catalogue pages”",
+                    "“Allow categorizing self service actions for ease of finding "
+                    "appropriate actions for your needs.”",
                 ],
             },
             "Bulk actions": {
-                "plain": "Running one Action against many Entities at once.",
+                "plain": "Running one Action against multiple selected or filtered "
+                          "entities in a single operation.",
                 "use_for": [
-                    "Running one Action against several Entities",
-                    "Selecting multiple targets",
-                    "Batch execution and bulk configuration operations",
+                    "Bulk actions",
                 ],
-                "avoid": "Several backend steps inside one Action -- that is Orchestration.",
+                "avoid": "Several backend steps inside one Action belong to "
+                          "Orchestration. Payload shaping belongs to Payload mapping & "
+                          "transformation.",
                 "examples": [
-                    "\"Let me run this Action on all 40 services at once.\"",
-                    "\"Select multiple entities from the table and trigger one Action.\"",
-                ],
-            },
-            "Reusability & templates": {
-                "plain": "Reusing an Action definition instead of rebuilding it each time.",
-                "use_for": [
-                    "Reusing an Action definition, templates, shared configurations",
-                    "Reusing an Action across Blueprints or teams",
-                    "Avoiding repeated manual Action setup",
-                    "Cloning standardized Action configurations",
-                ],
-                "avoid": "If the reusable object is specifically a permission policy, the "
-                         "primary category may be Permissions & Approvals with this as secondary.",
-                "examples": [
-                    "\"We copy the same Action definition into six Blueprints by hand.\"",
-                    "\"Give us Action templates so teams start from a standard config.\"",
+                    "“It would be great to have an option to do bulk actions(day2 and "
+                    "DELETE) on entities”",
+                    "“I want to run a single action that references all entities”",
                 ],
             },
         },
@@ -109,84 +104,31 @@ TAXONOMY: dict[str, dict] = {
 
     "Context, Targeting & Pre-fill": {
         "plain": "Using what Port already knows so the Action opens in the right "
-                 "context and stops asking the user to repeat itself.",
+                  "context and stops asking the user to repeat itself.",
         "default_stage": "Contextual entry, targeting & pre-fill",
         "confusable": ["Form Configuration", "Discovery, Organization & Reuse"],
         "subcategories": {
-            "Contextual entry & deep links": {
-                "plain": "Opening an Action from a specific place, with that context intact.",
+            "Contextual launch, targeting & pre-fill": {
+                "plain": "Launching an Action from the right surface with the "
+                          "intended entity/resource and values Port can infer from "
+                          "context.",
                 "use_for": [
-                    "Direct links to an Action",
-                    "Links that carry Action context",
-                    "Opening an Action from a specific page",
-                    "Preserving context through a URL",
-                    "Deep-linking to a form with known values",
+                    "Contextual entry & deep links",
+                    "Entity and resource targeting",
+                    "Pre-fill & context-specific defaults",
+                    "Embedded & alternative launch surfaces",
                 ],
-                "avoid": "A fixed default configured for everyone is not contextual "
-                         "-- that is Form Configuration.",
+                "avoid": "General defaults not derived from launch context belong to "
+                          "Dynamic inputs, defaults & computed fields. Acting as the "
+                          "requester belongs to Authentication, execution identity & "
+                          "requester context.",
                 "examples": [
-                    "\"Send a link that opens this Action already filled in for this service.\"",
-                    "\"We want a URL that deep-links straight into the request form.\"",
-                ],
-            },
-            "Entity and resource targeting": {
-                "plain": "Deciding which Entity or resource the Action applies to.",
-                "use_for": [
-                    "Selecting which Entity or resource the Action applies to",
-                    "Automatically determining the target",
-                    "Target Blueprint, Service, Namespace, Environment or Resource",
-                    "Avoiding ambiguous Action targets",
-                ],
-                "avoid": "Adding a new selector field is Form Configuration.",
-                "examples": [
-                    "\"The Action should know it applies to the namespace I came from.\"",
-                    "\"It is ambiguous which resource this Action will actually change.\"",
-                ],
-            },
-            "Pre-fill & context-specific defaults": {
-                "plain": "Filling in values Port can already infer from where the user was.",
-                "use_for": [
-                    "Automatically filling known values",
-                    "Values derived from the current Entity",
-                    "Values derived from the originating page",
-                    "Context-specific defaults",
-                    "Avoiding repeated manual selection",
-                ],
-                "avoid": "A fixed default configured for every user may belong to "
-                         "Form Configuration -> Defaults & computed fields.",
-                "examples": [
-                    "\"I opened the Action from this Service page, so the Service should already be selected.\"",
-                    "\"Stop asking me for the environment when the page already knows it.\"",
-                ],
-            },
-            "Embedded & alternative launch surfaces": {
-                "plain": "Launching the Action from somewhere other than the Self-Service page.",
-                "use_for": [
-                    "Opening the Action in a modal",
-                    "Opening the Action inside an Entity page",
-                    "Launching from a widget",
-                    "Launching from Slack or another surface",
-                    "Avoiding navigation to the general Self-Service page",
-                ],
-                "avoid": "Changing which users can see the Action is Permissions & Approvals.",
-                "examples": [
-                    "\"Let us trigger this Action straight from Slack.\"",
-                    "\"Open the Action in a modal instead of navigating away.\"",
-                ],
-            },
-            "Current-user and context propagation": {
-                "plain": "Passing who the requester is, and their org context, into the Action.",
-                "use_for": [
-                    "Passing the current user",
-                    "Passing team, organization, Entity, Blueprint, account or environment context",
-                    "Using requester identity as an input",
-                    "Propagating context into the Action or backend invocation",
-                ],
-                "avoid": "Executing *as* that user, or authenticating as them, is "
-                         "Identity, Secrets & Security.",
-                "examples": [
-                    "\"The backend needs to know which team the requester belongs to.\"",
-                    "\"Pass the current user's email into the payload automatically.\"",
+                    "“an action if associated with service overview entity cant be "
+                    "associated with the service blueprint entity - which means a new "
+                    "actions should be created”",
+                    "“the bot intentionally does not execute the action automatically. "
+                    "Instead, it collects some parameters and then redirects the user "
+                    "back to the Port UI”",
                 ],
             },
         },
@@ -197,179 +139,119 @@ TAXONOMY: dict[str, dict] = {
         "default_stage": "Form & input configuration",
         "confusable": ["Validation & Rules", "Context, Targeting & Pre-fill", "Orchestration"],
         "subcategories": {
-            "Input types & controls": {
-                "plain": "Which kinds of form field exist at all.",
+            "Input types & structured data": {
+                "plain": "The field and control types available in Action forms, "
+                          "including arrays, objects, tables and repeatable groups.",
                 "use_for": [
-                    "Text, number, date, file upload, dropdown, multi-select",
-                    "Maps, tables, long text, boolean controls",
-                    "Any missing or limited form control",
+                    "Input types & controls",
+                    "Structured & repeatable inputs",
                 ],
-                "avoid": "A field that changes because of another field is "
-                         "Dynamic & dependent inputs.",
+                "avoid": "Fields that change based on another value belong to Dynamic "
+                          "inputs, defaults & computed fields. Visual arrangement "
+                          "belongs to Form presentation, layout & guidance.",
                 "examples": [
-                    "\"We need a file upload field to attach a config.\"",
-                    "\"There is no map or key-value input type.\"",
+                    "“requiring users to manually select each item one by one — which "
+                    "becomes tedious and time-consuming when dealing with large lists”",
+                    "“Without a table view, the UX is not good”",
                 ],
             },
-            "Structured & repeatable inputs": {
-                "plain": "Repeating a group of fields, or entering a list of objects.",
+            "Dynamic inputs, defaults & computed fields": {
+                "plain": "Form values, options, visibility or editability that are "
+                          "populated or recalculated from other inputs, data or "
+                          "context.",
                 "use_for": [
-                    "Arrays of objects",
-                    "Repeatable sections, adding or removing rows",
-                    "Structured lists and nested input groups",
-                    "Repeating the same group of fields multiple times",
+                    "Dynamic & dependent inputs",
+                    "Defaults & computed fields",
                 ],
-                "avoid": "Several backend steps -> Orchestration. Several form pages "
-                         "-> Form layout, sections & multi-page forms.",
+                "avoid": "Context inherited from the launch surface belongs to "
+                          "Contextual launch, targeting & pre-fill. Acceptance rules "
+                          "belong to Form validation, messages & conditional rules.",
                 "examples": [
-                    "\"Let users add several environment-variable rows.\"",
-                    "\"We need an array of objects, not one flat text field.\"",
+                    "“This is done by calculating values based on the data of other "
+                    "form inputs, user data, and entity data.”",
+                    "“auto-generated from the previous inputs and NOT EDITABLE from "
+                    "the user form”",
                 ],
             },
-            "Dynamic & dependent inputs": {
-                "plain": "Fields that change by themselves based on other fields or data.",
+            "Form presentation, layout & guidance": {
+                "plain": "How the form is arranged, navigated, labelled and explained "
+                          "to the end user.",
                 "use_for": [
-                    "Dropdown values changing based on another field",
-                    "One field depending on another",
-                    "Options loaded from an API or dataset",
-                    "Conditional field visibility",
-                    "Dynamically enabled, disabled or read-only fields",
-                    "Inputs that adapt while the user fills in the form",
+                    "Form layout, sections & multi-page forms",
+                    "Labels, descriptions & display controls",
                 ],
-                "avoid": "If the issue is only whether the entered value is acceptable, "
-                         "that is Validation & Rules.",
+                "avoid": "New input capabilities belong to Input types & structured "
+                          "data. Invalid-value explanations belong to Form validation, "
+                          "messages & conditional rules.",
                 "examples": [
-                    "\"The region options should change after I pick a cloud provider.\"",
-                    "\"Show the risk field only when environment is Production.\"",
-                ],
-            },
-            "Defaults & computed fields": {
-                "plain": "Values the form fills in or calculates on its own.",
-                "use_for": [
-                    "General default values",
-                    "Computed fields, formula-derived inputs",
-                    "Automatically calculated values",
-                    "Values derived from other form fields",
-                ],
-                "avoid": "If the value comes from the page or Entity the Action was "
-                         "opened from, use Context, Targeting & Pre-fill.",
-                "examples": [
-                    "\"Default the replica count to 3 for everyone.\"",
-                    "\"Compute the resource name from the two fields above.\"",
-                ],
-            },
-            "Form layout, sections & multi-page forms": {
-                "plain": "How the form is arranged and broken up visually.",
-                "use_for": [
-                    "Field ordering, grouping, form sections, collapsible sections",
-                    "Reducing form complexity",
-                    "Splitting a long form into several visual pages",
-                    "Wizard-like form navigation",
-                    "Filters placed before large selectors",
-                ],
-                "avoid": "IMPORTANT: several visual PAGES belong here; several backend "
-                         "OPERATIONS in sequence belong to Orchestration.",
-                "examples": [
-                    "\"Split this 25-field form into three steps.\"",
-                    "\"Group the network settings into a collapsible section.\"",
-                ],
-            },
-            "Labels, descriptions & display controls": {
-                "plain": "The wording and presentation around each field.",
-                "use_for": [
-                    "Field labels, descriptions, placeholder text, help text",
-                    "Units and display formatting",
-                    "Hiding labels",
-                    "Improving the clarity of a field",
-                ],
-                "avoid": "An unclear message about an invalid value is "
-                         "Validation & Rules -> Validation messages.",
-                "examples": [
-                    "\"Nobody understands what this field wants; we need help text.\"",
-                    "\"Show the unit (GB) next to the size field.\"",
+                    "“This button will allow users to initiate the action immediately "
+                    "if they do not need to modify any fields in subsequent steps.”",
+                    "“the button is always displayed, even for forms intended purely "
+                    "for informational or navigational purposes, which can confuse "
+                    "users”",
                 ],
             },
         },
     },
 
     "Validation & Rules": {
-        "plain": "Rules deciding whether the values are acceptable and submission may proceed.",
+        "plain": "Rules deciding whether the values are acceptable and submission may "
+                  "proceed.",
         "default_stage": "Validation, dependencies & conditional logic",
         "confusable": ["Form Configuration", "Observability & Debugging"],
         "subcategories": {
-            "Input & cross-field validation": {
-                "plain": "Checking that entered values are acceptable.",
+            "Form validation, messages & conditional rules": {
+                "plain": "Pre-submission rules that determine whether form values are "
+                          "valid and explain how users should correct them.",
                 "use_for": [
-                    "Required fields, format validation",
-                    "Minimum or maximum values, regex validation",
-                    "Comparing two fields, date rules, cross-field checks",
-                    "Preventing invalid form submission",
+                    "Input & cross-field validation",
+                    "Conditional logic",
+                    "Validation messages",
                 ],
-                "avoid": "A dropdown merely changing its options is Form Configuration "
-                         "-> Dynamic & dependent inputs.",
+                "avoid": "Rules that must also hold through API/MCP belong to "
+                          "Server-side & API enforcement. Runtime failures belong to "
+                          "Logs & error diagnostics.",
                 "examples": [
-                    "\"Replica count must be at least 3 in production.\"",
-                    "\"The end date must be after the start date.\"",
-                ],
-            },
-            "Conditional logic": {
-                "plain": "Business rules that decide whether submission can continue.",
-                "use_for": [
-                    "\"If A, then B is required\"",
-                    "Rules that determine whether submission can proceed",
-                    "Conditional requirements",
-                    "Business rules applied before execution",
-                ],
-                "avoid": "A dropdown simply changing its options -> Form Configuration "
-                         "-> Dynamic & dependent inputs.",
-                "examples": [
-                    "\"If the tier is Enterprise, the approval reason becomes required.\"",
-                    "\"Block submission unless a cost centre is supplied.\"",
+                    "“When the identifier is null, Port auto-generates an identifier "
+                    "with a UUID so no error is raised from Port API, even though we "
+                    "want to enforce it”",
+                    "“conditional logic like \"replica count must be at least 3 when "
+                    "deploying to production\", cross-field rules like email "
+                    "confirmation, and meaningful error messages”",
                 ],
             },
             "Server-side & API enforcement": {
-                "plain": "Making the rules hold even when the UI is not used.",
+                "plain": "Consistent validation and guardrail enforcement across UI, "
+                          "API, MCP, JSON and other non-UI invocation paths.",
                 "use_for": [
-                    "Validation that works only in the UI",
-                    "API, MCP, webhook or backend paths bypassing validation",
-                    "Consistent enforcement across UI and non-UI invocation paths",
-                    "Security-sensitive server-side validation",
+                    "Server-side & API enforcement",
                 ],
-                "avoid": "Missing an integration entirely is Invocation & Integrations.",
+                "avoid": "Missing integrations belong to Backends, APIs & event "
+                          "triggers. UI-only validation belongs to Form validation, "
+                          "messages & conditional rules.",
                 "examples": [
-                    "\"The API accepts values the form would have rejected.\"",
-                    "\"MCP execution bypasses our front-end validation.\"",
+                    "“validate the user input for corectness against custom business "
+                    "logic, and display an error returned from the backend under the "
+                    "text field, without actually submitting the form”",
+                    "“Any execution path that bypasses the form UI, JSON mode, direct "
+                    "API calls, or Port's MCP, skips these validations entirely, "
+                    "allowing invalid or unauthorized inputs to be submitted.”",
                 ],
             },
-            "Validation messages": {
-                "plain": "Explaining clearly what is wrong before submission.",
+            "Expression & JQ authoring": {
+                "plain": "Writing, testing, understanding and maintaining JQ or other "
+                          "expressions used in Action configuration.",
                 "use_for": [
-                    "Unclear pre-submission error messages",
-                    "Missing explanation of which value is invalid",
-                    "Messages that do not explain how to correct the form",
-                    "Custom validation messages",
+                    "Expression and JQ rule authoring",
                 ],
-                "avoid": "Errors AFTER the Action started belong to "
-                         "Observability & Debugging -> Error messages & backend responses.",
+                "avoid": "Runtime expression failures belong to Logs & error "
+                          "diagnostics. Payload reshaping belongs to Payload mapping & "
+                          "transformation.",
                 "examples": [
-                    "\"It says invalid but never says which format it wants.\"",
-                    "\"Let us write our own message for this regex rule.\"",
-                ],
-            },
-            "Expression and JQ rule authoring": {
-                "plain": "Writing, testing and debugging the rule expressions themselves.",
-                "use_for": [
-                    "Writing JQ expressions",
-                    "Testing rule expressions",
-                    "Rule-builder usability",
-                    "Debugging condition syntax",
-                    "Previewing rule results and expression validation",
-                ],
-                "avoid": "Runtime JQ failures during execution are "
-                         "Observability & Debugging.",
-                "examples": [
-                    "\"The jqQuery becomes unreadable with five conditions.\"",
-                    "\"We need a way to preview what this expression evaluates to.\"",
+                    "“it is not possible to use JQ when creating conditions for Day-2 "
+                    "or Delete actions”",
+                    "“We should find a way to alert relevant stakeholders to the fact "
+                    "that the calculated value is invalid when it occurs.”",
                 ],
             },
         },
@@ -380,378 +262,241 @@ TAXONOMY: dict[str, dict] = {
         "default_stage": "Backend & invocation setup",
         "confusable": ["Identity, Secrets & Security", "Orchestration"],
         "subcategories": {
-            "Backend & invocation method selection": {
-                "plain": "Choosing what actually runs when the form is submitted.",
+            "Backends, APIs & event triggers": {
+                "plain": "Choosing and connecting the backend, API, integration or "
+                          "event mechanism that invokes or triggers the work.",
                 "use_for": [
-                    "Selecting a webhook, pipeline, GitHub workflow, GitLab pipeline, Kafka target",
-                    "Choosing how the Action is invoked",
-                    "Supporting additional invocation methods",
-                    "Configuring which execution mechanism should run",
+                    "Backend & invocation method selection",
+                    "APIs & external integrations",
+                    "Event triggers & action-to-automation integration",
                 ],
-                "avoid": "Viewing or controlling a Run that already started is "
-                         "Execution Lifecycle or Observability & Debugging.",
+                "avoid": "Payload shape belongs to Payload mapping & transformation. "
+                          "Private execution infrastructure belongs to Execution "
+                          "agents & runners.",
                 "examples": [
-                    "\"We need to trigger an Azure DevOps pipeline, not just GitHub.\"",
-                    "\"Support Kafka as an invocation target.\"",
+                    "“another invocation type that would be awesome, would be directly "
+                    "integrating with Lambda and OpenFAAS”",
+                    "“Add the option to use a generic invocation method that sends a "
+                    "log message to an action run ID provided as an input.”",
                 ],
             },
             "Payload mapping & transformation": {
-                "plain": "Shaping the data sent to the backend.",
+                "plain": "Selecting, reshaping, encoding, previewing or passing "
+                          "through the data sent to a backend.",
                 "use_for": [
-                    "Building the outbound payload",
-                    "Renaming submitted fields, transforming values",
-                    "Mapping form inputs to backend parameters",
-                    "Restructuring JSON, adding or removing payload fields",
-                    "Previewing the outgoing payload",
+                    "Payload mapping & transformation",
                 ],
-                "avoid": "Changing what the user sees in the form is Form Configuration.",
+                "avoid": "Information inherited from the launch context belongs to "
+                          "Contextual launch, targeting & pre-fill. Authentication "
+                          "identity belongs to Identity, Secrets & Security.",
                 "examples": [
-                    "\"Use JQ to reshape the payload before sending it to the workflow.\"",
-                    "\"Let us preview exactly what will be POSTed.\"",
-                ],
-            },
-            "APIs & external integrations": {
-                "plain": "Connecting Actions to outside systems.",
-                "use_for": [
-                    "Connecting Actions to external APIs",
-                    "Integration configuration",
-                    "Missing API support",
-                    "External systems used by the Action",
-                    "API-specific invocation behavior",
-                ],
-                "avoid": "Do not use just because an API supplies dropdown values -- that "
-                         "is Form Configuration -> Dynamic & dependent inputs.",
-                "examples": [
-                    "\"We need a native ServiceNow integration for this Action.\"",
-                    "\"The Action must call our internal provisioning API.\"",
+                    "“The self-service engineer should be able to choose which entity "
+                    "properties or property are relevant to send to the self-service "
+                    "action.”",
+                    "“base64 encoding username:PAT (or :PAT) is the correct approach, "
+                    "and right now you have to do so outside of Port”",
                 ],
             },
             "Execution agents & runners": {
-                "plain": "Where the Action physically runs, and reaching it.",
+                "plain": "Where an Action physically executes, including agent "
+                          "selection, routing, connectivity and runner configuration.",
                 "use_for": [
-                    "Execution agents, runners, agent configuration",
-                    "Selecting where the Action runs",
-                    "Connectivity between Port and the execution environment",
+                    "Execution agents & runners",
                 ],
-                "avoid": "Security or identity issues involving the runner may primarily "
-                         "belong to Identity, Secrets & Security.",
+                "avoid": "Selecting a normal SaaS backend belongs to Backends, APIs & "
+                          "event triggers. Credentials belong to Credentials, secrets "
+                          "& request signing.",
                 "examples": [
-                    "\"The agent cannot reach our private network.\"",
-                    "\"Let us choose which runner executes this Action.\"",
-                ],
-            },
-            "Event triggers & action-to-automation integration": {
-                "plain": "Wiring an Action to events and automations.",
-                "use_for": [
-                    "Connecting an Action to an Automation",
-                    "Triggering workflows or automations from an Action",
-                    "Event-based invocation",
-                    "Action-trigger configuration",
-                    "Passing Action events into another system",
-                ],
-                "avoid": "General Automation authoring unrelated to Actions is out of "
-                         "scope entirely -- mark is_relevant=false.",
-                "examples": [
-                    "\"Trigger a downstream automation when this Action completes.\"",
-                    "\"Fire this Action from an external event.\"",
+                    "“You cannot control which agent processes which message at the "
+                    "moment.”",
+                    "“We want to communicate with an internal service without the "
+                    "hassle of handling the self signed certificates”",
                 ],
             },
         },
     },
 
     "Identity, Secrets & Security": {
-        "plain": "Who or what executes the Action, and how sensitive data is protected.",
+        "plain": "Who or what executes the Action, and how sensitive data is "
+                  "protected.",
         "default_stage": "Backend & invocation setup",
         "confusable": ["Invocation & Integrations", "Permissions & Approvals"],
         "subcategories": {
-            "Authentication & delegated execution": {
-                "plain": "Running the Action as a particular identity.",
+            "Authentication, execution identity & requester context": {
+                "plain": "Who or what executes the Action and which trusted requester "
+                          "identity/context is propagated to downstream systems.",
                 "use_for": [
-                    "OAuth, JWT, authentication flows",
-                    "Running on behalf of a user, impersonation",
-                    "Delegated authorization",
-                    "Passing user identity to a backend",
+                    "Authentication & delegated execution",
+                    "Service accounts & execution identity",
+                    "Current-user and context propagation",
                 ],
-                "avoid": "Deciding *whether* a user may run it is Permissions & Approvals.",
+                "avoid": "Permission to start the Action belongs to Access control & "
+                          "action eligibility. Secret storage belongs to Credentials, "
+                          "secrets & request signing.",
                 "examples": [
-                    "\"Run the Action as the requesting user, not a shared token.\"",
-                    "\"We need OAuth delegation to the downstream system.\"",
+                    "“Passing the User Form .user object to the backend is not safe, "
+                    "as it can be spoofed and allow user impersonation.”",
+                    "“we need is to perform a request to obtain the JWT before each "
+                    "SSA action and then include it in the header of the action”",
                 ],
             },
-            "Service accounts & execution identity": {
-                "plain": "Which machine identity performs the work.",
+            "Credentials, secrets & request signing": {
+                "plain": "Securely storing, resolving and using credentials, tokens "
+                          "and signatures for Action invocations.",
                 "use_for": [
-                    "Service accounts",
-                    "Selecting the identity that performs the Action",
-                    "Per-Action execution identity, scoped credentials",
-                    "Organization-level versus Action-level identity",
+                    "Credentials & secrets management",
+                    "Message signing & webhook security",
                 ],
-                "avoid": "Storing the secret itself is Credentials & secrets management.",
+                "avoid": "Preventing sensitive values from appearing in UI/logs "
+                          "belongs to Sensitive-data masking & redaction.",
                 "examples": [
-                    "\"Each Action should use its own scoped service account.\"",
-                    "\"One org-wide token is too broad for this Action.\"",
-                ],
-            },
-            "Credentials & secrets management": {
-                "plain": "Storing and retrieving passwords, tokens and secrets.",
-                "use_for": [
-                    "Passwords, tokens, secret inputs",
-                    "HashiCorp Vault",
-                    "Secret storage, retrieval and rotation",
-                    "Credentials used by an Action",
-                ],
-                "avoid": "Hiding a secret from view is Sensitive-data masking & redaction.",
-                "examples": [
-                    "\"Secrets must live in Vault, not inside Port.\"",
-                    "\"We need to rotate the Action's token without editing it.\"",
-                ],
-            },
-            "Message signing & webhook security": {
-                "plain": "Proving a request really came from Port.",
-                "use_for": [
-                    "Signing webhook messages, signature verification",
-                    "Request integrity",
-                    "Secure communication between Port and execution agents",
-                    "Webhook authentication mechanisms",
-                ],
-                "avoid": "Choosing the webhook target is Invocation & Integrations.",
-                "examples": [
-                    "\"Sign agent messages with a service account credential.\"",
-                    "\"We cannot verify the webhook actually came from Port.\"",
+                    "“Infosec policy mandates all secrets stored in HashiCorp Vault "
+                    "only”",
+                    "“Allow the {{ .secrets.<secret_name> }} syntax in the secret "
+                    "field for webhook, consistent with how secrets are already used "
+                    "in self-service action and automation payloads.”",
                 ],
             },
             "Sensitive-data masking & redaction": {
-                "plain": "Keeping secrets out of forms, logs and Run history.",
+                "plain": "Preventing sensitive inputs, payload fields, outputs and "
+                          "logs from being exposed to unauthorized viewers.",
                 "use_for": [
-                    "Hiding secrets from the form, masking sensitive inputs",
-                    "Redacting logs",
-                    "Preventing sensitive outputs appearing in Run history",
-                    "Protecting credentials during approval flows",
+                    "Sensitive-data masking & redaction",
                 ],
-                "avoid": "General log detail is Observability & Debugging.",
+                "avoid": "Secret storage and retrieval belong to Credentials, secrets "
+                          "& request signing. General payload visibility belongs to "
+                          "Observability unless the restriction is security-driven.",
                 "examples": [
-                    "\"The token appears in plain text in the run output.\"",
-                    "\"Mask the password input so approvers cannot read it.\"",
+                    "“There is currently no way to mark a variable as sensitive so "
+                    "that its value is redacted or masked in the run history display.”",
+                    "“defining an input as a secret does not work in cases where there "
+                    "is an approver on the action”",
                 ],
             },
         },
     },
 
     "Permissions & Approvals": {
-        "plain": "Who can see or run an Action, and who must approve it before it runs.",
+        "plain": "Who can see or run an Action, and who must approve it before it "
+                  "runs.",
         "default_stage": "Permissions & approvals",
         "confusable": ["Identity, Secrets & Security", "Discovery, Organization & Reuse"],
         "subcategories": {
-            "RBAC & dynamic permissions": {
-                "plain": "Rules deciding who is allowed to do what.",
+            "Access control & action eligibility": {
+                "plain": "Rules deciding who may view, create, edit, trigger or "
+                          "inspect an Action and whether the UI reflects that "
+                          "eligibility early.",
                 "use_for": [
-                    "Role-based access, attribute-based access",
-                    "User, team, group or role permissions",
-                    "Dynamic permission conditions",
-                    "Permission behavior based on Entity properties",
+                    "RBAC & dynamic permissions",
+                    "Action visibility & eligibility",
                 ],
-                "avoid": "Platform-wide admin RBAC unrelated to Actions is out of scope.",
+                "avoid": "The UI for creating/testing permission rules belongs to "
+                          "Permission authoring & testing. Downstream execution "
+                          "identity belongs to Identity, Secrets & Security.",
                 "examples": [
-                    "\"Only the owning team should be able to run this Action.\"",
-                    "\"Permissions should depend on the entity's environment property.\"",
-                ],
-            },
-            "Action visibility & eligibility": {
-                "plain": "Hiding what a user cannot run, and telling them early.",
-                "use_for": [
-                    "Hiding Actions users cannot run",
-                    "Determining whether a user is eligible",
-                    "Showing unavailable Actions",
-                    "Rejecting a user only after they completed the entire form",
-                    "Controlling visibility based on authorization",
-                ],
-                "avoid": "Placement rules that are not about authorization belong to "
-                         "Discovery -> Conditional availability & placement.",
-                "examples": [
-                    "\"I filled in the whole form and only then was told I am not permitted.\"",
-                    "\"Hide Actions the user has no permission to run.\"",
+                    "“those values aren't present on the .user object in the dynamic "
+                    "permissions/self service action context”",
+                    "“I want to allow some users to be able to create self-service "
+                    "actions in our STG environment without giving them full Admin "
+                    "access.”",
                 ],
             },
             "Permission authoring & testing": {
-                "plain": "Building and checking permission rules without guessing.",
+                "plain": "Creating, previewing, testing and debugging permission "
+                          "rules and their outcomes.",
                 "use_for": [
-                    "Creating permission rules",
-                    "Previewing permission outcomes",
-                    "Testing whether a user can execute an Action",
-                    "Debugging permission conditions",
-                    "Improving the permission configuration UI",
+                    "Permission authoring & testing",
                 ],
-                "avoid": "Testing the Action itself is Authoring, Testing & Management.",
+                "avoid": "New access-control capability belongs to Access control & "
+                          "action eligibility. Action-definition release lifecycle "
+                          "belongs to Authoring, Testing & Management.",
                 "examples": [
-                    "\"Managing dynamic permissions requires specific skills and is hard to verify.\"",
-                    "\"Let us preview whether this user would pass the rule.\"",
+                    "“the error message logged provides no context about what specific "
+                    "part of the dynamic permission caused the action to be denied”",
+                    "“execute permissions can be removed entirely, which allows an "
+                    "action to be saved with no execute permissions at all”",
                 ],
             },
-            "Approval policies & thresholds": {
-                "plain": "Whether approval is needed, and how much of it.",
+            "Approval policies & approver routing": {
+                "plain": "Deciding when approval is required, how many approvals are "
+                          "needed and who should receive the request.",
                 "use_for": [
-                    "Whether approval is required, conditional approval, automatic approval",
-                    "Production versus non-production approval",
-                    "Number of required approvals, \"two out of five approvers\"",
-                    "Risk-based approval, guardrails for sensitive Actions",
+                    "Approval policies & thresholds",
+                    "Approver routing & identity",
                 ],
-                "avoid": "Who may start the Action at all is Action visibility & eligibility.",
+                "avoid": "The approver's decision UI and messages belong to Approver "
+                          "experience & notifications. Mid-workflow approvals belong "
+                          "to Orchestration.",
                 "examples": [
-                    "\"Production deploys need two approvals; staging needs none.\"",
-                    "\"Require approval only above a cost threshold.\"",
+                    "“Allows Port Admins to intervene and instantly approve any "
+                    "pending request manually.”",
+                    "“we approve our own requests... we have to approve our own "
+                    "request, which is just extra work”",
                 ],
             },
-            "Approver routing & identity": {
-                "plain": "Finding and reaching the right approver.",
+            "Approver experience & notifications": {
+                "plain": "How approvers are notified, understand the request, "
+                          "communicate, edit permitted values and approve or reject "
+                          "it.",
                 "use_for": [
-                    "Selecting the correct approver, dynamic approver selection",
-                    "Routing to a team, manager, owner or Entity relation",
-                    "Finding the responsible approver",
-                    "Escalation to another approver",
+                    "Approver experience & request editing",
+                    "Approval notifications",
                 ],
-                "avoid": "The notification itself is Approval notifications.",
+                "avoid": "Policy configuration and approver selection belong to "
+                          "Approval policies & approver routing. Historical approval "
+                          "evidence belongs to Run history, audit, APIs & export.",
                 "examples": [
-                    "\"Route approval to the entity's owning team automatically.\"",
-                    "\"If no approver responds, escalate to their manager.\"",
-                ],
-            },
-            "Approver experience & request editing": {
-                "plain": "What the approver sees and can change before deciding.",
-                "use_for": [
-                    "Approval UI, information shown to the approver",
-                    "Approvers editing request inputs",
-                    "Comments during approval",
-                    "Approver decision experience",
-                    "Viewing relevant context before approving",
-                ],
-                "avoid": "Recording what happened after the fact is Approval audit & context.",
-                "examples": [
-                    "\"Approvers cannot see which values they are approving.\"",
-                    "\"Let the approver correct a typo instead of rejecting.\"",
-                ],
-            },
-            "Approval notifications": {
-                "plain": "Telling someone that their approval is needed.",
-                "use_for": [
-                    "Slack, email, Teams or other notifications requesting approval",
-                    "Missing approval request notification",
-                    "Approval reminders",
-                    "Notification routing to approvers",
-                ],
-                "avoid": "Success or failure notifications AFTER execution belong to "
-                         "Observability & Debugging -> Execution notifications & alerting.",
-                "examples": [
-                    "\"The approver never received the approval request.\"",
-                    "\"Send approval requests to Slack, not only email.\"",
-                ],
-            },
-            "Approval audit & context": {
-                "plain": "The record of who approved what, and why.",
-                "use_for": [
-                    "Who approved and when",
-                    "Approval decision history",
-                    "Reason for approval or rejection",
-                    "Context displayed in the approval record",
-                    "Auditability of approval decisions",
-                ],
-                "avoid": "General Run history is Observability & Debugging.",
-                "examples": [
-                    "\"We cannot tell afterwards who approved this deployment.\"",
-                    "\"Capture the rejection reason in the run record.\"",
+                    "“the admin that approves the request will want to make a change "
+                    "to the inputs provided by the user”",
+                    "“both the approver and the requester should be able to exchange "
+                    "messages/comments directly within the action run context in Port”",
                 ],
             },
         },
     },
 
     "Orchestration": {
-        "plain": "Actions containing several connected execution steps, decisions or systems.",
+        "plain": "Actions containing several connected execution steps, decisions or "
+                  "systems.",
         "default_stage": "Backend & invocation setup",
         "confusable": ["Form Configuration", "Invocation & Integrations", "Execution Lifecycle"],
         "subcategories": {
-            "Multi-step workflows": {
-                "plain": "One Action performing several backend operations in order.",
+            "Multi-step orchestration, branching & data flow": {
+                "plain": "Building multi-step workflows with sequencing, branches, "
+                          "multiple systems and data passed between steps.",
                 "use_for": [
-                    "Several execution steps",
-                    "Ordered workflow stages, sequential operations",
-                    "One Action containing multiple backend tasks",
+                    "Multi-step workflows",
+                    "Shared context & output passing",
+                    "Branching & conditional paths",
+                    "Multi-backend & multi-system sequencing",
                 ],
-                "avoid": "IMPORTANT: several form PAGES are Form Configuration. Several "
-                         "execution STEPS are Orchestration.",
+                "avoid": "Multiple visual pages in a form belong to Form "
+                          "Configuration. Selecting a single backend belongs to "
+                          "Invocation & Integrations.",
                 "examples": [
-                    "\"Provision, then configure, then register -- as one Action.\"",
-                    "\"Chain several backend calls in a defined order.\"",
+                    "“the .outputs available to downstream JQ expressions only include "
+                    "workflowRunUrl and workflowRunId, not result, workflowStatus, or "
+                    "any error detail”",
+                    "“Due to Port's current setup, I have to combine these 5 GH "
+                    "actions into one since the SSA can only trigger one backend”",
                 ],
             },
-            "Shared context & output passing": {
-                "plain": "Using the result of one step in the next.",
+            "Workflow approvals, error handling & recovery": {
+                "plain": "Controlling workflow steps through intermediate approvals, "
+                          "failure branches, retries, compensation and recovery "
+                          "behavior.",
                 "use_for": [
-                    "Passing output from one step to another",
-                    "Shared variables and shared context",
-                    "Reusing intermediate results",
-                    "Referencing previous step outputs",
+                    "Intermediate approvals",
+                    "Step-level error handling & recovery",
                 ],
-                "avoid": "Passing launch context into the Action is "
-                         "Context, Targeting & Pre-fill.",
+                "avoid": "Approval before an Action starts belongs to Permissions & "
+                          "Approvals. Whole-run retry/cancel belongs to Execution "
+                          "Lifecycle.",
                 "examples": [
-                    "\"Step two needs the resource ID that step one created.\"",
-                    "\"Reference the previous step's output in the payload.\"",
-                ],
-            },
-            "Branching & conditional paths": {
-                "plain": "Different execution routes depending on conditions.",
-                "use_for": [
-                    "If/else paths, conditional branches",
-                    "Different execution paths based on inputs or previous results",
-                    "Parallel paths",
-                ],
-                "avoid": "Conditional form behaviour is Form Configuration or "
-                         "Validation & Rules.",
-                "examples": [
-                    "\"If the environment is prod, take the approval path.\"",
-                    "\"Run these two backend steps in parallel.\"",
-                ],
-            },
-            "Intermediate approvals": {
-                "plain": "Pausing mid-workflow for a human decision.",
-                "use_for": [
-                    "Approval between execution steps",
-                    "Pause for approval in the middle of a workflow",
-                    "Approval before a specific destructive step",
-                ],
-                "avoid": "Approval before the Action starts at all is "
-                         "Permissions & Approvals.",
-                "examples": [
-                    "\"Pause before the destructive step and ask for sign-off.\"",
-                    "\"Approve between provisioning and deployment.\"",
-                ],
-            },
-            "Step-level error handling & recovery": {
-                "plain": "What happens when one step of many fails.",
-                "use_for": [
-                    "Retrying one workflow step",
-                    "Catch or finally behavior",
-                    "Recovery after a partial failure",
-                    "Rollback or compensation",
-                    "Continuing after a non-critical step failure",
-                ],
-                "avoid": "Retrying the whole Run is Execution Lifecycle.",
-                "examples": [
-                    "\"If step three fails, roll back what step two created.\"",
-                    "\"We need a catch-all branch for workflow failures.\"",
-                ],
-            },
-            "Multi-backend & multi-system sequencing": {
-                "plain": "Coordinating several different systems in one Action.",
-                "use_for": [
-                    "Several backends in one Action",
-                    "Coordinating multiple systems",
-                    "Routing different steps to different execution mechanisms",
-                    "Sequential operations across multiple integrations",
-                ],
-                "avoid": "Choosing a single backend is Invocation & Integrations.",
-                "examples": [
-                    "\"This Action must hit GitHub, then Jira, then our API.\"",
-                    "\"Route each step to a different backend.\"",
+                    "“Can't easily implement basic alerting without misrepresenting "
+                    "operational health.”",
+                    "“prompt an approval request and based on the approval, invoke "
+                    "another trigger”",
                 ],
             },
         },
@@ -762,85 +507,55 @@ TAXONOMY: dict[str, dict] = {
         "default_stage": "Execution, monitoring & run control",
         "confusable": ["Observability & Debugging", "Orchestration"],
         "subcategories": {
-            "Retry, rerun & duplicate execution": {
-                "plain": "Running it again after a failure or to repeat work.",
+            "Retry, rerun, cancel & resume": {
+                "plain": "User controls for repeating, interrupting or continuing an "
+                          "Action run.",
                 "use_for": [
-                    "Retry after failure, rerun with the same inputs",
-                    "Duplicate a previous Run",
-                    "Start another similar Run",
-                    "Retry while preserving execution context",
+                    "Retry, rerun & duplicate execution",
+                    "Cancel, stop & resume",
                 ],
-                "avoid": "Explaining *why* it failed is Observability & Debugging.",
+                "avoid": "Automatic resilience belongs to Reliability, timeouts & "
+                          "concurrency. Step-level recovery belongs to Orchestration.",
                 "examples": [
-                    "\"Let me retry the failed Run without refilling the form.\"",
-                    "\"Duplicate this Run with the same inputs.\"",
+                    "“Ability to cancel the execution of an action after triggering it”",
+                    "“Adding a retry action for a run can be nice addition”",
                 ],
             },
-            "Cancel, stop & resume": {
-                "plain": "Interrupting or continuing a Run in progress.",
+            "Reliability, timeouts & concurrency": {
+                "plain": "Runtime safeguards governing duration, simultaneous "
+                          "execution, duplicate prevention and automatic handling of "
+                          "transient failures.",
                 "use_for": [
-                    "Cancel, stop, pause, resume, abort",
-                    "Continue an interrupted Run",
+                    "Timeouts",
+                    "Concurrency, rate limits & duplicate prevention",
+                    "Reliability & transient-failure handling",
                 ],
-                "avoid": "Preventing a Run from starting is Permissions & Approvals.",
+                "avoid": "Manual retry/cancel belongs to Retry, rerun, cancel & "
+                          "resume. A deterministic product defect remains a Bug "
+                          "problem type.",
                 "examples": [
-                    "\"Add a cancel button to a running Action.\"",
-                    "\"I triggered it by mistake and cannot stop it.\"",
-                ],
-            },
-            "Timeouts": {
-                "plain": "How long a Run may take before it is cut off.",
-                "use_for": [
-                    "Run timeout configuration",
-                    "Long-running Actions, timeout limits and behavior",
-                    "Extending or customizing timeout duration",
-                ],
-                "avoid": "Slow performance at scale is a Performance problem type, not "
-                         "necessarily this subcategory.",
-                "examples": [
-                    "\"Our Action needs a 30-minute timeout, not 10.\"",
-                    "\"Make the timeout configurable per Action.\"",
-                ],
-            },
-            "Concurrency, rate limits & duplicate prevention": {
-                "plain": "Stopping the same work from running twice or too often.",
-                "use_for": [
-                    "Preventing multiple Runs at the same time",
-                    "Concurrency control, rate limiting",
-                    "Duplicate request prevention, locks, queuing",
-                ],
-                "avoid": "Bulk execution across entities is Discovery -> Bulk actions.",
-                "examples": [
-                    "\"Two people triggered the same deploy simultaneously.\"",
-                    "\"Queue Runs instead of running them all at once.\"",
-                ],
-            },
-            "Reliability & transient-failure handling": {
-                "plain": "Coping with flaky backends and temporary outages.",
-                "use_for": [
-                    "Intermittent failures, automatic retry",
-                    "Temporary backend outages, network instability",
-                    "Resilience behavior, backoff",
-                ],
-                "avoid": "A consistent, reproducible failure is a Bug / defect.",
-                "examples": [
-                    "\"Transient 502s fail the Run instead of retrying.\"",
-                    "\"Add exponential backoff for backend errors.\"",
+                    "“Ability to configure timeout values for actions within Port so "
+                    "that certain operations, like deploying a service, do not exceed "
+                    "a certain duration.”",
+                    "“users can click the button multiple times, unintentionally "
+                    "triggering duplicate executions”",
                 ],
             },
             "Completion & result-state control": {
-                "plain": "Deciding and correcting when a Run counts as done.",
+                "plain": "Determining, setting or correcting when a Run is complete "
+                          "and which terminal/result state it has.",
                 "use_for": [
-                    "Marking a Run completed or failed",
-                    "Custom completion state",
-                    "Overriding or correcting Run outcome",
-                    "Determining when a long-running Action is considered complete",
+                    "Completion & result-state control",
                 ],
-                "avoid": "Displaying the status is Observability & Debugging "
-                         "-> Run status & progress.",
+                "avoid": "Displaying status belongs to Run status, progress & "
+                          "notifications. Failure explanation belongs to Logs & error "
+                          "diagnostics.",
                 "examples": [
-                    "\"Let us mark this Run as successful manually.\"",
-                    "\"The Run never reaches a terminal state.\"",
+                    "“I would like to have the same ability just with create/update "
+                    "invocation type.”",
+                    "“the list should contain all Gitlab's possible pipeline statuses: "
+                    "(created, waiting_for_resource, preparing, pending, running, "
+                    "success, failed, canceled, skipped, manual, scheduled)”",
                 ],
             },
         },
@@ -851,204 +566,126 @@ TAXONOMY: dict[str, dict] = {
         "default_stage": "Execution, monitoring & run control",
         "confusable": ["Execution Lifecycle", "Validation & Rules", "Permissions & Approvals"],
         "subcategories": {
-            "Run status & progress": {
-                "plain": "Seeing where a Run currently is.",
+            "Run status, progress & notifications": {
+                "plain": "Showing current run state/progress and proactively "
+                          "notifying users of success, failure, delay or completion.",
                 "use_for": [
-                    "Current Run state, progress indicators",
-                    "Step progress, pending or running state",
-                    "Live execution status",
+                    "Run status & progress",
+                    "Execution notifications & alerting",
                 ],
-                "avoid": "Changing the state is Execution Lifecycle "
-                         "-> Completion & result-state control.",
+                "avoid": "Changing the state belongs to Completion & result-state "
+                          "control. Detailed diagnostics belong to Logs & error "
+                          "diagnostics.",
                 "examples": [
-                    "\"There is no indication the job is queued rather than stuck.\"",
-                    "\"Show step-by-step progress while it runs.\"",
+                    "“action run status are predefined and limited to \"Success\", "
+                    "\"Failure\" and \"In progress\"”",
+                    "“There is no indication of whether the action is queued, "
+                    "rate-limited, or encountered an error during startup.”",
                 ],
             },
-            "Logs & log streaming": {
-                "plain": "Reading the detailed output of a Run.",
+            "Logs & error diagnostics": {
+                "plain": "Detailed runtime logs, backend responses and actionable "
+                          "explanations of execution failures.",
                 "use_for": [
-                    "Viewing logs, streaming logs",
-                    "More detailed runtime output, step-level logs",
-                    "Log retention",
+                    "Logs & log streaming",
+                    "Error messages & backend responses",
                 ],
-                "avoid": "Hiding secrets in logs is Identity, Secrets & Security.",
+                "avoid": "Pre-submission errors belong to Validation & Rules. "
+                          "Sensitive-log masking belongs to Identity, Secrets & "
+                          "Security.",
                 "examples": [
-                    "\"We need real-time logs while the Action runs.\"",
-                    "\"Attach the backend logs to the Run page.\"",
+                    "“users must wait for an action to complete or a certain amount of "
+                    "data to be processed before logs can be viewed”",
+                    "“Currently, there is no way to edit current action logs.”",
                 ],
             },
-            "Error messages & backend responses": {
-                "plain": "Explaining clearly why a Run failed.",
+            "Run history, audit, APIs & export": {
+                "plain": "Searching, auditing, filtering, exporting or "
+                          "programmatically querying historical Run and approval "
+                          "records.",
                 "use_for": [
-                    "Vague runtime errors, truncated errors",
-                    "Missing HTTP response or backend response body",
-                    "Diagnostic context",
-                    "Explaining why the Run failed",
+                    "Run history, audit & filtering",
+                    "Run-history APIs & export",
+                    "Approval audit & context",
                 ],
-                "avoid": "Use only AFTER the Action started. Pre-submission errors "
-                         "belong to Validation & Rules -> Validation messages.",
+                "avoid": "Linking a Run to the objects it changed belongs to Run "
+                          "traceability & related entities. Definition-change history "
+                          "belongs to Authoring, Testing & Management.",
                 "examples": [
-                    "\"The Run failed and the page does not say why.\"",
-                    "\"We never see the backend's HTTP response body.\"",
-                ],
-            },
-            "Run history, audit & filtering": {
-                "plain": "Finding past Runs and who triggered them.",
-                "use_for": [
-                    "Run history, audit trail",
-                    "Filtering and searching Runs",
-                    "Who triggered the Action and when",
-                    "Historical execution records",
-                ],
-                "avoid": "General platform audit logs not specific to Action Runs are "
-                         "out of scope -- mark is_relevant=false.",
-                "examples": [
-                    "\"We cannot filter Runs by who triggered them.\"",
-                    "\"Run history only keeps the last few days.\"",
-                ],
-            },
-            "Run-history APIs & export": {
-                "plain": "Getting Run data out programmatically.",
-                "use_for": [
-                    "API access to Run history, pagination",
-                    "Exporting Run data",
-                    "Programmatic Run querying",
-                    "Missing API filters for Action Runs",
-                ],
-                "avoid": "Invoking the Action via API is Invocation & Integrations.",
-                "examples": [
-                    "\"The Runs API has no filter for action identifier.\"",
-                    "\"We need to export Run history for analysis.\"",
-                ],
-            },
-            "Execution notifications & alerting": {
-                "plain": "Telling people the Run succeeded or failed.",
-                "use_for": [
-                    "Success, failure and completion notifications",
-                    "Slack, email, Teams, Kafka or other runtime alerts",
-                    "Alerts for long-running or failed Actions",
-                ],
-                "avoid": "Approval REQUEST notifications belong to Permissions & Approvals "
-                         "-> Approval notifications.",
-                "examples": [
-                    "\"Nobody was told the overnight Run failed.\"",
-                    "\"Notify the requester in Slack when it completes.\"",
+                    "“A dashboard/homepage widget that displays the runs of a specific "
+                    "self-service action.”",
+                    "“there is not enough ability for filtering of the returned runs, "
+                    "there is no \"include\" parameter, and the limit is set to max of "
+                    "1000 runs without ability for pagination”",
                 ],
             },
             "Run traceability & related entities": {
-                "plain": "Connecting a Run to what it actually changed.",
+                "plain": "Connecting a Run to its Action, requester, pipeline and the "
+                          "entities/resources it affected.",
                 "use_for": [
-                    "Linking a Run to the affected Entity",
-                    "Showing which resource changed",
-                    "Tracing a Run back to its Action and requester",
-                    "Connecting Runs to related objects",
-                    "End-to-end execution traceability",
+                    "Run traceability & related entities",
                 ],
-                "avoid": "Approval provenance is Permissions & Approvals "
-                         "-> Approval audit & context.",
+                "avoid": "General historical querying belongs to Run history, audit, "
+                          "APIs & export. Outbound payload construction belongs to "
+                          "Payload mapping & transformation.",
                 "examples": [
-                    "\"We cannot tell which entity this Run modified.\"",
-                    "\"Link the Run back to the service it deployed.\"",
+                    "“The Gitlab default payload config should reflect back a url to "
+                    "the pipeline for easy access”",
+                    "“Currently it's only possible tying entities to an action run by "
+                    "manually sending an API request to the entities with the "
+                    "`run_id`”",
                 ],
             },
         },
     },
 
     "Authoring, Testing & Management": {
-        "plain": "Helping builders safely create, test, edit, publish and maintain Actions.",
+        "plain": "Helping builders safely create, test, edit, publish and maintain "
+                  "Actions.",
         "default_stage": "Testing, editing & publishing",
         "confusable": ["Execution Lifecycle", "Validation & Rules"],
         "subcategories": {
-            "Preview & dry run": {
-                "plain": "Trying an Action without real consequences.",
+            "Action authoring, testing & release management": {
+                "plain": "Safely creating, learning, previewing, editing, publishing, "
+                          "disabling, versioning and rolling back Action definitions.",
                 "use_for": [
-                    "Previewing an Action, dry run",
-                    "Testing without real side effects",
-                    "Viewing the expected payload or outcome",
-                    "Validation before publishing",
+                    "Preview & dry run",
+                    "Playground, examples & in-product help",
+                    "Editing & unsaved-change safety",
+                    "Drafts, publishing & disablement",
+                    "Versioning, change detection & rollback",
                 ],
-                "avoid": "A real user's submitted Run is Execution Lifecycle or "
-                         "Observability & Debugging.",
+                "avoid": "Form fields and end-user form UX belong to Form "
+                          "Configuration. Programmatic configuration and reuse belong "
+                          "to Reusable configuration, API & IaC management.",
                 "examples": [
-                    "\"Let us dry-run the Action to check it before release.\"",
-                    "\"Show the payload that would be sent, without sending it.\"",
+                    "“In the GUI mode, users may accidentally navigate away without "
+                    "saving their changes.”",
+                    "“The examples that are being provided are automatically generated "
+                    "and in some cases are not aligned with the actual data.”",
                 ],
             },
-            "Playground, examples & in-product help": {
-                "plain": "Learning how to build an Action while building it.",
+            "Reusable configuration, API & IaC management": {
+                "plain": "Creating reusable Action definitions and managing or moving "
+                          "them programmatically through API, IaC, templates, import "
+                          "or export.",
                 "use_for": [
-                    "Interactive examples, playground, sample configurations",
-                    "In-product guidance",
-                    "Documentation shown during Action creation",
-                    "Builder onboarding",
+                    "API & IaC configuration management",
+                    "Reusability & templates",
                 ],
-                "avoid": "Missing end-user help text on a field is Form Configuration "
-                         "-> Labels, descriptions & display controls.",
+                "avoid": "Invoking an Action via API belongs to Invocation & "
+                          "Integrations. Reusing only a permission policy remains "
+                          "primarily Access control & action eligibility.",
                 "examples": [
-                    "\"Show a working example next to the JQ editor.\"",
-                    "\"New builders have nowhere to experiment safely.\"",
-                ],
-            },
-            "Editing & unsaved-change safety": {
-                "plain": "Changing an existing Action without losing work.",
-                "use_for": [
-                    "Editing existing Actions",
-                    "Unsaved-change warnings, preventing accidental loss",
-                    "Edit-form usability",
-                    "Duplicating an Action for editing",
-                ],
-                "avoid": "Version history is Versioning, change detection & rollback.",
-                "examples": [
-                    "\"I lost my edits because nothing warned me.\"",
-                    "\"It asks about unsaved changes even when nothing changed.\"",
-                ],
-            },
-            "Drafts, publishing & disablement": {
-                "plain": "Controlling whether an Action is live.",
-                "use_for": [
-                    "Saving a draft, publishing, unpublishing",
-                    "Disabling an Action",
-                    "Returning to unfinished configuration",
-                    "Separating draft and live states",
-                ],
-                "avoid": "Hiding it from certain users is Permissions & Approvals.",
-                "examples": [
-                    "\"Let us save a half-built Action as a draft.\"",
-                    "\"Temporarily disable an Action without deleting it.\"",
-                ],
-            },
-            "Versioning, change detection & rollback": {
-                "plain": "Tracking and undoing changes to an Action definition.",
-                "use_for": [
-                    "Version history, comparing versions",
-                    "Detecting configuration changes",
-                    "Rollback, restoring an earlier version",
-                    "Audit of Action-definition changes",
-                ],
-                "avoid": "Run-level history is Observability & Debugging.",
-                "examples": [
-                    "\"We cannot see who changed this Action or roll it back.\"",
-                    "\"Compare this Action's config against last week's.\"",
-                ],
-            },
-            "API & IaC configuration management": {
-                "plain": "Managing Action definitions as code.",
-                "use_for": [
-                    "Managing Action definitions through API",
-                    "Terraform, Pulumi, Infrastructure as Code",
-                    "Exporting or importing Action configuration",
-                    "Programmatic configuration management",
-                ],
-                "avoid": "Invoking the Action programmatically is "
-                         "Invocation & Integrations.",
-                "examples": [
-                    "\"Manage all our Actions through Terraform.\"",
-                    "\"Export an Action definition and import it elsewhere.\"",
+                    "“It would be really nice if you could go into a self service "
+                    "action and see a similar view.”",
+                    "“that action has to be created and its inputs need to be "
+                    "configured manually”",
                 ],
             },
         },
     },
+
 }
 
 
@@ -1352,7 +989,7 @@ WORKED_EXAMPLES: list[dict] = [
         "feedback": "I launched the Action from a Service page, but I still have to "
                     "select the Service manually.",
         "category": "Context, Targeting & Pre-fill",
-        "subcategory": "Pre-fill & context-specific defaults",
+        "subcategory": "Contextual launch, targeting & pre-fill",
         "problem_type": "Usability friction",
         "stage": "Contextual entry, targeting & pre-fill",
         "why": "The problem is not the type of input. Port already knows the relevant "
@@ -1361,7 +998,7 @@ WORKED_EXAMPLES: list[dict] = [
     {
         "feedback": "The available regions should change after I select a cloud provider.",
         "category": "Form Configuration",
-        "subcategory": "Dynamic & dependent inputs",
+        "subcategory": "Dynamic inputs, defaults & computed fields",
         "problem_type": "Feature gap",
         "stage": "Form & input configuration",
         "why": "The field's options must react to another selection. Nothing is being "
@@ -1371,7 +1008,7 @@ WORKED_EXAMPLES: list[dict] = [
         "feedback": "The user can run the Action, but a manager must approve production "
                     "deployments.",
         "category": "Permissions & Approvals",
-        "subcategory": "Approval policies & thresholds",
+        "subcategory": "Approval policies & approver routing",
         "problem_type": "Feature gap",
         "stage": "Permissions & approvals",
         "why": "The issue is not whether the user may start the Action. It is the "
@@ -1380,7 +1017,7 @@ WORKED_EXAMPLES: list[dict] = [
     {
         "feedback": "The Action started and failed, but the run page does not explain why.",
         "category": "Observability & Debugging",
-        "subcategory": "Error messages & backend responses",
+        "subcategory": "Logs & error diagnostics",
         "problem_type": "Poor error message",
         "stage": "Execution, monitoring & run control",
         "why": "The failure happened after submission, so it belongs to execution "
@@ -1389,7 +1026,7 @@ WORKED_EXAMPLES: list[dict] = [
     {
         "feedback": "Divide this long form into three screens.",
         "category": "Form Configuration",
-        "subcategory": "Form layout, sections & multi-page forms",
+        "subcategory": "Form presentation, layout & guidance",
         "problem_type": "Usability friction",
         "stage": "Form & input configuration",
         "why": "Several visual pages are a form-layout concern. Only several BACKEND "
@@ -1398,7 +1035,7 @@ WORKED_EXAMPLES: list[dict] = [
     {
         "feedback": "The approver never received the Slack request to approve.",
         "category": "Permissions & Approvals",
-        "subcategory": "Approval notifications",
+        "subcategory": "Approver experience & notifications",
         "problem_type": "Bug / defect",
         "stage": "Permissions & approvals",
         "why": "An approval-request notification blocks the user at the approval stage, "
@@ -1407,7 +1044,7 @@ WORKED_EXAMPLES: list[dict] = [
     {
         "feedback": "Secrets must be stored in HashiCorp Vault, not inside Port.",
         "category": "Identity, Secrets & Security",
-        "subcategory": "Credentials & secrets management",
+        "subcategory": "Credentials, secrets & request signing",
         "problem_type": "Security or privacy concern",
         "stage": "Backend & invocation setup",
         "why": "Storing and retrieving the credential is a secrets concern, even though "
@@ -1416,7 +1053,7 @@ WORKED_EXAMPLES: list[dict] = [
     {
         "feedback": "Let me retry the failed Run without filling in the form again.",
         "category": "Execution Lifecycle",
-        "subcategory": "Retry, rerun & duplicate execution",
+        "subcategory": "Retry, rerun, cancel & resume",
         "problem_type": "Feature gap",
         "stage": "Execution, monitoring & run control",
         "why": "Acting on the Run is Execution Lifecycle. Explaining why it failed "
@@ -1475,14 +1112,131 @@ GLOSSARY: dict[str, str] = {
 # ===========================================================================
 # DERIVED CONSTANTS -- generated, never hand-maintained
 # ===========================================================================
+
+# ===========================================================================
+# v2.1 -> v3.0 SUBCATEGORY MIGRATION
+# ===========================================================================
+# Where each of the 63 former subcategories went. Every one has a destination:
+# a migration that silently drops a name would strand any record still
+# carrying it, and the test suite asserts the map covers all 63.
+#
+# The former name is not thrown away -- it is preserved per record as
+# topic_tags, so the finer technical distinction stays queryable even though
+# it is no longer an analytical group.
+SUBCATEGORY_MIGRATION: dict[str, str] = {
+    # -> Action authoring, testing & release management
+    "Drafts, publishing & disablement": "Action authoring, testing & release management",
+    "Editing & unsaved-change safety": "Action authoring, testing & release management",
+    "Playground, examples & in-product help": "Action authoring, testing & release management",
+    "Preview & dry run": "Action authoring, testing & release management",
+    "Versioning, change detection & rollback": "Action authoring, testing & release management",
+    # -> Reusable configuration, API & IaC management
+    "API & IaC configuration management": "Reusable configuration, API & IaC management",
+    "Reusability & templates": "Reusable configuration, API & IaC management",
+    # -> Contextual launch, targeting & pre-fill
+    "Contextual entry & deep links": "Contextual launch, targeting & pre-fill",
+    "Embedded & alternative launch surfaces": "Contextual launch, targeting & pre-fill",
+    "Entity and resource targeting": "Contextual launch, targeting & pre-fill",
+    "Pre-fill & context-specific defaults": "Contextual launch, targeting & pre-fill",
+    # -> Action discovery, organization & placement
+    "Action discovery, grouping & ordering": "Action discovery, organization & placement",
+    "Conditional availability & placement": "Action discovery, organization & placement",
+    # -> Bulk actions
+    "Bulk actions": "Bulk actions",
+    # -> Completion & result-state control
+    "Completion & result-state control": "Completion & result-state control",
+    # -> Reliability, timeouts & concurrency
+    "Concurrency, rate limits & duplicate prevention": "Reliability, timeouts & concurrency",
+    "Reliability & transient-failure handling": "Reliability, timeouts & concurrency",
+    "Timeouts": "Reliability, timeouts & concurrency",
+    # -> Retry, rerun, cancel & resume
+    "Cancel, stop & resume": "Retry, rerun, cancel & resume",
+    "Retry, rerun & duplicate execution": "Retry, rerun, cancel & resume",
+    # -> Dynamic inputs, defaults & computed fields
+    "Defaults & computed fields": "Dynamic inputs, defaults & computed fields",
+    "Dynamic & dependent inputs": "Dynamic inputs, defaults & computed fields",
+    # -> Form presentation, layout & guidance
+    "Form layout, sections & multi-page forms": "Form presentation, layout & guidance",
+    "Labels, descriptions & display controls": "Form presentation, layout & guidance",
+    # -> Input types & structured data
+    "Input types & controls": "Input types & structured data",
+    "Structured & repeatable inputs": "Input types & structured data",
+    # -> Authentication, execution identity & requester context
+    "Authentication & delegated execution": "Authentication, execution identity & requester context",
+    "Current-user and context propagation": "Authentication, execution identity & requester context",
+    "Service accounts & execution identity": "Authentication, execution identity & requester context",
+    # -> Credentials, secrets & request signing
+    "Credentials & secrets management": "Credentials, secrets & request signing",
+    "Message signing & webhook security": "Credentials, secrets & request signing",
+    # -> Sensitive-data masking & redaction
+    "Sensitive-data masking & redaction": "Sensitive-data masking & redaction",
+    # -> Backends, APIs & event triggers
+    "APIs & external integrations": "Backends, APIs & event triggers",
+    "Backend & invocation method selection": "Backends, APIs & event triggers",
+    "Event triggers & action-to-automation integration": "Backends, APIs & event triggers",
+    # -> Execution agents & runners
+    "Execution agents & runners": "Execution agents & runners",
+    # -> Payload mapping & transformation
+    "Payload mapping & transformation": "Payload mapping & transformation",
+    # -> Logs & error diagnostics
+    "Error messages & backend responses": "Logs & error diagnostics",
+    "Logs & log streaming": "Logs & error diagnostics",
+    # -> Run history, audit, APIs & export
+    "Approval audit & context": "Run history, audit, APIs & export",
+    "Run history, audit & filtering": "Run history, audit, APIs & export",
+    "Run-history APIs & export": "Run history, audit, APIs & export",
+    # -> Run status, progress & notifications
+    "Execution notifications & alerting": "Run status, progress & notifications",
+    "Run status & progress": "Run status, progress & notifications",
+    # -> Run traceability & related entities
+    "Run traceability & related entities": "Run traceability & related entities",
+    # -> Multi-step orchestration, branching & data flow
+    "Branching & conditional paths": "Multi-step orchestration, branching & data flow",
+    "Multi-backend & multi-system sequencing": "Multi-step orchestration, branching & data flow",
+    "Multi-step workflows": "Multi-step orchestration, branching & data flow",
+    "Shared context & output passing": "Multi-step orchestration, branching & data flow",
+    # -> Workflow approvals, error handling & recovery
+    "Intermediate approvals": "Workflow approvals, error handling & recovery",
+    "Step-level error handling & recovery": "Workflow approvals, error handling & recovery",
+    # -> Access control & action eligibility
+    "Action visibility & eligibility": "Access control & action eligibility",
+    "RBAC & dynamic permissions": "Access control & action eligibility",
+    # -> Approval policies & approver routing
+    "Approval policies & thresholds": "Approval policies & approver routing",
+    "Approver routing & identity": "Approval policies & approver routing",
+    # -> Approver experience & notifications
+    "Approval notifications": "Approver experience & notifications",
+    "Approver experience & request editing": "Approver experience & notifications",
+    # -> Permission authoring & testing
+    "Permission authoring & testing": "Permission authoring & testing",
+    # -> Expression & JQ authoring
+    "Expression and JQ rule authoring": "Expression & JQ authoring",
+    # -> Form validation, messages & conditional rules
+    "Conditional logic": "Form validation, messages & conditional rules",
+    "Input & cross-field validation": "Form validation, messages & conditional rules",
+    "Validation messages": "Form validation, messages & conditional rules",
+    # -> Server-side & API enforcement
+    "Server-side & API enforcement": "Server-side & API enforcement",
+}
+
 CATEGORY_NAMES: tuple[str, ...] = tuple(TAXONOMY)
 
 SUBCATEGORY_NAMES_BY_CATEGORY: dict[str, tuple[str, ...]] = {
     cat: tuple(meta["subcategories"]) for cat, meta in TAXONOMY.items()
 }
 
+# The 30 core subcategories. This is what the guide, the filter rail and every
+# count mean by "the taxonomy" -- the fallback is deliberately absent.
 ALL_SUBCATEGORY_NAMES: tuple[str, ...] = tuple(
     sub for subs in SUBCATEGORY_NAMES_BY_CATEGORY.values() for sub in subs
+)
+
+# What the classifier is allowed to return: the 30 core groups plus the
+# fallback. Separate from ALL_SUBCATEGORY_NAMES on purpose -- the fallback has
+# to be reachable for feedback that fits nowhere, without inflating the core
+# count or appearing in a reference view as a 31st group.
+ASSIGNABLE_SUBCATEGORY_NAMES: tuple[str, ...] = (
+    *ALL_SUBCATEGORY_NAMES, FALLBACK_SUBCATEGORY,
 )
 
 # Reverse lookup. Subcategory names are unique across the taxonomy; the test
@@ -1509,7 +1263,14 @@ def subcategories_for(category: str | None) -> tuple[str, ...]:
 
 
 def is_valid_pair(category: str, subcategory: str) -> bool:
-    """True if the subcategory really belongs to that category."""
+    """True if the subcategory really belongs to that category.
+
+    The fallback is valid under any of the 11 categories: "no core subcategory
+    fits" is a statement about the subcategory level, not the category, and a
+    record that reaches it still knows which product area it belongs to.
+    """
+    if subcategory == FALLBACK_SUBCATEGORY:
+        return category in TAXONOMY
     return subcategory in SUBCATEGORY_NAMES_BY_CATEGORY.get(category, ())
 
 

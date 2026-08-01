@@ -3,7 +3,7 @@
     "analysis_run_id": "20260731T095018Z-v4.0-v2.1",
     "model_name": "claude-sonnet-5",
     "prompt_version": "v4.0",
-    "taxonomy_version": "v2.1",
+    "taxonomy_version": "v3.0",
     "schema_version": "v3.0",
     "generated_at": "2026-07-31T10:42:26.851572+00:00"
   },
@@ -46,15 +46,15 @@
     "out_of_scope_records": 142,
     "open_records": 147,
     "resolved_records": 38,
-    "recommended_product_actions": 175,
-    "open_product_actions": 143,
+    "recommended_product_actions": 172,
+    "open_product_actions": 140,
     "high_severity_open_records": 21,
     "top_product_action": "Enforce dataset filter and input validation rules server-side for all invocation paths including MCP and API.",
     "top_product_action_category": "Validation & Rules",
     "negative_records": 178,
-    "subcategories_covered": 55,
+    "subcategories_covered": 30,
     "records_needing_review": 36,
-    "records_with_secondary": 101,
+    "records_with_secondary": 84,
     "low_confidence_records": 26,
     "unverified_evidence": 1,
     "source_systems": [
@@ -155,7 +155,7 @@
         "Identity, Secrets & Security"
       ],
       "primary_subcategories": [
-        "Credentials & secrets management"
+        "Credentials, secrets & request signing"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
@@ -188,7 +188,7 @@
         "Identity, Secrets & Security"
       ],
       "primary_subcategories": [
-        "Authentication & delegated execution"
+        "Authentication, execution identity & requester context"
       ],
       "top_problem_type": "Security or privacy concern",
       "top_journey_stage": "Backend & invocation setup",
@@ -221,13 +221,48 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Security or privacy concern",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
       "rank": 5
+    },
+    {
+      "product_action_id": "referencing-stored-secrets-webhook-security-configuration-in",
+      "product_action_title": "Support referencing stored Port secrets in webhook security configuration instead of raw secret values",
+      "product_action_source_id": "6915caf8c4c30db90d700b0b",
+      "supporting_feedback_ids": [
+        "6915caf8c4c30db90d700b0b",
+        "69c1a3bff8901915c20c5ca3"
+      ],
+      "open_supporting_feedback_ids": [
+        "6915caf8c4c30db90d700b0b",
+        "69c1a3bff8901915c20c5ca3"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 3.5,
+      "severity_band": 4,
+      "max_severity": 4,
+      "average_confidence": 0.85,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-03-23",
+      "latest_created_sort": "2026-03-23T20:34:07.205Z",
+      "primary_categories": [
+        "Identity, Secrets & Security"
+      ],
+      "primary_subcategories": [
+        "Credentials, secrets & request signing"
+      ],
+      "top_problem_type": "Security or privacy concern",
+      "top_journey_stage": "Backend & invocation setup",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 6
     },
     {
       "product_action_id": "signing-execution-agent-messages-service-account-credentials",
@@ -254,13 +289,13 @@
         "Identity, Secrets & Security"
       ],
       "primary_subcategories": [
-        "Message signing & webhook security"
+        "Credentials, secrets & request signing"
       ],
       "top_problem_type": "Security or privacy concern",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 6
+      "rank": 7
     },
     {
       "product_action_id": "prevent-saving-configuration-zero-execute-permissions-defaul",
@@ -293,7 +328,7 @@
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 7
+      "rank": 8
     },
     {
       "product_action_id": "increase-configurable-entity-query-limit-dynamic-approval-po",
@@ -321,43 +356,10 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver routing & identity"
+        "Approval policies & approver routing"
       ],
       "top_problem_type": "Performance or scalability limitation",
       "top_journey_stage": "Permissions & approvals",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 8
-    },
-    {
-      "product_action_id": "referencing-stored-secrets-webhook-security-configuration-in",
-      "product_action_title": "Support referencing stored Port secrets in webhook security configuration instead of raw secret values",
-      "product_action_source_id": "6915caf8c4c30db90d700b0b",
-      "supporting_feedback_ids": [
-        "6915caf8c4c30db90d700b0b"
-      ],
-      "open_supporting_feedback_ids": [
-        "6915caf8c4c30db90d700b0b"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 4.0,
-      "severity_band": 4,
-      "max_severity": 4,
-      "average_confidence": 0.85,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-11-13",
-      "latest_created_sort": "2025-11-13T12:11:36.463Z",
-      "primary_categories": [
-        "Identity, Secrets & Security"
-      ],
-      "primary_subcategories": [
-        "Credentials & secrets management"
-      ],
-      "top_problem_type": "Security or privacy concern",
-      "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
       "rank": 9
@@ -387,7 +389,7 @@
         "Orchestration"
       ],
       "primary_subcategories": [
-        "Multi-backend & multi-system sequencing"
+        "Multi-step orchestration, branching & data flow"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
@@ -420,7 +422,7 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver routing & identity"
+        "Approval policies & approver routing"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
@@ -453,7 +455,7 @@
         "Context, Targeting & Pre-fill"
       ],
       "primary_subcategories": [
-        "Pre-fill & context-specific defaults"
+        "Contextual launch, targeting & pre-fill"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Contextual entry, targeting & pre-fill",
@@ -486,7 +488,7 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
@@ -552,7 +554,7 @@
         "Identity, Secrets & Security"
       ],
       "primary_subcategories": [
-        "Authentication & delegated execution"
+        "Authentication, execution identity & requester context"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
@@ -585,7 +587,7 @@
         "Invocation & Integrations"
       ],
       "primary_subcategories": [
-        "Backend & invocation method selection"
+        "Backends, APIs & event triggers"
       ],
       "top_problem_type": "Bug / defect",
       "top_journey_stage": "Backend & invocation setup",
@@ -615,10 +617,10 @@
       "latest_created_at": "2026-01-06",
       "latest_created_sort": "2026-01-06T10:37:42.687Z",
       "primary_categories": [
-        "Context, Targeting & Pre-fill"
+        "Identity, Secrets & Security"
       ],
       "primary_subcategories": [
-        "Current-user and context propagation"
+        "Authentication, execution identity & requester context"
       ],
       "top_problem_type": "Security or privacy concern",
       "top_journey_stage": "Backend & invocation setup",
@@ -651,7 +653,7 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Error messages & backend responses"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Observability or debugging gap",
       "top_journey_stage": "Execution, monitoring & run control",
@@ -684,7 +686,7 @@
         "Identity, Secrets & Security"
       ],
       "primary_subcategories": [
-        "Authentication & delegated execution"
+        "Authentication, execution identity & requester context"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
@@ -752,7 +754,7 @@
         "Execution Lifecycle"
       ],
       "primary_subcategories": [
-        "Cancel, stop & resume"
+        "Retry, rerun, cancel & resume"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
@@ -785,7 +787,7 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run-history APIs & export"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Integration or API gap",
       "top_journey_stage": "Execution, monitoring & run control",
@@ -818,7 +820,7 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver experience & request editing"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
@@ -851,7 +853,7 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Logs & log streaming"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
@@ -884,7 +886,7 @@
         "Execution Lifecycle"
       ],
       "primary_subcategories": [
-        "Timeouts"
+        "Reliability, timeouts & concurrency"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
@@ -917,7 +919,7 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver experience & request editing"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
@@ -950,7 +952,7 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run history, audit & filtering"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Observability or debugging gap",
       "top_journey_stage": "Execution, monitoring & run control",
@@ -983,7 +985,7 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run history, audit & filtering"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
@@ -1016,46 +1018,13 @@
         "Execution Lifecycle"
       ],
       "primary_subcategories": [
-        "Concurrency, rate limits & duplicate prevention"
+        "Reliability, timeouts & concurrency"
       ],
       "top_problem_type": "Bug / defect",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
       "rank": 29
-    },
-    {
-      "product_action_id": "secrets-template-syntax-webhook-security-signature-configura",
-      "product_action_title": "Support the secrets template syntax in the webhook security signature configuration fields.",
-      "product_action_source_id": "69c1a3bff8901915c20c5ca3",
-      "supporting_feedback_ids": [
-        "69c1a3bff8901915c20c5ca3"
-      ],
-      "open_supporting_feedback_ids": [
-        "69c1a3bff8901915c20c5ca3"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.85,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-03-23",
-      "latest_created_sort": "2026-03-23T20:34:07.205Z",
-      "primary_categories": [
-        "Identity, Secrets & Security"
-      ],
-      "primary_subcategories": [
-        "Message signing & webhook security"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Backend & invocation setup",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 30
     },
     {
       "product_action_id": "test-preview-window-dynamic-approver-jq-conditions-showing",
@@ -1082,13 +1051,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver routing & identity"
+        "Approval policies & approver routing"
       ],
       "top_problem_type": "Observability or debugging gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 31
+      "rank": 30
     },
     {
       "product_action_id": "surface-triggering-s-identity-audit-log-entries-entities",
@@ -1121,7 +1090,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 32
+      "rank": 31
     },
     {
       "product_action_id": "configurable-cluster-identifier-execution-agents-runs-matche",
@@ -1154,7 +1123,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 33
+      "rank": 32
     },
     {
       "product_action_id": "marking-individual-properties-within-object-type-input-indep",
@@ -1181,13 +1150,13 @@
         "Validation & Rules"
       ],
       "primary_subcategories": [
-        "Input & cross-field validation"
+        "Form validation, messages & conditional rules"
       ],
       "top_problem_type": "Validation gap",
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 34
+      "rank": 33
     },
     {
       "product_action_id": "table-repeatable-structured-input-field-type-self-service",
@@ -1214,13 +1183,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Structured & repeatable inputs"
+        "Input types & structured data"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 35
+      "rank": 34
     },
     {
       "product_action_id": "jq-expressions-authoring-conditions-day-2-delete",
@@ -1247,13 +1216,13 @@
         "Validation & Rules"
       ],
       "primary_subcategories": [
-        "Expression and JQ rule authoring"
+        "Expression & JQ authoring"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 36
+      "rank": 35
     },
     {
       "product_action_id": "improve-invocation-error-messages-specify-exact-incorrect-fi",
@@ -1280,13 +1249,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Error messages & backend responses"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Poor error message",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 37
+      "rank": 36
     },
     {
       "product_action_id": "bulk-execution-self-service-across-multiple-selected-entitie",
@@ -1319,7 +1288,7 @@
       "top_journey_stage": "Action discovery & organization",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 38
+      "rank": 37
     },
     {
       "product_action_id": "display-http-response-status-body-webhook-backends-run",
@@ -1346,13 +1315,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Error messages & backend responses"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Observability or debugging gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 39
+      "rank": 38
     },
     {
       "product_action_id": "automatically-tie-affected-entities-run-invocation-time-inst",
@@ -1385,7 +1354,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 40
+      "rank": 39
     },
     {
       "product_action_id": "upserting-multiple-entities-within-native-upsert-entity-invo",
@@ -1412,13 +1381,13 @@
         "Invocation & Integrations"
       ],
       "primary_subcategories": [
-        "Backend & invocation method selection"
+        "Backends, APIs & event triggers"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 41
+      "rank": 40
     },
     {
       "product_action_id": "set-default-field-values-only-initial-form-load",
@@ -1445,13 +1414,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Defaults & computed fields"
+        "Dynamic inputs, defaults & computed fields"
       ],
       "top_problem_type": "Bug / defect",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 42
+      "rank": 41
     },
     {
       "product_action_id": "deny-based-permission-rule-admins-block-edit-access",
@@ -1478,13 +1447,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Configuration complexity",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 43
+      "rank": 42
     },
     {
       "product_action_id": "toggle-switch-dynamic-permission-condition-evaluation-betwee",
@@ -1511,13 +1480,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Configuration complexity",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 44
+      "rank": 43
     },
     {
       "product_action_id": "present-run-logs-structured-formatted-view-distinguishes-log",
@@ -1544,13 +1513,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Logs & log streaming"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 45
+      "rank": 44
     },
     {
       "product_action_id": "map-style-input-type-select-friendly-labels-while",
@@ -1577,13 +1546,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Input types & controls"
+        "Input types & structured data"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 46
+      "rank": 45
     },
     {
       "product_action_id": "filtering-self-service-displayed-custom-catalog-pages-entity",
@@ -1610,13 +1579,13 @@
         "Discovery, Organization & Reuse"
       ],
       "primary_subcategories": [
-        "Conditional availability & placement"
+        "Action discovery, organization & placement"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Action discovery & organization",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 47
+      "rank": 46
     },
     {
       "product_action_id": "uploading-pasting-arbitrary-file-types-e-g-py",
@@ -1643,13 +1612,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Input types & controls"
+        "Input types & structured data"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 48
+      "rank": 47
     },
     {
       "product_action_id": "intermediate-approval-gates-pause-running-resume-potentially",
@@ -1676,13 +1645,13 @@
         "Orchestration"
       ],
       "primary_subcategories": [
-        "Intermediate approvals"
+        "Workflow approvals, error handling & recovery"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 49
+      "rank": 48
     },
     {
       "product_action_id": "dynamic-webhook-based-determination-whether-run-approval-bef",
@@ -1709,13 +1678,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approval policies & thresholds"
+        "Approval policies & approver routing"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 50
+      "rank": 49
     },
     {
       "product_action_id": "builders-hide-disable-specific-individual-entities-within-bl",
@@ -1742,13 +1711,13 @@
         "Discovery, Organization & Reuse"
       ],
       "primary_subcategories": [
-        "Conditional availability & placement"
+        "Action discovery, organization & placement"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Action discovery & organization",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 51
+      "rank": 50
     },
     {
       "product_action_id": "configurable-concurrency-duplicate-run-restrictions-self-ser",
@@ -1775,13 +1744,13 @@
         "Execution Lifecycle"
       ],
       "primary_subcategories": [
-        "Concurrency, rate limits & duplicate prevention"
+        "Reliability, timeouts & concurrency"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 52
+      "rank": 51
     },
     {
       "product_action_id": "dropdown-input-populated-dynamically-external-api-responses",
@@ -1808,13 +1777,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Dynamic & dependent inputs"
+        "Dynamic inputs, defaults & computed fields"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 53
+      "rank": 52
     },
     {
       "product_action_id": "codefresh-classic-pipelines-supported-backend-invocation-met",
@@ -1841,13 +1810,13 @@
         "Invocation & Integrations"
       ],
       "primary_subcategories": [
-        "Backend & invocation method selection"
+        "Backends, APIs & event triggers"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 54
+      "rank": 53
     },
     {
       "product_action_id": "automations-triggered-generically-across-self-service-rather",
@@ -1874,13 +1843,13 @@
         "Invocation & Integrations"
       ],
       "primary_subcategories": [
-        "Event triggers & action-to-automation integration"
+        "Backends, APIs & event triggers"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 55
+      "rank": 54
     },
     {
       "product_action_id": "restore-live-regex-validation-string-inputs-toggle-off",
@@ -1907,13 +1876,13 @@
         "Validation & Rules"
       ],
       "primary_subcategories": [
-        "Input & cross-field validation"
+        "Form validation, messages & conditional rules"
       ],
       "top_problem_type": "Bug / defect",
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 56
+      "rank": 55
     },
     {
       "product_action_id": "real-entity-data-examples-backend-jq-testing-playground",
@@ -1940,13 +1909,13 @@
         "Authoring, Testing & Management"
       ],
       "primary_subcategories": [
-        "Playground, examples & in-product help"
+        "Action authoring, testing & release management"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 57
+      "rank": 56
     },
     {
       "product_action_id": "expose-step-result-status-error-fields-outputs-object",
@@ -1973,13 +1942,13 @@
         "Orchestration"
       ],
       "primary_subcategories": [
-        "Shared context & output passing"
+        "Multi-step orchestration, branching & data flow"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 58
+      "rank": 57
     },
     {
       "product_action_id": "admin-override-instantly-approve-bypass-remaining-steps-appr",
@@ -2006,46 +1975,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approval policies & thresholds"
+        "Approval policies & approver routing"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 59
-    },
-    {
-      "product_action_id": "inline-approve-reject-buttons-request-context-directly-withi",
-      "product_action_title": "Enable inline Approve and Reject buttons with request context directly within Slack approval notifications",
-      "product_action_source_id": "6a214383d4705903285ef4fe",
-      "supporting_feedback_ids": [
-        "6a214383d4705903285ef4fe"
-      ],
-      "open_supporting_feedback_ids": [
-        "6a214383d4705903285ef4fe"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 3.0,
-      "severity_band": 3,
-      "max_severity": 3,
-      "average_confidence": 0.75,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-06-04",
-      "latest_created_sort": "2026-06-04T09:21:07.753Z",
-      "primary_categories": [
-        "Permissions & Approvals"
-      ],
-      "primary_subcategories": [
-        "Approver experience & request editing"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Permissions & approvals",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 60
+      "rank": 58
     },
     {
       "product_action_id": "context-messaging-between-approver-requester-runs-awaiting-a",
@@ -2072,13 +2008,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver experience & request editing"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 61
+      "rank": 59
     },
     {
       "product_action_id": "surface-pre-execution-run-states-such-queued-delayed",
@@ -2105,13 +2041,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run status & progress"
+        "Run status, progress & notifications"
       ],
       "top_problem_type": "Observability or debugging gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 62
+      "rank": 60
     },
     {
       "product_action_id": "custom-rbac-permissions-viewing-editing-runs-without-requiri",
@@ -2138,13 +2074,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 63
+      "rank": 61
     },
     {
       "product_action_id": "manual-run-completion-status-success-fail-create-update",
@@ -2177,7 +2113,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 64
+      "rank": 62
     },
     {
       "product_action_id": "granular-rbac-roles-creating-editing-self-service-independen",
@@ -2204,13 +2140,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 65
+      "rank": 63
     },
     {
       "product_action_id": "register-permission-grant-field-population-rights-during-ent",
@@ -2237,13 +2173,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 66
+      "rank": 64
     },
     {
       "product_action_id": "granular-step-level-status-logs-multi-step-runs",
@@ -2270,13 +2206,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run status & progress"
+        "Run status, progress & notifications"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 67
+      "rank": 65
     },
     {
       "product_action_id": "placeholder-text-form-fields-distinct-default-values-submitt",
@@ -2303,13 +2239,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Labels, descriptions & display controls"
+        "Form presentation, layout & guidance"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 68
+      "rank": 66
     },
     {
       "product_action_id": "ui-level-default-value-applies-defaults-without-triggering",
@@ -2336,13 +2272,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Defaults & computed fields"
+        "Dynamic inputs, defaults & computed fields"
       ],
       "top_problem_type": "Bug / defect",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 69
+      "rank": 67
     },
     {
       "product_action_id": "extend-permission-enforcement-entity-selection-inputs-just-d",
@@ -2369,13 +2305,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 70
+      "rank": 68
     },
     {
       "product_action_id": "structured-repeatable-input-fields-remove-controls-same-vali",
@@ -2402,13 +2338,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Structured & repeatable inputs"
+        "Input types & structured data"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 71
+      "rank": 69
     },
     {
       "product_action_id": "dynamic-permission-conditions-based-specific-data-attributes",
@@ -2435,13 +2371,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 72
+      "rank": 70
     },
     {
       "product_action_id": "configurable-strict-validation-rules-gitops-file-entity-mapp",
@@ -2468,13 +2404,13 @@
         "Validation & Rules"
       ],
       "primary_subcategories": [
-        "Input & cross-field validation"
+        "Form validation, messages & conditional rules"
       ],
       "top_problem_type": "Validation gap",
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 73
+      "rank": 71
     },
     {
       "product_action_id": "conditional-visibility-self-service-based-entity-property-va",
@@ -2501,13 +2437,13 @@
         "Discovery, Organization & Reuse"
       ],
       "primary_subcategories": [
-        "Conditional availability & placement"
+        "Action discovery, organization & placement"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Action discovery & organization",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 74
+      "rank": 72
     },
     {
       "product_action_id": "conditional-field-visibility-dynamic-population-driven-boole",
@@ -2535,13 +2471,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Dynamic & dependent inputs"
+        "Dynamic inputs, defaults & computed fields"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 75
+      "rank": 73
     },
     {
       "product_action_id": "configuring-oauth2-jwt-delegated-authentication-self-service",
@@ -2568,13 +2504,13 @@
         "Identity, Secrets & Security"
       ],
       "primary_subcategories": [
-        "Authentication & delegated execution"
+        "Authentication, execution identity & requester context"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 76
+      "rank": 74
     },
     {
       "product_action_id": "temporary-maintenance-mode-disablement-non-admin",
@@ -2601,13 +2537,13 @@
         "Authoring, Testing & Management"
       ],
       "primary_subcategories": [
-        "Drafts, publishing & disablement"
+        "Action authoring, testing & release management"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 77
+      "rank": 75
     },
     {
       "product_action_id": "include-list-eligible-approvers-approval-webhook-notificatio",
@@ -2634,13 +2570,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approval notifications"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 78
+      "rank": 76
     },
     {
       "product_action_id": "computed-default-values-reference-multiple-prior-field-selec",
@@ -2667,13 +2603,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Defaults & computed fields"
+        "Dynamic inputs, defaults & computed fields"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 79
+      "rank": 77
     },
     {
       "product_action_id": "dry-run-flag-github-validation-only-execution",
@@ -2700,13 +2636,13 @@
         "Authoring, Testing & Management"
       ],
       "primary_subcategories": [
-        "Preview & dry run"
+        "Action authoring, testing & release management"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 80
+      "rank": 78
     },
     {
       "product_action_id": "managed-retry-backoff-runs-marked-transient-failures-status",
@@ -2733,13 +2669,13 @@
         "Execution Lifecycle"
       ],
       "primary_subcategories": [
-        "Reliability & transient-failure handling"
+        "Reliability, timeouts & concurrency"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 81
+      "rank": 79
     },
     {
       "product_action_id": "expand-supported-run-completion-statuses-include-backend-spe",
@@ -2772,7 +2708,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 82
+      "rank": 80
     },
     {
       "product_action_id": "pre-submission-backend-validation-requests-field-inline-erro",
@@ -2805,7 +2741,7 @@
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 83
+      "rank": 81
     },
     {
       "product_action_id": "configuring-permissions-pulumi-provider-infrastructure-code-",
@@ -2832,13 +2768,13 @@
         "Authoring, Testing & Management"
       ],
       "primary_subcategories": [
-        "API & IaC configuration management"
+        "Reusable configuration, API & IaC management"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 84
+      "rank": 82
     },
     {
       "product_action_id": "mapping-invoking-entity-properties-payload-jq-expressions",
@@ -2872,7 +2808,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 85
+      "rank": 83
     },
     {
       "product_action_id": "conditional-approval-policies-triggered-specific-input-value",
@@ -2899,13 +2835,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approval policies & thresholds"
+        "Approval policies & approver routing"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 86
+      "rank": 84
     },
     {
       "product_action_id": "ui-editor-configuring-updating-execution-agent-payload-mappi",
@@ -2938,7 +2874,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 87
+      "rank": 85
     },
     {
       "product_action_id": "simplified-scoped-approval-view-workflow-input-nodes-showing",
@@ -2965,13 +2901,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver experience & request editing"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 88
+      "rank": 86
     },
     {
       "product_action_id": "display-run-input-parameter-values-correctly-history-widget",
@@ -2998,13 +2934,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run history, audit & filtering"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Bug / defect",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 89
+      "rank": 87
     },
     {
       "product_action_id": "running-single-against-full-set-filtered-selected-entities",
@@ -3037,7 +2973,7 @@
       "top_journey_stage": "Action discovery & organization",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 90
+      "rank": 88
     },
     {
       "product_action_id": "creation-reusable-permission-policy-entities-referenced-acro",
@@ -3064,13 +3000,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Reusability or maintainability issue",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 91
+      "rank": 89
     },
     {
       "product_action_id": "executing-custom-scripts-e-g-javascript-python-fetch",
@@ -3097,13 +3033,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Dynamic & dependent inputs"
+        "Dynamic inputs, defaults & computed fields"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 92
+      "rank": 90
     },
     {
       "product_action_id": "approver-dashboard-queue-view-approval-history-status-filter",
@@ -3130,13 +3066,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver experience & request editing"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 93
+      "rank": 91
     },
     {
       "product_action_id": "detect-alert-relevant-stakeholders-jq-expression-result-inva",
@@ -3163,13 +3099,13 @@
         "Validation & Rules"
       ],
       "primary_subcategories": [
-        "Expression and JQ rule authoring"
+        "Expression & JQ authoring"
       ],
       "top_problem_type": "Observability or debugging gap",
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 94
+      "rank": 92
     },
     {
       "product_action_id": "configuring-permission-rules-grant-organization-generated-to",
@@ -3196,13 +3132,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "RBAC & dynamic permissions"
+        "Access control & action eligibility"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 95
+      "rank": 93
     },
     {
       "product_action_id": "automatic-log-streaming-file-during-runs-instead-requiring",
@@ -3229,13 +3165,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Logs & log streaming"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 96
+      "rank": 94
     },
     {
       "product_action_id": "native-base64-encoding-function-available-within-expression-",
@@ -3268,7 +3204,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 97
+      "rank": 95
     },
     {
       "product_action_id": "ssl-verify-configuration-execution-agent-connecting-internal",
@@ -3301,7 +3237,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 98
+      "rank": 96
     },
     {
       "product_action_id": "native-microsoft-teams-bot-integration-usable-invocation-bac",
@@ -3328,13 +3264,48 @@
         "Invocation & Integrations"
       ],
       "primary_subcategories": [
-        "Backend & invocation method selection"
+        "Backends, APIs & event triggers"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 99
+      "rank": 97
+    },
+    {
+      "product_action_id": "dynamic-data-driven-titles-labels-description-text-self",
+      "product_action_title": "Support dynamic, data-driven titles, labels and description text in self-service action forms based on entity or form input values.",
+      "product_action_source_id": "6970abf0757ff2b799889f3e",
+      "supporting_feedback_ids": [
+        "67bb136c8e2de556c2957dad",
+        "6970abf0757ff2b799889f3e"
+      ],
+      "open_supporting_feedback_ids": [
+        "67bb136c8e2de556c2957dad",
+        "6970abf0757ff2b799889f3e"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 2.0,
+      "severity_band": 2,
+      "max_severity": 2,
+      "average_confidence": 0.8,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-01-21",
+      "latest_created_sort": "2026-01-21T10:35:28.495Z",
+      "primary_categories": [
+        "Form Configuration"
+      ],
+      "primary_subcategories": [
+        "Form presentation, layout & guidance"
+      ],
+      "top_problem_type": "Usability friction",
+      "top_journey_stage": "Form & input configuration",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 98
     },
     {
       "product_action_id": "configurable-ordering-self-service-widgets-hub-page",
@@ -3363,10 +3334,45 @@
         "Discovery, Organization & Reuse"
       ],
       "primary_subcategories": [
-        "Action discovery, grouping & ordering"
+        "Action discovery, organization & placement"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Action discovery & organization",
+      "needs_review": 0,
+      "negative_records": 2,
+      "rank": 99
+    },
+    {
+      "product_action_id": "inline-approve-reject-buttons-request-context-directly-withi",
+      "product_action_title": "Enable inline Approve and Reject buttons with request context directly within Slack approval notifications",
+      "product_action_source_id": "6a214383d4705903285ef4fe",
+      "supporting_feedback_ids": [
+        "65c3900fc543d815a5cbf71b",
+        "6a214383d4705903285ef4fe"
+      ],
+      "open_supporting_feedback_ids": [
+        "65c3900fc543d815a5cbf71b",
+        "6a214383d4705903285ef4fe"
+      ],
+      "open_supporting_record_count": 2,
+      "typical_severity": 2.5,
+      "severity_band": 2,
+      "max_severity": 3,
+      "average_confidence": 0.75,
+      "source_systems": [
+        "Port portal"
+      ],
+      "source_diversity": 1,
+      "latest_created_at": "2026-06-04",
+      "latest_created_sort": "2026-06-04T09:21:07.753Z",
+      "primary_categories": [
+        "Permissions & Approvals"
+      ],
+      "primary_subcategories": [
+        "Approver experience & notifications"
+      ],
+      "top_problem_type": "Feature gap",
+      "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 2,
       "rank": 100
@@ -3395,10 +3401,10 @@
       "latest_created_at": "2026-01-29",
       "latest_created_sort": "2026-01-29T17:58:53.663Z",
       "primary_categories": [
-        "Permissions & Approvals"
+        "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Approval audit & context"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Integration or API gap",
       "top_journey_stage": "Permissions & approvals",
@@ -3431,7 +3437,7 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Labels, descriptions & display controls"
+        "Form presentation, layout & guidance"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
@@ -3464,7 +3470,7 @@
         "Authoring, Testing & Management"
       ],
       "primary_subcategories": [
-        "Editing & unsaved-change safety"
+        "Action authoring, testing & release management"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Testing, editing & publishing",
@@ -3497,7 +3503,7 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run-history APIs & export"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
@@ -3530,7 +3536,7 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Structured & repeatable inputs"
+        "Input types & structured data"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Form & input configuration",
@@ -3563,7 +3569,7 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Labels, descriptions & display controls"
+        "Form presentation, layout & guidance"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
@@ -3596,7 +3602,7 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approver experience & request editing"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Permissions & approvals",
@@ -3629,46 +3635,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approval notifications"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
       "rank": 108
-    },
-    {
-      "product_action_id": "dynamic-data-driven-titles-labels-description-text-self",
-      "product_action_title": "Support dynamic, data-driven titles, labels and description text in self-service action forms based on entity or form input values.",
-      "product_action_source_id": "6970abf0757ff2b799889f3e",
-      "supporting_feedback_ids": [
-        "6970abf0757ff2b799889f3e"
-      ],
-      "open_supporting_feedback_ids": [
-        "6970abf0757ff2b799889f3e"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 2.0,
-      "severity_band": 2,
-      "max_severity": 2,
-      "average_confidence": 0.85,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2026-01-21",
-      "latest_created_sort": "2026-01-21T10:35:28.495Z",
-      "primary_categories": [
-        "Form Configuration"
-      ],
-      "primary_subcategories": [
-        "Labels, descriptions & display controls"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Form & input configuration",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 109
     },
     {
       "product_action_id": "configurable-approval-bypass-toggle-requests-submitted-desig",
@@ -3695,13 +3668,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approval policies & thresholds"
+        "Approval policies & approver routing"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 110
+      "rank": 109
     },
     {
       "product_action_id": "computed-default-fields-read-only-non-editable-end",
@@ -3728,13 +3701,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Defaults & computed fields"
+        "Dynamic inputs, defaults & computed fields"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 111
+      "rank": 110
     },
     {
       "product_action_id": "hyperlink-syntax-input-field-titles-just-descriptions",
@@ -3761,13 +3734,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Labels, descriptions & display controls"
+        "Form presentation, layout & guidance"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 112
+      "rank": 111
     },
     {
       "product_action_id": "runs-widgets-display-run-history-across-multiple-just",
@@ -3794,13 +3767,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run history, audit & filtering"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 113
+      "rank": 112
     },
     {
       "product_action_id": "submit-multi-step-form-early-first-step-once",
@@ -3827,13 +3800,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Form layout, sections & multi-page forms"
+        "Form presentation, layout & guidance"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 114
+      "rank": 113
     },
     {
       "product_action_id": "editing-run-log-messages-api-including-returning-message",
@@ -3860,13 +3833,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Logs & log streaming"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 115
+      "rank": 114
     },
     {
       "product_action_id": "pie-chart-line-chart-visualizations-run-statuses-run",
@@ -3893,13 +3866,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run history, audit & filtering"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 116
+      "rank": 115
     },
     {
       "product_action_id": "tail-recent-log-lines-hover-preview-side-menu",
@@ -3926,13 +3899,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Logs & log streaming"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 117
+      "rank": 116
     },
     {
       "product_action_id": "launching-run-same-inputs-progress-run-clearer-wording",
@@ -3959,13 +3932,13 @@
         "Execution Lifecycle"
       ],
       "primary_subcategories": [
-        "Retry, rerun & duplicate execution"
+        "Retry, rerun, cancel & resume"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 118
+      "rank": 117
     },
     {
       "product_action_id": "upgrade-underlying-jq-engine-version-newer-built-functions",
@@ -3992,13 +3965,13 @@
         "Validation & Rules"
       ],
       "primary_subcategories": [
-        "Expression and JQ rule authoring"
+        "Expression & JQ authoring"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Validation, dependencies & conditional logic",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 119
+      "rank": 118
     },
     {
       "product_action_id": "address-input-field-type-autocomplete-powered-configurable-t",
@@ -4025,46 +3998,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Input types & controls"
+        "Input types & structured data"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 120
-    },
-    {
-      "product_action_id": "configurable-larger-form-sizing-layout-self-service-forms",
-      "product_action_title": "Support configurable or larger form sizing and layout for self-service action forms",
-      "product_action_source_id": "67bb136c8e2de556c2957dad",
-      "supporting_feedback_ids": [
-        "67bb136c8e2de556c2957dad"
-      ],
-      "open_supporting_feedback_ids": [
-        "67bb136c8e2de556c2957dad"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 2.0,
-      "severity_band": 2,
-      "max_severity": 2,
-      "average_confidence": 0.75,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2025-02-23",
-      "latest_created_sort": "2025-02-23T12:24:12.983Z",
-      "primary_categories": [
-        "Form Configuration"
-      ],
-      "primary_subcategories": [
-        "Form layout, sections & multi-page forms"
-      ],
-      "top_problem_type": "Usability friction",
-      "top_journey_stage": "Form & input configuration",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 121
+      "rank": 119
     },
     {
       "product_action_id": "code-api-view-self-service-showing-configuration-working",
@@ -4091,13 +4031,13 @@
         "Authoring, Testing & Management"
       ],
       "primary_subcategories": [
-        "API & IaC configuration management"
+        "Reusable configuration, API & IaC management"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Testing, editing & publishing",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 122
+      "rank": 120
     },
     {
       "product_action_id": "triggering-self-service-form-modal-overlay-page-special",
@@ -4124,13 +4064,13 @@
         "Context, Targeting & Pre-fill"
       ],
       "primary_subcategories": [
-        "Embedded & alternative launch surfaces"
+        "Contextual launch, targeting & pre-fill"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Contextual entry, targeting & pre-fill",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 123
+      "rank": 121
     },
     {
       "product_action_id": "display-full-title-description-text-tooltip-expanding-card",
@@ -4157,13 +4097,13 @@
         "Discovery, Organization & Reuse"
       ],
       "primary_subcategories": [
-        "Action discovery, grouping & ordering"
+        "Action discovery, organization & placement"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Action discovery & organization",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 124
+      "rank": 122
     },
     {
       "product_action_id": "entity-selection-inputs-free-text-entry-create-entity",
@@ -4190,13 +4130,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Input types & controls"
+        "Input types & structured data"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 125
+      "rank": 123
     },
     {
       "product_action_id": "configurable-dynamic-run-names-derived-inputs-entity-propert",
@@ -4223,46 +4163,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run history, audit & filtering"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 126
-    },
-    {
-      "product_action_id": "sending-approval-request-notifications-kafka-topic",
-      "product_action_title": "Support sending approval request notifications to a Kafka topic",
-      "product_action_source_id": "65c3900fc543d815a5cbf71b",
-      "supporting_feedback_ids": [
-        "65c3900fc543d815a5cbf71b"
-      ],
-      "open_supporting_feedback_ids": [
-        "65c3900fc543d815a5cbf71b"
-      ],
-      "open_supporting_record_count": 1,
-      "typical_severity": 2.0,
-      "severity_band": 2,
-      "max_severity": 2,
-      "average_confidence": 0.75,
-      "source_systems": [
-        "Port portal"
-      ],
-      "source_diversity": 1,
-      "latest_created_at": "2024-02-07",
-      "latest_created_sort": "2024-02-07T14:13:35.849Z",
-      "primary_categories": [
-        "Permissions & Approvals"
-      ],
-      "primary_subcategories": [
-        "Approval notifications"
-      ],
-      "top_problem_type": "Feature gap",
-      "top_journey_stage": "Permissions & approvals",
-      "needs_review": 0,
-      "negative_records": 1,
-      "rank": 127
+      "rank": 124
     },
     {
       "product_action_id": "audit-log-view-showing-run-id-status-start",
@@ -4289,13 +4196,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run history, audit & filtering"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 0,
-      "rank": 128
+      "rank": 125
     },
     {
       "product_action_id": "log-formatting-capabilities-such-automatic-line-highlighting",
@@ -4322,13 +4229,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Logs & log streaming"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 129
+      "rank": 126
     },
     {
       "product_action_id": "auto-generating-inputs-existing-blueprint-s-properties-custo",
@@ -4352,16 +4259,16 @@
       "latest_created_at": "2023-06-28",
       "latest_created_sort": "2023-06-28T07:06:54.840Z",
       "primary_categories": [
-        "Discovery, Organization & Reuse"
+        "Authoring, Testing & Management"
       ],
       "primary_subcategories": [
-        "Reusability & templates"
+        "Reusable configuration, API & IaC management"
       ],
       "top_problem_type": "Configuration complexity",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 130
+      "rank": 127
     },
     {
       "product_action_id": "expose-stable-id-field-get-runs-api-response",
@@ -4388,13 +4295,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run-history APIs & export"
+        "Run history, audit, APIs & export"
       ],
       "top_problem_type": "Integration or API gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 0,
-      "rank": 131
+      "rank": 128
     },
     {
       "product_action_id": "configurable-org-level-policy-self-service-initiated-slack",
@@ -4421,13 +4328,13 @@
         "Context, Targeting & Pre-fill"
       ],
       "primary_subcategories": [
-        "Embedded & alternative launch surfaces"
+        "Contextual launch, targeting & pre-fill"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Contextual entry, targeting & pre-fill",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 132
+      "rank": 129
     },
     {
       "product_action_id": "automatic-email-slack-notifications-requesters-self-service-",
@@ -4454,13 +4361,13 @@
         "Permissions & Approvals"
       ],
       "primary_subcategories": [
-        "Approval notifications"
+        "Approver experience & notifications"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Permissions & approvals",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 133
+      "rank": 130
     },
     {
       "product_action_id": "filters-ui-input-type-forms-outputs-filter-json",
@@ -4487,13 +4394,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Input types & controls"
+        "Input types & structured data"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 134
+      "rank": 131
     },
     {
       "product_action_id": "specify-custom-timestamp-log-entry-run-log-stream",
@@ -4520,13 +4427,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Logs & log streaming"
+        "Logs & error diagnostics"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 135
+      "rank": 132
     },
     {
       "product_action_id": "generic-invocation-method-sends-log-messages-specified-run",
@@ -4553,13 +4460,13 @@
         "Invocation & Integrations"
       ],
       "primary_subcategories": [
-        "Backend & invocation method selection"
+        "Backends, APIs & event triggers"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 136
+      "rank": 133
     },
     {
       "product_action_id": "dynamic-expressions-e-g-jq-button-text-field",
@@ -4586,13 +4493,13 @@
         "Form Configuration"
       ],
       "primary_subcategories": [
-        "Labels, descriptions & display controls"
+        "Form presentation, layout & guidance"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Form & input configuration",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 137
+      "rank": 134
     },
     {
       "product_action_id": "configuration-toggle-disable-payload-transformation-executio",
@@ -4625,7 +4532,7 @@
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 138
+      "rank": 135
     },
     {
       "product_action_id": "native-invocation-hosted-direct-lambda-openfaas-backends",
@@ -4652,13 +4559,13 @@
         "Invocation & Integrations"
       ],
       "primary_subcategories": [
-        "Backend & invocation method selection"
+        "Backends, APIs & event triggers"
       ],
       "top_problem_type": "Feature gap",
       "top_journey_stage": "Backend & invocation setup",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 139
+      "rank": 136
     },
     {
       "product_action_id": "configurable-toggle-disable-visibility-payload-see-details-s",
@@ -4691,7 +4598,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 140
+      "rank": 137
     },
     {
       "product_action_id": "include-pipeline-url-default-gitlab-payload-configuration-ea",
@@ -4724,7 +4631,7 @@
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 1,
       "negative_records": 1,
-      "rank": 141
+      "rank": 138
     },
     {
       "product_action_id": "displaying-list-hover-over-icon-catalog-tables-reduce",
@@ -4751,13 +4658,13 @@
         "Discovery, Organization & Reuse"
       ],
       "primary_subcategories": [
-        "Action discovery, grouping & ordering"
+        "Action discovery, organization & placement"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Action discovery & organization",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 142
+      "rank": 139
     },
     {
       "product_action_id": "manual-control-clear-dismiss-individual-run-status-notificat",
@@ -4784,13 +4691,13 @@
         "Observability & Debugging"
       ],
       "primary_subcategories": [
-        "Run status & progress"
+        "Run status, progress & notifications"
       ],
       "top_problem_type": "Usability friction",
       "top_journey_stage": "Execution, monitoring & run control",
       "needs_review": 0,
       "negative_records": 1,
-      "rank": 143
+      "rank": 140
     }
   ],
   "insights": {
@@ -4884,9 +4791,9 @@
     },
     "subcategory": {
       "group_type": "subcategory",
-      "group_name": "RBAC & dynamic permissions",
+      "group_name": "Access control & action eligibility",
       "parent_category": "Permissions & Approvals",
-      "negative_feedback_count": 14,
+      "negative_feedback_count": 15,
       "problem_type_ranking": [
         "feature gap",
         "configuration complexity",
@@ -4925,6 +4832,7 @@
         "6826b40db0070616c963e9bf",
         "682f670b596869f89577489f",
         "6853d436533319bfbf13d0ae",
+        "68c27182f9c430044f39113f",
         "68f8fbb8741fd60efd0e8d17",
         "697a4fc771aad86079ed6ec7",
         "699328e947c850515815cb26",
@@ -5072,12 +4980,12 @@
   "categories": [
     {
       "primary_taxonomy_category": "Permissions & Approvals",
-      "records": 47,
-      "open_records": 33,
-      "avg_severity": 2.98,
+      "records": 45,
+      "open_records": 31,
+      "avg_severity": 3.02,
       "high_severity": 6,
-      "avg_confidence": 0.782,
-      "subcategories_seen": 8
+      "avg_confidence": 0.784,
+      "subcategories_seen": 4
     },
     {
       "primary_taxonomy_category": "Form Configuration",
@@ -5086,16 +4994,16 @@
       "avg_severity": 2.42,
       "high_severity": 0,
       "avg_confidence": 0.785,
-      "subcategories_seen": 6
+      "subcategories_seen": 3
     },
     {
       "primary_taxonomy_category": "Observability & Debugging",
-      "records": 29,
-      "open_records": 26,
-      "avg_severity": 2.45,
+      "records": 31,
+      "open_records": 28,
+      "avg_severity": 2.42,
       "high_severity": 1,
-      "avg_confidence": 0.781,
-      "subcategories_seen": 6
+      "avg_confidence": 0.777,
+      "subcategories_seen": 4
     },
     {
       "primary_taxonomy_category": "Invocation & Integrations",
@@ -5104,25 +5012,25 @@
       "avg_severity": 2.75,
       "high_severity": 1,
       "avg_confidence": 0.704,
-      "subcategories_seen": 4
-    },
-    {
-      "primary_taxonomy_category": "Discovery, Organization & Reuse",
-      "records": 11,
-      "open_records": 10,
-      "avg_severity": 2.36,
-      "high_severity": 0,
-      "avg_confidence": 0.791,
-      "subcategories_seen": 4
+      "subcategories_seen": 3
     },
     {
       "primary_taxonomy_category": "Identity, Secrets & Security",
-      "records": 11,
-      "open_records": 11,
-      "avg_severity": 3.91,
-      "high_severity": 8,
-      "avg_confidence": 0.759,
-      "subcategories_seen": 4
+      "records": 12,
+      "open_records": 12,
+      "avg_severity": 3.92,
+      "high_severity": 9,
+      "avg_confidence": 0.756,
+      "subcategories_seen": 3
+    },
+    {
+      "primary_taxonomy_category": "Discovery, Organization & Reuse",
+      "records": 10,
+      "open_records": 9,
+      "avg_severity": 2.4,
+      "high_severity": 0,
+      "avg_confidence": 0.795,
+      "subcategories_seen": 2
     },
     {
       "primary_taxonomy_category": "Execution Lifecycle",
@@ -5131,7 +5039,7 @@
       "avg_severity": 2.9,
       "high_severity": 0,
       "avg_confidence": 0.795,
-      "subcategories_seen": 6
+      "subcategories_seen": 3
     },
     {
       "primary_taxonomy_category": "Validation & Rules",
@@ -5144,21 +5052,21 @@
     },
     {
       "primary_taxonomy_category": "Authoring, Testing & Management",
-      "records": 7,
-      "open_records": 6,
-      "avg_severity": 2.71,
+      "records": 8,
+      "open_records": 7,
+      "avg_severity": 2.62,
       "high_severity": 0,
-      "avg_confidence": 0.8,
-      "subcategories_seen": 5
+      "avg_confidence": 0.794,
+      "subcategories_seen": 2
     },
     {
       "primary_taxonomy_category": "Context, Targeting & Pre-fill",
-      "records": 7,
-      "open_records": 4,
-      "avg_severity": 3.0,
-      "high_severity": 2,
-      "avg_confidence": 0.684,
-      "subcategories_seen": 4
+      "records": 6,
+      "open_records": 3,
+      "avg_severity": 2.83,
+      "high_severity": 1,
+      "avg_confidence": 0.678,
+      "subcategories_seen": 1
     },
     {
       "primary_taxonomy_category": "Orchestration",
@@ -5167,86 +5075,37 @@
       "avg_severity": 3.33,
       "high_severity": 2,
       "avg_confidence": 0.733,
-      "subcategories_seen": 5
+      "subcategories_seen": 2
     }
   ],
   "subcategories": [
     {
       "primary_taxonomy_category": "Authoring, Testing & Management",
-      "primary_taxonomy_subcategory": "API & IaC configuration management",
-      "records": 2,
-      "open_records": 2,
-      "avg_severity": 2.5
+      "primary_taxonomy_subcategory": "Action authoring, testing & release management",
+      "records": 5,
+      "open_records": 4,
+      "avg_severity": 2.8
     },
     {
       "primary_taxonomy_category": "Authoring, Testing & Management",
-      "primary_taxonomy_subcategory": "Editing & unsaved-change safety",
-      "records": 2,
-      "open_records": 1,
-      "avg_severity": 2.5
-    },
-    {
-      "primary_taxonomy_category": "Authoring, Testing & Management",
-      "primary_taxonomy_subcategory": "Drafts, publishing & disablement",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Authoring, Testing & Management",
-      "primary_taxonomy_subcategory": "Playground, examples & in-product help",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Authoring, Testing & Management",
-      "primary_taxonomy_subcategory": "Preview & dry run",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
-      "primary_taxonomy_subcategory": "Embedded & alternative launch surfaces",
+      "primary_taxonomy_subcategory": "Reusable configuration, API & IaC management",
       "records": 3,
-      "open_records": 2,
+      "open_records": 3,
       "avg_severity": 2.33
     },
     {
       "primary_taxonomy_category": "Context, Targeting & Pre-fill",
-      "primary_taxonomy_subcategory": "Entity and resource targeting",
-      "records": 2,
-      "open_records": 0,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
-      "primary_taxonomy_subcategory": "Current-user and context propagation",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 4.0
-    },
-    {
-      "primary_taxonomy_category": "Context, Targeting & Pre-fill",
-      "primary_taxonomy_subcategory": "Pre-fill & context-specific defaults",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 4.0
-    },
-    {
-      "primary_taxonomy_category": "Discovery, Organization & Reuse",
-      "primary_taxonomy_subcategory": "Action discovery, grouping & ordering",
-      "records": 5,
-      "open_records": 4,
-      "avg_severity": 1.8
-    },
-    {
-      "primary_taxonomy_category": "Discovery, Organization & Reuse",
-      "primary_taxonomy_subcategory": "Conditional availability & placement",
-      "records": 3,
+      "primary_taxonomy_subcategory": "Contextual launch, targeting & pre-fill",
+      "records": 6,
       "open_records": 3,
-      "avg_severity": 3.0
+      "avg_severity": 2.83
+    },
+    {
+      "primary_taxonomy_category": "Discovery, Organization & Reuse",
+      "primary_taxonomy_subcategory": "Action discovery, organization & placement",
+      "records": 8,
+      "open_records": 7,
+      "avg_severity": 2.25
     },
     {
       "primary_taxonomy_category": "Discovery, Organization & Reuse",
@@ -5256,18 +5115,18 @@
       "avg_severity": 3.0
     },
     {
-      "primary_taxonomy_category": "Discovery, Organization & Reuse",
-      "primary_taxonomy_subcategory": "Reusability & templates",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 2.0
+      "primary_taxonomy_category": "Execution Lifecycle",
+      "primary_taxonomy_subcategory": "Reliability, timeouts & concurrency",
+      "records": 4,
+      "open_records": 4,
+      "avg_severity": 3.0
     },
     {
       "primary_taxonomy_category": "Execution Lifecycle",
-      "primary_taxonomy_subcategory": "Cancel, stop & resume",
-      "records": 2,
-      "open_records": 2,
-      "avg_severity": 3.0
+      "primary_taxonomy_subcategory": "Retry, rerun, cancel & resume",
+      "records": 4,
+      "open_records": 3,
+      "avg_severity": 2.75
     },
     {
       "primary_taxonomy_category": "Execution Lifecycle",
@@ -5277,78 +5136,36 @@
       "avg_severity": 3.0
     },
     {
-      "primary_taxonomy_category": "Execution Lifecycle",
-      "primary_taxonomy_subcategory": "Concurrency, rate limits & duplicate prevention",
-      "records": 2,
-      "open_records": 2,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Execution Lifecycle",
-      "primary_taxonomy_subcategory": "Retry, rerun & duplicate execution",
-      "records": 2,
-      "open_records": 1,
-      "avg_severity": 2.5
-    },
-    {
-      "primary_taxonomy_category": "Execution Lifecycle",
-      "primary_taxonomy_subcategory": "Reliability & transient-failure handling",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Execution Lifecycle",
-      "primary_taxonomy_subcategory": "Timeouts",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 3.0
+      "primary_taxonomy_category": "Form Configuration",
+      "primary_taxonomy_subcategory": "Form presentation, layout & guidance",
+      "records": 11,
+      "open_records": 8,
+      "avg_severity": 2.09
     },
     {
       "primary_taxonomy_category": "Form Configuration",
-      "primary_taxonomy_subcategory": "Input types & controls",
-      "records": 7,
-      "open_records": 5,
-      "avg_severity": 2.29
+      "primary_taxonomy_subcategory": "Dynamic inputs, defaults & computed fields",
+      "records": 10,
+      "open_records": 7,
+      "avg_severity": 2.8
     },
     {
       "primary_taxonomy_category": "Form Configuration",
-      "primary_taxonomy_subcategory": "Labels, descriptions & display controls",
-      "records": 6,
-      "open_records": 6,
-      "avg_severity": 2.17
-    },
-    {
-      "primary_taxonomy_category": "Form Configuration",
-      "primary_taxonomy_subcategory": "Defaults & computed fields",
-      "records": 5,
-      "open_records": 4,
-      "avg_severity": 2.6
-    },
-    {
-      "primary_taxonomy_category": "Form Configuration",
-      "primary_taxonomy_subcategory": "Dynamic & dependent inputs",
-      "records": 5,
-      "open_records": 3,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Form Configuration",
-      "primary_taxonomy_subcategory": "Form layout, sections & multi-page forms",
-      "records": 5,
-      "open_records": 2,
-      "avg_severity": 2.0
-    },
-    {
-      "primary_taxonomy_category": "Form Configuration",
-      "primary_taxonomy_subcategory": "Structured & repeatable inputs",
-      "records": 3,
-      "open_records": 3,
-      "avg_severity": 2.67
+      "primary_taxonomy_subcategory": "Input types & structured data",
+      "records": 10,
+      "open_records": 8,
+      "avg_severity": 2.4
     },
     {
       "primary_taxonomy_category": "Identity, Secrets & Security",
-      "primary_taxonomy_subcategory": "Authentication & delegated execution",
+      "primary_taxonomy_subcategory": "Authentication, execution identity & requester context",
+      "records": 5,
+      "open_records": 5,
+      "avg_severity": 4.0
+    },
+    {
+      "primary_taxonomy_category": "Identity, Secrets & Security",
+      "primary_taxonomy_subcategory": "Credentials, secrets & request signing",
       "records": 4,
       "open_records": 4,
       "avg_severity": 4.0
@@ -5361,25 +5178,11 @@
       "avg_severity": 3.67
     },
     {
-      "primary_taxonomy_category": "Identity, Secrets & Security",
-      "primary_taxonomy_subcategory": "Credentials & secrets management",
-      "records": 2,
-      "open_records": 2,
-      "avg_severity": 4.5
-    },
-    {
-      "primary_taxonomy_category": "Identity, Secrets & Security",
-      "primary_taxonomy_subcategory": "Message signing & webhook security",
-      "records": 2,
-      "open_records": 2,
-      "avg_severity": 3.5
-    },
-    {
       "primary_taxonomy_category": "Invocation & Integrations",
-      "primary_taxonomy_subcategory": "Backend & invocation method selection",
-      "records": 7,
-      "open_records": 6,
-      "avg_severity": 2.57
+      "primary_taxonomy_subcategory": "Backends, APIs & event triggers",
+      "records": 8,
+      "open_records": 7,
+      "avg_severity": 2.62
     },
     {
       "primary_taxonomy_category": "Invocation & Integrations",
@@ -5396,39 +5199,25 @@
       "avg_severity": 3.0
     },
     {
-      "primary_taxonomy_category": "Invocation & Integrations",
-      "primary_taxonomy_subcategory": "Event triggers & action-to-automation integration",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 3.0
+      "primary_taxonomy_category": "Observability & Debugging",
+      "primary_taxonomy_subcategory": "Run history, audit, APIs & export",
+      "records": 14,
+      "open_records": 12,
+      "avg_severity": 2.21
     },
     {
       "primary_taxonomy_category": "Observability & Debugging",
-      "primary_taxonomy_subcategory": "Run history, audit & filtering",
-      "records": 9,
-      "open_records": 7,
-      "avg_severity": 2.22
+      "primary_taxonomy_subcategory": "Logs & error diagnostics",
+      "records": 10,
+      "open_records": 10,
+      "avg_severity": 2.7
     },
     {
       "primary_taxonomy_category": "Observability & Debugging",
-      "primary_taxonomy_subcategory": "Logs & log streaming",
-      "records": 7,
-      "open_records": 7,
-      "avg_severity": 2.43
-    },
-    {
-      "primary_taxonomy_category": "Observability & Debugging",
-      "primary_taxonomy_subcategory": "Run status & progress",
+      "primary_taxonomy_subcategory": "Run status, progress & notifications",
       "records": 4,
       "open_records": 3,
       "avg_severity": 2.25
-    },
-    {
-      "primary_taxonomy_category": "Observability & Debugging",
-      "primary_taxonomy_subcategory": "Error messages & backend responses",
-      "records": 3,
-      "open_records": 3,
-      "avg_severity": 3.33
     },
     {
       "primary_taxonomy_category": "Observability & Debugging",
@@ -5438,81 +5227,39 @@
       "avg_severity": 2.67
     },
     {
-      "primary_taxonomy_category": "Observability & Debugging",
-      "primary_taxonomy_subcategory": "Run-history APIs & export",
+      "primary_taxonomy_category": "Orchestration",
+      "primary_taxonomy_subcategory": "Multi-step orchestration, branching & data flow",
       "records": 3,
-      "open_records": 3,
-      "avg_severity": 2.33
+      "open_records": 2,
+      "avg_severity": 3.33
     },
     {
       "primary_taxonomy_category": "Orchestration",
-      "primary_taxonomy_subcategory": "Intermediate approvals",
-      "records": 2,
+      "primary_taxonomy_subcategory": "Workflow approvals, error handling & recovery",
+      "records": 3,
       "open_records": 1,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Orchestration",
-      "primary_taxonomy_subcategory": "Multi-backend & multi-system sequencing",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 4.0
-    },
-    {
-      "primary_taxonomy_category": "Orchestration",
-      "primary_taxonomy_subcategory": "Multi-step workflows",
-      "records": 1,
-      "open_records": 0,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Orchestration",
-      "primary_taxonomy_subcategory": "Shared context & output passing",
-      "records": 1,
-      "open_records": 1,
-      "avg_severity": 3.0
-    },
-    {
-      "primary_taxonomy_category": "Orchestration",
-      "primary_taxonomy_subcategory": "Step-level error handling & recovery",
-      "records": 1,
-      "open_records": 0,
-      "avg_severity": 4.0
+      "avg_severity": 3.33
     },
     {
       "primary_taxonomy_category": "Permissions & Approvals",
-      "primary_taxonomy_subcategory": "RBAC & dynamic permissions",
-      "records": 15,
+      "primary_taxonomy_subcategory": "Access control & action eligibility",
+      "records": 16,
       "open_records": 11,
-      "avg_severity": 3.2
+      "avg_severity": 3.19
     },
     {
       "primary_taxonomy_category": "Permissions & Approvals",
-      "primary_taxonomy_subcategory": "Approval policies & thresholds",
-      "records": 7,
-      "open_records": 4,
-      "avg_severity": 2.86
+      "primary_taxonomy_subcategory": "Approver experience & notifications",
+      "records": 13,
+      "open_records": 11,
+      "avg_severity": 2.69
     },
     {
       "primary_taxonomy_category": "Permissions & Approvals",
-      "primary_taxonomy_subcategory": "Approver experience & request editing",
-      "records": 7,
+      "primary_taxonomy_subcategory": "Approval policies & approver routing",
+      "records": 12,
       "open_records": 7,
-      "avg_severity": 2.86
-    },
-    {
-      "primary_taxonomy_category": "Permissions & Approvals",
-      "primary_taxonomy_subcategory": "Approval notifications",
-      "records": 6,
-      "open_records": 4,
-      "avg_severity": 2.5
-    },
-    {
-      "primary_taxonomy_category": "Permissions & Approvals",
-      "primary_taxonomy_subcategory": "Approver routing & identity",
-      "records": 5,
-      "open_records": 3,
-      "avg_severity": 3.2
+      "avg_severity": 3.0
     },
     {
       "primary_taxonomy_category": "Permissions & Approvals",
@@ -5522,29 +5269,15 @@
       "avg_severity": 3.5
     },
     {
-      "primary_taxonomy_category": "Permissions & Approvals",
-      "primary_taxonomy_subcategory": "Approval audit & context",
-      "records": 2,
-      "open_records": 2,
-      "avg_severity": 2.0
-    },
-    {
-      "primary_taxonomy_category": "Permissions & Approvals",
-      "primary_taxonomy_subcategory": "Action visibility & eligibility",
-      "records": 1,
-      "open_records": 0,
-      "avg_severity": 3.0
-    },
-    {
       "primary_taxonomy_category": "Validation & Rules",
-      "primary_taxonomy_subcategory": "Input & cross-field validation",
+      "primary_taxonomy_subcategory": "Form validation, messages & conditional rules",
       "records": 4,
       "open_records": 3,
       "avg_severity": 3.0
     },
     {
       "primary_taxonomy_category": "Validation & Rules",
-      "primary_taxonomy_subcategory": "Expression and JQ rule authoring",
+      "primary_taxonomy_subcategory": "Expression & JQ authoring",
       "records": 3,
       "open_records": 3,
       "avg_severity": 2.67
@@ -5761,47 +5494,47 @@
   "secondary_mentions": [
     {
       "category": "Invocation & Integrations",
-      "secondary_mentions": 20
-    },
-    {
-      "category": "Permissions & Approvals",
       "secondary_mentions": 18
     },
     {
-      "category": "Observability & Debugging",
+      "category": "Permissions & Approvals",
       "secondary_mentions": 13
     },
     {
-      "category": "Validation & Rules",
+      "category": "Observability & Debugging",
       "secondary_mentions": 12
     },
     {
-      "category": "Identity, Secrets & Security",
+      "category": "Validation & Rules",
       "secondary_mentions": 11
     },
     {
-      "category": "Form Configuration",
-      "secondary_mentions": 9
+      "category": "Identity, Secrets & Security",
+      "secondary_mentions": 8
     },
     {
-      "category": "Context, Targeting & Pre-fill",
+      "category": "Form Configuration",
+      "secondary_mentions": 7
+    },
+    {
+      "category": "Authoring, Testing & Management",
       "secondary_mentions": 5
     },
     {
-      "category": "Discovery, Organization & Reuse",
-      "secondary_mentions": 4
+      "category": "Context, Targeting & Pre-fill",
+      "secondary_mentions": 3
     },
     {
       "category": "Execution Lifecycle",
-      "secondary_mentions": 4
+      "secondary_mentions": 3
     },
     {
       "category": "Orchestration",
       "secondary_mentions": 3
     },
     {
-      "category": "Authoring, Testing & Management",
-      "secondary_mentions": 2
+      "category": "Discovery, Organization & Reuse",
+      "secondary_mentions": 1
     }
   ],
   "lifecycle": [
@@ -5848,6 +5581,10 @@
     "enforce-rbac-restrictions-run-pages-entity-details": [
       "6826b40db0070616c963e9bf"
     ],
+    "referencing-stored-secrets-webhook-security-configuration-in": [
+      "6915caf8c4c30db90d700b0b",
+      "69c1a3bff8901915c20c5ca3"
+    ],
     "signing-execution-agent-messages-service-account-credentials": [
       "69e62509bf8b6dbf40b878c7"
     ],
@@ -5856,9 +5593,6 @@
     ],
     "increase-configurable-entity-query-limit-dynamic-approval-po": [
       "6925812013fb0ed2240adb99"
-    ],
-    "referencing-stored-secrets-webhook-security-configuration-in": [
-      "6915caf8c4c30db90d700b0b"
     ],
     "configuring-multiple-backends-conditional-routing-backend-pa": [
       "684c4e772523f38ddde65e37"
@@ -5920,9 +5654,6 @@
     ],
     "disable-execute-button-after-first-click-until-run": [
       "6a0afd1159c18d657028cd5c"
-    ],
-    "secrets-template-syntax-webhook-security-signature-configura": [
-      "69c1a3bff8901915c20c5ca3"
     ],
     "test-preview-window-dynamic-approver-jq-conditions-showing": [
       "699da93f7e35df0d59976c69"
@@ -6010,9 +5741,6 @@
     ],
     "admin-override-instantly-approve-bypass-remaining-steps-appr": [
       "6a292ceff00721fb0e2d24cc"
-    ],
-    "inline-approve-reject-buttons-request-context-directly-withi": [
-      "6a214383d4705903285ef4fe"
     ],
     "context-messaging-between-approver-requester-runs-awaiting-a": [
       "6a211ea7d47059032854eafd"
@@ -6131,9 +5859,17 @@
     "native-microsoft-teams-bot-integration-usable-invocation-bac": [
       "6728c6a7e9894c1a059aa821"
     ],
+    "dynamic-data-driven-titles-labels-description-text-self": [
+      "67bb136c8e2de556c2957dad",
+      "6970abf0757ff2b799889f3e"
+    ],
     "configurable-ordering-self-service-widgets-hub-page": [
       "64edffb2ab1b040a223eadd5",
       "65e7390a0b8acf82dfc933fc"
+    ],
+    "inline-approve-reject-buttons-request-context-directly-withi": [
+      "65c3900fc543d815a5cbf71b",
+      "6a214383d4705903285ef4fe"
     ],
     "include-approver-identity-name-email-run-s-execution": [
       "67098dae95ff13ed656df804",
@@ -6159,9 +5895,6 @@
     ],
     "configuration-exclude-hidden-inputs-manual-approval-emails-w": [
       "69a98a661fe40914834d9831"
-    ],
-    "dynamic-data-driven-titles-labels-description-text-self": [
-      "6970abf0757ff2b799889f3e"
     ],
     "configurable-approval-bypass-toggle-requests-submitted-desig": [
       "68f92f09f3aea6791833224b"
@@ -6196,9 +5929,6 @@
     "address-input-field-type-autocomplete-powered-configurable-t": [
       "687ced0964a12a95ef832dd9"
     ],
-    "configurable-larger-form-sizing-layout-self-service-forms": [
-      "67bb136c8e2de556c2957dad"
-    ],
     "code-api-view-self-service-showing-configuration-working": [
       "67ae96986cf677fdc79b6969"
     ],
@@ -6213,9 +5943,6 @@
     ],
     "configurable-dynamic-run-names-derived-inputs-entity-propert": [
       "662a16854790d8da141e4e6e"
-    ],
-    "sending-approval-request-notifications-kafka-topic": [
-      "65c3900fc543d815a5cbf71b"
     ],
     "audit-log-view-showing-run-id-status-start": [
       "656c4a01ba5aabc9ac975d71"

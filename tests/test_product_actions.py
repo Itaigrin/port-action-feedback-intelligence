@@ -275,7 +275,7 @@ def test_polarity_values_are_closed():
     valid = dict(
         is_relevant=True, relevance_reason="Concerns action validation rules.",
         primary_taxonomy_category="Validation & Rules",
-        primary_taxonomy_subcategory="Input & cross-field validation",
+        primary_taxonomy_subcategory="Form validation, messages & conditional rules",
         problem_type="Feature gap",
         journey_stage="Validation, dependencies & conditional logic",
         persona="Action builder", severity=3,

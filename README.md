@@ -113,7 +113,7 @@ The increase is red because it is the number the ranking is built on; the percen
 
 ![Where problems concentrate](docs/screenshots/03-categories.png)
 
-*The 11 product areas ordered by how often they are raised, with a live drill-down into whichever of the 63 subcategories appear inside the selected one.*
+*The 11 product areas ordered by how often they are raised, with a live drill-down into whichever of the 30 subcategories appear inside the selected one.*
 
 ![Action Configuration journey](docs/screenshots/04-journey.png)
 
@@ -135,7 +135,7 @@ The increase is red because it is the number the ranking is built on; the percen
 
 ![Categories](docs/screenshots/08-guide-categories.png)
 
-*All 11 categories and their 63 subcategories, each with a plain-language meaning, use-for triggers, an explicit do-not-use-when rule surfaced as a warning, real examples, and live record counts from the current dataset.*
+*All 11 categories and their 30 subcategories, each with a plain-language meaning, the former v2.1 groups it now covers, real examples quoted from records actually assigned to it, and live record counts from the current dataset.*
 
 ![Journey stages](docs/screenshots/09-guide-stages.png)
 
@@ -208,7 +208,7 @@ Each record is classified independently against a **taxonomy defined before any 
 | Dimension | Question | Count |
 |---|---|---|
 | Category | *Which broad product area?* | 11 |
-| Subcategory | *Which specific part of it?* | 63 |
+| Subcategory | *Which specific part of it?* | 30 |
 | Problem type | *What kind of problem?* | 14 |
 | Journey stage | *Where in the lifecycle?* | 8 |
 

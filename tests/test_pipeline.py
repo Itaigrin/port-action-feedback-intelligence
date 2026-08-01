@@ -181,7 +181,7 @@ def test_schema_rejects_invented_values():
         is_relevant=True,
         relevance_reason="Concerns approval routing for self-service actions.",
         primary_taxonomy_category="Permissions & Approvals",
-        primary_taxonomy_subcategory="Approver routing & identity",
+        primary_taxonomy_subcategory="Approval policies & approver routing",
         problem_type="Feature gap",
         journey_stage="Permissions & approvals",
         persona="Action builder",
@@ -270,19 +270,41 @@ def test_exactly_eleven_categories_in_order():
     assert CATEGORY_NAMES == EXPECTED_CATEGORIES
 
 
-def test_exactly_sixty_three_unique_subcategories():
+def test_exactly_thirty_unique_core_subcategories():
+    """v3.0 consolidated 63 subcategories into 30.
+
+    The fallback is deliberately not among them: it is reachable by the
+    classifier but is not one of the thirty analytical groups, and counting it
+    as one would make every "30 core" figure quietly wrong.
+    """
     from src.models.taxonomy import (
         ALL_SUBCATEGORY_NAMES,
+        ASSIGNABLE_SUBCATEGORY_NAMES,
         CATEGORY_FOR_SUBCATEGORY,
+        FALLBACK_SUBCATEGORY,
         SUBCATEGORY_NAMES_BY_CATEGORY,
     )
 
-    assert len(ALL_SUBCATEGORY_NAMES) == 63
+    assert len(ALL_SUBCATEGORY_NAMES) == 30
     # Uniqueness is what makes CATEGORY_FOR_SUBCATEGORY a safe reverse lookup;
     # a repeated name would silently lose one of its entries.
-    assert len(set(ALL_SUBCATEGORY_NAMES)) == 63
-    assert len(CATEGORY_FOR_SUBCATEGORY) == 63
-    assert sum(len(v) for v in SUBCATEGORY_NAMES_BY_CATEGORY.values()) == 63
+    assert len(set(ALL_SUBCATEGORY_NAMES)) == 30
+    assert len(CATEGORY_FOR_SUBCATEGORY) == 30
+    assert sum(len(v) for v in SUBCATEGORY_NAMES_BY_CATEGORY.values()) == 30
+
+    assert FALLBACK_SUBCATEGORY not in ALL_SUBCATEGORY_NAMES
+    assert FALLBACK_SUBCATEGORY in ASSIGNABLE_SUBCATEGORY_NAMES
+    assert len(ASSIGNABLE_SUBCATEGORY_NAMES) == 31
+
+
+def test_every_former_subcategory_has_a_migration_destination():
+    """A name with no destination strands any record still carrying it."""
+    from src.models.taxonomy import ALL_SUBCATEGORY_NAMES, SUBCATEGORY_MIGRATION
+
+    assert len(SUBCATEGORY_MIGRATION) == 63, "all 63 v2.1 names must be mapped"
+    assert set(SUBCATEGORY_MIGRATION.values()) == set(ALL_SUBCATEGORY_NAMES), (
+        "every destination must be a core subcategory, and every core "
+        "subcategory must receive at least one former name")
 
 
 def test_exactly_eight_stages_in_lifecycle_order():
@@ -321,7 +343,7 @@ def test_removed_taxonomy_names_are_rejected():
         is_relevant=True,
         relevance_reason="Concerns validation of self-service action inputs.",
         primary_taxonomy_category="Validation & Rules",
-        primary_taxonomy_subcategory="Input & cross-field validation",
+        primary_taxonomy_subcategory="Form validation, messages & conditional rules",
         problem_type="Feature gap",
         journey_stage="Validation, dependencies & conditional logic",
         persona="Action builder", severity=3,
