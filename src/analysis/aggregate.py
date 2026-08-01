@@ -568,14 +568,21 @@ def _recommended_focus(names: list[str], members: list[dict] | None = None,
             return f"{lead}." if len(names) == 1 else f"{lead}, then {names[1]}."
         return f"{lead}, and no problem type stands out against the rest."
 
-    name, count, lift = distinctive
-    share = "seen nowhere else" if lift == float("inf") else f"{lift:.1f}x elsewhere"
+    name, _count, lift = distinctive
+    # The count and the lift ratio decide *whether* a type is distinctive
+    # (see MIN_DISTINCTIVE_COUNT / MIN_DISTINCTIVE_LIFT above) but are never
+    # printed on the card: "(3 records, 4.3x elsewhere)" reads as a stat a
+    # reader has to go verify, not a claim they can just read. "Seen nowhere
+    # else" is the one exception -- it is a qualitative fact, not a number.
+    exclusive = lift == float("inf")
     if name == names[0]:
         # The most common type is also the most concentrated. One fact, said
-        # once, with the multiple that makes it worth saying.
-        return f"{lead} -- and it runs {share} ({count} records)."
-    return (f"{lead}. Unusually concentrated here: {name} "
-            f"({count} records, {share}).")
+        # once.
+        return (f"{lead} -- seen nowhere else." if exclusive
+                else f"{lead} -- and unusually concentrated here.")
+    return (f"{lead}. Unusually concentrated here: {name}, seen nowhere else."
+            if exclusive else
+            f"{lead}. Unusually concentrated here: {name}.")
 
 
 def resolve_focus_collision(journey: dict, subcategory: dict) -> None:

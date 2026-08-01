@@ -3370,7 +3370,7 @@
         "security or privacy concern",
         "validation gap"
       ],
-      "recommended_focus": "Mostly feature gap. Unusually concentrated here: configuration complexity (3 records, 4.3x elsewhere).",
+      "recommended_focus": "Mostly feature gap. Unusually concentrated here: configuration complexity.",
       "examples": [
         {
           "text": "Users can view action run pages and entity details for actions/entities they don't have permission to access",
