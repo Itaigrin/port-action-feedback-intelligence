@@ -627,10 +627,16 @@ def negative_insight(rel: pd.DataFrame, group_type: str,
     if selected:
         negative = negative[negative[column].isin(selected)]
     if negative.empty:
+        # Same keys as the populated branch, deliberately. A function that
+        # returns two different shapes makes every caller guess which one it
+        # got; supporting_feedback_ids in particular is what the card's count
+        # badge filters the evidence section by, so its absence here would be
+        # an AttributeError waiting for the first empty filter combination.
         return {"group_type": group_type, "group_name": "",
                 "negative_feedback_count": 0, "recommended_focus": "",
                 "problem_type_ranking": [],
-                "examples": [], "parent_category": ""}
+                "examples": [], "parent_category": "",
+                "supporting_feedback_ids": []}
 
     counts = negative[column].value_counts()
     # Ties resolve alphabetically so the card cannot flicker between reruns.

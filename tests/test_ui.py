@@ -493,8 +493,10 @@ def test_interactions_do_not_navigate_the_browser():
         NAV_BACK,
         NAV_DRILL,
         NAV_FOCUS,
+        NAV_INSIGHT,
         NAV_SUB,
         NAV_UNFOCUS,
+        render_insight_cards,
         render_product_actions,
         render_taxonomy_chart,
     )
@@ -506,11 +508,18 @@ def test_interactions_do_not_navigate_the_browser():
         "open_supporting_record_count": 3, "severity_band": 4,
         "source_diversity": 1, "needs_review": 0, "signal": "quote",
     }
+    insight = {
+        "group_type": "journey_stage", "group_name": "Permissions & approvals",
+        "negative_feedback_count": 46, "recommended_focus": "Mostly feature gap.",
+        "problem_type_ranking": ["feature gap"], "examples": [],
+        "parent_category": "", "supporting_feedback_ids": ["a", "b"],
+    }
     blocks = [
         render_taxonomy_chart([(c, 1) for c in CATEGORY_NAMES], None),
         render_taxonomy_chart([("Access control & action eligibility", 1)],
                               "Permissions & Approvals"),
         render_product_actions([action], 10),
+        render_insight_cards(insight, dict(insight, group_type="subcategory")),
     ]
     for html in blocks:
         # No anchor may carry a real destination.
@@ -525,15 +534,18 @@ def test_interactions_do_not_navigate_the_browser():
     assert f"{NAV_SUB}_0" in keys
     assert f"{NAV_FOCUS}_0" in keys
     assert NAV_BACK in keys
+    assert f"{NAV_INSIGHT}_0" in keys and f"{NAV_INSIGHT}_1" in keys
 
     # Every proxied key must be one app.py actually creates a button for.
     for key in keys:
         stem = re.sub(r"_\d+$", "", key)
-        assert stem in (NAV_DRILL, NAV_SUB, NAV_FOCUS, NAV_BACK, NAV_UNFOCUS), key
+        assert stem in (NAV_DRILL, NAV_SUB, NAV_FOCUS, NAV_BACK, NAV_UNFOCUS,
+                        NAV_INSIGHT), key
     # app.py builds the drill/sub keys from the same constants.
     assert "render.NAV_SUB if drilled else render.NAV_DRILL" in APP
     assert "render.NAV_BACK" in APP and "render.NAV_UNFOCUS" in APP
     assert "render.NAV_FOCUS" in APP
+    assert "render.NAV_INSIGHT" in APP
 
 
 def test_hidden_nav_buttons_are_created_for_every_proxy():
@@ -861,6 +873,28 @@ def test_the_jump_never_scrolls_an_overflow_hidden_ancestor():
     assert "el.scrollTop = 0" in block
 
 
+def test_the_jump_does_not_depend_on_smooth_scrolling_working():
+    """behavior:'smooth' is a silent no-op in some embedded browsers.
+
+    Found by driving the running app: the selection, the scoping and the
+    nonce-forced remount all worked, the script ran, and the page simply did
+    not move -- scrollTo returned normally and scrolled nothing, while a
+    direct scrollTop assignment on the very same element worked. Every
+    "scroll to the evidence" affordance was quietly dead there.
+
+    So the jump verifies itself: if the scroller has not moved at all shortly
+    after the request, it completes the jump instantly. Checking "did not move
+    at all" rather than "has not arrived" is what keeps a genuine animation
+    from being snapped mid-flight.
+    """
+    block = APP[APP.index("nonce = st.session_state.get"):]
+    block = block[:block.index("height=0")]
+    assert "scroller.scrollTop === from" in block, (
+        "the jump must detect a smooth scroll that never started")
+    assert "scroller.scrollTop = top" in block, (
+        "and finish the jump itself when it did not")
+
+
 def test_pressing_the_selected_action_again_clears_the_selection():
     """The button is a toggle, and its selected state must be readable.
 
@@ -870,13 +904,116 @@ def test_pressing_the_selected_action_again_clears_the_selection():
     <a href="#">, which the browser treats as visited immediately, and the
     base .afi-action-btn:visited rule is otherwise specific enough to win.
     """
-    focus_fn = APP[APP.index("def _focus_on("):APP.index("def _clear_focus(")]
+    # Sliced to _focus_on alone -- _focus_insight sits between it and
+    # _clear_focus and sets the same keys, so a slice running to _clear_focus
+    # would let one function's lines satisfy an assertion about the other's.
+    focus_fn = APP[APP.index("def _focus_on("):APP.index("def _focus_insight(")]
     assert 'st.session_state.get("afi_focus") == action_id' in focus_fn
     assert focus_fn.index('st.session_state["afi_focus"] = None') < focus_fn.index(
         'st.session_state["afi_focus"] = action_id'), "the toggle must return early"
 
     assert ".afi-action-btn.is-selected:visited" in THEME, (
         "the selected label must survive the :visited rule")
+
+
+def _insight(**over) -> dict:
+    base = {
+        "group_type": "journey_stage", "group_name": "Permissions & approvals",
+        "negative_feedback_count": 46, "recommended_focus": "Mostly feature gap.",
+        "problem_type_ranking": ["feature gap"], "examples": [],
+        "parent_category": "", "supporting_feedback_ids": ["a", "b"],
+    }
+    return {**base, **over}
+
+
+def test_the_insight_count_badge_is_a_control_that_keeps_its_number():
+    """The badge scopes the evidence section, but stays a count.
+
+    The number is the card's finding. Swapping it for a button label when
+    selected -- the way the product-action button does -- would cost the
+    reader the fact to gain nothing, so the selected state rides on styling
+    and aria-current instead.
+    """
+    from src.ui.render import NAV_INSIGHT, render_insight_cards
+
+    html = render_insight_cards(_insight(), _insight(group_type="subcategory"))
+    assert f'data-afi-click="{NAV_INSIGHT}_0"' in html
+    assert f'data-afi-click="{NAV_INSIGHT}_1"' in html
+    assert "46 negative feedback records" in html
+    assert "aria-current" not in html, "nothing is selected here"
+
+    selected = render_insight_cards(_insight(), _insight(group_type="subcategory"),
+                                    selected="journey_stage")
+    assert 'aria-current="true"' in selected
+    assert "is-selected" in selected
+    # The count survives selection.
+    assert "46 negative feedback records" in selected
+
+
+def test_an_empty_insight_card_offers_no_control():
+    """Nothing to scope to, so there must be nothing to press."""
+    from src.ui.render import NAV_INSIGHT, render_insight_cards
+
+    html = render_insight_cards(
+        _insight(group_name="", negative_feedback_count=0,
+                 supporting_feedback_ids=[]),
+        _insight(group_type="subcategory"))
+    assert f'data-afi-click="{NAV_INSIGHT}_0"' not in html
+    assert f'data-afi-click="{NAV_INSIGHT}_1"' in html, "the other card still works"
+
+
+def test_only_one_selection_can_scope_the_evidence_section():
+    """A product action and an insight card are mutually exclusive.
+
+    Both scope the same section, so two live selections would leave it showing
+    one of them while both read as active on screen. Each setter drops the
+    other, and clearing drops both.
+    """
+    focus_fn = APP[APP.index("def _focus_on("):APP.index("def _focus_insight(")]
+    insight_fn = APP[APP.index("def _focus_insight("):APP.index("def _clear_focus(")]
+    clear_fn = APP[APP.index("def _clear_focus("):
+                   APP.index("def _toggle_filters_collapsed(")]
+
+    assert 'st.session_state["afi_insight_focus"] = None' in focus_fn, (
+        "selecting an action must drop any insight selection")
+    assert 'st.session_state["afi_focus"] = None' in insight_fn, (
+        "selecting an insight card must drop any action selection")
+    for key in ('afi_focus', 'afi_insight_focus'):
+        assert f'st.session_state["{key}"] = None' in clear_fn, key
+
+    # The toggle: pressing the selected card again clears it, and that has to
+    # happen before the assignment or the early return is unreachable.
+    assert insight_fn.index(
+        'st.session_state["afi_insight_focus"] = None') < insight_fn.index(
+        'st.session_state["afi_insight_focus"] = group_type')
+
+
+def test_the_insight_selection_scrolls_and_scopes_by_its_own_ids():
+    """Scoped by the ids the badge counted, so the count and the list agree.
+
+    Re-deriving "everything in this stage" at the section would pull in the
+    non-negative records the card deliberately excluded, and the section would
+    then show more records than the badge that opened it claimed.
+    """
+    assert 'insights.get(insight_focus)' in APP
+    assert 'selected_insight.get("supporting_feedback_ids")' in APP
+    # Reuses the by-id helper rather than a second filtering path.
+    assert "evidence_for_action(view, insight_ids)" in APP
+    # And the jump fires for either kind of selection.
+    assert "if focus or insight_focus:" in APP
+
+
+def test_both_insight_buttons_exist_even_when_a_card_is_empty():
+    """The buttons are keyed by position, so they cannot be conditional.
+
+    Making them depend on a card having content would shift the second card's
+    key the moment the first went empty, and a click would scope the section
+    to the wrong group.
+    """
+    nav = APP[APP.index("def render_hidden_nav("):APP.index("# ====", APP.index(
+        "def render_hidden_nav("))]
+    assert "for index, group_type in enumerate(render.INSIGHT_GROUPS)" in nav
+    assert "on_click=_focus_insight" in nav
 
 
 def test_app_does_not_read_the_aggregates_artifact_at_runtime():

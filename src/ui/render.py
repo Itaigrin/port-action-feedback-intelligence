@@ -42,6 +42,12 @@ NAV_UNFOCUS = "afinav_unfocus"
 NAV_SEV = "afinav_sev"
 NAV_EDIT = "afinav_edit"
 NAV_TOGGLE_FILTERS = "afinav_toggle_filters"
+NAV_INSIGHT = "afinav_insight"
+
+# The two "where users struggle most" cards, in render order. The index into
+# this tuple is the suffix on the hidden button each card's count badge
+# proxies to, so markup and buttons cannot drift apart.
+INSIGHT_GROUPS = ("journey_stage", "subcategory")
 
 
 def _esc(value: object) -> str:
@@ -270,15 +276,21 @@ def render_product_actions(actions: list[dict], limit: int,
 
 
 # --------------------------------------------------------------------------
-def render_insight_cards(journey_stage: dict, subcategory: dict) -> str:
+def render_insight_cards(journey_stage: dict, subcategory: dict,
+                         selected: str | None = None) -> str:
     """The two "where users struggle most" cards.
 
     Both count only records the classifier judged Negative, so they answer
     "where is the pain" rather than "where is the volume" -- a subcategory can
     be busy with neutral questions and still be nobody's problem.
+
+    Each card's count badge is a control: it scopes the evidence section below
+    to exactly the records that count was computed from, the same way a
+    product action's "View supporting feedback" does. `selected` names which
+    card is currently scoping that section, or None.
     """
 
-    def card(data: dict, label: str) -> str:
+    def card(data: dict, label: str, index: int) -> str:
         name = data.get("group_name") or ""
         count = int(data.get("negative_feedback_count") or 0)
         if not name or not count:
@@ -294,14 +306,27 @@ def render_insight_cards(journey_stage: dict, subcategory: dict) -> str:
                        if parent else "")
         examples = "".join(
             f"<li>{_esc(ex['text'])}</li>" for ex in data.get("examples", []))
+
+        # The badge keeps saying the count when selected -- that number is the
+        # card's finding, not a button label, so swapping it for "Showing
+        # below" would cost the reader the fact to gain nothing. The selected
+        # state is carried by styling and aria-current instead.
+        is_selected = selected is not None and INSIGHT_GROUPS[index] == selected
+        badge_class = ("afi-badge b-red afi-insight-count-btn is-selected"
+                       if is_selected else "afi-badge b-red afi-insight-count-btn")
+        title = ("Showing these records below - click to clear" if is_selected
+                 else "Show only these records below")
         return (
             '<div class="afi-card afi-insight-card">'
             f'<span class="afi-insight-label">{_esc(label)}</span>'
             f'<div class="afi-insight-name">{_esc(name)}</div>'
             f"{parent_html}"
             f'<div class="afi-insight-count">'
-            f'<span class="afi-badge b-red">{_plural(count, "negative feedback record")}'
-            f"</span></div>"
+            f'<a class="{badge_class}" {_click(f"{NAV_INSIGHT}_{index}")} '
+            f'title="{title}"'
+            f'{" aria-current=\"true\"" if is_selected else ""}>'
+            f'{_plural(count, "negative feedback record")} &#8595;'
+            f"</a></div>"
             f'<p class="afi-insight-focus"><b>Recommended focus:</b> '
             f'{_esc(data.get("recommended_focus", ""))}</p>'
             f"<ul class=\"afi-insight-examples\">{examples}</ul>"
@@ -315,8 +340,8 @@ def render_insight_cards(journey_stage: dict, subcategory: dict) -> str:
         "<p>Counting only feedback that describes a problem, under the current "
         "filters.</p></div></div>"
         '<div class="afi-insight-grid">'
-        + card(journey_stage, "Journey stage with most negative feedback")
-        + card(subcategory, "Subcategory with most negative feedback")
+        + card(journey_stage, "Journey stage with most negative feedback", 0)
+        + card(subcategory, "Subcategory with most negative feedback", 1)
         + "</div></div>"
     )
 

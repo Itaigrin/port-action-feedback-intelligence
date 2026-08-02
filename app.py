@@ -220,10 +220,12 @@ def _reset_filters() -> None:
     """
     for key, value in FILTER_DEFAULTS.items():
         st.session_state[key] = value
-    # Reset also drops the chart drill-down and the focused action, so the
-    # dashboard returns to the state a first-time visitor sees.
+    # Reset also drops the chart drill-down and whichever selection is scoping
+    # the evidence section, so the dashboard returns to the state a first-time
+    # visitor sees.
     st.session_state["afi_drill"] = None
     st.session_state["afi_focus"] = None
+    st.session_state["afi_insight_focus"] = None
     st.session_state["afi_scroll_nonce"] = 0
 
 
@@ -524,6 +526,11 @@ def _focus_on(action_id: str) -> None:
     nothing to scroll to, and the reader is already looking at the card they
     just pressed.
     """
+    # The evidence section is scoped by exactly one thing at a time, so
+    # selecting an action drops any insight-card selection. Two live
+    # selections would leave the section showing one of them while both read
+    # as active on screen.
+    st.session_state["afi_insight_focus"] = None
     if st.session_state.get("afi_focus") == action_id:
         st.session_state["afi_focus"] = None
         return
@@ -533,8 +540,31 @@ def _focus_on(action_id: str) -> None:
         st.session_state.get("afi_scroll_nonce", 0) + 1)
 
 
+def _focus_insight(group_type: str) -> None:
+    """Scope the evidence section to one "where users struggle most" card.
+
+    The same contract as _focus_on, for the other kind of selection: a toggle,
+    mutually exclusive with it, and it bumps the scroll nonce only when a
+    selection is *made* so a repeat press of the other card still jumps.
+
+    Scoped by the card's own `supporting_feedback_ids` rather than by
+    re-deriving "everything negative in this stage" at the section -- the ids
+    are what the badge counted, so the count and the list it opens cannot
+    disagree.
+    """
+    st.session_state["afi_focus"] = None
+    if st.session_state.get("afi_insight_focus") == group_type:
+        st.session_state["afi_insight_focus"] = None
+        return
+
+    st.session_state["afi_insight_focus"] = group_type
+    st.session_state["afi_scroll_nonce"] = (
+        st.session_state.get("afi_scroll_nonce", 0) + 1)
+
+
 def _clear_focus() -> None:
     st.session_state["afi_focus"] = None
+    st.session_state["afi_insight_focus"] = None
 
 
 def _toggle_filters_collapsed() -> None:
@@ -670,6 +700,14 @@ def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
         for level in range(1, 6):
             st.button("go", key=f"{render.NAV_SEV}_{level}",
                       on_click=_set_severity, args=(level,))
+        # Both insight cards always get a button, even when a card is empty
+        # and renders no badge: the buttons are keyed by position, so making
+        # them conditional would shift the other card's key the moment one
+        # went empty and a click would then scope the section to the wrong
+        # group.
+        for index, group_type in enumerate(render.INSIGHT_GROUPS):
+            st.button("go", key=f"{render.NAV_INSIGHT}_{index}",
+                      on_click=_focus_insight, args=(group_type,))
         for index, action in enumerate(actions):
             st.button("go", key=f"{render.NAV_FOCUS}_{index}",
                       on_click=_focus_on, args=(action["product_action_id"],))
@@ -680,6 +718,7 @@ def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
 # ==========================================================================
 def render_dashboard() -> None:
     focus = st.session_state.get("afi_focus")
+    insight_focus = st.session_state.get("afi_insight_focus")
     drilled = st.session_state.get("afi_drill")
 
     # --- page grid: 270px rail + main content ------------------------------
@@ -765,12 +804,17 @@ def render_dashboard() -> None:
         # every filter. "Top recommended product actions" is deliberately not
         # applied: it limits how many actions are listed, not which feedback
         # exists.
+        # Computed once and reused: the evidence section below scopes itself
+        # by the selected card's own supporting ids, so it must read the same
+        # insight objects these cards were drawn from. Recomputing there would
+        # be a second call free to disagree with what the badge counted.
+        insights = paired_insights(
+            view,
+            stages=filters["stage"],
+            subcategories=filters["subcategory"],
+        )
         st.markdown(
-            render.render_insight_cards(**paired_insights(
-                view,
-                stages=filters["stage"],
-                subcategories=filters["subcategory"],
-            )),
+            render.render_insight_cards(**insights, selected=insight_focus),
             unsafe_allow_html=True,
         )
         st.markdown(render.render_trend_chart(negative_trend(view, ANALYSIS_AS_OF)),
@@ -823,6 +867,7 @@ def render_dashboard() -> None:
         # card reading "N open supporting records".
         shown = view
         selected_action = None
+        focus_label = None
         if focus:
             selected_action = next(
                 (a for a in actions if a["product_action_id"] == focus), None)
@@ -831,8 +876,18 @@ def render_dashboard() -> None:
                 shown = pd.DataFrame(
                     evidence_for_action(
                         view, selected_action["open_supporting_feedback_ids"]))
+                focus_label = selected_action["product_action_title"]
             else:
                 shown = view.iloc[0:0]
+        elif insight_focus:
+            # Same rule for the "where users struggle most" cards: scope by
+            # the ids the badge counted, so the section shows that number of
+            # records and not "everything in this stage", which would include
+            # the non-negative records the card deliberately excluded.
+            selected_insight = insights.get(insight_focus) or {}
+            insight_ids = selected_insight.get("supporting_feedback_ids") or []
+            shown = pd.DataFrame(evidence_for_action(view, insight_ids))
+            focus_label = selected_insight.get("group_name") or None
 
         with st.container(key="afi_feedback"):
             head, tools = st.columns([1, 0.32], gap="small")
@@ -857,8 +912,7 @@ def render_dashboard() -> None:
                     shown=len(shown), total=len(rel),
                     open_count=int(shown["is_open"].sum()),
                     min_severity=filters["severity"],
-                    focus=(selected_action["product_action_title"]
-                           if selected_action else None),
+                    focus=focus_label,
                 ),
                 unsafe_allow_html=True,
             )
@@ -889,7 +943,7 @@ def render_dashboard() -> None:
                 else:
                     _render_editor(record)
 
-            if focus:
+            if focus or insight_focus:
                 # Take the reader to the evidence they asked for. A rerun
                 # replaces the DOM and drops the scroll offset, so this both
                 # performs the jump and stops the page landing at the top.
@@ -950,10 +1004,24 @@ def render_dashboard() -> None:
                     "  if (!el) { if (++tries < 25) setTimeout(go, 120); return; }"
                     "  const scroller = scrollerFor(el);"
                     "  if (scroller) {"
+                    "    const from = scroller.scrollTop;"
                     "    const top = el.getBoundingClientRect().top"
                     "      - scroller.getBoundingClientRect().top"
-                    "      + scroller.scrollTop;"
-                    "    scroller.scrollTo({top: top - 8, behavior: 'smooth'});"
+                    "      + from - 8;"
+                    "    scroller.scrollTo({top: top, behavior: 'smooth'});"
+                    # behavior:'smooth' is a silent no-op in some embedded
+                    # browsers -- it returns normally, throws nothing, and
+                    # simply does not scroll, which left this jump quietly
+                    # dead while every other part of the selection worked.
+                    # Verified rather than assumed: if the position has not
+                    # moved *at all* by now, smooth is unsupported and the
+                    # jump is completed instantly. A real animation has always
+                    # moved some distance by this point, so an in-progress
+                    # smooth scroll is left alone rather than snapped.
+                    "    setTimeout(function () {"
+                    "      if (scroller.scrollTop === from && from !== top)"
+                    "        scroller.scrollTop = top;"
+                    "    }, 400);"
                     "  }"
                     "  unshift(el);"
                     "};"
