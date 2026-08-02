@@ -231,8 +231,14 @@ body {{ overflow-x: hidden; }}
   /* Long names wrap instead of clipping or spilling past the border. */
   overflow-wrap: anywhere; hyphens: auto;
 }}
+/* align-content: start, not center. The third column carries an extra line
+   (the growth percentage, or "New spike") that the other two do not, so
+   centring each column's own content block floated that column's label and
+   number up out of line with its neighbours -- the taller the extra line,
+   the further out of line. Starting them all at the same top edge is what
+   keeps the three labels on one line and the three numbers on the next. */
 .afi-growth-stat {{
-  display: grid; align-content: center; gap: 5px;
+  display: grid; align-content: start; gap: 5px;
   min-width: 0; padding-right: 10px;
   border-right: 1px solid #e2e7f0;
   color: #7a879f; font-size: 10.5px; line-height: 1.25;
