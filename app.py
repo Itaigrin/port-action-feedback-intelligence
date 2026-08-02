@@ -32,6 +32,7 @@ from src.analysis.aggregate import (
     COUNTED_STATUSES,
     HIGH_SEVERITY,
     RANK_KEYS,
+    as_of_from_meta,
     evidence_for_action,
     fastest_growing_negative,
     negative_trend,
@@ -134,6 +135,14 @@ except FileNotFoundError:
 # the filters, the grouping and the assistant in the same run. Inside load()
 # it would be frozen by the cache and an edit would not show until restart.
 df = overrides.apply_overrides(df)
+
+# Frozen "now" for every date-window calculation below (the growth cards,
+# the trend chart). This is a static snapshot, not a live feed, so "recent"
+# is measured from when this analysis was generated -- not from whatever day
+# a reader happens to open the dashboard, which would make every trend
+# figure quietly shrink and vanish as real weeks pass without new data ever
+# arriving to replace it.
+ANALYSIS_AS_OF = as_of_from_meta(amet)
 
 # The dashboard is permanently restricted to in-scope records. There is no
 # Scope control: a toggle that could fold out-of-scope feedback back into a
@@ -743,9 +752,10 @@ def render_dashboard() -> None:
                 # Both cards read the filtered view, so they answer "largest
                 # increase in what I am looking at" rather than contradicting
                 # the filters set beside them.
-                fastest_stage=fastest_growing_negative(view, "journey_stage"),
+                fastest_stage=fastest_growing_negative(
+                    view, "journey_stage", ANALYSIS_AS_OF),
                 fastest_subcategory=fastest_growing_negative(
-                    view, "primary_taxonomy_subcategory"),
+                    view, "primary_taxonomy_subcategory", ANALYSIS_AS_OF),
             ),
             unsafe_allow_html=True,
         )
@@ -763,7 +773,7 @@ def render_dashboard() -> None:
             )),
             unsafe_allow_html=True,
         )
-        st.markdown(render.render_trend_chart(negative_trend(view)),
+        st.markdown(render.render_trend_chart(negative_trend(view, ANALYSIS_AS_OF)),
                     unsafe_allow_html=True)
 
         # Chart rows are computed before the grid so the hidden nav buttons and

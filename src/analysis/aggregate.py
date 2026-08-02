@@ -674,7 +674,8 @@ def parse_created(values) -> pd.Series:
     return pd.to_datetime(values, errors="coerce", utc=True, format="ISO8601")
 
 
-def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
+def trend_window(rel: pd.DataFrame,
+                 as_of: pd.Timestamp | None = None) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
     """The rolling three-month window of *completed* weeks, and whether it fell back.
 
     Every bucket is a full Monday-Sunday week. The week in progress is
@@ -682,9 +683,10 @@ def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
     beside full weeks draws a fall that is an artefact of when the page was
     opened rather than a change in the feedback.
 
-    Normally it ends with the last completed week. If anchoring to today would
-    leave that week empty (see week_anchor), the window anchors to the newest
-    known created_at instead, and the caller labels it as such.
+    Normally it ends with the last completed week measured from `as_of` (see
+    week_anchor for what "normally" means and when it falls back). If
+    anchoring there would leave that week empty, the window anchors to the
+    newest known created_at instead, and the caller labels it as such.
 
     `historical` is read off week_anchor's own decision rather than
     recomputed here from a separate day-count -- two definitions of "is this
@@ -692,13 +694,37 @@ def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
     function's sibling, last_full_week_start, was written to prevent between
     the chart and the growth cards.
     """
-    today = pd.Timestamp.now(tz="UTC").normalize()
-    anchor = week_anchor(rel)
+    today = as_of.normalize() if as_of is not None else pd.Timestamp.now(tz="UTC").normalize()
+    anchor = week_anchor(rel, as_of)
     historical = anchor != today
     # Last completed week, then back 12 more -> 13 full weekly points.
     end_week = _monday_of_last_completed_week(anchor)
     start_week = end_week - pd.Timedelta(weeks=TREND_WEEKS - 1)
     return start_week, end_week, historical
+
+
+def as_of_from_meta(meta: dict) -> pd.Timestamp | None:
+    """The frozen "now" for date-window calculations: when this analysis run
+    was generated, not whenever a reader happens to open the dashboard.
+
+    This is a POC snapshot, not a live feed -- nothing re-collects it as real
+    weeks pass. Anchoring "recent" to the actual wall clock would make every
+    trend figure shrink and eventually vanish purely because time moved on
+    without the data doing the same, which is staleness pretending to be a
+    finding. `generated_at` is stamped by the classification run that
+    produced this exact analyzed.json, so freezing on it means the numbers
+    stay whatever they were the day the analysis was produced, and only move
+    again if the pipeline is actually rerun.
+
+    Returns None -- "use the real wall clock" -- only when the timestamp is
+    missing or unparseable, which should not happen for a checked-in run but
+    must not crash the dashboard if it somehow does.
+    """
+    raw = meta.get("generated_at")
+    if not raw:
+        return None
+    parsed = pd.Timestamp(raw)
+    return None if pd.isna(parsed) else parsed
 
 
 # The baseline for the growth cards: the three full weeks before the last one.
@@ -725,36 +751,43 @@ def _monday_of_last_completed_week(anchor: pd.Timestamp) -> pd.Timestamp:
     return sunday - pd.Timedelta(days=6)
 
 
-def week_anchor(rel: pd.DataFrame) -> pd.Timestamp:
+def week_anchor(rel: pd.DataFrame, as_of: pd.Timestamp | None = None) -> pd.Timestamp:
     """The date "now" means when cutting weekly windows.
 
-    Today, unless the week that would be "last completed" *as measured from
-    today* cannot possibly contain any data -- in which case anchoring on
-    today leaves that week empty by construction, which reads as a broken
-    card or chart rather than as an absence of data.
+    `as_of` normally, taken as fixed rather than read off the wall clock: this
+    is a POC snapshot that is not re-collected as real weeks pass, so a
+    dashboard that measured "recent" against today's actual date would report
+    a shrinking, then vanishing, trend purely because the calendar moved on
+    without the data doing the same -- a reader opening the page a month from
+    now would see something that looks like every problem stopped, which is
+    not a finding, it is staleness dressed up as one. The caller (app.py)
+    passes the run's own `generated_at`, so "now" freezes at the moment this
+    analysis was produced and the numbers stop changing once nobody is
+    re-running the pipeline. Falls back to the real wall clock only when no
+    `as_of` is supplied, which keeps this usable as a general date utility
+    (tests exercise it that way) without that fallback ever being reachable
+    from the running app.
 
-    This used to be a flat day-count ("recent" if the newest record is under
-    RECENT_DATA_DAYS old), which does not actually guarantee the thing it was
-    meant to guarantee. Caught live on 2026-08-02: the newest in-scope record
-    was 2026-07-24, nine days old and comfortably under the old 14-day
-    threshold -- yet 2026-08-02 was already far enough into its own calendar
-    week that the week most recently completed relative to it (2026-07-27 to
-    2026-08-02) held no data at all, because the record fell in the week
-    before that one. Both "Largest increase" cards read "No recent negative
-    trend" despite there being a real nine-day-old record, because how many
-    raw days old a record is says nothing about which calendar week it falls
-    in relative to today. Checking the actual week boundary, not a day
-    count, is what closes that gap.
+    Even a fixed `as_of` needs the same guard the old wall-clock version
+    needed: if the week that would be "last completed" *as measured from
+    as_of* cannot possibly contain any data, anchoring there leaves that week
+    empty by construction, which reads as a broken card or chart rather than
+    as an absence of data. This used to be a flat day-count ("recent" if the
+    newest record is under 14 days old), which does not actually guarantee
+    the thing it was meant to guarantee -- how many raw days old a record is
+    says nothing about which calendar week it falls in relative to the
+    anchor. Checking the actual week boundary instead is what closes that
+    gap, whatever the anchor turns out to be.
     """
     created = parse_created(rel.get("created_at"))
-    today = pd.Timestamp.now(tz="UTC").normalize()
+    today = as_of.normalize() if as_of is not None else pd.Timestamp.now(tz="UTC").normalize()
     newest = created.max() if len(created) else pd.NaT
     if pd.isna(newest) or newest >= _monday_of_last_completed_week(today):
         return today
     return newest.normalize()
 
 
-def last_full_week_start(rel: pd.DataFrame) -> pd.Timestamp:
+def last_full_week_start(rel: pd.DataFrame, as_of: pd.Timestamp | None = None) -> pd.Timestamp:
     """Monday of the most recent Monday-Sunday week that has actually ended.
 
     One definition, used by both the growth cards and the trend chart. They
@@ -763,17 +796,19 @@ def last_full_week_start(rel: pd.DataFrame) -> pd.Timestamp:
     weeks, and the chart's final point was a partial week that always read as
     a dip.
     """
-    return _monday_of_last_completed_week(week_anchor(rel))
+    return _monday_of_last_completed_week(week_anchor(rel, as_of))
 
 
-def full_week_bounds(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp]:
+def full_week_bounds(rel: pd.DataFrame,
+                     as_of: pd.Timestamp | None = None) -> tuple[pd.Timestamp, pd.Timestamp]:
     """Start of the last completed week, and of the three-week baseline."""
-    last_week_start = last_full_week_start(rel)
+    last_week_start = last_full_week_start(rel, as_of)
     baseline_start = last_week_start - pd.Timedelta(weeks=FASTEST_BASELINE_WEEKS)
     return last_week_start, baseline_start
 
 
-def fastest_growing_negative(rel: pd.DataFrame, column: str) -> dict:
+def fastest_growing_negative(rel: pd.DataFrame, column: str,
+                             as_of: pd.Timestamp | None = None) -> dict:
     """The group with the largest absolute rise in negative feedback.
 
     absolute_increase = last_full_week_count - previous_3_week_average
@@ -802,7 +837,7 @@ def fastest_growing_negative(rel: pd.DataFrame, column: str) -> dict:
         return empty
 
     created = parse_created(negative["created_at"])
-    last_start, base_start = full_week_bounds(rel)
+    last_start, base_start = full_week_bounds(rel, as_of)
 
     in_last = (created >= last_start) & (created < last_start + pd.Timedelta(weeks=1))
     in_base = (created >= base_start) & (created < last_start)
@@ -834,7 +869,7 @@ def fastest_growing_negative(rel: pd.DataFrame, column: str) -> dict:
             "growth_pct": growth, "is_new_spike": spike, "has_data": True}
 
 
-def negative_trend(rel: pd.DataFrame) -> dict:
+def negative_trend(rel: pd.DataFrame, as_of: pd.Timestamp | None = None) -> dict:
     """Weekly negative-feedback counts per journey stage.
 
     Uses `created_at` -- when the customer raised it -- never the analysis or
@@ -842,7 +877,7 @@ def negative_trend(rel: pd.DataFrame) -> dict:
     pipeline last ran.
     """
     negative = negative_only(rel)
-    start_week, end_week, historical = trend_window(rel)
+    start_week, end_week, historical = trend_window(rel, as_of)
     weeks = [(start_week + pd.Timedelta(weeks=i)) for i in range(TREND_WEEKS)]
     labels = [w.strftime("%Y-%m-%d") for w in weeks]
 
@@ -972,7 +1007,7 @@ def build_all() -> dict:
         "kpis": kpis(df, rel, actions),
         "product_actions": action_rows,
         "insights": paired_insights(rel),
-        "negative_trend": negative_trend(rel),
+        "negative_trend": negative_trend(rel, as_of_from_meta(meta)),
         "categories": category_table(rel).to_dict("records"),
         "subcategories": subcategory_table(rel).to_dict("records"),
         "stages": stage_table(rel).to_dict("records"),
