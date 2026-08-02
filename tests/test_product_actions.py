@@ -458,6 +458,36 @@ def test_a_week_ending_on_the_anchor_still_counts():
     assert last_full_week_start(saturday) == pd.Timestamp("2026-05-18", tz="UTC")
 
 
+def test_week_anchor_does_not_leave_the_last_full_week_empty():
+    """A real regression, reproduced live on 2026-08-02: the newest in-scope
+    record was 2026-07-24, nine days old and comfortably under the old flat
+    14-day "is this recent" threshold. But 2026-08-02 was already far enough
+    into its own calendar week that the week most recently completed
+    *relative to today* (2026-07-27 to 2026-08-02) held no data at all --
+    the record fell in the week before that one. Anchoring on today anyway
+    made both "Largest increase in negative feedback" cards read "No recent
+    negative trend" despite there being a real nine-day-old record. A day
+    count cannot catch this: how old a record is says nothing about which
+    calendar week it falls in relative to today.
+
+    Built from "now" rather than a fixed date, so it keeps reproducing the
+    same shape of bug regardless of which day it actually runs on.
+    """
+    from src.analysis.aggregate import _monday_of_last_completed_week, week_anchor
+
+    now = pd.Timestamp.now(tz="UTC").normalize()
+    # The week immediately before the one today would anchor to -- so that
+    # later week, and only that week, is guaranteed empty here.
+    would_be_last_week = _monday_of_last_completed_week(now)
+    newest = would_be_last_week - pd.Timedelta(days=3)
+    rel = pd.DataFrame([{"created_at": newest.isoformat()}])
+
+    anchor = week_anchor(rel)
+    assert anchor != now, (
+        "anchoring on today leaves the actually-last-completed week empty")
+    assert anchor == newest.normalize()
+
+
 def test_trend_keeps_stages_in_chronological_order():
     from src.models.taxonomy import STAGE_NAMES
 
@@ -490,13 +520,21 @@ def _weeks_from_now() -> tuple[str, str, str]:
     """(inside last full week, inside baseline, inside the running week).
 
     Anchored off today so the test moves with the calendar rather than
-    pinning a date that would quietly stop exercising the boundary.
+    pinning a date that would quietly stop exercising the boundary. Reuses
+    the app's own week-boundary function rather than a second, hand-rolled
+    "this Monday minus one week": that copy drifted out of sync with the
+    real rule on the one day it actually matters, a Sunday, where "this
+    week" computed as today minus its weekday is already complete rather
+    than still running -- the exact class of bug last_full_week_start's own
+    Sunday handling exists to avoid.
     """
+    from src.analysis.aggregate import _monday_of_last_completed_week
+
     today = pd.Timestamp.now(tz="UTC").normalize()
-    this_monday = today - pd.Timedelta(days=int(today.dayofweek))
-    last_week = this_monday - pd.Timedelta(weeks=1)
+    last_week = _monday_of_last_completed_week(today)
     baseline = last_week - pd.Timedelta(weeks=2)
-    return (last_week.isoformat(), baseline.isoformat(), this_monday.isoformat())
+    running = last_week + pd.Timedelta(weeks=1)
+    return (last_week.isoformat(), baseline.isoformat(), running.isoformat())
 
 
 def test_the_running_week_is_never_counted():

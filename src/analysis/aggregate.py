@@ -54,7 +54,6 @@ LOW_CONFIDENCE = 0.7
 # The trend chart's window, and how many examples an insight card shows.
 TREND_WEEKS = 13                 # ~3 calendar months of Monday-starting weeks
 MAX_INSIGHT_EXAMPLES = 3
-RECENT_DATA_DAYS = 14            # see trend_window()
 
 # The ranking keys, applied in this order, all descending.
 #
@@ -683,19 +682,21 @@ def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
     beside full weeks draws a fall that is an artefact of when the page was
     opened rather than a change in the feedback.
 
-    Normally it ends with the last completed week. If the newest record is
-    older than RECENT_DATA_DAYS the dataset is a historical snapshot, and
-    anchoring to today would render an empty chart that looks like a bug -- so
-    the window anchors to the newest known created_at instead, and the caller
-    labels it as such.
+    Normally it ends with the last completed week. If anchoring to today would
+    leave that week empty (see week_anchor), the window anchors to the newest
+    known created_at instead, and the caller labels it as such.
+
+    `historical` is read off week_anchor's own decision rather than
+    recomputed here from a separate day-count -- two definitions of "is this
+    a snapshot" on one screen is exactly the kind of disagreement this
+    function's sibling, last_full_week_start, was written to prevent between
+    the chart and the growth cards.
     """
-    created = parse_created(rel.get("created_at"))
     today = pd.Timestamp.now(tz="UTC").normalize()
-    newest = created.max()
-    historical = bool(
-        pd.isna(newest) or (today - newest).days > RECENT_DATA_DAYS)
+    anchor = week_anchor(rel)
+    historical = anchor != today
     # Last completed week, then back 12 more -> 13 full weekly points.
-    end_week = last_full_week_start(rel)
+    end_week = _monday_of_last_completed_week(anchor)
     start_week = end_week - pd.Timedelta(weeks=TREND_WEEKS - 1)
     return start_week, end_week, historical
 
@@ -704,20 +705,51 @@ def trend_window(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp, bool]:
 FASTEST_BASELINE_WEEKS = 3
 
 
+def _monday_of_last_completed_week(anchor: pd.Timestamp) -> pd.Timestamp:
+    """Monday of the most recent Monday-Sunday week that has ended, as of
+    `anchor`.
+
+    Pure date math on an explicit instant, factored out so week_anchor (which
+    picks the instant) and last_full_week_start (which applies it) share the
+    arithmetic without calling each other in a circle.
+
+    A week counts as ended when its Sunday is on or before the anchor. Testing
+    the Sunday rather than subtracting a week from "this Monday" matters on
+    one day: when the anchor *is* a Sunday, that week has just finished and
+    should be included, where the simpler rule would throw away a complete
+    week.
+    """
+    sunday = anchor + pd.Timedelta(days=6 - int(anchor.dayofweek))
+    if sunday > anchor:                      # the week is still running
+        sunday -= pd.Timedelta(weeks=1)
+    return sunday - pd.Timedelta(days=6)
+
+
 def week_anchor(rel: pd.DataFrame) -> pd.Timestamp:
     """The date "now" means when cutting weekly windows.
 
-    Today normally. If the newest record is older than RECENT_DATA_DAYS the
-    dataset is a snapshot, and anchoring to today would leave every weekly
-    window empty -- which reads as a broken card rather than as an absence of
-    data. Same policy and threshold as trend_window(), deliberately: two
-    different definitions of "now" on one screen is a defect waiting to be
-    reported.
+    Today, unless the week that would be "last completed" *as measured from
+    today* cannot possibly contain any data -- in which case anchoring on
+    today leaves that week empty by construction, which reads as a broken
+    card or chart rather than as an absence of data.
+
+    This used to be a flat day-count ("recent" if the newest record is under
+    RECENT_DATA_DAYS old), which does not actually guarantee the thing it was
+    meant to guarantee. Caught live on 2026-08-02: the newest in-scope record
+    was 2026-07-24, nine days old and comfortably under the old 14-day
+    threshold -- yet 2026-08-02 was already far enough into its own calendar
+    week that the week most recently completed relative to it (2026-07-27 to
+    2026-08-02) held no data at all, because the record fell in the week
+    before that one. Both "Largest increase" cards read "No recent negative
+    trend" despite there being a real nine-day-old record, because how many
+    raw days old a record is says nothing about which calendar week it falls
+    in relative to today. Checking the actual week boundary, not a day
+    count, is what closes that gap.
     """
     created = parse_created(rel.get("created_at"))
     today = pd.Timestamp.now(tz="UTC").normalize()
     newest = created.max() if len(created) else pd.NaT
-    if pd.isna(newest) or (today - newest).days <= RECENT_DATA_DAYS:
+    if pd.isna(newest) or newest >= _monday_of_last_completed_week(today):
         return today
     return newest.normalize()
 
@@ -730,17 +762,8 @@ def last_full_week_start(rel: pd.DataFrame) -> pd.Timestamp:
     included it, so on the same screen "the latest week" meant two different
     weeks, and the chart's final point was a partial week that always read as
     a dip.
-
-    A week counts as ended when its Sunday is on or before the anchor. Testing
-    the Sunday rather than subtracting a week from "this Monday" matters on one
-    day: when the anchor *is* a Sunday, that week has just finished and should
-    be included, where the simpler rule would throw away a complete week.
     """
-    anchor = week_anchor(rel)
-    sunday = anchor + pd.Timedelta(days=6 - int(anchor.dayofweek))
-    if sunday > anchor:                      # the week is still running
-        sunday -= pd.Timedelta(weeks=1)
-    return sunday - pd.Timedelta(days=6)
+    return _monday_of_last_completed_week(week_anchor(rel))
 
 
 def full_week_bounds(rel: pd.DataFrame) -> tuple[pd.Timestamp, pd.Timestamp]:
