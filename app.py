@@ -507,6 +507,24 @@ def _select_subcategory(subcategory: str) -> None:
     st.session_state["afi_drill"] = None
 
 
+def _select_stage(stage: str) -> None:
+    """A journey-chart bar sets the same "Journey stage" filter the sidebar
+    multiselect holds, so a reader can narrow to one stage without leaving
+    the chart.
+
+    A toggle, like the insight-card badges: pressing the already-selected
+    stage clears the filter rather than re-selecting it, so the chart itself
+    is the way back to "all stages" too, not only the sidebar. Replaces
+    whatever the multiselect held rather than adding to it -- a bar click
+    means "show me this one", the same way clicking a subcategory bar above
+    replaces the taxonomy filters rather than extending them.
+    """
+    if st.session_state.get("f_stage") == [stage]:
+        st.session_state["f_stage"] = []
+        return
+    st.session_state["f_stage"] = [stage]
+
+
 def _focus_on(action_id: str) -> None:
     """Select a product action by its stable id.
 
@@ -708,6 +726,12 @@ def render_hidden_nav(bar_rows: list[tuple[str, int]], drilled: str | None,
         for index, group_type in enumerate(render.INSIGHT_GROUPS):
             st.button("go", key=f"{render.NAV_INSIGHT}_{index}",
                       on_click=_focus_insight, args=(group_type,))
+        # Keyed by position in STAGE_NAMES -- the same order stage_rows is
+        # built from -- not by position in bar_rows, so a stage's button
+        # cannot shift when some other chart's row count changes.
+        for index, stage in enumerate(STAGE_NAMES):
+            st.button("go", key=f"{render.NAV_STAGE}_{index}",
+                      on_click=_select_stage, args=(stage,))
         for index, action in enumerate(actions):
             st.button("go", key=f"{render.NAV_FOCUS}_{index}",
                       on_click=_focus_on, args=(action["product_action_id"],))
@@ -857,7 +881,12 @@ def render_dashboard() -> None:
 
             stage_counts = view["journey_stage"].value_counts().to_dict()
             stage_rows = [(s, int(stage_counts.get(s, 0))) for s in STAGE_NAMES]
-            st.markdown(render.render_journey_chart(stage_rows),
+            # Highlighted only when the stage filter is exactly one stage --
+            # a reader who picked several in the sidebar multiselect is not
+            # "on" any single bar, and the chart must not pretend otherwise.
+            stage_selected = (filters["stage"][0]
+                              if len(filters["stage"]) == 1 else None)
+            st.markdown(render.render_journey_chart(stage_rows, stage_selected),
                         unsafe_allow_html=True)
 
         # --- feedback, full width -----------------------------------------

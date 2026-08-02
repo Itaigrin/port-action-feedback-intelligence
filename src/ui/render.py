@@ -43,6 +43,7 @@ NAV_SEV = "afinav_sev"
 NAV_EDIT = "afinav_edit"
 NAV_TOGGLE_FILTERS = "afinav_toggle_filters"
 NAV_INSIGHT = "afinav_insight"
+NAV_STAGE = "afinav_stage"
 
 # The two "where users struggle most" cards, in render order. The index into
 # this tuple is the suffix on the hidden button each card's count badge
@@ -496,8 +497,15 @@ def render_trend_chart(trend: dict) -> str:
 
 # --------------------------------------------------------------------------
 # --------------------------------------------------------------------------
-def _bar_rows(rows: list[tuple[str, int]], click_prefix: str | None) -> str:
-    """Shared CSS-bar markup. The mockup charts are bars, not a plotting library."""
+def _bar_rows(rows: list[tuple[str, int]], click_prefix: str | None,
+              selected: str | None = None) -> str:
+    """Shared CSS-bar markup. The mockup charts are bars, not a plotting library.
+
+    `selected` marks one row as the active filter (the journey chart's own
+    click-to-filter), never used by the category chart's drill-down, which
+    navigates into a different list rather than toggling a row within this
+    one.
+    """
     if not rows:
         return '<div class="afi-empty">No matching feedback.</div>'
     top = max((count for _, count in rows), default=0) or 1
@@ -511,9 +519,13 @@ def _bar_rows(rows: list[tuple[str, int]], click_prefix: str | None) -> str:
             f'{"record" if count == 1 else "records"}</div>'
         )
         if click_prefix:
+            is_selected = selected is not None and name == selected
+            cls = ("afi-category-row is-selected" if is_selected
+                   else "afi-category-row")
+            current = ' aria-current="true"' if is_selected else ""
             out.append(
-                f'<a class="afi-category-row" '
-                f'{_click(f"{click_prefix}_{index}")}>{body}</a>'
+                f'<a class="{cls}" {_click(f"{click_prefix}_{index}")}'
+                f"{current}>{body}</a>"
             )
         else:
             out.append(f'<div class="afi-category-row">{body}</div>')
@@ -546,7 +558,8 @@ def render_taxonomy_chart(rows: list[tuple[str, int]],
     )
 
 
-def render_journey_chart(rows: list[tuple[str, int]]) -> str:
+def render_journey_chart(rows: list[tuple[str, int]],
+                         selected: str | None = None) -> str:
     """Stages in lifecycle order -- the order a user actually meets them, not
     ranked by volume.
 
@@ -554,14 +567,21 @@ def render_journey_chart(rows: list[tuple[str, int]]) -> str:
     renders them as given rather than re-sorting by count. Stages with no
     feedback are kept rather than dropped -- an empty stage is a finding, and
     sorting must not turn it into a missing row.
+
+    Each row is also a filter control -- clicking a stage sets the same
+    "Journey stage" filter the sidebar multiselect holds, so the reader never
+    has to leave the chart to narrow by what they are looking at. `selected`
+    names the one stage currently set that way, if any, and is highlighted;
+    clicking it again clears the filter rather than doing nothing.
     """
     return (
         '<div class="afi-card afi-section" style="box-shadow:none;margin-top:20px">'
         '<div class="afi-section-head"><div>'
         "<h2>Matching feedback by Journey stage</h2>"
         "<p>Ordered by lifecycle order. Stages with no feedback are "
-        "kept, not dropped.</p></div></div>"
-        + _bar_rows(rows, None)
+        "kept, not dropped. Select a stage to filter everything by "
+        "it.</p></div></div>"
+        + _bar_rows(rows, NAV_STAGE, selected)
         + "</div>"
     )
 

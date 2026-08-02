@@ -467,6 +467,16 @@ a.afi-category-row .afi-row-num, a.afi-category-row .afi-row-num b {{
   color: var(--muted) !important;
 }}
 a.afi-category-row:hover strong {{ color: var(--blue) !important; }}
+/* The journey chart's own click-to-filter selection. :visited spelled out
+   for the same reason as the other proxy controls: this is an <a href="#">,
+   which the browser treats as visited immediately, and an unqualified
+   .afi-category-row:visited rule elsewhere would otherwise win the tie. */
+.afi-category-row.is-selected,
+.afi-category-row.is-selected:visited {{
+  background: var(--blue-soft);
+}}
+.afi-category-row.is-selected strong,
+.afi-category-row.is-selected:visited strong {{ color: var(--blue) !important; }}
 .afi-action-btn, .afi-action-btn:visited {{ color: #41669f !important; }}
 .afi-focus-back, .afi-focus-back:visited {{ color: var(--blue) !important; }}
 .afi-bar {{

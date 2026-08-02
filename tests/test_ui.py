@@ -276,6 +276,70 @@ def test_journey_chart_keeps_empty_stages_in_place():
         "the populated stage must stay at its own lifecycle position")
 
 
+def test_journey_chart_bars_are_a_filter_control():
+    """Each bar proxies to the same "Journey stage" filter the sidebar
+    multiselect holds, so a reader can narrow by stage from the chart.
+    """
+    from src.models.taxonomy import STAGE_NAMES
+    from src.ui.render import NAV_STAGE, render_journey_chart
+
+    rows = [(name, i) for i, name in enumerate(STAGE_NAMES)]
+    html = render_journey_chart(rows)
+    for index in range(len(STAGE_NAMES)):
+        assert f'data-afi-click="{NAV_STAGE}_{index}"' in html, index
+
+
+def test_journey_chart_highlights_the_selected_stage_only():
+    from html import escape
+
+    from src.models.taxonomy import STAGE_NAMES
+    from src.ui.render import render_journey_chart
+
+    rows = [(name, 1) for name in STAGE_NAMES]
+    html = render_journey_chart(rows, selected=STAGE_NAMES[2])
+    assert html.count("is-selected") == 1
+    assert html.count('aria-current="true"') == 1
+    # The selected bar's own row carries the marker, not some other row.
+    escaped = escape(STAGE_NAMES[2], quote=True)
+    row_start = html.index(f"{escaped}</strong>")
+    row_html = html[max(0, row_start - 400):row_start]
+    assert "is-selected" in row_html
+
+
+def test_journey_chart_highlights_nothing_for_a_multi_stage_filter():
+    """A reader who picked several stages in the sidebar is not "on" any one
+    bar, and the chart must not pretend otherwise by highlighting the first.
+    """
+    from src.models.taxonomy import STAGE_NAMES
+    from src.ui.render import render_journey_chart
+
+    rows = [(name, 1) for name in STAGE_NAMES]
+    assert "is-selected" not in render_journey_chart(rows, selected=None)
+
+
+def test_selecting_a_stage_from_the_chart_is_a_toggle():
+    """Pressing the already-selected stage clears the filter -- the chart is
+    the way back to "all stages" too, not only the sidebar. Replaces the
+    multiselect's value rather than appending to it, the same way selecting a
+    subcategory bar replaces the taxonomy filters rather than extending them.
+    """
+    fn = APP[APP.index("def _select_stage("):APP.index("def _focus_on(")]
+    assert 'st.session_state.get("f_stage") == [stage]' in fn
+    assert fn.index('st.session_state["f_stage"] = []') < fn.index(
+        'st.session_state["f_stage"] = [stage]'), (
+        "the toggle-off branch must return before the assignment")
+
+
+def test_stage_buttons_are_keyed_by_stage_names_position():
+    """Fixed to STAGE_NAMES, not to bar_rows, so a stage's key cannot shift
+    when some other chart's row count changes on the same rerun.
+    """
+    nav = APP[APP.index("def render_hidden_nav("):APP.index(
+        "# ====", APP.index("def render_hidden_nav("))]
+    assert "for index, stage in enumerate(STAGE_NAMES)" in nav
+    assert "on_click=_select_stage" in nav
+
+
 def test_dashboard_section_order():
     source = APP[APP.index("def render_dashboard("):APP.index("def render_guide(")]
     order = [
@@ -497,15 +561,17 @@ def test_interactions_do_not_navigate_the_browser():
     shell repainted, which showed as a black flash and a moment of unstyled
     content. They now proxy to hidden Streamlit buttons.
     """
-    from src.models.taxonomy import CATEGORY_NAMES
+    from src.models.taxonomy import CATEGORY_NAMES, STAGE_NAMES
     from src.ui.render import (
         NAV_BACK,
         NAV_DRILL,
         NAV_FOCUS,
         NAV_INSIGHT,
+        NAV_STAGE,
         NAV_SUB,
         NAV_UNFOCUS,
         render_insight_cards,
+        render_journey_chart,
         render_product_actions,
         render_taxonomy_chart,
     )
@@ -529,6 +595,7 @@ def test_interactions_do_not_navigate_the_browser():
                               "Permissions & Approvals"),
         render_product_actions([action], 10),
         render_insight_cards(insight, dict(insight, group_type="subcategory")),
+        render_journey_chart([(s, 1) for s in STAGE_NAMES]),
     ]
     for html in blocks:
         # No anchor may carry a real destination.
@@ -544,17 +611,19 @@ def test_interactions_do_not_navigate_the_browser():
     assert f"{NAV_FOCUS}_0" in keys
     assert NAV_BACK in keys
     assert f"{NAV_INSIGHT}_0" in keys and f"{NAV_INSIGHT}_1" in keys
+    assert f"{NAV_STAGE}_0" in keys and f"{NAV_STAGE}_{len(STAGE_NAMES)-1}" in keys
 
     # Every proxied key must be one app.py actually creates a button for.
     for key in keys:
         stem = re.sub(r"_\d+$", "", key)
         assert stem in (NAV_DRILL, NAV_SUB, NAV_FOCUS, NAV_BACK, NAV_UNFOCUS,
-                        NAV_INSIGHT), key
+                        NAV_INSIGHT, NAV_STAGE), key
     # app.py builds the drill/sub keys from the same constants.
     assert "render.NAV_SUB if drilled else render.NAV_DRILL" in APP
     assert "render.NAV_BACK" in APP and "render.NAV_UNFOCUS" in APP
     assert "render.NAV_FOCUS" in APP
     assert "render.NAV_INSIGHT" in APP
+    assert "render.NAV_STAGE" in APP
 
 
 def test_hidden_nav_buttons_are_created_for_every_proxy():
