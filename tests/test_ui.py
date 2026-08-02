@@ -233,17 +233,23 @@ def _stage_positions(html: str, names) -> list[int]:
             for name in names]
 
 
-def test_journey_chart_orders_stages_by_volume():
+def test_journey_chart_orders_stages_by_lifecycle_order():
+    """The order a user actually meets the stages in, not ranked by volume.
+
+    Counts are deliberately scrambled (highest count on the last stage) so a
+    test that still sorted by volume would fail here.
+    """
     from src.models.taxonomy import STAGE_NAMES
     from src.ui.render import render_journey_chart
 
-    rows = [(name, i) for i, name in enumerate(STAGE_NAMES)]
+    rows = [(name, len(STAGE_NAMES) - i) for i, name in enumerate(STAGE_NAMES)]
     html = render_journey_chart(rows)
-    positions = _stage_positions(html, reversed(STAGE_NAMES))
-    assert positions == sorted(positions), "stages were not ordered by volume"
+    positions = _stage_positions(html, STAGE_NAMES)
+    assert positions == sorted(positions), (
+        "stages must render in STAGE_NAMES order regardless of count")
 
 
-def test_journey_chart_breaks_ties_chronologically():
+def test_journey_chart_never_reorders_on_a_tie():
     """Equal counts keep the order a user meets the stages in."""
     from src.models.taxonomy import STAGE_NAMES
     from src.ui.render import render_journey_chart
@@ -254,8 +260,10 @@ def test_journey_chart_breaks_ties_chronologically():
     assert positions == sorted(positions), "a tie reordered the stages"
 
 
-def test_journey_chart_keeps_empty_stages():
-    """An empty stage is a finding; sorting must not turn it into a gap."""
+def test_journey_chart_keeps_empty_stages_in_place():
+    """An empty stage is a finding; it must stay at its own lifecycle
+    position, not be dropped or promoted by whichever stage has records.
+    """
     from src.models.taxonomy import STAGE_NAMES
     from src.ui.render import render_journey_chart
 
@@ -264,7 +272,8 @@ def test_journey_chart_keeps_empty_stages():
     html = render_journey_chart(rows)
     positions = _stage_positions(html, STAGE_NAMES)
     assert len(positions) == len(STAGE_NAMES)
-    assert positions[3] == min(positions), "the only populated stage is not first"
+    assert positions == sorted(positions), (
+        "the populated stage must stay at its own lifecycle position")
 
 
 def test_dashboard_section_order():

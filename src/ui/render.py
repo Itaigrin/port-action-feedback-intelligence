@@ -547,21 +547,21 @@ def render_taxonomy_chart(rows: list[tuple[str, int]],
 
 
 def render_journey_chart(rows: list[tuple[str, int]]) -> str:
-    """Stages ordered by volume, highest first.
+    """Stages in lifecycle order -- the order a user actually meets them, not
+    ranked by volume.
 
-    Journey order is still what the caller passes in, and it decides ties, so
-    two stages on the same count stay in the order a user meets them. Stages
-    with no feedback are kept rather than dropped -- an empty stage is a
-    finding, and sorting must not turn it into a missing row.
+    The caller passes stage rows already built from STAGE_NAMES, so this
+    renders them as given rather than re-sorting by count. Stages with no
+    feedback are kept rather than dropped -- an empty stage is a finding, and
+    sorting must not turn it into a missing row.
     """
-    ordered = sorted(rows, key=lambda row: -row[1])
     return (
         '<div class="afi-card afi-section" style="box-shadow:none;margin-top:20px">'
         '<div class="afi-section-head"><div>'
         "<h2>Matching feedback by Journey stage</h2>"
-        "<p>Ordered by volume, highest first. Stages with no feedback are "
+        "<p>Ordered by lifecycle order. Stages with no feedback are "
         "kept, not dropped.</p></div></div>"
-        + _bar_rows(ordered, None)
+        + _bar_rows(rows, None)
         + "</div>"
     )
 
