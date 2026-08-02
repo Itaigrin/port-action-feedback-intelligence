@@ -207,16 +207,16 @@ body {{ overflow-x: hidden; }}
   content: "↗";
   position: absolute; top: 24px; left: 24px;
   display: grid; place-items: center;
-  width: 34px; height: 34px;
-  border-radius: 9px;
+  width: 46px; height: 46px;
+  border-radius: 12px;
   background: var(--red-soft); color: var(--red);
-  font-size: 17px; font-weight: 800; line-height: 1;
+  font-size: 21px; font-weight: 800; line-height: 1;
 }}
 .afi-kpi-growth .label {{
   grid-column: 1 / -1;
   display: block;
   min-height: 13px;
-  padding-left: 52px;
+  padding-left: 62px;
   color: #8995aa; font-size: 9px; font-weight: 800;
   line-height: 1.25; letter-spacing: .08em; text-transform: uppercase;
 }}
@@ -225,7 +225,7 @@ body {{ overflow-x: hidden; }}
   display: block; font-family: inherit; font-size: 20px; font-weight: 400;
   letter-spacing: -.025em;
   min-height: 32px;
-  margin: 8px 0 14px; padding: 0 0 20px 52px;
+  margin: 8px 0 14px; padding: 0 0 20px 62px;
   border-bottom: 1px solid #e2e7f0;
   line-height: 1.35; color: var(--ink);
   /* Long names wrap instead of clipping or spilling past the border. */
@@ -235,7 +235,7 @@ body {{ overflow-x: hidden; }}
   display: grid; align-content: center; gap: 5px;
   min-width: 0; padding-right: 10px;
   border-right: 1px solid #e2e7f0;
-  color: #7a879f; font-size: 9px; line-height: 1.25;
+  color: #7a879f; font-size: 10.5px; line-height: 1.25;
 }}
 .afi-growth-stat:last-child {{ border-right: 0; padding-left: 10px; padding-right: 0; }}
 .afi-growth-stat:nth-last-child(2) {{ padding-left: 10px; }}
@@ -246,10 +246,12 @@ body {{ overflow-x: hidden; }}
 }}
 /* The increase is the number the ranking is built on; growth % is only ever
    context beside it, so it stays muted and unbolded even inside a red row. */
-.afi-growth-stat b.afi-growth-increase {{ color: var(--red); font-weight: 750; }}
+.afi-growth-stat b.afi-growth-increase {{
+  color: var(--red); font-size: 26px; font-weight: 750;
+}}
 .afi-growth-pct {{
   display: block; color: var(--red); font-weight: 650;
-  margin: 0; font-size: 9px;
+  margin: 1px 0 0; font-size: 10px;
 }}
 .afi-growth-empty {{
   grid-column: 1 / -1;
@@ -360,8 +362,9 @@ body {{ overflow-x: hidden; }}
 /* The example list takes the slack, so the cards end level. */
 .afi-insight-examples {{ margin-top: auto; }}
 .afi-insight-label {{
-  display: block; color: var(--muted); font-size: 13.5px;
-  font-weight: 600; margin-bottom: 6px;
+  display: block; min-height: 13px; margin-bottom: 8px;
+  color: #8995aa; font-size: 9px; font-weight: 800;
+  line-height: 1.25; letter-spacing: .08em; text-transform: uppercase;
 }}
 /* Font matched to .afi-growth-name (the largest-increase cards' title) --
    size, weight and line-height, not just the family, so the two card

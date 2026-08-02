@@ -157,14 +157,17 @@ def render_growth_kpi(title: str, growth: dict) -> str:
                 f'<span class="afi-growth-empty">No recent negative trend</span>'
                 f"</div>")
 
-    increase = f'+{growth["absolute_increase"]:g} records'
+    # Match the visual guide: the main red value is the clean numeric delta.
+    # Supporting context (percentage or "New spike") sits below it in smaller
+    # type instead of competing with the number on the same line.
+    increase = f'+{growth["absolute_increase"]:g}'
     if growth.get("is_new_spike"):
-        headline = f"New spike · {increase}"
-        pct = ""
+        headline = increase
+        context = '<span class="afi-growth-pct">New spike</span>'
     else:
         headline = increase
-        pct = (f'<span class="afi-growth-pct">({growth["growth_pct"]:+.0f}%)</span>'
-               if growth.get("growth_pct") is not None else "")
+        context = (f'<span class="afi-growth-pct">{growth["growth_pct"]:+.0f}%</span>'
+                   if growth.get("growth_pct") is not None else "")
 
     return (
         f'<div class="afi-card afi-kpi-growth">'
@@ -175,7 +178,7 @@ def render_growth_kpi(title: str, growth: dict) -> str:
         f'<span class="afi-growth-stat">Last full week: '
         f'<b>{growth["last_week_count"]}</b></span>'
         f'<span class="afi-growth-stat">Increase: '
-        f'<b class="afi-growth-increase">{_esc(headline)}</b>{pct}</span>'
+        f'<b class="afi-growth-increase">{_esc(headline)}</b>{context}</span>'
         f"</div>"
     )
 
