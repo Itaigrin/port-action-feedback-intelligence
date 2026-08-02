@@ -153,8 +153,8 @@ def test_growth_card_shows_the_absolute_increase_in_red_with_pct_as_context():
     assert "Access control &amp; action eligibility" in html, "names must be escaped"
     assert "Prev 3-week avg: <b>0.33</b>" in html
     assert "Last full week: <b>4</b>" in html
-    assert '<b class="afi-growth-increase">+3.67 records</b>' in html
-    assert '<span class="afi-growth-pct">(+1100%)</span>' in html
+    assert '<b class="afi-growth-increase">+3.67</b>' in html
+    assert '<span class="afi-growth-pct">+1100%</span>' in html
 
 
 def test_a_zero_baseline_reads_new_spike_with_the_increase_and_no_percent():
@@ -164,7 +164,7 @@ def test_a_zero_baseline_reads_new_spike_with_the_increase_and_no_percent():
                                           is_new_spike=True, last_week_count=1,
                                           absolute_increase=1.0))
     assert "New spike" in html
-    assert "+1 records" in html
+    assert '<b class="afi-growth-increase">+1</b>' in html
     assert "%" not in html, "a ratio against zero must never print as one"
 
 
